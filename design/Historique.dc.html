@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    body {
+      margin: 0;
+      width: 375px;
+      height: 812px;
+      background: #EFE7D6;
+      color: #16150F;
+      font-family: "Archivo", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    a { color: #B4321F; }
+    a:hover { color: #16150F; }
+    .anton { font-family: "Anton", "Archivo Narrow", system-ui, sans-serif; font-weight: 400; text-transform: uppercase; }
+    .mono { font-family: "Space Mono", ui-monospace, monospace; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 812px;">
+
+  <div style="padding: 52px 20px 0;">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;">
+      <span class="anton" style="font-size: 42px; line-height: 0.86;">Nickel</span>
+      <span class="mono" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 2px solid #16150F; background: #C4562F; color: #FBF6EA; font-size: 15px; font-weight: 700;">VA</span>
+    </div>
+    <div class="mono" style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #6B675A;">
+      <span>Registre d'entretien</span>
+      <span>Lun. 08 sept.</span>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 0; margin-top: 16px; padding: 0 20px; border-bottom: 2px solid #16150F;">
+    <span class="mono" style="padding: 9px 12px; color: #6B675A; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">À faire</span>
+    <span class="mono" style="padding: 9px 12px; color: #6B675A; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">Toutes</span>
+    <span class="mono" style="padding: 9px 12px; background: #16150F; color: #F2EBDA; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Historique</span>
+  </div>
+
+  <div style="flex: 1; overflow: hidden;">
+
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Aujourd'hui — 08.09</span><span>03</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 19px; line-height: 1;">🧻</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 600; line-height: 1.25;">Vérifier les stocks</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #2E6E7E; color: #F0FAFC; font-size: 12px; font-weight: 700;">SA</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 19px; line-height: 1;">💨</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 600; line-height: 1.25;">Entretenir la VMC</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #2E6E7E; color: #F0FAFC; font-size: 12px; font-weight: 700;">SA</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 19px; line-height: 1;">🍲</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 600; line-height: 1.25;">Nettoyer l'intérieur du micro-ondes</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #C4562F; color: #FBF6EA; font-size: 12px; font-weight: 700;">VA</span>
+    </div>
+
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Hier — 07.09</span><span>02</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid #C6BDA6; font-size: 19px; line-height: 1;">♻️</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.25; color: #46433A;">Vider la poubelle de tri</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #6B5A9E; color: #F6F2FC; font-size: 12px; font-weight: 700;">YO</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid #C6BDA6; font-size: 19px; line-height: 1;">🧹</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.25; color: #46433A;">Laver les sols carrelés</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #C4562F; color: #FBF6EA; font-size: 12px; font-weight: 700;">VA</span>
+    </div>
+
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Sam. 06.09</span><span>04</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid #C6BDA6; font-size: 19px; line-height: 1;">🚽</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.25; color: #46433A;">Nettoyer la cuvette et l'abattant</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #6B5A9E; color: #F6F2FC; font-size: 12px; font-weight: 700;">YO</span>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

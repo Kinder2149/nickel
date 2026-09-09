@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nickel</title>
+  <meta name="description" content="Le registre d'entretien de l'appartement.">
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#16150F">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+
+  <style>
+    :root {
+      --papier: #EFE7D6;
+      --papier-clair: #F6EFDE;
+      --encre: #16150F;
+      --encre-douce: #6B675A;
+      --encre-faible: #A9A18D;
+      --trait: #D8CFB8;
+      --trait-doux: #C6BDA6;
+      --rouge: #B4321F;
+      --vert: #2E6B4E;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      background: var(--papier);
+      color: var(--encre);
+      font-family: "Archivo", system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #ecran { height: 100%; }
+
+    .anton {
+      font-family: "Anton", "Archivo Narrow", system-ui, sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    .mono {
+      font-family: "Space Mono", ui-monospace, "Courier New", monospace;
+    }
+
+    .vue { height: 100%; display: flex; flex-direction: column; }
+
+    /* ----------------------------------------------- écran de choix */
+
+    .vue--choix {
+      background: var(--encre);
+      color: #F2EBDA;
+      padding:
+        calc(1.5rem + env(safe-area-inset-top))
+        1.375rem
+        calc(2.5rem + env(safe-area-inset-bottom));
+    }
+
+    .garde {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 2.125rem;
+    }
+
+    .garde h1 {
+      margin: 0;
+      font-size: clamp(3.5rem, 20vw, 4.75rem);
+      line-height: 0.82;
+      letter-spacing: 0.005em;
+    }
+
+    .garde__meta {
+      margin-top: 0.875rem;
+      padding-top: 0.75rem;
+      border-top: 2px solid #F2EBDA;
+      font-size: 0.625rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #A29B85;
+    }
+
+    .question {
+      margin: 0 0 0.75rem;
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #7E7867;
+    }
+
+    .profils { display: flex; flex-direction: column; gap: 0.625rem; }
+
+    .profil {
+      display: flex;
+      align-items: center;
+      gap: 0.9375rem;
+      padding: 0.8125rem 0.9375rem;
+      background: #1F1D15;
+      border: 2px solid #4A473C;
+      color: #CFC8B4;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .profil:active { border-color: #F2EBDA; }
+
+    .profil__nom { flex: 1; font-size: 1.875rem; line-height: 1; }
+    .profil__rang { font-size: 0.625rem; letter-spacing: 0.1em; color: #7E7867; }
+
+    .jeton {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--taille);
+      height: var(--taille);
+      background: var(--couleur);
+      color: #FBF6EA;
+      font-weight: 700;
+      font-size: calc(var(--taille) * 0.38);
+      line-height: 1;
+    }
+
+    .aide {
+      margin: 1rem 0 0;
+      font-size: 0.625rem;
+      line-height: 1.6;
+      letter-spacing: 0.05em;
+      color: #6E6857;
+    }
+
+    /* ---------------------------------------------------- en-tête */
+
+    .entete {
+      padding: calc(1.5rem + env(safe-area-inset-top)) 1.25rem 0;
+    }
+
+    .entete__haut {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .entete__titre { font-size: 2.625rem; line-height: 0.86; }
+
+    .entete__identite {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .entete__identite .jeton { border: 2px solid var(--encre); }
+
+    .entete__meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.625rem;
+      margin-top: 0.625rem;
+      font-size: 0.625rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--encre-douce);
+    }
+
+    /* ---------------------------------------------------- onglets */
+
+    .onglets {
+      display: flex;
+      margin-top: 1rem;
+      padding: 0 1.25rem;
+      border-bottom: 2px solid var(--encre);
+    }
+
+    .onglet {
+      padding: 0.5625rem 0.75rem;
+      background: none;
+      border: none;
+      color: var(--encre-douce);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .onglet--actif {
+      background: var(--encre);
+      color: #F2EBDA;
+      font-weight: 700;
+    }
+
+    /* ------------------------------------------------------ liste */
+
+    .liste {
+      flex: 1;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .bande {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.375rem 1.25rem;
+      background: var(--encre);
+      color: #F2EBDA;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .bande--retard { background: var(--rouge); }
+
+    .taches { list-style: none; margin: 0; padding: 0; }
+
+    .tache {
+      display: flex;
+      align-items: center;
+      gap: 0.8125rem;
+      padding: 0.8125rem 1.25rem;
+      border-bottom: 1px solid var(--trait);
+    }
+
+    .tache--du { background: var(--papier-clair); }
+
+    .tache--cochee { opacity: 0.3; pointer-events: none; }
+
+    .tache--erreur { box-shadow: inset 4px 0 0 var(--rouge); }
+
+    .vignette {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.625rem;
+      height: 2.625rem;
+      border: 1.5px solid var(--encre);
+      background: var(--papier);
+      font-size: 1.3125rem;
+      line-height: 1;
+    }
+
+    .vignette--attente {
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1.5px dashed var(--encre-faible);
+      background: none;
+      font-size: 1.125rem;
+    }
+
+    .vignette--pale {
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1px solid var(--trait-doux);
+      background: none;
+      font-size: 1.125rem;
+    }
+
+    .tache__corps { flex: 1; min-width: 0; }
+
+    .tache__nom {
+      display: block;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .tache__nom--pale { font-weight: 500; color: #46433A; }
+
+    .tache__meta {
+      display: block;
+      margin-top: 0.25rem;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.05em;
+      color: var(--encre-douce);
+    }
+
+    .tache__meta--faible { color: var(--encre-faible); }
+    .tache__meta--vert { color: var(--vert); }
+
+    .tampon {
+      display: inline-block;
+      margin-right: 0.5rem;
+      padding: 0.125rem 0.375rem;
+      border: 1.5px solid var(--rouge);
+      color: var(--rouge);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.5625rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transform: rotate(-3deg);
+    }
+
+    .code {
+      flex: 0 0 auto;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.08em;
+      color: var(--encre-faible);
+    }
+
+    .case {
+      flex: 0 0 auto;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0;
+      background: var(--papier);
+      border: 2px solid var(--encre);
+      color: transparent;
+      cursor: pointer;
+    }
+
+    .case--douce { border: 1.5px solid var(--trait-doux); }
+
+    .case:active { background: var(--encre); color: var(--papier); }
+
+    .tache--cochee .case { background: var(--encre); color: var(--papier); }
+
+    /* -------------------------------------------------- avancement */
+
+    .avancement {
+      padding: 1rem 1.25rem;
+      border-bottom: 2px solid var(--encre);
+    }
+
+    .avancement__chiffre {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .avancement__chiffre strong { font-size: 2.125rem; line-height: 1; font-weight: 400; }
+
+    .avancement__sur {
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--encre-douce);
+    }
+
+    .jauge { display: flex; gap: 2px; margin-top: 0.75rem; }
+
+    .jauge span {
+      flex: 1;
+      height: 8px;
+      border: 1px solid var(--trait-doux);
+    }
+
+    .jauge span.plein { background: var(--encre); border-color: var(--encre); }
+
+    .avancement__aide {
+      margin: 0.75rem 0 0;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      line-height: 1.65;
+      letter-spacing: 0.04em;
+      color: var(--encre-douce);
+    }
+
+    /* ------------------------------------------------------- puces */
+
+    .reglage { display: block; padding: 0.8125rem 1.25rem; border-bottom: 1px solid var(--trait); }
+
+    .reglage__haut { display: flex; align-items: center; gap: 0.8125rem; }
+
+    .puces {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      margin-top: 0.6875rem;
+      padding-left: 3.1875rem;
+    }
+
+    .puce {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 0.6875rem;
+      background: none;
+      border: 1.5px solid var(--encre);
+      color: var(--encre);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .puce:active { background: var(--encre); color: var(--papier); }
+
+    .puce--douce { border-color: var(--encre-faible); color: var(--encre-douce); font-weight: 400; }
+
+    .puce--date input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* -------------------------------------------------------- vide */
+
+    .vide { padding: 3.5rem 1.5rem; text-align: center; }
+
+    .vide__titre { margin: 0 0 0.5rem; font-size: 1.75rem; line-height: 1; }
+
+    .vide__detail {
+      margin: 0;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      color: var(--encre-douce);
+    }
+
+    .reste {
+      margin: 0;
+      padding: 1rem 1.25rem 1.5rem;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--encre-faible);
+      text-align: center;
+    }
+
+    .detail {
+      margin: 0 0 1rem;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      line-height: 1.6;
+      color: #7E7867;
+    }
+
+    .lien {
+      background: none;
+      border: 1.5px solid #F2EBDA;
+      padding: 0.625rem 1rem;
+      color: #F2EBDA;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="ecran"></div>
+
+  <script type="module" src="/js/app.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+
+</body>
+</html>

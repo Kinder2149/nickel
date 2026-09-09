@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nickel V2</title>
+
+  <link rel="manifest" href="/v2/manifest.webmanifest">
+  <meta name="theme-color" content="#16150F">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+
+  <style>
+    :root {
+      --papier: #EFE7D6;
+      --papier-clair: #F6EFDE;
+      --encre: #16150F;
+      --encre-douce: #6B675A;
+      --encre-faible: #A9A18D;
+      --trait: #D8CFB8;
+      --trait-doux: #C6BDA6;
+      --rouge: #B4321F;
+      --vert: #2E6B4E;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--papier);
+      color: var(--encre);
+      font-family: "Archivo", system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    #ecran { min-height: 100%; display: flex; flex-direction: column; }
+    .anton { font-family: "Anton", "Archivo Narrow", system-ui, sans-serif; font-weight: 400; text-transform: uppercase; }
+    .mono { font-family: "Space Mono", ui-monospace, "Courier New", monospace; }
+
+    .page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: calc(1.5rem + env(safe-area-inset-top)) 1.375rem calc(2rem + env(safe-area-inset-bottom));
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .tag {
+      margin: 0 0 0.75rem;
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--encre-faible);
+    }
+
+    h1.titre {
+      margin: 0 0 1.5rem;
+      font-size: clamp(2.25rem, 10vw, 3rem);
+      line-height: 0.86;
+    }
+
+    .champ { margin-bottom: 1.125rem; }
+
+    .champ label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-family: "Archivo", system-ui, sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: normal;
+      text-transform: none;
+      color: var(--encre-douce);
+    }
+
+    .champ input {
+      width: 100%;
+      padding: 0.8125rem 0.9375rem;
+      background: var(--papier-clair);
+      border: 2px solid var(--encre);
+      color: var(--encre);
+      font: inherit;
+      font-size: 1.125rem;
+    }
+
+    .couleurs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    .couleur {
+      width: 2.75rem;
+      height: 2.75rem;
+      border: 2px solid transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .couleur--choisie { border-color: var(--encre); }
+
+    .bouton {
+      display: block;
+      width: 100%;
+      padding: 0.9375rem;
+      background: var(--encre);
+      color: var(--papier);
+      border: none;
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .bouton:active { opacity: 0.8; }
+
+    .bouton--secondaire {
+      background: none;
+      color: var(--encre);
+      border: 2px solid var(--encre);
+    }
+
+    .separation {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.75rem 0;
+      color: var(--encre-faible);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .separation::before, .separation::after {
+      content: '';
+      flex: 1;
+      border-top: 1px solid var(--trait);
+    }
+
+    .erreur {
+      margin: 0 0 1rem;
+      padding: 0.75rem 0.9375rem;
+      background: #F6E4E0;
+      border: 1.5px solid var(--rouge);
+      color: var(--rouge);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.75rem;
+    }
+
+    .carte-maison {
+      padding: 1.25rem;
+      background: var(--encre);
+      color: var(--papier);
+      margin-bottom: 1.5rem;
+    }
+
+    .carte-maison h2 { margin: 0 0 0.75rem; font-size: 1.75rem; line-height: 1; }
+
+    .carte-maison .code-label {
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #A29B85;
+      margin-bottom: 0.375rem;
+    }
+
+    .carte-maison .code {
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+    }
+
+    .membres { list-style: none; margin: 0; padding: 0; }
+
+    .membre {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--trait);
+    }
+
+    .jeton {
+      flex: 0 0 auto;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--couleur);
+      color: #FBF6EA;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .membre__nom { font-size: 1rem; font-weight: 600; flex: 1; }
+
+    .membre__retirer {
+      flex: 0 0 auto;
+      background: none;
+      border: none;
+      color: var(--encre-faible);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.04em;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0.25rem 0 0.25rem 0.5rem;
+    }
+
+    /* Pictogramme par tâche (§ 11 refonte visuelle, peaufinage V2 point 7) :
+       le cadre porte une information, pas de la décoration — trait plein
+       épais = tâche due, pointillé = jamais renseignée, trait fin = à venir. */
+    .emoji-case {
+      flex: 0 0 auto;
+      width: 2.75rem;
+      height: 2.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.375rem;
+      background: var(--papier-clair);
+      line-height: 1;
+    }
+
+    .emoji-case--du { border: 2.5px solid var(--encre); }
+    .emoji-case--jamais { border: 2px dashed var(--trait-doux); }
+    .emoji-case--avenir { border: 1px solid var(--trait); }
+
+    .selecteur-emoji {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .emoji-option {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      background: var(--papier-clair);
+      border: 1.5px solid var(--trait);
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .emoji-option--choisie { border: 2.5px solid var(--encre); }
+
+    .bandeau-section {
+      margin: 1.25rem 0 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--encre);
+      color: var(--papier);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .bandeau-section--retard { background: var(--rouge); }
+    .bandeau-section--fait { background: var(--vert); }
+
+    .lien-texte {
+      background: none;
+      border: none;
+      color: var(--encre-douce);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 0.6875rem;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 1rem;
+      align-self: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="ecran"></div>
+  <script type="module" src="/v2/js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/v2/sw.js');
+      });
+    }
+  </script>
+</body>
+</html>

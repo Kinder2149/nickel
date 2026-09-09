@@ -1,0 +1,32 @@
+{
+  "artboards": [
+    { "file": "Profil.dc.html", "x": 0, "y": 0, "w": 375, "h": 812, "title": "1 — Qui es-tu ?" },
+    { "file": "Main.dc.html", "x": 495, "y": 0, "w": 375, "h": 812, "title": "2 — À faire" },
+    { "file": "Toutes.dc.html", "x": 990, "y": 0, "w": 375, "h": 812, "title": "3 — Toutes" },
+    { "file": "Historique.dc.html", "x": 1485, "y": 0, "w": 375, "h": 812, "title": "4 — Historique" }
+  ],
+  "annotations": [
+    {
+      "id": "direction",
+      "x": 0,
+      "y": -250,
+      "w": 620,
+      "text": "DIRECTION : LE REGISTRE D'ENTRETIEN\n\nPas une todo-list de plus : un carnet de maintenance. Papier kraft, encre noire,\ntraits pleine largeur, bandeaux inversés, chiffres tamponnés en machine à écrire.\nAucun angle arrondi, aucune ombre portée, aucun dégradé.\n\nTypo : Anton (titres, condensé de affiche) · Space Mono (dates, fréquences, codes) · Archivo (texte).\nUne seule couleur d'alerte : le rouge tampon, réservé au retard.\n\nAucune fonctionnalité ajoutée : mêmes 3 onglets, mêmes sections, même geste."
+    },
+    {
+      "id": "note-emoji",
+      "x": 495,
+      "y": -122,
+      "w": 375,
+      "text": "Chaque tâche porte son emoji dans une case encadrée —\ntraité comme un pictogramme d'inventaire, pas comme une décoration.\nCase pleine = tâche due. Case pointillée = jamais renseignée."
+    },
+    {
+      "id": "note-case",
+      "x": 990,
+      "y": -122,
+      "w": 375,
+      "text": "La case à cocher est un carré de 44 px à bord épais,\ncomme une case de formulaire. Cocher = la tamponner."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

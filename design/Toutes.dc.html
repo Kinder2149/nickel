@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    body {
+      margin: 0;
+      width: 375px;
+      height: 812px;
+      background: #EFE7D6;
+      color: #16150F;
+      font-family: "Archivo", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    a { color: #B4321F; }
+    a:hover { color: #16150F; }
+    .anton { font-family: "Anton", "Archivo Narrow", system-ui, sans-serif; font-weight: 400; text-transform: uppercase; }
+    .mono { font-family: "Space Mono", ui-monospace, monospace; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 812px;">
+
+  <div style="padding: 52px 20px 0;">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;">
+      <span class="anton" style="font-size: 42px; line-height: 0.86;">Nickel</span>
+      <span class="mono" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 2px solid #16150F; background: #C4562F; color: #FBF6EA; font-size: 15px; font-weight: 700;">VA</span>
+    </div>
+    <div class="mono" style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #6B675A;">
+      <span>Registre d'entretien</span>
+      <span>Lun. 08 sept.</span>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 0; margin-top: 16px; padding: 0 20px; border-bottom: 2px solid #16150F;">
+    <span class="mono" style="padding: 9px 12px; color: #6B675A; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">À faire</span>
+    <span class="mono" style="padding: 9px 12px; background: #16150F; color: #F2EBDA; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Toutes</span>
+    <span class="mono" style="padding: 9px 12px; color: #6B675A; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">Historique</span>
+  </div>
+
+  <div style="flex: 1; overflow: hidden;">
+
+    <!-- avancement -->
+    <div style="padding: 16px 20px; border-bottom: 2px solid #16150F;">
+      <div style="display: flex; align-items: baseline; gap: 8px;">
+        <span class="anton" style="font-size: 34px; line-height: 1;">05</span>
+        <span class="mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B675A;">/ 35 renseignées</span>
+      </div>
+      <div style="display: flex; gap: 3px; margin-top: 12px;">
+        <span style="flex: 1; height: 8px; background: #16150F;"></span>
+        <span style="flex: 1; height: 8px; background: #16150F;"></span>
+        <span style="flex: 1; height: 8px; background: #16150F;"></span>
+        <span style="flex: 1; height: 8px; background: #16150F;"></span>
+        <span style="flex: 1; height: 8px; background: #16150F;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+        <span style="flex: 1; height: 8px; border: 1px solid #C6BDA6;"></span>
+      </div>
+      <p class="mono" style="margin: 12px 0 0; font-size: 10px; line-height: 1.65; letter-spacing: 0.04em; color: #6B675A;">
+        Quand as-tu fait chaque tâche pour la dernière fois&nbsp;? Approximatif convient.
+      </p>
+    </div>
+
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Toutes les semaines</span><span>13</span>
+    </div>
+
+    <!-- renseignee -->
+    <div style="display: flex; align-items: center; gap: 13px; padding: 13px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 19px; line-height: 1;">🧹</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 600; line-height: 1.2;">Laver le sol du salon</div>
+        <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #2E6B4E;">▸ Prochaine : ven. 12 sept.</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #8A8474;">07 J</span>
+    </div>
+
+    <!-- a renseigner -->
+    <div style="padding: 13px 20px; border-bottom: 1px solid #D8CFB8;">
+      <div style="display: flex; align-items: center; gap: 13px;">
+        <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px dashed #A9A18D; font-size: 19px; line-height: 1;">🛋️</span>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 600; line-height: 1.2;">Aspirer le canapé tissu</div>
+          <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #A9A18D;">Jamais renseignée</div>
+        </div>
+        <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #8A8474;">07 J</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; padding-left: 51px;">
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #16150F; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Aujourd'hui</span>
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #16150F; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">−3 J</span>
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #16150F; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">−7 J</span>
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #A9A18D; color: #6B675A; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;">Date…</span>
+      </div>
+    </div>
+
+    <div style="padding: 13px 20px; border-bottom: 1px solid #D8CFB8;">
+      <div style="display: flex; align-items: center; gap: 13px;">
+        <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px dashed #A9A18D; font-size: 19px; line-height: 1;">🚿</span>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 600; line-height: 1.2;">Nettoyer les parois de douche</div>
+          <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #A9A18D;">Jamais renseignée</div>
+        </div>
+        <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #8A8474;">07 J</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; padding-left: 51px;">
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #16150F; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Aujourd'hui</span>
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #16150F; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">−3 J</span>
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #16150F; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">−7 J</span>
+        <span class="mono" style="padding: 8px 11px; border: 1.5px solid #A9A18D; color: #6B675A; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;">Date…</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

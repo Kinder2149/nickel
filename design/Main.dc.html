@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    body {
+      margin: 0;
+      width: 375px;
+      height: 812px;
+      background: #EFE7D6;
+      color: #16150F;
+      font-family: "Archivo", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    a { color: #B4321F; }
+    a:hover { color: #16150F; }
+    .anton { font-family: "Anton", "Archivo Narrow", system-ui, sans-serif; font-weight: 400; text-transform: uppercase; }
+    .mono { font-family: "Space Mono", ui-monospace, monospace; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 812px;">
+
+  <!-- entete -->
+  <div style="padding: 52px 20px 0;">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;">
+      <span class="anton" style="font-size: 42px; line-height: 0.86; letter-spacing: 0.01em;">Nickel</span>
+      <span class="mono" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 2px solid #16150F; background: #C4562F; color: #FBF6EA; font-size: 15px; font-weight: 700;">VA</span>
+    </div>
+    <div class="mono" style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #6B675A;">
+      <span>Registre d'entretien</span>
+      <span>Lun. 08 sept.</span>
+    </div>
+  </div>
+
+  <!-- onglets -->
+  <div style="display: flex; gap: 0; margin-top: 16px; padding: 0 20px; border-bottom: 2px solid #16150F;">
+    <span class="mono" style="padding: 9px 12px; background: #16150F; color: #F2EBDA; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">À faire</span>
+    <span class="mono" style="padding: 9px 12px; color: #6B675A; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">Toutes</span>
+    <span class="mono" style="padding: 9px 12px; color: #6B675A; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">Historique</span>
+  </div>
+
+  <div style="flex: 1; overflow: hidden;">
+
+    <!-- bande de section -->
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #B4321F; color: #FBF3E4; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>En retard</span><span>01</span>
+    </div>
+
+    <!-- ligne en retard -->
+    <div style="display: flex; align-items: center; gap: 13px; padding: 14px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 21px; line-height: 1;">🪵</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 15px; font-weight: 600; line-height: 1.2;">Traiter le parquet</div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
+          <span class="mono" style="display: inline-block; padding: 2px 6px; border: 1.5px solid #B4321F; color: #B4321F; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transform: rotate(-3deg);">Retard 5 j</span>
+          <span class="mono" style="font-size: 10px; letter-spacing: 0.08em; color: #8A8474;">365 J</span>
+        </div>
+      </div>
+      <span style="flex: 0 0 auto; display: inline-block; width: 44px; height: 44px; border: 2px solid #16150F; background: #EFE7D6;"></span>
+    </div>
+
+    <!-- bande -->
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Aujourd'hui</span><span>02</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 14px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 21px; line-height: 1;">🪟</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 15px; font-weight: 600; line-height: 1.2;">Nettoyer la baie vitrée</div>
+        <div class="mono" style="margin-top: 5px; font-size: 10px; letter-spacing: 0.05em; color: #8A8474;">30 J · Produit à vitre, raclette</div>
+      </div>
+      <span style="flex: 0 0 auto; display: inline-block; width: 44px; height: 44px; border: 2px solid #16150F; background: #EFE7D6;"></span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 14px 20px; background: #F6EFDE; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1.5px solid #16150F; background: #EFE7D6; font-size: 21px; line-height: 1;">🧽</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 15px; font-weight: 600; line-height: 1.2;">Nettoyer le plan de travail</div>
+        <div class="mono" style="margin-top: 5px; font-size: 10px; letter-spacing: 0.05em; color: #8A8474;">01 J · Liquide vaisselle, séchage</div>
+      </div>
+      <span style="flex: 0 0 auto; display: inline-block; width: 44px; height: 44px; border: 2px solid #16150F; background: #EFE7D6;"></span>
+    </div>
+
+    <!-- bande -->
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Dans les 7 jours</span><span>05</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 12px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C6BDA6; font-size: 18px; line-height: 1;">🍳</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.2; color: #46433A;">Nettoyer la plaque de cuisson</div>
+        <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #8A8474;">Demain</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #A9A18D;">01 J</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 12px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C6BDA6; font-size: 18px; line-height: 1;">🧺</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.2; color: #46433A;">Laver les torchons</div>
+        <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #8A8474;">Dans 3 jours</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #A9A18D;">03 J</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 12px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C6BDA6; font-size: 18px; line-height: 1;">♻️</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.2; color: #46433A;">Vider la poubelle de tri</div>
+        <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #8A8474;">Dans 3 jours</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #A9A18D;">03 J</span>
+    </div>
+
+    <!-- bande -->
+    <div class="mono" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; background: #16150F; color: #F2EBDA; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+      <span>Jamais faites</span><span>30</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 13px; padding: 12px 20px; border-bottom: 1px solid #D8CFB8;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C6BDA6; font-size: 18px; line-height: 1;">🛋️</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 500; line-height: 1.2; color: #46433A;">Aspirer le canapé tissu</div>
+        <div class="mono" style="margin-top: 4px; font-size: 10px; letter-spacing: 0.05em; color: #A9A18D;">Jamais renseignée</div>
+      </div>
+      <span class="mono" style="flex: 0 0 auto; font-size: 10px; letter-spacing: 0.08em; color: #A9A18D;">07 J</span>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

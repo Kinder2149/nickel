@@ -1,0 +1,20 @@
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Android TWA — projet généré par Bubblewrap (reproductible, pas besoin de versionner)
+android-twa/.gradle/
+android-twa/app/build/
+android-twa/build/
+android-twa/dist/
+android-twa/*.log
+android-twa/hs_err_pid*.log
+
+# Clé de signature Android — jamais dans le dépôt (secret)
+android-twa/*.keystore
+
+# Système
+node_modules/
+.DS_Store
+Thumbs.db

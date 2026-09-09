@@ -1,0 +1,115 @@
+rules_version = '2';
+
+// NICKEL — règles d'accès Firestore
+//
+// ATTENTION — DETTE ASSUMÉE, PAS UN OUBLI.
+//
+// La V1 n'a aucune authentification (décision figée D3 du PROJET_CONTEXTE.md).
+// L'application ne peut donc fonctionner que si la base est ouverte en
+// lecture et écriture. Quiconque disposerait de la configuration technique
+// de l'app pourrait lire et modifier ces données.
+//
+// Risque accepté par Kinder le 2026-09-07 : les données sont des tâches de
+// ménage d'un foyer de 3 personnes. Aucune donnée personnelle sensible,
+// aucun enjeu financier.
+//
+// À FERMER EN V2, quand l'authentification arrivera (voir PROJET_CONTEXTE.md,
+// section « Hors périmètre V1 »).
+//
+// Ne JAMAIS stocker autre chose que des données de ménage dans cette base
+// tant que ces règles sont en place.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Les trois collections du modèle métier, et elles seules.
+    match /habitants/{document} {
+      allow read, write: if true;
+    }
+
+    match /taches/{document} {
+      allow read, write: if true;
+    }
+
+    match /realisations/{document} {
+      allow read, write: if true;
+    }
+
+    // V2 — voir PROJET_CONTEXTE.md § 13-14, étape V2-8.
+    //
+    // FERMÉ, contrairement à la V1 : chaque appareil s'authentifie de façon
+    // anonyme (Firebase Auth, invisible pour l'utilisateur — pas d'email,
+    // pas d'écran de connexion, cohérent avec V2-D2). L'identifiant de
+    // profil EST l'uid Firebase Auth. Un membre ne peut lire/écrire que les
+    // données d'une maison dont il est déjà membre — rejoindre exige de
+    // connaître le code d'invitation (V2-D1).
+    //
+    // Dette résiduelle documentée : la recherche d'une maison par son code
+    // (rejoindreMaison) exige un accès en lecture-liste sur la collection
+    // `maisons`. Un client authentifié écrit à la main pourrait donc lister
+    // tous les noms + codes d'invitation existants, sans passer par
+    // l'interface. Accepté : cela exige un client maison construit
+    // volontairement, pas une simple découverte de l'URL publique (le
+    // scénario qui justifiait la fermeture). À réévaluer si le nombre de
+    // maisons devient significatif.
+    //
+    // RÉÉVALUÉ au peaufinage V2, point 5, le 2026-09-08 — DÉCISION : ne rien
+    // changer. Deux pistes envisagées et écartées : (1) restreindre les
+    // champs lisibles en liste — impossible, Firestore ne fait pas de
+    // sécurité au niveau du champ, seulement au niveau du document ; (2) une
+    // Cloud Function pour la recherche par code — exige de passer le projet
+    // en plan Blaze (facturation), un pipeline de déploiement séparé et sa
+    // maintenance, pour un risque réel resté théorique (foyer de confiance,
+    // peu de maisons, aucune donnée sensible). Coût disproportionné par
+    // rapport au risque. Voir PROJET_CONTEXTE.md § 15, point 5.
+    function estAuthentifie() {
+      return request.auth != null;
+    }
+
+    function estMembre(maisonId) {
+      return estAuthentifie() &&
+        exists(/databases/$(database)/documents/maisons/$(maisonId)/membres/$(request.auth.uid));
+    }
+
+    match /maisons/{maisonId} {
+      allow get, list: if estAuthentifie();
+      allow create: if estAuthentifie();
+      allow update, delete: if estMembre(maisonId);
+
+      match /membres/{profilId} {
+        allow read: if estAuthentifie();
+        // Rejoindre = créer son propre document (l'id du document est l'uid).
+        allow create: if estAuthentifie() && request.auth.uid == profilId;
+        // Quitter soi-même (V2-D6), ou retirer un autre membre (V2-D5).
+        allow delete: if estAuthentifie() &&
+          (request.auth.uid == profilId || estMembre(maisonId));
+      }
+
+      match /pieces/{pieceId} {
+        allow read, write: if estMembre(maisonId);
+      }
+
+      match /taches/{tacheId} {
+        allow read, write: if estMembre(maisonId);
+      }
+
+      match /realisations/{realisationId} {
+        allow read: if estMembre(maisonId);
+        // Une Réalisation ne peut être créée qu'au nom de soi-même — jamais
+        // au nom d'un autre membre (§ 3, distinction responsable/réalisateur).
+        allow create: if estMembre(maisonId) &&
+          request.resource.data.realiseParId == request.auth.uid;
+        // Jamais modifiée, jamais supprimée (§ 3, règle métier héritée) :
+        // désormais imposé par les règles, pas seulement par convention.
+        allow update, delete: if false;
+      }
+    }
+
+    // Tout le reste est refusé : si un jour une collection inattendue
+    // apparaît dans le code, elle échouera bruyamment plutôt que
+    // d'ouvrir silencieusement la base.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

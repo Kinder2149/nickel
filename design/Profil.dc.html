@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    body {
+      margin: 0;
+      width: 375px;
+      height: 812px;
+      background: #16150F;
+      color: #F2EBDA;
+      font-family: "Archivo", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    a { color: #E8A33D; }
+    a:hover { color: #F2EBDA; }
+    .anton { font-family: "Anton", "Archivo Narrow", system-ui, sans-serif; font-weight: 400; text-transform: uppercase; }
+    .mono { font-family: "Space Mono", ui-monospace, monospace; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 812px; padding: 0 22px;">
+
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 34px;">
+    <span class="anton" style="font-size: 76px; line-height: 0.82; letter-spacing: 0.005em;">Nickel</span>
+    <div class="mono" style="margin-top: 14px; padding-top: 12px; border-top: 2px solid #F2EBDA; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #A29B85;">
+      Registre d'entretien · 3 habitants · 35 tâches
+    </div>
+  </div>
+
+  <div class="mono" style="margin-bottom: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #7E7867;">
+    Qui es-tu&nbsp;?
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 44px;">
+
+    <div style="display: flex; align-items: center; gap: 15px; padding: 13px 15px; border: 2px solid #F2EBDA; background: #1F1D15;">
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #C4562F; color: #FBF6EA; font-size: 19px; font-weight: 700;">VA</span>
+      <span class="anton" style="flex: 1; font-size: 30px; line-height: 1;">Val</span>
+      <span class="mono" style="font-size: 10px; letter-spacing: 0.1em; color: #7E7867;">01</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 15px; padding: 13px 15px; border: 2px solid #4A473C; background: #1F1D15;">
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #2E6E7E; color: #F0FAFC; font-size: 19px; font-weight: 700;">SA</span>
+      <span class="anton" style="flex: 1; font-size: 30px; line-height: 1; color: #CFC8B4;">Sam</span>
+      <span class="mono" style="font-size: 10px; letter-spacing: 0.1em; color: #7E7867;">02</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 15px; padding: 13px 15px; border: 2px solid #4A473C; background: #1F1D15;">
+      <span class="mono" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #6B5A9E; color: #F6F2FC; font-size: 19px; font-weight: 700;">YO</span>
+      <span class="anton" style="flex: 1; font-size: 30px; line-height: 1; color: #CFC8B4;">Yo</span>
+      <span class="mono" style="font-size: 10px; letter-spacing: 0.1em; color: #7E7867;">03</span>
+    </div>
+
+    <p class="mono" style="margin: 8px 0 0; font-size: 10px; line-height: 1.6; letter-spacing: 0.05em; color: #6E6857;">
+      Ce téléphone se souviendra de toi.
+    </p>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>
