@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "nom": "Modèle générique",
+  "pieces": [
+    {
+      "nom": "Cuisine",
+      "taches": [
+        {
+          "nom": "Nettoyer le plan de travail et l'évier",
+          "frequenceJours": 1,
+          "produit": "Liquide vaisselle",
+          "astuce": "Rincer puis sécher pour éviter les traces de calcaire.",
+          "emoji": "🧽"
+        },
+        {
+          "nom": "Nettoyer la plaque de cuisson",
+          "frequenceJours": 7,
+          "produit": "Savon noir",
+          "astuce": "Laisser poser 30 minutes avant de frotter, ça décolle sans forcer.",
+          "emoji": "🍳"
+        },
+        {
+          "nom": "Vider la poubelle",
+          "frequenceJours": 3,
+          "produit": "",
+          "astuce": "Vérifier aussi le tri sélectif si le foyer en fait.",
+          "emoji": "🗑️"
+        },
+        {
+          "nom": "Nettoyer l'intérieur du frigo",
+          "frequenceJours": 30,
+          "produit": "Savon de Marseille",
+          "astuce": "Vider et sécher chaque clayette avant de ranger, sinon les odeurs reviennent vite.",
+          "emoji": "🧊"
+        },
+        {
+          "nom": "Nettoyer l'intérieur du four",
+          "frequenceJours": 30,
+          "produit": "Savon noir + bicarbonate",
+          "astuce": "Appliquer le soir sur un four tiède, gratter le lendemain matin.",
+          "emoji": "🔥"
+        }
+      ]
+    },
+    {
+      "nom": "Salle de bain",
+      "taches": [
+        {
+          "nom": "Nettoyer la douche ou la baignoire",
+          "frequenceJours": 7,
+          "produit": "Anti-calcaire",
+          "astuce": "Pulvériser après la douche, sur parois encore humides : le calcaire part plus vite.",
+          "emoji": "🚿"
+        },
+        {
+          "nom": "Nettoyer le lavabo et la robinetterie",
+          "frequenceJours": 7,
+          "produit": "Anti-calcaire",
+          "astuce": "Un vieux chiffon imbibé enroulé autour du robinet 15 min dissout le calcaire incrusté.",
+          "emoji": "🚰"
+        },
+        {
+          "nom": "Nettoyer le miroir",
+          "frequenceJours": 14,
+          "produit": "Produit à vitre",
+          "astuce": "Essuyer avec du papier journal pour un résultat sans traces.",
+          "emoji": "🪞"
+        },
+        {
+          "nom": "Changer les serviettes",
+          "frequenceJours": 7,
+          "produit": "Lessive",
+          "astuce": "Éviter l'adoucissant : il réduit le pouvoir absorbant du tissu éponge.",
+          "emoji": "🧺"
+        }
+      ]
+    },
+    {
+      "nom": "WC",
+      "taches": [
+        {
+          "nom": "Nettoyer la cuvette et l'abattant",
+          "frequenceJours": 4,
+          "produit": "Javel ou détartrant WC",
+          "astuce": "Utiliser une éponge dédiée pour l'abattant, jamais celle de la cuvette.",
+          "emoji": "🚽"
+        }
+      ]
+    },
+    {
+      "nom": "Chambre",
+      "taches": [
+        {
+          "nom": "Changer les draps",
+          "frequenceJours": 14,
+          "produit": "Lessive",
+          "astuce": "Aérer le matelas quelques minutes pendant le change, ça limite l'humidité.",
+          "emoji": "🛏️"
+        },
+        {
+          "nom": "Dépoussiérer les meubles",
+          "frequenceJours": 14,
+          "produit": "",
+          "astuce": "Un chiffon microfibre légèrement humide attrape la poussière sans la faire voler.",
+          "emoji": "🪑"
+        },
+        {
+          "nom": "Passer l'aspirateur",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Ne pas oublier sous le lit : c'est souvent le plus poussiéreux.",
+          "emoji": "🧹"
+        }
+      ]
+    },
+    {
+      "nom": "Salon",
+      "taches": [
+        {
+          "nom": "Passer l'aspirateur",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Passer aussi entre les coussins du canapé, c'est là que s'accumulent les miettes.",
+          "emoji": "🧹"
+        },
+        {
+          "nom": "Dépoussiérer les meubles",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Toujours dans le sens du bois pour ne pas laisser de traces.",
+          "emoji": "🪑"
+        },
+        {
+          "nom": "Laver le sol",
+          "frequenceJours": 7,
+          "produit": "Savon noir dilué",
+          "astuce": "Une lavette bien essorée évite les traces qui restent en séchant.",
+          "emoji": "🪣"
+        }
+      ]
+    },
+    {
+      "nom": "Entrée",
+      "taches": [
+        {
+          "nom": "Laver le sol",
+          "frequenceJours": 14,
+          "produit": "Savon noir dilué",
+          "astuce": "C'est la zone la plus sale de la maison : ne pas hésiter à laver plus souvent en hiver.",
+          "emoji": "🪣"
+        }
+      ]
+    }
+  ]
+}

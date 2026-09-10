@@ -1242,6 +1242,20 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 - Créer un profil (prénom + couleur) → écran suivant affiche l'uid et confirme la lecture Firestore
 - Fermer et rouvrir l'app → le profil est retrouvé (pas redemandé), passe directement à l'écran de preuve
 
-**Statut** — Build release réussi (`flutter build apk --release --split-per-abi`), APK arm64 (17 Mo) envoyé à Kinder pour test sur téléphone réel le 2026-09-10. Validation manuelle en attente du retour de Kinder.
+**Statut** — Testé par Kinder sur téléphone réel le 2026-09-10, confirmé bon (profil créé, uid affiché, Firestore accessible).
+
+### Étape 2 — Accueil + tableau de bord
+
+**Objectif** — Écran "Votre maison" (créer vide / depuis un modèle / rejoindre par code) et le tableau de bord de l'accueil (tâches urgentes), équivalents Flutter de `afficherEcranMaison` et `afficherEcranAccueil` en V2 — avec directement le correctif du § 17 point A (les tâches "jamais faites" comptent comme urgentes).
+
+**Résultat obtenu** — Nouveau fichiers `lib/donnees.dart` (couche données, miroir de `donnees.js` : créer/rejoindre une maison, écouter tâches/membres, importer une structure — même modèle Firestore, mêmes noms de champs, couleur stockée en hex pour rester interopérable avec la V2 web), `lib/stockage_local.dart` (équivalent `localStorage`), `lib/palette.dart` (styles partagés), `lib/ecran_maison.dart`, `lib/ecran_accueil.dart`. Les deux modèles JSON (`generique.json`, `foyer-pilote.json`) sont embarqués comme assets Flutter (copiés depuis `public/v2/modeles/`). Le tableau de bord n'est pas encore interactif (pas de "Fait", pas de Paramètres) — volontairement, ce sont les étapes 3 et 6.
+
+**Critères de validation**
+- Créer une maison vide → arrive sur l'accueil avec le nom et le code
+- Créer depuis le modèle du foyer pilote → tableau de bord affiche "35 jamais faites"
+- Rejoindre avec le code d'une maison existante → accueil affiché, données partagées avec la V2 web (même Firestore)
+- Fermer/rouvrir l'app → retrouve directement l'accueil de la maison (pas reredemandé)
+
+**Statut** — `flutter analyze` propre, build release réussi (17,8 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.
 
 Le périmètre des 8 points du peaufinage V2 est clos.

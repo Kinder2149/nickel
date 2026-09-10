@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "nom": "Foyer pilote — Val / Sam / Yo",
+  "pieces": [
+    {
+      "nom": "Salon",
+      "taches": [
+        {
+          "nom": "Laver le sol du salon (parquet)",
+          "frequenceJours": 7,
+          "produit": "Savon noir dilué (1-2 c.à.s./L eau chaude)",
+          "astuce": "Lavette essorée, ne jamais détremper le parquet."
+        },
+        {
+          "nom": "Dépoussiérer les meubles bois du salon",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Microfibre sèche, dans le sens du bois."
+        },
+        {
+          "nom": "Nettoyer le bureau en verre",
+          "frequenceJours": 14,
+          "produit": "Produit à vitre",
+          "astuce": "Vaporiser puis essuyer avec une microfibre."
+        },
+        {
+          "nom": "Nettoyer la baie vitrée",
+          "frequenceJours": 30,
+          "produit": "Produit à vitre",
+          "astuce": "Raclette si possible pour éviter les traces."
+        },
+        {
+          "nom": "Traitement annuel du parquet",
+          "frequenceJours": 365,
+          "produit": "Produit protecteur parquet",
+          "astuce": "Huile ou cire à appliquer juste après un lavage."
+        },
+        {
+          "nom": "Aspirer le canapé tissu",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Ne pas oublier les coussins et les interstices."
+        },
+        {
+          "nom": "Nettoyer le canapé tissu en profondeur",
+          "frequenceJours": 180,
+          "produit": "Bicarbonate + savon noir dilué",
+          "astuce": "Bicarbonate 2h puis aspirer, puis tamponner au savon noir dilué."
+        },
+        {
+          "nom": "Dépoussiérer le canapé cuir",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Microfibre sèche, geste doux pour ne pas rayer."
+        },
+        {
+          "nom": "Nettoyer et nourrir le canapé cuir",
+          "frequenceJours": 90,
+          "produit": "Savon de Marseille dilué",
+          "astuce": "Tamponner en petits cercles, jamais frotter fort."
+        }
+      ]
+    },
+    {
+      "nom": "Entrée",
+      "taches": [
+        {
+          "nom": "Essuyer le meuble d'entrée et la porte de placard",
+          "frequenceJours": 14,
+          "produit": "",
+          "astuce": "Microfibre légèrement humide."
+        }
+      ]
+    },
+    {
+      "nom": "Cuisine",
+      "taches": [
+        {
+          "nom": "Nettoyer le plan de travail et l'évier",
+          "frequenceJours": 1,
+          "produit": "Liquide vaisselle",
+          "astuce": "Rincer puis sécher après chaque utilisation intensive."
+        },
+        {
+          "nom": "Nettoyer la plaque de cuisson",
+          "frequenceJours": 1,
+          "produit": "Savon noir pur",
+          "astuce": "30 minutes de pose avant de frotter."
+        },
+        {
+          "nom": "Nettoyer l'intérieur du four",
+          "frequenceJours": 30,
+          "produit": "Savon noir + bicarbonate",
+          "astuce": "Savon noir la nuit sur four tiède, puis frotter au bicarbonate."
+        },
+        {
+          "nom": "Nettoyer l'intérieur du micro-ondes",
+          "frequenceJours": 7,
+          "produit": "Liquide vaisselle",
+          "astuce": "Un bol d'eau chaude 2 min avant décolle la saleté."
+        },
+        {
+          "nom": "Essuyer l'extérieur du frigo",
+          "frequenceJours": 7,
+          "produit": "Liquide vaisselle",
+          "astuce": "Microfibre légèrement imbibée."
+        },
+        {
+          "nom": "Nettoyer l'intérieur du frigo",
+          "frequenceJours": 30,
+          "produit": "Savon de Marseille",
+          "astuce": "Vider et bien sécher avant de ranger."
+        },
+        {
+          "nom": "Nettoyer le joint du frigo",
+          "frequenceJours": 30,
+          "produit": "Savon de Marseille",
+          "astuce": "Chiffon imbibé, insister dans les plis."
+        },
+        {
+          "nom": "Essuyer les meubles de cuisine",
+          "frequenceJours": 7,
+          "produit": "Dégraissant",
+          "astuce": "Insister sur les poignées, souvent les plus grasses."
+        },
+        {
+          "nom": "Purger les canalisations de l'évier",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": "Verser une bouilloire d'eau bouillante."
+        },
+        {
+          "nom": "Détartrer la bouilloire",
+          "frequenceJours": 30,
+          "produit": "Anti-calcaire ou vinaigre blanc",
+          "astuce": "Faire bouillir puis rincer 2 à 3 fois."
+        },
+        {
+          "nom": "Vider la poubelle de tri",
+          "frequenceJours": 3,
+          "produit": "",
+          "astuce": ""
+        },
+        {
+          "nom": "Vider la poubelle de verre",
+          "frequenceJours": 14,
+          "produit": "",
+          "astuce": ""
+        }
+      ]
+    },
+    {
+      "nom": "Salle de bain",
+      "taches": [
+        {
+          "nom": "Nettoyer les parois de douche PVC",
+          "frequenceJours": 7,
+          "produit": "Savon noir",
+          "astuce": "Rincer à l'eau claire après application."
+        },
+        {
+          "nom": "Détartrer les joints de la douche",
+          "frequenceJours": 30,
+          "produit": "Anti-calcaire",
+          "astuce": "Brosse à dents dédiée pour les joints."
+        },
+        {
+          "nom": "Nettoyer l'évier et la robinetterie de la salle de bain",
+          "frequenceJours": 7,
+          "produit": "Anti-calcaire",
+          "astuce": "15 minutes de pose avant de rincer."
+        },
+        {
+          "nom": "Nettoyer le miroir de la salle de bain",
+          "frequenceJours": 7,
+          "produit": "Produit à vitre",
+          "astuce": ""
+        },
+        {
+          "nom": "Entretenir la VMC (salle de bain et WC)",
+          "frequenceJours": 180,
+          "produit": "",
+          "astuce": "Aspirateur pour dépoussiérer la grille."
+        }
+      ]
+    },
+    {
+      "nom": "WC",
+      "taches": [
+        {
+          "nom": "Nettoyer la cuvette et l'abattant",
+          "frequenceJours": 4,
+          "produit": "Javel",
+          "astuce": "Éponge dédiée pour l'abattant, jamais celle de la cuvette."
+        }
+      ]
+    },
+    {
+      "nom": "Buanderie",
+      "taches": [
+        {
+          "nom": "Nettoyer le tambour du lave-linge à vide",
+          "frequenceJours": 30,
+          "produit": "Vinaigre blanc (1L)",
+          "astuce": "Cycle à 90°C."
+        },
+        {
+          "nom": "Nettoyer le joint du hublot du lave-linge",
+          "frequenceJours": 30,
+          "produit": "Eau chaude + vinaigre blanc",
+          "astuce": "Insister dans les plis du joint."
+        }
+      ]
+    },
+    {
+      "nom": "Général",
+      "taches": [
+        {
+          "nom": "Laver les sols carrelés (cuisine, entrée, WC, SDB)",
+          "frequenceJours": 7,
+          "produit": "Savon noir dilué",
+          "astuce": "Même dilution que pour le parquet."
+        },
+        {
+          "nom": "Laver la nappe",
+          "frequenceJours": 14,
+          "produit": "Pastille de lessive",
+          "astuce": "Machine normale."
+        },
+        {
+          "nom": "Laver les torchons",
+          "frequenceJours": 3,
+          "produit": "Pastille de lessive",
+          "astuce": "60°C."
+        },
+        {
+          "nom": "Laver la lavette et les microfibres",
+          "frequenceJours": 3,
+          "produit": "Pastille de lessive",
+          "astuce": "Sans adoucissant, ça les rend moins absorbantes."
+        },
+        {
+          "nom": "Vérifier le stock PQ / liquide vaisselle / savon mains",
+          "frequenceJours": 7,
+          "produit": "",
+          "astuce": ""
+        }
+      ]
+    }
+  ]
+}
