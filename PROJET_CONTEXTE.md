@@ -1305,3 +1305,17 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 - Visible aussi côté V2 web (même Firestore) et réciproquement
 
 **Statut** — `flutter analyze` propre, build release réussi (18 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.
+
+### Étape 6 — Paramètres
+
+**Objectif** — Équivalent Flutter de `afficherEcranParametres` (§ 17 point B) : regrouper "Voir toutes les tâches", "Historique", "Pièces et tâches", les membres (avec "Retirer") et "Quitter cette maison" dans un écran dédié, pour que l'accueil ne garde que la carte de la maison et le tableau de bord — même correction que sur la V2 web.
+
+**Résultat obtenu** — `lib/ecran_parametres.dart`, accessible via un bouton "⚙ Paramètres" sur l'accueil (remplace l'ancien bouton "Quitter" du header et les 3 boutons temporaires ajoutés aux étapes 3-5, retirés de l'accueil). `retirerMembre()` ajoutée à `donnees.dart` (même écriture que `quitterMaison`, exposée séparément pour éviter toute confusion de profil côté appelant, comme en V2). "Quitter cette maison" utilise `pushAndRemoveUntil` pour vider toute la pile de navigation (Paramètres, Accueil, etc.) en revenant à l'écran "Votre maison" — évite qu'un retour Android ramène vers une maison qu'on vient de quitter.
+
+**Critères de validation**
+- Accueil : plus que la carte de la maison + tableau de bord + bouton ⚙
+- Paramètres : les 3 boutons de navigation, la liste des membres, "Retirer" absent sur soi-même
+- Retirer un autre membre → confirmation, puis disparaît en temps réel
+- Quitter la maison → confirmation, retour à "Votre maison", impossible d'y revenir par retour Android
+
+**Statut** — `flutter analyze` propre, build release réussi (18 Mo, arm64), envoyé à Kinder pour test le 2026-09-10. Les 6 étapes prévues (routeur/écrans de base, accueil, à faire, gestion, historique, paramètres) sont complètes — reste l'étape 7 (finitions : icône, thème, build final signé) si Kinder confirme que tout fonctionne.

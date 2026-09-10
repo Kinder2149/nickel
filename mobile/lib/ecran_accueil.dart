@@ -3,20 +3,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
 import 'ecran_afaire.dart';
-import 'ecran_gestion.dart';
-import 'ecran_historique.dart';
 import 'ecran_maison.dart';
+import 'ecran_parametres.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
 /// Écran d'accueil / tableau de bord — équivalent Flutter de
 /// `afficherEcranAccueil` (public/v2/js/app.js), déjà revu au peaufinage
-/// (§ 16 point 2, § 17 point A) : la carte de la maison + directement les
-/// tâches urgentes (en retard, jamais faites, du jour — les "jamais
-/// faites" comptent comme urgentes depuis le jour zéro). Le bouton "Voir
-/// toutes les tâches" est temporaire ici : il rejoindra un écran
-/// Paramètres à l'étape 6 (comme en V2 web, § 17 point B) — "Pièces et
-/// tâches" et "Historique" arrivent aux étapes 4 et 5.
+/// (§ 16 point 2, § 17 points A et B) : la carte de la maison + directement
+/// les tâches urgentes (en retard, jamais faites, du jour). "Voir toutes
+/// les tâches", "Historique", "Pièces et tâches" et les membres vivent
+/// dans l'écran Paramètres (⚙), pas ici — sinon ils se retrouvent poussés
+/// hors de vue par une vraie liste de tâches (retour de Kinder, § 17).
 class EcranAccueil extends StatefulWidget {
   const EcranAccueil({super.key, required this.profil, required this.maisonId});
 
@@ -50,32 +48,17 @@ class _EcranAccueilState extends State<EcranAccueil> {
     setState(() => _maison = maison);
   }
 
-  Future<void> _quitter() async {
-    final confirme = await showDialog<bool>(
-      context: context,
-      builder: (contexte) => AlertDialog(
-        title: const Text('Quitter cette maison ?'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(contexte, false), child: const Text('Annuler')),
-          TextButton(onPressed: () => Navigator.pop(contexte, true), child: const Text('Quitter')),
-        ],
-      ),
-    );
-    if (confirme != true) return;
-
-    await quitterMaison(widget.maisonId, widget.profil.id);
-    final prefs = await SharedPreferences.getInstance();
-    await effacerMaisonIdLocal(prefs);
-
-    if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => EcranMaison(profil: widget.profil)),
-    );
-  }
-
   void _ouvrirAFaire(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => EcranAFaire(profil: widget.profil, maisonId: widget.maisonId)),
+    );
+  }
+
+  void _ouvrirParametres(BuildContext context, String nomMaison) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => EcranParametres(profil: widget.profil, maisonId: widget.maisonId, maisonNom: nomMaison),
+      ),
     );
   }
 
@@ -89,6 +72,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
     }
 
     final maison = _maison!;
+    final nomMaison = maison['nom'] as String;
 
     return Scaffold(
       body: SafeArea(
@@ -104,7 +88,11 @@ class _EcranAccueilState extends State<EcranAccueil> {
                     child: Text('Bonjour ${widget.profil.prenom}',
                         style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 2.5, color: Palette.encreFaible)),
                   ),
-                  TextButton(onPressed: _quitter, child: const Text('Quitter', style: TextStyle(color: Palette.encreDouce))),
+                  TextButton.icon(
+                    onPressed: () => _ouvrirParametres(context, nomMaison),
+                    icon: const Icon(Icons.settings_outlined, size: 16, color: Palette.encreDouce),
+                    label: const Text('Paramètres', style: TextStyle(color: Palette.encreDouce)),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
@@ -114,8 +102,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(maison['nom'] as String,
-                        style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Palette.papier)),
+                    Text(nomMaison, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Palette.papier)),
                     const SizedBox(height: 10),
                     const Text("CODE D'INVITATION",
                         style: TextStyle(fontSize: 10, letterSpacing: 1.5, color: Color(0xFFA29B85))),
@@ -126,28 +113,6 @@ class _EcranAccueilState extends State<EcranAccueil> {
                 ),
               ),
               const SizedBox(height: 20),
-              OutlinedButton(
-                onPressed: () => _ouvrirAFaire(context),
-                style: boutonSecondaire(),
-                child: const Text('VOIR TOUTES LES TÂCHES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
-              ),
-              const SizedBox(height: 10),
-              OutlinedButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => EcranGestion(maisonId: widget.maisonId)),
-                ),
-                style: boutonSecondaire(),
-                child: const Text('PIÈCES ET TÂCHES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
-              ),
-              const SizedBox(height: 10),
-              OutlinedButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => EcranHistorique(maisonId: widget.maisonId)),
-                ),
-                style: boutonSecondaire(),
-                child: const Text('HISTORIQUE', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
-              ),
-              const SizedBox(height: 16),
               Expanded(
                 child: _TableauDeBord(
                   maisonId: widget.maisonId,

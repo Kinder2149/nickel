@@ -133,6 +133,14 @@ Future<void> quitterMaison(String maisonId, String profilId) async {
   await _db.collection('maisons').doc(maisonId).collection('membres').doc(profilId).delete();
 }
 
+/// Retire un AUTRE membre d'une maison (droits identiques, pas de rôle
+/// propriétaire — n'importe quel membre peut retirer n'importe quel autre).
+/// Même écriture que `quitterMaison`, exposée séparément pour que
+/// l'appelant ne puisse pas se tromper de profil par accident.
+Future<void> retirerMembre(String maisonId, String membreId) async {
+  await _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId).delete();
+}
+
 Future<String> creerPiece(String maisonId, String nom) async {
   final ref = await _db.collection('maisons').doc(maisonId).collection('pieces').add({
     'nom': nom,
