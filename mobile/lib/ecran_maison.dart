@@ -45,30 +45,45 @@ class _EcranMaisonState extends State<EcranMaison> {
     );
   }
 
+  /// Sans ce garde-fou, un échec réseau ou un refus des règles Firestore
+  /// laissait l'écran tourner indéfiniment, sans message (retour de Kinder
+  /// du 2026-09-10 : maison "créée" mais absente de la base).
+  Future<void> _executer(Future<void> Function() action) async {
+    setState(() {
+      _enCours = true;
+      _erreur = null;
+    });
+    try {
+      await action();
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _erreur = 'Échec, rien n\'a été enregistré correctement. Vérifiez la connexion et réessayez.\n($e)';
+        _enCours = false;
+      });
+    }
+  }
+
   Future<void> _creerVide() async {
     final nom = _controleurNom.text.trim();
     if (nom.isEmpty) {
       setState(() => _erreur = 'Donnez un nom à votre maison.');
       return;
     }
-    setState(() {
-      _enCours = true;
-      _erreur = null;
+    await _executer(() async {
+      final maison = await creerMaison(nom, widget.profil);
+      await _allerVersAccueil(maison.id);
     });
-    final maison = await creerMaison(nom, widget.profil);
-    await _allerVersAccueil(maison.id);
   }
 
   Future<void> _creerDepuisModele(String fichierAsset, String nomParDefaut) async {
     final nom = _controleurNom.text.trim().isEmpty ? nomParDefaut : _controleurNom.text.trim();
-    setState(() {
-      _enCours = true;
-      _erreur = null;
+    await _executer(() async {
+      final texte = await rootBundle.loadString('assets/modeles/$fichierAsset');
+      final structure = jsonDecode(texte) as Map<String, dynamic>;
+      final maison = await importerStructure(nom, structure, widget.profil);
+      await _allerVersAccueil(maison.id);
     });
-    final texte = await rootBundle.loadString('assets/modeles/$fichierAsset');
-    final structure = jsonDecode(texte) as Map<String, dynamic>;
-    final maison = await importerStructure(nom, structure, widget.profil);
-    await _allerVersAccueil(maison.id);
   }
 
   Future<void> _rejoindre() async {
@@ -77,19 +92,18 @@ class _EcranMaisonState extends State<EcranMaison> {
       setState(() => _erreur = "Entrez un code d'invitation.");
       return;
     }
-    setState(() {
-      _enCours = true;
-      _erreur = null;
+    await _executer(() async {
+      final maison = await rejoindreMaison(code, widget.profil);
+      if (maison == null) {
+        if (!mounted) return;
+        setState(() {
+          _erreur = 'Aucune maison ne correspond à ce code.';
+          _enCours = false;
+        });
+        return;
+      }
+      await _allerVersAccueil(maison['id'] as String);
     });
-    final maison = await rejoindreMaison(code, widget.profil);
-    if (maison == null) {
-      setState(() {
-        _erreur = 'Aucune maison ne correspond à ce code.';
-        _enCours = false;
-      });
-      return;
-    }
-    await _allerVersAccueil(maison['id'] as String);
   }
 
   @override

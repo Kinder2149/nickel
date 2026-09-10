@@ -68,22 +68,25 @@ String statutTache(Map<String, dynamic> tache) {
 /// Crée une maison, avec un code d'invitation unique, et y ajoute le profil
 /// créateur comme premier membre.
 Future<({String id, String codeInvitation})> creerMaison(String nom, Profil profil) async {
-  final maisonId = _db.collection('maisons').doc().id;
+  final maisonRef = _db.collection('maisons').doc();
   final codeInvitation = genererCode();
 
-  await _db.collection('maisons').doc(maisonId).set({
+  // Écriture atomique : la maison et son premier membre, ou rien. Avant, un
+  // refus sur le membre laissait une maison orpheline sans aucun membre.
+  final lot = _db.batch();
+  lot.set(maisonRef, {
     'nom': nom,
     'codeInvitation': codeInvitation,
     'creeLe': DateTime.now().toIso8601String(),
   });
-
-  await _db.collection('maisons').doc(maisonId).collection('membres').doc(profil.id).set({
+  lot.set(maisonRef.collection('membres').doc(profil.id), {
     'prenom': profil.prenom,
     'couleur': couleurVersHex(profil.couleur),
     'rejointLe': DateTime.now().toIso8601String(),
   });
+  await lot.commit();
 
-  return (id: maisonId, codeInvitation: codeInvitation);
+  return (id: maisonRef.id, codeInvitation: codeInvitation);
 }
 
 /// Cherche une maison par son code d'invitation et y ajoute le profil.
@@ -236,16 +239,37 @@ Future<void> enregistrerRealisation(
   String dateISO,
   String prochaineEcheance,
 ) async {
-  await _db.collection('maisons').doc(maisonId).collection('realisations').add({
+  final maison = _db.collection('maisons').doc(maisonId);
+  final lot = _db.batch();
+  lot.set(maison.collection('realisations').doc(), {
     'tacheId': tacheId,
     'realiseParId': profilId,
     'dateRealisation': dateISO,
     'enregistreLe': DateTime.now().toIso8601String(),
   });
-
-  await _db.collection('maisons').doc(maisonId).collection('taches').doc(tacheId).update({
+  lot.update(maison.collection('taches').doc(tacheId), {
     'prochaineEcheance': prochaineEcheance,
   });
+  await lot.commit();
+}
+
+/// Réinscrit ce profil dans sa maison sous l'identifiant actuel de
+/// l'appareil quand celui-ci a changé (réinstallation avec restauration de
+/// la sauvegarde Android : le profil local revient, mais Firebase attribue
+/// un nouvel identifiant). Retire l'ancienne entrée devenue orpheline. Sans
+/// effet si la maison n'existe plus.
+Future<void> reprendreMaison(String maisonId, Profil profil, String ancienId) async {
+  final maison = await _db.collection('maisons').doc(maisonId).get();
+  if (!maison.exists) return;
+
+  final membres = maison.reference.collection('membres');
+  final ancien = await membres.doc(ancienId).get();
+  await membres.doc(profil.id).set({
+    'prenom': profil.prenom,
+    'couleur': couleurVersHex(profil.couleur),
+    'rejointLe': (ancien.data()?['rejointLe'] as String?) ?? DateTime.now().toIso8601String(),
+  });
+  if (ancien.exists) await membres.doc(ancienId).delete();
 }
 
 /// S'abonne à l'historique d'une maison, le plus récent en premier —

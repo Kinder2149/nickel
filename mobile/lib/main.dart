@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'donnees.dart';
 import 'ecran_accueil.dart';
 import 'ecran_maison.dart';
 import 'ecran_profil.dart';
@@ -61,7 +62,23 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
       if (utilisateur == null) throw Exception('Authentification anonyme refusée.');
 
       final prefs = await SharedPreferences.getInstance();
-      final profil = chargerProfilLocal(prefs);
+      var profil = chargerProfilLocal(prefs);
+
+      // Après une réinstallation, Android peut restaurer le profil local
+      // (sauvegarde automatique) alors que Firebase attribue un nouvel
+      // identifiant à l'appareil. L'ancien identifiant n'est plus accepté
+      // par les règles Firestore : toute création de maison échouait. On
+      // recale donc le profil sur l'identifiant réel, et on réinscrit
+      // l'appareil dans sa maison s'il en avait une.
+      if (profil != null && profil.id != utilisateur.uid) {
+        final ancienId = profil.id;
+        profil = Profil(id: utilisateur.uid, prenom: profil.prenom, couleur: profil.couleur);
+        await enregistrerProfilLocal(prefs, profil);
+        final maisonIdExistante = chargerMaisonIdLocal(prefs);
+        if (maisonIdExistante != null) {
+          await reprendreMaison(maisonIdExistante, profil, ancienId);
+        }
+      }
 
       if (!mounted) return;
 
@@ -71,17 +88,18 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
         );
         return;
       }
+      final profilActuel = profil;
 
       final maisonId = chargerMaisonIdLocal(prefs);
       if (maisonId == null) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => EcranMaison(profil: profil)),
+          MaterialPageRoute(builder: (_) => EcranMaison(profil: profilActuel)),
         );
         return;
       }
 
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => EcranAccueil(profil: profil, maisonId: maisonId)),
+        MaterialPageRoute(builder: (_) => EcranAccueil(profil: profilActuel, maisonId: maisonId)),
       );
     } catch (e) {
       setState(() => _erreur = e.toString());

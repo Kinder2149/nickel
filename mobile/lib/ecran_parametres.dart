@@ -1,28 +1,33 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
-import 'ecran_afaire.dart';
 import 'ecran_gestion.dart';
 import 'ecran_historique.dart';
 import 'ecran_maison.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
-/// Écran "Paramètres" — équivalent Flutter de `afficherEcranParametres`
-/// (public/v2/js/app.js, § 17 point B) : regroupe "Voir toutes les
-/// tâches", "Historique", "Pièces et tâches", la liste des membres (avec
-/// "Retirer"), le rappel du code d'invitation, et "Quitter cette maison".
-/// Ça libère l'accueil, qui ne garde que la carte de la maison et le
-/// tableau de bord des tâches urgentes.
+/// Écran "Paramètres" : code d'invitation (déplacé ici depuis l'accueil,
+/// § 19), "Historique", "Pièces et tâches", membres (avec "Retirer") et
+/// "Quitter cette maison". Toutes les tâches sont désormais sur l'accueil,
+/// il n'y a plus de bouton "Voir toutes les tâches".
 class EcranParametres extends StatefulWidget {
-  const EcranParametres({super.key, required this.profil, required this.maisonId, required this.maisonNom});
+  const EcranParametres({
+    super.key,
+    required this.profil,
+    required this.maisonId,
+    required this.maisonNom,
+    required this.codeInvitation,
+  });
 
   final Profil profil;
   final String maisonId;
   final String maisonNom;
+  final String codeInvitation;
 
   @override
   State<EcranParametres> createState() => _EcranParametresState();
@@ -97,14 +102,36 @@ class _EcranParametresState extends State<EcranParametres> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(22, 12, 22, 32),
         children: [
-          OutlinedButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => EcranAFaire(profil: widget.profil, maisonId: widget.maisonId)),
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Palette.encre,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("CODE D'INVITATION", style: TextStyle(fontSize: 10, letterSpacing: 1.5, color: Color(0xFFA29B85))),
+                      const SizedBox(height: 4),
+                      Text(
+                        widget.codeInvitation,
+                        style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, letterSpacing: 3, color: Palette.papier),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: widget.codeInvitation));
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Code copié')));
+                  },
+                  child: const Text('Copier', style: TextStyle(color: Palette.papier)),
+                ),
+              ],
             ),
-            style: boutonSecondaire(),
-            child: const Text('VOIR TOUTES LES TÂCHES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           OutlinedButton(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => EcranHistorique(maisonId: widget.maisonId)),

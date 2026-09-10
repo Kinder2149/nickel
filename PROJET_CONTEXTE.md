@@ -1364,3 +1364,28 @@ Retour de Kinder après test de l'APK Flutter final (§ 18). 9 points : pas d'em
 **Résultat obtenu** — Un emoji attribué à chacune des 35 tâches de `foyer-pilote.json` (objet désigné, même principe que le modèle générique : 🛋️ canapés, 🧊 frigo, 🚿 douche, 🚽 WC, 🧺 linge, ♻️/🗑️ poubelles, etc.), dans les deux copies (`public/v2/modeles/` et `mobile/assets/modeles/`, vérifiées identiques). Web redéployé. Bouton Flutter renommé "Modèle Spécial Chez nous".
 
 **Statut** — APK envoyé à Kinder le 2026-09-10 (même clé de signature que l'étape 7, s'installe par-dessus). En attente : Kinder recrée "Chez nous" depuis son téléphone ; ensuite suppression de l'ancienne `329547b0…` (3WS3NG).
+
+**Mise à jour étape 1** — Kinder a indiqué avoir recréé "Chez nous" depuis son téléphone, mais aucune nouvelle maison n'apparaît en base (lecture serveur forcée). L'ancienne `329547b0…` (3WS3NG) n'a donc **pas** été supprimée. Cause probable, corrigée à l'étape 2 : voir "Bug d'identité" ci-dessous.
+
+### Étape 2 — Accueil centralisé + fiche tâche (+ correctif création de maison)
+
+**Accueil** (`lib/ecran_accueil.dart`, réécrit) : une seule page pour les tâches, trois blocs repliables :
+- **À faire** : tâches en retard, du jour ou jamais faites (plus de statut "jamais renseignée" affiché — une tâche jamais faite est simplement à faire), tri : retard d'abord, puis du jour, puis le reste ; bandeau rouge et "N en retard" s'il y en a
+- **Fait aujourd'hui** : tâches cochées aujourd'hui ("Fait par [prénom]")
+- **À venir** : le reste, "Demain" / "Dans N j", toujours cochable en avance (D7)
+
+Bouton "Fait" sur chaque tâche, avec délai d'annulation de 5 s conservé ; en plus du bloc "Fait", une barre en bas de l'écran « … faite — ANNULER » (sinon, avec 30+ tâches à faire, le bloc "Fait" et son bouton sont hors de vue et l'annulation est inutilisable en pratique). Toucher une tâche ouvre sa **fiche** : pièce, fréquence, dernière fois (et par qui), prochaine fois, produit, astuce, bouton "C'est fait". L'écran "À faire" séparé est supprimé (`ecran_afaire.dart`). Bandeau noir conservé avec le seul nom de la maison ; **code d'invitation déplacé dans Paramètres**, avec un bouton "Copier".
+
+**Bug d'identité corrigé** — Après une réinstallation, Android peut restaurer le profil local (sauvegarde automatique) alors que Firebase attribue un nouvel identifiant anonyme à l'appareil. Le profil gardait l'ancien identifiant, que les règles Firestore refusent : la création de maison échouait à l'étape "ajout du membre", et l'écran tournait indéfiniment sans message. Indices concordants : deux maisons créées par l'app à 2 minutes d'intervalle le 2026-09-10, toutes deux sans aucun membre, puis la maison "recréée" introuvable. Corrections :
+- au démarrage, le profil est recalé sur l'identifiant Firebase réel ; si une maison était enregistrée, l'appareil y est réinscrit sous son nouvel identifiant et l'ancienne entrée orpheline est retirée (`reprendreMaison` dans `donnees.dart`)
+- création de maison **atomique** (maison + premier membre en une seule écriture groupée) : plus jamais de maison orpheline en cas d'échec ; même chose pour l'enregistrement d'une tâche faite (Réalisation + échéance)
+- les erreurs de création/rejoindre s'affichent désormais au lieu d'un chargement infini
+
+**Autres défauts trouvés et corrigés en cours de route**
+- Quitter l'écran avec un "Fait" en attente provoquait une erreur (liste modifiée pendant son parcours) — l'ancien écran "À faire" avait le défaut ; corrigé dans le nouvel accueil
+- Tri instable des tâches d'une même pièce (les lignes changeaient d'ordre à chaque mise à jour) — départage par pièce puis par nom
+- Décompte "en retard de N j" calculé en UTC pour ne pas être faussé par le passage à l'heure d'été
+
+**Test** — Pour la première fois sur ce chantier, testé sur un émulateur Android (Medium Phone API 36.1) avant envoi : création d'une maison depuis le modèle Spécial Chez nous (35 tâches avec emoji, pièce en sous-titre), "Fait" → la tâche quitte "À faire" immédiatement, barre ANNULER → la tâche revient, blocs repliables (32 / 3 / 0), fiche détail complète (fréquence, dernière fois 10/09 par TestEmu, prochaine fois 10/10, produit, astuce, "Déjà faite aujourd'hui"), Paramètres avec code et "Copier". Maison de test supprimée, émulateur arrêté.
+
+**Statut** — APK envoyé à Kinder le 2026-09-10 (s'installe par-dessus). En attente : Kinder recrée "Chez nous" avec cette version ; ensuite suppression de l'ancienne 3WS3NG.
