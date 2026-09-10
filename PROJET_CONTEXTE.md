@@ -1338,3 +1338,29 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 ## Bilan de la reconstruction Flutter (2026-09-10)
 
 Les 7 étapes prévues sont complètes : squelette + auth, accueil/tableau de bord, À faire, Pièces et tâches, Historique, Paramètres, finitions. L'app Flutter (`mobile/`) couvre toutes les fonctionnalités de la V2 web à l'exception de l'export de structure en `.json` (secondaire, non redemandé). Même Firestore, mêmes règles, même modèle de données que la V2 — les deux façades (web et Flutter) coexistent et partagent les mêmes maisons en temps réel. La V2 web (`public/v2/`) reste déployée et fonctionnelle, non modifiée par ce chantier.
+
+## 19. RETOUR D'USAGE #3 (APP FLUTTER) — démarré le 2026-09-10
+
+Retour de Kinder après test de l'APK Flutter final (§ 18). 9 points : pas d'emoji dans sa maison, historique non modifiable, impossible de cocher depuis l'accueil, "jamais faite" n'a pas de sens au lancement (une tâche est juste "à faire"), écran "À faire" redondant avec l'accueil (tout centraliser sur l'accueil en blocs repliables À faire / Fait / À venir), pas de fiche détail d'une tâche (produit/astuce), code d'invitation à déplacer dans Paramètres (garder le bandeau), impossible de supprimer une maison ou d'en avoir plusieurs, renommer le modèle foyer pilote.
+
+### Décisions actées avec Kinder le 2026-09-10
+
+- **Modèle** : "Modèle du foyer pilote" → **"Modèle Spécial Chez nous"**.
+- **Historique modifiable — LÈVE LA RÈGLE FIGÉE § 3** ("une Réalisation n'est jamais modifiée, jamais supprimée", imposée depuis V2-8 par `firestore.rules`). Désormais : une Réalisation faite par erreur **peut être supprimée** depuis l'Historique, et l'échéance de la tâche se recalcule à partir de la Réalisation précédente (ou redevient "à faire" s'il n'y en a plus). Justification : un geste de correction est indispensable en usage réel ; l'annulation de 5 secondes ne couvre pas une erreur remarquée plus tard.
+- **Supprimer une maison** : efface tout (pièces, tâches, historique, membres), après confirmation claire. Rendu possible par la décision précédente (les Réalisations étaient indélébiles).
+- **Plusieurs maisons par profil** : créer ou rejoindre une maison sans quitter l'actuelle, basculer entre elles depuis Paramètres.
+- **Nettoyage** : garder uniquement la maison officielle `329547b0…` (3WS3NG) ; les 3 doublons "Chez nous" (`14e28f14…` avec "Val", et deux maisons sans membre créées par l'app Flutter) ont été supprimés le 2026-09-10.
+- **Emoji de la vraie maison** : la maison 3WS3NG (aucun membre, aucun historique) sera **recréée par Kinder depuis son téléphone** avec le modèle Spécial Chez nous (emoji inclus), puis l'ancienne supprimée — plutôt que d'y écrire en contournant les règles Firestore (tentative bloquée par le garde-fou de Claude Code, à juste titre). Conséquence : nouveau code d'invitation, sans impact puisque personne n'avait encore rejoint 3WS3NG.
+
+### Plan en 4 étapes
+
+1. Données : emoji sur les 35 tâches du modèle, renommage du modèle
+2. Accueil centralisé : blocs repliables À faire (dues, en retard ou jamais faites — "jamais faite" disparaît comme statut affiché) / Fait (cochées aujourd'hui) / À venir ; bouton "Fait" directement sur l'accueil (annulation 5 s conservée) ; fiche détail au toucher (produit, astuce, fréquence, dernière réalisation) ; suppression de l'écran "À faire" séparé ; code d'invitation déplacé dans Paramètres, bandeau du nom de la maison conservé
+3. Historique : supprimer une Réalisation, recalcul de l'échéance, `firestore.rules` adaptées
+4. Plusieurs maisons : liste, bascule, créer/rejoindre sans quitter, supprimer une maison
+
+### Étape 1 — Emoji du modèle + renommage
+
+**Résultat obtenu** — Un emoji attribué à chacune des 35 tâches de `foyer-pilote.json` (objet désigné, même principe que le modèle générique : 🛋️ canapés, 🧊 frigo, 🚿 douche, 🚽 WC, 🧺 linge, ♻️/🗑️ poubelles, etc.), dans les deux copies (`public/v2/modeles/` et `mobile/assets/modeles/`, vérifiées identiques). Web redéployé. Bouton Flutter renommé "Modèle Spécial Chez nous".
+
+**Statut** — APK envoyé à Kinder le 2026-09-10 (même clé de signature que l'étape 7, s'installe par-dessus). En attente : Kinder recrée "Chez nous" depuis son téléphone ; ensuite suppression de l'ancienne `329547b0…` (3WS3NG).

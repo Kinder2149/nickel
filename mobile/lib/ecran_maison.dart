@@ -137,7 +137,7 @@ class _EcranMaisonState extends State<EcranMaison> {
               OutlinedButton(
                 onPressed: _enCours ? null : () => _creerDepuisModele('foyer-pilote.json', 'Chez nous (test)'),
                 style: boutonSecondaire(),
-                child: const Text('MODÈLE DU FOYER PILOTE', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+                child: const Text('MODÈLE SPÉCIAL CHEZ NOUS', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
               ),
               const SizedBox(height: 4),
               const Text('Les 35 tâches réelles de "Chez nous" — pratique pour tester.',
