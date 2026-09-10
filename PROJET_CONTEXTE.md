@@ -1319,3 +1319,22 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 - Quitter la maison → confirmation, retour à "Votre maison", impossible d'y revenir par retour Android
 
 **Statut** — `flutter analyze` propre, build release réussi (18 Mo, arm64), envoyé à Kinder pour test le 2026-09-10. Les 6 étapes prévues (routeur/écrans de base, accueil, à faire, gestion, historique, paramètres) sont complètes — reste l'étape 7 (finitions : icône, thème, build final signé) si Kinder confirme que tout fonctionne.
+
+### Étape 7 — Finitions (icône, nom, build signé)
+
+**Objectif** — Dernière étape du découpage : nom affiché "Nickel" (au lieu du nom technique "nickel_mobile"), icône de l'app (même icône que la PWA), et surtout un vrai build de release signé avec une clé propre — jusqu'ici tous les APK étaient signés avec la clé de débogage par défaut de Flutter, ce qui suffit pour tester mais n'est pas une vraie distribution.
+
+**Résultat obtenu**
+- `android:label` de `AndroidManifest.xml` : "nickel_mobile" → "Nickel"
+- Icône générée avec `flutter_launcher_icons` à partir de `public/icons/icon-512.png` (icône) et `icon-maskable-512.png` (icône adaptative, fond `#16150F`) — toutes les résolutions Android générées automatiquement
+- Nouvelle clé de signature dédiée (`android/nickel-release.keystore`, jamais dans le dépôt — voir `.gitignore`), configurée via `android/key.properties` (également hors dépôt) et câblée dans `android/app/build.gradle.kts` : le build `release` utilise désormais cette clé au lieu de la clé de débogage
+
+**Attention pour Kinder** — Le changement de clé de signature casse la compatibilité de mise à jour avec les APK précédents (étapes 1 à 6, signés avec la clé de débogage). Il faut **désinstaller l'app existante avant d'installer celle-ci**, sinon Android refuse ("conflit de signature"). Une fois cette version installée, les futures mises à jour (toujours signées avec la même clé maintenant) s'installeront normalement par-dessus.
+
+**Non traité, volontairement hors périmètre** — Publication sur le Play Store (compte développeur payant, fiche store, etc.) : pas demandé, l'app reste distribuée par APK direct comme le reste du portefeuille de projets tant qu'aucun besoin de diffusion plus large n'est exprimé.
+
+**Statut** — Build release réussi (18 Mo, arm64), signature vérifiée (`apksigner verify --print-certs` confirme le certificat "CN=Kinder, OU=Nickel, O=Nickel"), envoyé à Kinder le 2026-09-10.
+
+## Bilan de la reconstruction Flutter (2026-09-10)
+
+Les 7 étapes prévues sont complètes : squelette + auth, accueil/tableau de bord, À faire, Pièces et tâches, Historique, Paramètres, finitions. L'app Flutter (`mobile/`) couvre toutes les fonctionnalités de la V2 web à l'exception de l'export de structure en `.json` (secondaire, non redemandé). Même Firestore, mêmes règles, même modèle de données que la V2 — les deux façades (web et Flutter) coexistent et partagent les mêmes maisons en temps réel. La V2 web (`public/v2/`) reste déployée et fonctionnelle, non modifiée par ce chantier.
