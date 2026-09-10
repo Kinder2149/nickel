@@ -162,6 +162,61 @@ Future<void> creerTache(
   });
 }
 
+Stream<List<Map<String, dynamic>>> ecouterPieces(String maisonId) {
+  return _db.collection('maisons').doc(maisonId).collection('pieces').snapshots().map((snap) {
+    final pieces = snap.docs.map((d) => {'id': d.id, ...d.data()}).toList();
+    pieces.sort((a, b) => (a['nom'] as String).compareTo(b['nom'] as String));
+    return pieces;
+  });
+}
+
+/// Renomme une Pièce.
+Future<void> modifierPiece(String maisonId, String pieceId, String nom) async {
+  await _db.collection('maisons').doc(maisonId).collection('pieces').doc(pieceId).update({'nom': nom});
+}
+
+/// Supprime une Pièce. Refuse si elle contient encore des Tâches (V2-D12 :
+/// une Tâche appartient obligatoirement à une Pièce — pas de suppression en
+/// cascade silencieuse, il faut d'abord vider la pièce).
+Future<void> supprimerPiece(String maisonId, String pieceId) async {
+  final tachesSnap = await _db
+      .collection('maisons')
+      .doc(maisonId)
+      .collection('taches')
+      .where('pieceId', isEqualTo: pieceId)
+      .get();
+  if (tachesSnap.docs.isNotEmpty) {
+    throw Exception('Cette pièce contient encore des tâches. Supprimez-les d\'abord.');
+  }
+  await _db.collection('maisons').doc(maisonId).collection('pieces').doc(pieceId).delete();
+}
+
+/// Modifie une Tâche (nom, fréquence, produit, astuce, emoji). Ne touche
+/// jamais à `pieceId` : déplacer une tâche d'une pièce à l'autre est hors
+/// périmètre (comme en V2).
+Future<void> modifierTache(
+  String maisonId,
+  String tacheId, {
+  required String nom,
+  required int frequenceJours,
+  String produit = '',
+  String astuce = '',
+  String emoji = '🧹',
+}) async {
+  await _db.collection('maisons').doc(maisonId).collection('taches').doc(tacheId).update({
+    'nom': nom,
+    'frequenceJours': frequenceJours,
+    'produit': produit,
+    'astuce': astuce,
+    'emoji': emoji,
+  });
+}
+
+/// Supprime une Tâche. L'historique (Réalisations) n'est jamais touché.
+Future<void> supprimerTache(String maisonId, String tacheId) async {
+  await _db.collection('maisons').doc(maisonId).collection('taches').doc(tacheId).delete();
+}
+
 /// Enregistre qu'une tâche vient d'être faite (§ 3, règle héritée de la
 /// V1). Deux écritures indissociables : la Réalisation (jamais modifiée,
 /// jamais supprimée — c'est l'historique) et la nouvelle échéance de la

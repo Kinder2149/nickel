@@ -1107,6 +1107,8 @@ Les 8 points identifiés à l'audit du 2026-09-08 sont traités : PWA installabl
 - Rejoindre "Chez nous" avec le code `3WS3NG` sur les vrais appareils (à faire par Kinder)
 - Dette Firestore résiduelle sur la recherche par code (§ Point 5) — décision actée de ne rien changer, réévaluable si le nombre de maisons devient significatif
 
+Le périmètre des 8 points du peaufinage V2 est clos.
+
 ## 16. CORRECTIONS POST-USAGE RÉEL — démarré le 2026-09-09
 
 Après le peaufinage (§ 15), Kinder a testé l'application V2 en usage réel (notamment via un APK TWA généré en séance, coquille Android autour de la PWA — code web inchangé) et remonté 7 points concrets, plus une question de fond sur les identités. Audit fait par lecture du code (`app.js`, `donnees.js`) et vérification en base. Traités un par un, dans l'ordre convenu avec Kinder, chaque étape testée et déployée avant la suivante.
@@ -1274,4 +1276,19 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 
 **Statut** — `flutter analyze` propre, build release réussi (17,9 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.
 
-Le périmètre des 8 points du peaufinage V2 est clos.
+### Étape 4 — Pièces et tâches
+
+**Objectif** — Équivalent Flutter de `afficherEcranGestion` : créer/renommer/supprimer une pièce, créer/modifier/supprimer une tâche avec sélecteur d'emoji.
+
+**Résultat obtenu** — `lib/ecran_gestion.dart` : liste des pièces (champ + bouton "+" pour en créer une), chaque pièce affiche ses tâches (emoji, nom, fréquence, produit, astuce) avec "Renommer"/"Supprimer" pour la pièce et "Modifier"/"Supprimer" pour chaque tâche. Le formulaire tâche (création et modification, même composant `_FormulaireTache`) s'ouvre en feuille modale (plus adapté à Flutter que le formulaire inline de la V2 web) : nom, fréquence, produit, astuce, grille de 30 pictogrammes (même liste que la V2, déplacée dans `lib/palette.dart`). Fonctions `ecouterPieces`, `modifierPiece`, `supprimerPiece` (refuse si la pièce contient des tâches, même règle que V2-D12), `modifierTache`, `supprimerTache` ajoutées à `donnees.dart`. Bouton "Pièces et tâches" ajouté sur l'accueil.
+
+**Non repris (secondaire, laissé pour les finitions § 7 si besoin)** — L'export de structure en `.json` (fonctionnalité V2-D7/D8, utile surtout pour créer de nouveaux modèles de départ — pas indispensable au fonctionnement quotidien).
+
+**Critères de validation**
+- Créer une pièce → apparaît dans la liste
+- Ajouter une tâche avec emoji, produit, astuce → apparaît sous la pièce
+- Modifier une tâche → changements visibles immédiatement
+- Supprimer une pièce contenant une tâche → refusée avec message ; pièce vide → supprimée
+- Les mêmes données sont visibles côté V2 web (même Firestore)
+
+**Statut** — `flutter analyze` propre, build release réussi (18 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.

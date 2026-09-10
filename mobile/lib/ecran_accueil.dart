@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
 import 'ecran_afaire.dart';
+import 'ecran_gestion.dart';
 import 'ecran_maison.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
@@ -128,6 +129,14 @@ class _EcranAccueilState extends State<EcranAccueil> {
                 onPressed: () => _ouvrirAFaire(context),
                 style: boutonSecondaire(),
                 child: const Text('VOIR TOUTES LES TÂCHES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => EcranGestion(maisonId: widget.maisonId)),
+                ),
+                style: boutonSecondaire(),
+                child: const Text('PIÈCES ET TÂCHES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
               ),
               const SizedBox(height: 16),
               Expanded(

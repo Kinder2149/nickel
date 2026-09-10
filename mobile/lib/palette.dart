@@ -13,6 +13,16 @@ class Palette {
   static const vert = Color(0xFF2E6B4E);
 }
 
+// Liste restreinte d'emoji pour les tâches — même liste que la V2 web
+// (public/v2/js/app.js, EMOJI_TACHES), § 11 refonte visuelle.
+const emojiTaches = [
+  '🧹', '🧽', '🧴', '🪣', '🧺', '🚿', '🚽', '🪟',
+  '🪑', '🛋️', '🛏️', '🍽️', '🧊', '🔥', '🍳', '💧',
+  '🗑️', '♻️', '🧼', '🪥', '🚪', '💻', '🌿', '🐾',
+  '📦', '🚰', '🪞', '🧯', '🔌', '🛁',
+];
+const emojiParDefaut = '🧹';
+
 const couleursProfil = [
   Color(0xFFF2A65A),
   Color(0xFF5AA9E6),
