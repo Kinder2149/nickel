@@ -1292,3 +1292,16 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 - Les mêmes données sont visibles côté V2 web (même Firestore)
 
 **Statut** — `flutter analyze` propre, build release réussi (18 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.
+
+### Étape 5 — Historique
+
+**Objectif** — Équivalent Flutter de `afficherEcranHistorique` : les Réalisations groupées par jour, la plus récente en premier.
+
+**Résultat obtenu** — `lib/ecran_historique.dart` : groupement par `dateRealisation` ("Aujourd'hui"/"Hier"/date), chaque ligne affiche le jeton coloré du membre, le pictogramme de la tâche, son nom et "par [prénom]" — repli "Tâche supprimée" si la tâche n'existe plus (même comportement que V2). `ecouterRealisations()` ajoutée à `donnees.dart` (triée par `enregistreLe` décroissant, limite 100, comme en V2). Bouton "Historique" ajouté sur l'accueil.
+
+**Critères de validation**
+- Cocher une tâche (écran "À faire") → apparaît dans l'Historique sous "Aujourd'hui", avec le bon prénom et le bon emoji
+- Historique en temps réel (pas besoin de rafraîchir)
+- Visible aussi côté V2 web (même Firestore) et réciproquement
+
+**Statut** — `flutter analyze` propre, build release réussi (18 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.

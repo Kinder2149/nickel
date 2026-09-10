@@ -240,6 +240,19 @@ Future<void> enregistrerRealisation(
   });
 }
 
+/// S'abonne à l'historique d'une maison, le plus récent en premier —
+/// comme en V2 (`ecouterRealisations`, donnees.js).
+Stream<List<Map<String, dynamic>>> ecouterRealisations(String maisonId, {int limite = 100}) {
+  return _db
+      .collection('maisons')
+      .doc(maisonId)
+      .collection('realisations')
+      .orderBy('enregistreLe', descending: true)
+      .limit(limite)
+      .snapshots()
+      .map((snap) => snap.docs.map((d) => {'id': d.id, ...d.data()}).toList());
+}
+
 /// Importe une structure (pièces + tâches) depuis un modèle JSON : crée
 /// toujours une NOUVELLE maison (V2-D9, jamais de fusion). Même format que
 /// public/v2/modeles/*.json.
