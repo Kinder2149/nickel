@@ -162,6 +162,29 @@ Future<void> creerTache(
   });
 }
 
+/// Enregistre qu'une tâche vient d'être faite (§ 3, règle héritée de la
+/// V1). Deux écritures indissociables : la Réalisation (jamais modifiée,
+/// jamais supprimée — c'est l'historique) et la nouvelle échéance de la
+/// Tâche.
+Future<void> enregistrerRealisation(
+  String maisonId,
+  String tacheId,
+  String profilId,
+  String dateISO,
+  String prochaineEcheance,
+) async {
+  await _db.collection('maisons').doc(maisonId).collection('realisations').add({
+    'tacheId': tacheId,
+    'realiseParId': profilId,
+    'dateRealisation': dateISO,
+    'enregistreLe': DateTime.now().toIso8601String(),
+  });
+
+  await _db.collection('maisons').doc(maisonId).collection('taches').doc(tacheId).update({
+    'prochaineEcheance': prochaineEcheance,
+  });
+}
+
 /// Importe une structure (pièces + tâches) depuis un modèle JSON : crée
 /// toujours une NOUVELLE maison (V2-D9, jamais de fusion). Même format que
 /// public/v2/modeles/*.json.

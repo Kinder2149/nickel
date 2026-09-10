@@ -1258,4 +1258,20 @@ Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités sé
 
 **Statut** — `flutter analyze` propre, build release réussi (17,8 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.
 
+### Étape 3 — Écran "À faire" (cocher/annuler)
+
+**Objectif** — Équivalent Flutter de `afficherEcranAFaire`, avec directement le comportement corrigé du peaufinage (§ 16 point 3) : une tâche cochée quitte immédiatement sa section pour un bloc "Fait ✓" séparé, écrite en base après un délai de 5 secondes annulable, sans confirmation (geste le plus fréquent de l'app).
+
+**Résultat obtenu** — `lib/ecran_afaire.dart` : sections "En retard" (bandeau rouge), "À faire aujourd'hui", "À venir", "Jamais renseignées", plus un bloc "Fait ✓" (bandeau vert) en tête quand des tâches sont en attente d'annulation. `enregistrerRealisation()` ajoutée à `donnees.dart` (écrit la Réalisation + avance l'échéance de la Tâche, comme en V2). Le `dispose()` de l'écran force l'enregistrement des "Fait" en attente si on quitte l'écran avant les 5 secondes — équivalent du nettoyage forcé par le routeur en V2 web (§ 16 point 1), mais ici gratuit : Flutter gère nativement la pile de navigation et le bouton retour Android, pas besoin de `history.pushState` custom comme sur le web.
+
+**Navigation** — Bouton "Voir toutes les tâches" ajouté sur l'accueil (temporaire, rejoindra l'écran Paramètres à l'étape 6, comme en V2 web) ; taper une tâche du tableau de bord ouvre aussi l'écran "À faire" complet.
+
+**Critères de validation**
+- Cocher une tâche → bascule immédiatement dans "Fait ✓" avec bouton "Annuler"
+- Annuler → revient dans sa section d'origine
+- Laisser le délai s'écouler → écrite en base, disparaît de "Fait ✓", réapparaît dans "À venir" avec la nouvelle échéance
+- Cocher puis appuyer sur retour Android avant la fin du délai → enregistrement forcé, visible dans Firestore (vérifiable côté V2 web dans "Historique")
+
+**Statut** — `flutter analyze` propre, build release réussi (17,9 Mo, arm64), envoyé à Kinder pour test le 2026-09-10.
+
 Le périmètre des 8 points du peaufinage V2 est clos.

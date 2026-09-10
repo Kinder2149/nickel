@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
+import 'ecran_afaire.dart';
 import 'ecran_maison.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
@@ -10,10 +11,10 @@ import 'stockage_local.dart';
 /// `afficherEcranAccueil` (public/v2/js/app.js), déjà revu au peaufinage
 /// (§ 16 point 2, § 17 point A) : la carte de la maison + directement les
 /// tâches urgentes (en retard, jamais faites, du jour — les "jamais
-/// faites" comptent comme urgentes depuis le jour zéro). Les écrans "À
-/// faire" complet, "Pièces et tâches", "Historique" et "Paramètres"
-/// arrivent aux étapes suivantes (3 à 6) — pour l'instant le tableau de
-/// bord est en lecture seule.
+/// faites" comptent comme urgentes depuis le jour zéro). Le bouton "Voir
+/// toutes les tâches" est temporaire ici : il rejoindra un écran
+/// Paramètres à l'étape 6 (comme en V2 web, § 17 point B) — "Pièces et
+/// tâches" et "Historique" arrivent aux étapes 4 et 5.
 class EcranAccueil extends StatefulWidget {
   const EcranAccueil({super.key, required this.profil, required this.maisonId});
 
@@ -70,6 +71,12 @@ class _EcranAccueilState extends State<EcranAccueil> {
     );
   }
 
+  void _ouvrirAFaire(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => EcranAFaire(profil: widget.profil, maisonId: widget.maisonId)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_maisonIntrouvable) {
@@ -117,7 +124,18 @@ class _EcranAccueilState extends State<EcranAccueil> {
                 ),
               ),
               const SizedBox(height: 20),
-              Expanded(child: _TableauDeBord(maisonId: widget.maisonId)),
+              OutlinedButton(
+                onPressed: () => _ouvrirAFaire(context),
+                style: boutonSecondaire(),
+                child: const Text('VOIR TOUTES LES TÂCHES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: _TableauDeBord(
+                  maisonId: widget.maisonId,
+                  onTapTache: () => _ouvrirAFaire(context),
+                ),
+              ),
             ],
           ),
         ),
@@ -127,9 +145,10 @@ class _EcranAccueilState extends State<EcranAccueil> {
 }
 
 class _TableauDeBord extends StatelessWidget {
-  const _TableauDeBord({required this.maisonId});
+  const _TableauDeBord({required this.maisonId, required this.onTapTache});
 
   final String maisonId;
+  final VoidCallback onTapTache;
 
   static const _emojiParDefaut = '🧹';
 
@@ -179,6 +198,7 @@ class _TableauDeBord extends StatelessWidget {
                   final t = urgentes[index];
                   return ListTile(
                     contentPadding: EdgeInsets.zero,
+                    onTap: onTapTache,
                     leading: Container(
                       width: 44,
                       height: 44,
