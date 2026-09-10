@@ -1201,4 +1201,47 @@ Une découverte hors périmètre a été traitée au passage : deux maisons "Che
 
 **État de production** — Tout est déployé sur https://nickel-menage-57692.web.app/v2/, aucun code en attente. La V1 n'a jamais été touchée. Toutes les maisons de test créées pendant cette ronde de corrections ont été supprimées après chaque point, vérifié par lecture directe de la collection `maisons`.
 
+## 17. RETOUR D'USAGE #2 — démarré le 2026-09-10
+
+Nouveau retour de Kinder après avoir retesté l'app. Trois points, traités séparément : deux corrections concrètes ci-dessous, et une question de fond sur l'APK (§ 18, nécessitant un arbitrage avant exécution).
+
+### Point A — Tâches "jamais faites" invisibles du tableau de bord
+
+**Constat** — En important le modèle générique (ou tout modèle), toutes les tâches ont `prochaineEcheance: null` (jamais faites). Le tableau de bord (§ 16 point 2) ne comptait que "en retard" et "aujourd'hui" comme urgentes, donc affichait "Rien à faire pour l'instant" même avec 17 tâches jamais renseignées — trompeur, puisqu'une tâche sans date de début est due depuis le jour zéro.
+
+**Correctif** — Le tableau de bord inclut désormais les tâches "jamais faites" dans son calcul d'urgence, au même titre que "en retard"/"aujourd'hui" (`app.js`, écran Accueil). Le bandeau affiche par exemple "17 jamais faites" et liste les tâches concernées, cliquables vers l'écran "À faire" complet.
+
+**Statut** — Testé le 2026-09-10 : import du modèle générique (17 tâches) → tableau de bord affiche bien "17 JAMAIS FAITES" avec la liste complète, au lieu de "Rien à faire". Déployé sur https://nickel-menage-57692.web.app/v2/.
+
+### Point B — Écran d'accueil encombré, boutons "cachés" par la liste de tâches
+
+**Constat** — Kinder : avec une vraie liste de tâches à faire sur l'accueil, les boutons "Voir toutes les tâches"/"Historique"/"Pièces et tâches" et la liste des membres se retrouvent poussés en bas de l'écran, peu pratiques.
+
+**Solution (proposée par Kinder, appliquée telle quelle)** — Nouvel écran "Paramètres" (nouvelle vue du routeur, `parametres`) qui regroupe : "Voir toutes les tâches", "Historique", "Pièces et tâches", la liste des membres (avec "Retirer"), le rappel du code d'invitation, et "Quitter cette maison". L'écran d'accueil ne garde que : la carte de la maison (nom + code), un bouton discret "⚙ Paramètres", et le tableau de bord des tâches urgentes — rien d'autre ne peut plus le pousser hors de vue.
+
+**Statut** — Testé le 2026-09-10 : accueil épuré confirmé (carte maison + ⚙ Paramètres + tableau de bord), écran Paramètres accessible et fonctionnel (boutons + membres + quitter), retour Android depuis Paramètres revient bien à l'accueil (routeur du § 16 point 1 inchangé, juste un nouvel écran de plus dans la pile). Déployé sur https://nickel-menage-57692.web.app/v2/.
+
+**Découverte pendant le test, non traitée** — Une nouvelle maison "Chez nous" en double (`14e28f14…`, code `KTBMHR`, créée le 2026-09-10, 1 membre "Val") — probablement un test de Kinder. Signalée, pas supprimée sans confirmation (même règle qu'au § 16).
+
+## 18. RECONSTRUCTION FLUTTER — démarré le 2026-09-10
+
+**Décision** — L'APK actuel (§ APK TWA généré en séance le 2026-09-09) n'est qu'une coquille qui charge le site web en direct : pas une vraie application aux yeux de Kinder. Deux options posées : (a) empaqueter le même code web dans l'APK via Capacitor, sans réécriture — recommandé par Claude Code, le plus rapide ; (b) reconstruire entièrement en Flutter, comme PaperClip2/Terroir. **Kinder a choisi (b)**, explicitement, malgré le coût plus élevé — alignement avec la stack standard des autres projets mobile du portefeuille.
+
+**Ce qui ne change pas** — Firebase, Firestore, `firestore.rules`, le modèle de données (`maisons`/`membres`/`pieces`/`taches`/`realisations`), le projet `nickel-menage-57692`. Seule la façade (V2 web) est remplacée par une vraie app Flutter — le dossier `public/v2/` n'est pas touché, reste déployé et accessible tant que la reconstruction n'est pas terminée.
+
+**Découpage en 7 étapes, une testée avant la suivante** (voir conversation du 2026-09-10) : 1. squelette + auth anonyme + écran profil — 2. accueil/tableau de bord — 3. écran "À faire" — 4. Pièces et tâches — 5. Historique — 6. Paramètres — 7. finitions + build final.
+
+### Étape 1 — Squelette Flutter + authentification anonyme + écran profil
+
+**Objectif** — Prouver que l'app Flutter tourne sur un appareil réel et parle à la même base Firebase que la V2, avant de construire quoi que ce soit d'autre.
+
+**Résultat obtenu** — Nouveau dossier `mobile/` (projet Flutter, `flutter create --org com.nickelmenage --project-name nickel_mobile`), configuré avec `flutterfire configure` (nouvelle app Android enregistrée sur le projet Firebase existant `nickel-menage-57692`, `google-services.json` généré automatiquement). `lib/main.dart` : authentification anonyme au démarrage (équivalent Flutter de `assurerAuthentification()` en V2), écran "Qui êtes-vous ?" (prénom + couleur, palette reprise de la V2, enregistré localement via `shared_preferences`), puis un écran de preuve affichant l'uid Firebase et une lecture Firestore en direct de la collection `maisons` (confirme l'accès à la même base).
+
+**Critères de validation**
+- L'app se lance sur un appareil Android réel sans crash
+- Créer un profil (prénom + couleur) → écran suivant affiche l'uid et confirme la lecture Firestore
+- Fermer et rouvrir l'app → le profil est retrouvé (pas redemandé), passe directement à l'écran de preuve
+
+**Statut** — Build release réussi (`flutter build apk --release --split-per-abi`), APK arm64 (17 Mo) envoyé à Kinder pour test sur téléphone réel le 2026-09-10. Validation manuelle en attente du retour de Kinder.
+
 Le périmètre des 8 points du peaufinage V2 est clos.

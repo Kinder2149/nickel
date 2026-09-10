@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888256690555",
+    "project_id": "nickel-menage-57692",
+    "storage_bucket": "nickel-menage-57692.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888256690555:android:4fbfe7a84295406f2665de",
+        "android_client_info": {
+          "package_name": "com.nickelmenage.nickel_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0zIz2rHjvtfxV53EjwwyhtgCROkqvhDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

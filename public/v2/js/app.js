@@ -322,39 +322,30 @@ async function afficherEcranAccueil(profil, maisonId) {
         <p class="code-label">Code d'invitation</p>
         <p class="code">${maison.codeInvitation}</p>
       </div>
+      <button class="lien-texte" id="parametres" style="align-self:flex-end; margin-top:0">⚙ Paramètres</button>
 
-      <div id="tableauDeBord"></div>
-
-      <button class="bouton bouton--secondaire" id="aFaire">Voir toutes les tâches</button>
-      <button class="bouton bouton--secondaire" id="historique">Historique</button>
-      <button class="bouton bouton--secondaire" id="gerer">Pièces et tâches</button>
-      <p class="tag" style="margin-top:1.5rem">Membres</p>
-      <ul class="membres" id="membres"></ul>
-      <p class="tag" style="margin-top:0.75rem; text-transform:none; letter-spacing:normal; font-weight:400">Notez ce code quelque part : c'est lui qui vous permettra de revenir si vous changez de téléphone ou videz les données du navigateur.</p>
-      <button class="lien-texte" id="quitter">Quitter cette maison</button>
+      <div id="tableauDeBord" style="margin-top:1rem"></div>
     </div>
   `;
 
-  document.getElementById('gerer').addEventListener('click', () => {
-    naviguer('gestion', { profil, maisonId, maison });
-  });
-
-  document.getElementById('aFaire').addEventListener('click', () => {
-    naviguer('afaire', { profil, maisonId, maison });
-  });
-
-  document.getElementById('historique').addEventListener('click', () => {
-    naviguer('historique', { profil, maisonId, maison });
+  document.getElementById('parametres').addEventListener('click', () => {
+    naviguer('parametres', { profil, maisonId, maison });
   });
 
   // Tableau de bord : ce qu'il y a à faire MAINTENANT, visible sans clic
   // supplémentaire (audit du 2026-09-09 — l'accueil ne montrait avant que
-  // le nom de la maison et les membres, jamais l'état des tâches).
+  // le nom de la maison et les membres, jamais l'état des tâches). Les
+  // tâches "jamais renseignées" comptent comme urgentes au même titre que
+  // "en retard"/"aujourd'hui" : sans date de début, elles sont dues depuis
+  // le jour zéro (retour de Kinder le 2026-09-10) — avant, seules
+  // "retard"/"aujourd'hui" étaient comptées, ce qui faisait croire "rien à
+  // faire" alors qu'aucune tâche du modèle importé n'avait jamais été faite.
   const conteneurTableau = document.getElementById('tableauDeBord');
   const arreterEcouteTaches = ecouterTaches(maisonId, (taches) => {
     const enRetard = taches.filter((t) => statutTache(t) === 'retard');
+    const jamaisFaites = taches.filter((t) => statutTache(t) === 'jamais');
     const duJour = taches.filter((t) => statutTache(t) === 'aujourdhui');
-    const urgentes = [...enRetard, ...duJour];
+    const urgentes = [...enRetard, ...jamaisFaites, ...duJour];
 
     if (urgentes.length === 0) {
       conteneurTableau.innerHTML = `
@@ -365,6 +356,7 @@ async function afficherEcranAccueil(profil, maisonId) {
 
     const libelleCompte = [
       enRetard.length ? `${enRetard.length} en retard` : '',
+      jamaisFaites.length ? `${jamaisFaites.length} jamais faites` : '',
       duJour.length ? `${duJour.length} aujourd'hui` : '',
     ].filter(Boolean).join(' · ');
 
@@ -391,6 +383,44 @@ async function afficherEcranAccueil(profil, maisonId) {
     });
   });
 
+  definirNettoyage(arreterEcouteTaches);
+}
+
+// ------------------------------------------------------ écran paramètres
+
+function afficherEcranParametres(profil, maisonId, maison) {
+  ecran.innerHTML = `
+    <div class="page">
+      <button class="lien-texte" id="retour" style="margin:0 0 1rem; align-self:flex-start">← ${maison.nom}</button>
+      <h1 class="titre anton">Paramètres</h1>
+
+      <button class="bouton bouton--secondaire" id="aFaire">Voir toutes les tâches</button>
+      <button class="bouton bouton--secondaire" id="historique">Historique</button>
+      <button class="bouton bouton--secondaire" id="gerer">Pièces et tâches</button>
+
+      <p class="tag" style="margin-top:1.5rem">Membres</p>
+      <ul class="membres" id="membres"></ul>
+      <p class="tag" style="margin-top:0.75rem; text-transform:none; letter-spacing:normal; font-weight:400">Notez ce code quelque part : c'est lui qui vous permettra de revenir si vous changez de téléphone ou videz les données du navigateur.</p>
+      <button class="lien-texte" id="quitter">Quitter cette maison</button>
+    </div>
+  `;
+
+  document.getElementById('retour').addEventListener('click', () => {
+    history.back();
+  });
+
+  document.getElementById('gerer').addEventListener('click', () => {
+    naviguer('gestion', { profil, maisonId, maison });
+  });
+
+  document.getElementById('aFaire').addEventListener('click', () => {
+    naviguer('afaire', { profil, maisonId, maison });
+  });
+
+  document.getElementById('historique').addEventListener('click', () => {
+    naviguer('historique', { profil, maisonId, maison });
+  });
+
   const listeMembres = document.getElementById('membres');
   const arreterEcoute = ecouterMembres(maisonId, (membres) => {
     listeMembres.innerHTML = membres
@@ -413,10 +443,7 @@ async function afficherEcranAccueil(profil, maisonId) {
     });
   });
 
-  definirNettoyage(() => {
-    arreterEcoute();
-    arreterEcouteTaches();
-  });
+  definirNettoyage(arreterEcoute);
 
   document.getElementById('quitter').addEventListener('click', async () => {
     if (!confirm('Quitter cette maison ?')) return;
@@ -899,6 +926,7 @@ function rendreVue(etat) {
   if (vue === 'gestion') return afficherEcranGestion(params.profil, params.maisonId, params.maison);
   if (vue === 'afaire') return afficherEcranAFaire(params.profil, params.maisonId, params.maison);
   if (vue === 'historique') return afficherEcranHistorique(params.profil, params.maisonId, params.maison);
+  if (vue === 'parametres') return afficherEcranParametres(params.profil, params.maisonId, params.maison);
 }
 
 function naviguer(vue, params = {}, { remplacer = false } = {}) {
