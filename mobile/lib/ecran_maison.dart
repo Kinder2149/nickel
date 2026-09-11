@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
-import 'ecran_accueil.dart';
+import 'navigation.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
@@ -38,11 +38,9 @@ class _EcranMaisonState extends State<EcranMaison> {
 
   Future<void> _allerVersAccueil(String maisonId) async {
     final prefs = await SharedPreferences.getInstance();
-    await enregistrerMaisonIdLocal(prefs, maisonId);
+    await ajouterMaisonLocale(prefs, maisonId);
     if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => EcranAccueil(profil: widget.profil, maisonId: maisonId)),
-    );
+    await ouvrirMaisonCourante(context, widget.profil);
   }
 
   /// Sans ce garde-fou, un échec réseau ou un refus des règles Firestore
@@ -109,6 +107,11 @@ class _EcranMaisonState extends State<EcranMaison> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Ouvert depuis Paramètres ("ajouter une maison") : flèche retour pour
+      // revenir à sa maison sans rien créer.
+      appBar: Navigator.of(context).canPop()
+          ? AppBar(backgroundColor: Palette.papier, foregroundColor: Palette.encre, elevation: 0)
+          : null,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(22, 24, 22, 32),

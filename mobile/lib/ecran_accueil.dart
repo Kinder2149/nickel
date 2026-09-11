@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
-import 'ecran_maison.dart';
 import 'ecran_parametres.dart';
+import 'navigation.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
@@ -36,7 +36,6 @@ class _EcranAccueilState extends State<EcranAccueil> {
   static const _delaiAnnulation = Duration(seconds: 5);
 
   Map<String, dynamic>? _maison;
-  bool _maisonIntrouvable = false;
   String? _erreur;
 
   List<Map<String, dynamic>>? _taches;
@@ -62,12 +61,15 @@ class _EcranAccueilState extends State<EcranAccueil> {
 
   Future<void> _charger() async {
     final maison = await chargerMaison(widget.maisonId);
+    final mesMaisons = maison == null ? const [] : await chargerMesMaisons([widget.maisonId], widget.profil.id);
     if (!mounted) return;
-    if (maison == null) {
-      // Maison supprimée entre-temps : on repart de zéro.
+    if (maison == null || mesMaisons.isEmpty) {
+      // Maison supprimée par un autre membre, ou on en a été retiré : on
+      // l'oublie et on passe à la maison suivante de l'appareil, s'il y en a.
       final prefs = await SharedPreferences.getInstance();
-      await effacerMaisonIdLocal(prefs);
-      setState(() => _maisonIntrouvable = true);
+      await retirerMaisonLocale(prefs, widget.maisonId);
+      if (!mounted) return;
+      await ouvrirMaisonCourante(context, widget.profil);
       return;
     }
     setState(() => _maison = maison);
@@ -222,7 +224,6 @@ class _EcranAccueilState extends State<EcranAccueil> {
 
   @override
   Widget build(BuildContext context) {
-    if (_maisonIntrouvable) return EcranMaison(profil: widget.profil);
     if (_maison == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator(color: Palette.encre)));
     }

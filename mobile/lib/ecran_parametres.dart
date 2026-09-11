@@ -8,6 +8,7 @@ import 'donnees.dart';
 import 'ecran_gestion.dart';
 import 'ecran_historique.dart';
 import 'ecran_maison.dart';
+import 'navigation.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
@@ -35,6 +36,7 @@ class EcranParametres extends StatefulWidget {
 
 class _EcranParametresState extends State<EcranParametres> {
   List<Map<String, dynamic>> _membres = [];
+  List<Map<String, dynamic>>? _mesMaisons;
   StreamSubscription? _subMembres;
 
   @override
@@ -43,6 +45,63 @@ class _EcranParametresState extends State<EcranParametres> {
     _subMembres = ecouterMembres(widget.maisonId).listen((m) {
       if (mounted) setState(() => _membres = m);
     });
+    _chargerMesMaisons();
+  }
+
+  Future<void> _chargerMesMaisons() async {
+    final prefs = await SharedPreferences.getInstance();
+    final maisons = await chargerMesMaisons(chargerMaisonsLocales(prefs), widget.profil.id);
+    if (mounted) setState(() => _mesMaisons = maisons);
+  }
+
+  Future<void> _basculer(String maisonId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await choisirMaisonLocale(prefs, maisonId);
+    if (!mounted) return;
+    await ouvrirMaisonCourante(context, widget.profil);
+  }
+
+  Future<void> _supprimerMaison() async {
+    final confirme = await showDialog<bool>(
+      context: context,
+      builder: (contexte) => AlertDialog(
+        title: Text('Supprimer « ${widget.maisonNom} » ?'),
+        content: const Text(
+          'Tout sera effacé définitivement, pour tous les membres : pièces, tâches et historique. '
+          'Cette action est irréversible.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(contexte, false), child: const Text('Annuler')),
+          TextButton(
+            onPressed: () => Navigator.pop(contexte, true),
+            child: const Text('Supprimer définitivement', style: TextStyle(color: Palette.rouge)),
+          ),
+        ],
+      ),
+    );
+    if (confirme != true || !mounted) return;
+    await _effacerMaison();
+  }
+
+  Future<void> _effacerMaison() async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator(color: Palette.papier)),
+    );
+    try {
+      await supprimerMaison(widget.maisonId, widget.profil.id);
+      final prefs = await SharedPreferences.getInstance();
+      await retirerMaisonLocale(prefs, widget.maisonId);
+      if (!mounted) return;
+      await ouvrirMaisonCourante(context, widget.profil);
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Suppression interrompue : $e'), backgroundColor: Palette.rouge),
+      );
+    }
   }
 
   @override
@@ -67,6 +126,33 @@ class _EcranParametresState extends State<EcranParametres> {
   }
 
   Future<void> _quitter() async {
+    // Dernier membre : quitter laisserait une maison vide en base pour
+    // toujours (c'est ainsi que des doublons "Chez nous" s'étaient
+    // accumulés, § 19). Dans ce cas, quitter = supprimer, dit clairement.
+    final seulMembre = _membres.length <= 1;
+    if (seulMembre) {
+      final confirme = await showDialog<bool>(
+        context: context,
+        builder: (contexte) => AlertDialog(
+          title: Text('Quitter « ${widget.maisonNom} » ?'),
+          content: const Text(
+            'Vous êtes le seul membre : en la quittant, la maison sera supprimée définitivement, '
+            'avec ses pièces, tâches et historique.',
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(contexte, false), child: const Text('Annuler')),
+            TextButton(
+              onPressed: () => Navigator.pop(contexte, true),
+              child: const Text('Quitter et supprimer', style: TextStyle(color: Palette.rouge)),
+            ),
+          ],
+        ),
+      );
+      if (confirme != true || !mounted) return;
+      await _effacerMaison();
+      return;
+    }
+
     final confirme = await showDialog<bool>(
       context: context,
       builder: (contexte) => AlertDialog(
@@ -81,13 +167,10 @@ class _EcranParametresState extends State<EcranParametres> {
 
     await quitterMaison(widget.maisonId, widget.profil.id);
     final prefs = await SharedPreferences.getInstance();
-    await effacerMaisonIdLocal(prefs);
+    await retirerMaisonLocale(prefs, widget.maisonId);
 
     if (!mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => EcranMaison(profil: widget.profil)),
-      (route) => false,
-    );
+    await ouvrirMaisonCourante(context, widget.profil);
   }
 
   @override
@@ -131,7 +214,27 @@ class _EcranParametresState extends State<EcranParametres> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
+          const Text('Mes maisons', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+          const SizedBox(height: 4),
+          if (_mesMaisons == null)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: LinearProgressIndicator(color: Palette.encre, backgroundColor: Palette.trait),
+            )
+          else
+            for (final maison in _mesMaisons!) _ligneMaison(maison),
+          const SizedBox(height: 8),
+          OutlinedButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => EcranMaison(profil: widget.profil)),
+            ),
+            style: boutonSecondaire(),
+            child: const Text('+ AJOUTER OU REJOINDRE UNE MAISON', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+          ),
+          const SizedBox(height: 28),
+          const Text('Cette maison', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+          const SizedBox(height: 8),
           OutlinedButton(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => EcranHistorique(maisonId: widget.maisonId)),
@@ -163,7 +266,39 @@ class _EcranParametresState extends State<EcranParametres> {
               child: const Text('Quitter cette maison', style: TextStyle(color: Palette.encreDouce, decoration: TextDecoration.underline)),
             ),
           ),
+          Center(
+            child: TextButton(
+              onPressed: _supprimerMaison,
+              child: const Text('Supprimer cette maison', style: TextStyle(color: Palette.rouge, decoration: TextDecoration.underline)),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _ligneMaison(Map<String, dynamic> maison) {
+    final estAffichee = maison['id'] == widget.maisonId;
+    return InkWell(
+      onTap: estAffichee ? null : () => _basculer(maison['id'] as String),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            Icon(estAffichee ? Icons.home : Icons.home_outlined, color: estAffichee ? Palette.encre : Palette.encreFaible, size: 22),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                maison['nom'] as String,
+                style: TextStyle(fontWeight: estAffichee ? FontWeight.bold : FontWeight.w500, color: Palette.encre),
+              ),
+            ),
+            Text(
+              estAffichee ? 'affichée' : 'ouvrir ›',
+              style: TextStyle(fontSize: 12, color: estAffichee ? Palette.encreFaible : Palette.encreDouce),
+            ),
+          ],
+        ),
       ),
     );
   }

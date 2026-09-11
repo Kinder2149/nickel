@@ -74,9 +74,8 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
         final ancienId = profil.id;
         profil = Profil(id: utilisateur.uid, prenom: profil.prenom, couleur: profil.couleur);
         await enregistrerProfilLocal(prefs, profil);
-        final maisonIdExistante = chargerMaisonIdLocal(prefs);
-        if (maisonIdExistante != null) {
-          await reprendreMaison(maisonIdExistante, profil, ancienId);
+        for (final maisonId in chargerMaisonsLocales(prefs)) {
+          await reprendreMaison(maisonId, profil, ancienId);
         }
       }
 

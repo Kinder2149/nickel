@@ -1400,3 +1400,20 @@ Bouton "Fait" sur chaque tâche, avec délai d'annulation de 5 s conservé ; en 
 **Test (émulateur)** — Tâche cochée puis annulée depuis sa fiche → revient dans "À faire", bloc "Fait" vide, échéance remise à vide. Tâche recochée puis supprimée depuis l'Historique (confirmation affichée) → revient dans "À faire", l'historique ne garde aucune trace. La première suppression avait bien disparu de l'historique. Maison de test supprimée, émulateur arrêté.
 
 **Statut** — APK envoyé à Kinder le 2026-09-11 (s'installe par-dessus). Toujours en attente : recréation de "Chez nous" par Kinder (aucune nouvelle maison en base au 2026-09-11), puis suppression de l'ancienne 3WS3NG.
+
+### Étape 4 — Plusieurs maisons, supprimer une maison
+
+**Résultat obtenu**
+- Stockage local : en plus de la maison affichée (clé historique conservée, aucune perte à la mise à jour), une **liste des maisons** de l'appareil (`chargerMaisonsLocales`, `ajouterMaisonLocale`, `choisirMaisonLocale`, `retirerMaisonLocale`).
+- Paramètres : section **"Mes maisons"** (maison affichée marquée, toucher une autre pour y basculer), bouton **"+ Ajouter ou rejoindre une maison"** (ouvre l'écran "Votre maison" avec flèche retour, sans quitter l'actuelle), **"Supprimer cette maison"** (confirmation explicite : tout effacé définitivement pour tous les membres).
+- `supprimerMaison()` : efface historique, tâches, pièces, autres membres, la maison, puis sa propre fiche membre en dernier (ordre imposé par les règles Firestore : il faut rester membre tant qu'on efface), par lots.
+- `chargerMesMaisons()` : n'affiche que les maisons existantes dont on est encore membre ; à l'ouverture, une maison supprimée par un autre membre, ou dont on a été retiré, est oubliée et l'app passe à la maison suivante (plus de message d'erreur).
+- Rejoindre une maison dont on est déjà membre ne plante plus (les règles interdisent de réécrire sa fiche membre : on ne la touche pas).
+- Réinscription automatique après réinstallation (étape 2) étendue à **toutes** les maisons de l'appareil.
+- Navigation commune (`navigation.dart`, `ouvrirMaisonCourante`) : après créer / rejoindre / basculer / quitter / supprimer, on arrive sur la bonne maison avec une pile de navigation vidée (le retour Android ne ramène pas vers l'ancienne).
+
+**Ajout décidé en cours de test (proposé par Claude Code)** — Quitter une maison dont on est le **dernier membre** la supprime, avec un message explicite ("Vous êtes le seul membre : en la quittant, la maison sera supprimée définitivement…", bouton "Quitter et supprimer"). Sans ça, la maison restait vide en base pour toujours — c'est exactement ainsi que les doublons "Chez nous" sans membre s'étaient accumulés. Quand d'autres membres restent, "Quitter" garde son comportement habituel.
+
+**Test (émulateur)** — Maison A (vide) créée ; Maison B (modèle générique) ajoutée depuis Paramètres sans quitter A ; "Mes maisons" liste A et B ; bascule vers A ; retour sur B, une tâche cochée (historique non vide), puis "Supprimer cette maison" → confirmation, retour automatique sur A, B absente de la base ; "Quitter" A en étant seul membre → message "Quitter et supprimer", retour sur "Votre maison", A absente de la base. Base finale : seule la maison 3WS3NG. Émulateur arrêté.
+
+**Statut** — APK envoyé à Kinder le 2026-09-11 (s'installe par-dessus). Les 4 étapes du retour d'usage #3 sont faites. Reste en attente : recréation de "Chez nous" par Kinder (toujours aucune nouvelle maison en base au 2026-09-11), puis suppression de l'ancienne 3WS3NG.

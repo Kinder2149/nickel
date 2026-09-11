@@ -101,6 +101,11 @@ Future<Map<String, dynamic>?> rejoindreMaison(String code, Profil profil) async 
   if (resultat.docs.isEmpty) return null;
 
   final document = resultat.docs.first;
+  // Déjà membre (rejoindre une maison qu'on a déjà) : les règles
+  // interdisent de réécrire sa fiche membre, on n'y touche pas.
+  final dejaMembre = await document.reference.collection('membres').doc(profil.id).get();
+  if (dejaMembre.exists) return {'id': document.id, ...document.data()};
+
   await document.reference.collection('membres').doc(profil.id).set({
     'prenom': profil.prenom,
     'couleur': couleurVersHex(profil.couleur),
@@ -130,6 +135,48 @@ Stream<List<Map<String, dynamic>>> ecouterMembres(String maisonId) {
           return membres;
         },
       );
+}
+
+/// Les maisons de la liste locale dont ce profil est encore membre (une
+/// maison supprimée par un autre membre, ou dont on a été retiré, n'y
+/// figure plus). Ordre de la liste conservé.
+Future<List<Map<String, dynamic>>> chargerMesMaisons(List<String> ids, String profilId) async {
+  final maisons = <Map<String, dynamic>>[];
+  for (final id in ids) {
+    final maison = await _db.collection('maisons').doc(id).get();
+    if (!maison.exists) continue;
+    final membre = await maison.reference.collection('membres').doc(profilId).get();
+    if (!membre.exists) continue;
+    maisons.add({'id': maison.id, ...maison.data()!});
+  }
+  return maisons;
+}
+
+/// Supprime une maison et tout son contenu (pièces, tâches, historique,
+/// membres), décision de Kinder du 2026-09-10 (§ 19). Ordre imposé par les
+/// règles Firestore : tant qu'on efface, il faut rester membre — sa propre
+/// fiche membre est donc effacée en tout dernier.
+Future<void> supprimerMaison(String maisonId, String profilId) async {
+  final maison = _db.collection('maisons').doc(maisonId);
+
+  Future<void> viderCollection(String nom, {String? sauf}) async {
+    final docs = (await maison.collection(nom).get()).docs.where((d) => d.id != sauf).toList();
+    // Écritures groupées par paquets (limite Firestore : 500 par lot).
+    for (var i = 0; i < docs.length; i += 400) {
+      final lot = _db.batch();
+      for (final d in docs.skip(i).take(400)) {
+        lot.delete(d.reference);
+      }
+      await lot.commit();
+    }
+  }
+
+  await viderCollection('realisations');
+  await viderCollection('taches');
+  await viderCollection('pieces');
+  await viderCollection('membres', sauf: profilId);
+  await maison.delete();
+  await maison.collection('membres').doc(profilId).delete();
 }
 
 Future<void> quitterMaison(String maisonId, String profilId) async {
