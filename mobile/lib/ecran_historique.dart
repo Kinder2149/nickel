@@ -137,9 +137,41 @@ class _EcranHistoriqueState extends State<EcranHistorique> {
               ),
             ),
           ),
+          IconButton(
+            tooltip: 'Supprimer (fait par erreur)',
+            onPressed: () => _supprimer(r, tache?['nom'] as String?),
+            icon: const Icon(Icons.delete_outline, color: Palette.encreFaible, size: 20),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _supprimer(Map<String, dynamic> r, String? nomTache) async {
+    final date = (r['dateRealisation'] as String).split('-');
+    final confirme = await showDialog<bool>(
+      context: context,
+      builder: (contexte) => AlertDialog(
+        title: const Text('Supprimer cette réalisation ?'),
+        content: Text(
+          '« ${nomTache ?? 'Tâche supprimée'} » du ${date[2]}/${date[1]} sera retirée de l\'historique, '
+          'et la prochaine échéance de la tâche sera recalculée.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(contexte, false), child: const Text('Annuler')),
+          TextButton(onPressed: () => Navigator.pop(contexte, true), child: const Text('Supprimer')),
+        ],
+      ),
+    );
+    if (confirme != true) return;
+    try {
+      await supprimerRealisation(widget.maisonId, r['id'] as String, r['tacheId'] as String);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Suppression impossible : $e'), backgroundColor: Palette.rouge),
+      );
+    }
   }
 }
 

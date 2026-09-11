@@ -1389,3 +1389,14 @@ Bouton "Fait" sur chaque tâche, avec délai d'annulation de 5 s conservé ; en 
 **Test** — Pour la première fois sur ce chantier, testé sur un émulateur Android (Medium Phone API 36.1) avant envoi : création d'une maison depuis le modèle Spécial Chez nous (35 tâches avec emoji, pièce en sous-titre), "Fait" → la tâche quitte "À faire" immédiatement, barre ANNULER → la tâche revient, blocs repliables (32 / 3 / 0), fiche détail complète (fréquence, dernière fois 10/09 par TestEmu, prochaine fois 10/10, produit, astuce, "Déjà faite aujourd'hui"), Paramètres avec code et "Copier". Maison de test supprimée, émulateur arrêté.
 
 **Statut** — APK envoyé à Kinder le 2026-09-10 (s'installe par-dessus). En attente : Kinder recrée "Chez nous" avec cette version ; ensuite suppression de l'ancienne 3WS3NG.
+
+### Étape 3 — Supprimer une réalisation faite par erreur
+
+**Résultat obtenu**
+- `firestore.rules` : une Réalisation reste non modifiable, mais devient **supprimable par un membre** (`allow delete: if estMembre(maisonId)`), conformément à la levée de la règle figée décidée le 2026-09-10. Règles déployées le 2026-09-11.
+- `supprimerRealisation()` (`donnees.dart`) : efface la Réalisation et recalcule l'échéance de la tâche en une écriture groupée — dernière réalisation restante + fréquence actuelle, ou échéance vide ("à faire") s'il n'en reste aucune. Si la tâche a été supprimée entre-temps, seule la Réalisation est effacée.
+- Deux points d'accès : sur l'accueil, fiche d'une tâche faite aujourd'hui → "Finalement pas faite — annuler" (là où Kinder cherchait à revenir sur une tâche) ; dans l'Historique, icône corbeille sur chaque ligne, avec confirmation.
+
+**Test (émulateur)** — Tâche cochée puis annulée depuis sa fiche → revient dans "À faire", bloc "Fait" vide, échéance remise à vide. Tâche recochée puis supprimée depuis l'Historique (confirmation affichée) → revient dans "À faire", l'historique ne garde aucune trace. La première suppression avait bien disparu de l'historique. Maison de test supprimée, émulateur arrêté.
+
+**Statut** — APK envoyé à Kinder le 2026-09-11 (s'installe par-dessus). Toujours en attente : recréation de "Chez nous" par Kinder (aucune nouvelle maison en base au 2026-09-11), puis suppression de l'ancienne 3WS3NG.

@@ -592,8 +592,23 @@ class _EcranAccueilState extends State<EcranAccueil> {
                   style: boutonPrincipal(),
                   child: const Text('C\'EST FAIT', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
                 )
-              else
+              else ...[
                 const Text('✓ Déjà faite aujourd\'hui', textAlign: TextAlign.center, style: TextStyle(color: Palette.vert, fontWeight: FontWeight.w600)),
+                // Revenir sur une tâche cochée par erreur, sans passer par
+                // l'Historique (retour de Kinder du 2026-09-10, § 19).
+                if (derniere != null && !_enAttente.containsKey(id))
+                  TextButton(
+                    onPressed: () async {
+                      Navigator.pop(contexte);
+                      try {
+                        await supprimerRealisation(widget.maisonId, derniere['id'] as String, id);
+                      } catch (e) {
+                        if (mounted) _signaler('Annulation impossible : $e');
+                      }
+                    },
+                    child: const Text('Finalement pas faite — annuler', style: TextStyle(color: Palette.encreDouce)),
+                  ),
+              ],
             ],
           ),
         ),

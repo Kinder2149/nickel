@@ -99,9 +99,13 @@ service cloud.firestore {
         // au nom d'un autre membre (§ 3, distinction responsable/réalisateur).
         allow create: if estMembre(maisonId) &&
           request.resource.data.realiseParId == request.auth.uid;
-        // Jamais modifiée, jamais supprimée (§ 3, règle métier héritée) :
-        // désormais imposé par les règles, pas seulement par convention.
-        allow update, delete: if false;
+        // Jamais modifiée. Supprimable par un membre depuis le 2026-09-11 :
+        // la règle figée "jamais supprimée" (§ 3) a été levée par Kinder le
+        // 2026-09-10 pour pouvoir corriger une tâche cochée par erreur
+        // (PROJET_CONTEXTE.md § 19). L'échéance de la tâche est recalculée
+        // par l'application après la suppression.
+        allow update: if false;
+        allow delete: if estMembre(maisonId);
       }
     }
 

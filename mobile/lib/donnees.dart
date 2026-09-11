@@ -253,6 +253,37 @@ Future<void> enregistrerRealisation(
   await lot.commit();
 }
 
+/// Supprime une Réalisation cochée par erreur (règle figée "jamais
+/// supprimée" levée le 2026-09-10, § 19) et recalcule l'échéance de la
+/// tâche : dernière réalisation restante + fréquence actuelle, ou "à faire"
+/// (échéance vide) s'il n'en reste aucune.
+Future<void> supprimerRealisation(String maisonId, String realisationId, String tacheId) async {
+  final maison = _db.collection('maisons').doc(maisonId);
+  final tacheRef = maison.collection('taches').doc(tacheId);
+
+  final restantes = await maison.collection('realisations').where('tacheId', isEqualTo: tacheId).get();
+  String? derniereDate;
+  for (final r in restantes.docs) {
+    if (r.id == realisationId) continue;
+    final date = r.data()['dateRealisation'] as String;
+    if (derniereDate == null || date.compareTo(derniereDate) > 0) derniereDate = date;
+  }
+
+  final lot = _db.batch();
+  lot.delete(maison.collection('realisations').doc(realisationId));
+
+  // La tâche a pu être supprimée entre-temps : dans ce cas on efface
+  // seulement la Réalisation.
+  final tache = await tacheRef.get();
+  if (tache.exists) {
+    final frequence = tache.data()!['frequenceJours'] as int;
+    lot.update(tacheRef, {
+      'prochaineEcheance': derniereDate == null ? null : ajouterJours(derniereDate, frequence),
+    });
+  }
+  await lot.commit();
+}
+
 /// Réinscrit ce profil dans sa maison sous l'identifiant actuel de
 /// l'appareil quand celui-ci a changé (réinstallation avec restauration de
 /// la sauvegarde Android : le profil local revient, mais Firebase attribue
