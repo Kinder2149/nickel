@@ -1417,3 +1417,16 @@ Bouton "Fait" sur chaque tâche, avec délai d'annulation de 5 s conservé ; en 
 **Test (émulateur)** — Maison A (vide) créée ; Maison B (modèle générique) ajoutée depuis Paramètres sans quitter A ; "Mes maisons" liste A et B ; bascule vers A ; retour sur B, une tâche cochée (historique non vide), puis "Supprimer cette maison" → confirmation, retour automatique sur A, B absente de la base ; "Quitter" A en étant seul membre → message "Quitter et supprimer", retour sur "Votre maison", A absente de la base. Base finale : seule la maison 3WS3NG. Émulateur arrêté.
 
 **Statut** — APK envoyé à Kinder le 2026-09-11 (s'installe par-dessus). Les 4 étapes du retour d'usage #3 sont faites. Reste en attente : recréation de "Chez nous" par Kinder (toujours aucune nouvelle maison en base au 2026-09-11), puis suppression de l'ancienne 3WS3NG.
+
+## 20. CADRAGE NOTIFICATIONS — 2026-09-11 (non commencé)
+
+Cadrage fait avec Kinder, aucune ligne de code écrite.
+
+**Décidé**
+- **Un seul rappel quotidien**, pas une notification par tâche (35 tâches = fatigue, notifications ignorées). Contenu : « Tâches du jour : N à faire, dont M en retard » (à faire = en retard + du jour + jamais faites, même calcul que le bloc "À faire" de l'accueil).
+- **Heure choisie par chacun**, sur son téléphone (réglage local dans Paramètres, avec interrupteur pour désactiver).
+- **Rien à faire → aucune notification.**
+- **Pas de validation depuis la notification** : un rappel groupé ne peut pas se valider d'un geste sans ambiguïté, et on perdrait l'annulation de 5 s. Toucher la notification ouvre l'app sur l'accueil.
+- **Pas de notification "tâche faite par un autre membre" pour l'instant** : impossible sans serveur (Cloud Functions → passage au forfait Firebase avec carte bancaire), déjà écarté au peaufinage point 5 pour les mêmes raisons de coût/complexité. Le bloc "Fait aujourd'hui" couvre le besoin à l'ouverture de l'app. Réévaluable si le besoin se confirme.
+
+**Contrainte technique à connaître** — Pour que le compte soit juste (un autre membre a pu faire des tâches entre-temps), le téléphone relit la base en arrière-plan à l'heure choisie avant d'afficher le rappel. Android décale ces traitements pour économiser la batterie : le rappel peut arriver avec quelques minutes de retard, et certains constructeurs très agressifs (Xiaomi, Huawei…) peuvent le bloquer sans réglage manuel de l'utilisateur.
