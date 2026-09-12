@@ -1,0 +1,1521 @@
+{
+  "version": 1,
+  "securite": [
+    "Jamais d'eau de Javel mélangée à autre chose. Javel + vinaigre (ou tout acide, y compris détartrant WC) → chlore gazeux. Javel + ammoniaque (lave-vitres, certains nettoyants) → chloramines. Javel + eau oxygénée ou percarbonate → réaction violente. Même en séquence : rincer abondamment entre deux produits.",
+    "Percarbonate de soude : jamais avec un acide ni avec la Javel. Gants et lunettes. Une fois dilué, l'utiliser dans les 2 heures.",
+    "Les acides (vinaigre, acide citrique, citron) : jamais sur marbre, travertin, pierre calcaire, granit, parquet ou meuble ciré, écrans. Avec modération sur les joints en ciment, le silicone et le caoutchouc (dégradation à la longue).",
+    "Les alcalins (bicarbonate, cristaux de soude, percarbonate) : jamais sur l'aluminium nu (il noircit) ni sur le cuivre étamé.",
+    "Cristaux de soude : toujours dissoudre dans l'eau avant de verser, gants obligatoires, stocker au sec.",
+    "Acide + base = neutralisation. Mélanger vinaigre et cristaux de soude (ou bicarbonate) dans un même seau annule les deux. Les utiliser l'un après l'autre, avec rinçage entre.",
+    "Ammoniaque : gants, pièce très aérée, jamais avec Javel. À réserver aux cas où le reste a échoué.",
+    "Alcool ménager / alcool à brûler : inflammables, loin de toute flamme ou plaque chaude.",
+    "Électroménager : toujours débrancher avant de nettoyer l'intérieur (frigo, congélateur, four, micro-ondes). Ne jamais vaporiser d'eau directement sur un appareil électrique.",
+    "Textiles, cuir, bois, peintures : toujours tester sur une zone cachée.",
+    "Pastilles de lessive (dosettes lave-linge) : ne pas les détourner pour le ménage des surfaces. L'astuce virale concerne les pastilles lave-vaisselle.",
+    "Stocker tous les produits, y compris \"naturels\" et éponges mélamine, hors de portée des enfants. Aérer pendant et après."
+  ],
+  "methode": [
+    {
+      "fiabilite": "solide",
+      "titre": "Du haut vers le bas",
+      "texte": "la poussière et les gouttes tombent, on finit toujours par le sol."
+    },
+    {
+      "fiabilite": "solide",
+      "titre": "Du sec vers l'humide",
+      "texte": "dépoussiérer / aspirer avant de laver, sinon on fait de la boue."
+    },
+    {
+      "fiabilite": "solide",
+      "titre": "Du plus doux au plus fort",
+      "texte": "eau → savon → produit spécifique. On n'escalade que si nécessaire."
+    },
+    {
+      "fiabilite": "solide",
+      "titre": "Le temps de pose remplace l'huile de coude",
+      "texte": "laisser agir 10 min à une nuit évite de frotter (et de rayer)."
+    },
+    {
+      "fiabilite": "solide",
+      "titre": "Identifier la matière avant de choisir le produit",
+      "texte": "(verre ou plexiglas, inox ou alu, cuir ou simili, bois vernis ou ciré)."
+    },
+    {
+      "fiabilite": "solide",
+      "titre": "Rincer puis sécher",
+      "texte": "un résidu de produit attire la saleté, un reste d'eau laisse du calcaire."
+    },
+    {
+      "fiabilite": "solide",
+      "titre": "Traiter une tache tout de suite",
+      "texte": "fraîche, elle part presque toujours ; incrustée, beaucoup moins."
+    }
+  ],
+  "produits": [
+    {
+      "nom": "Bicarbonate de soude",
+      "famille": "Base douce + abrasif doux",
+      "sertA": "Récurer sans rayer, dégraisser léger, désodoriser",
+      "jamaisAvec": "Aluminium nu, cuivre étamé"
+    },
+    {
+      "nom": "Vinaigre blanc ménager (8–14°)",
+      "famille": "Acide",
+      "sertA": "Calcaire, tartre, vitres, désodoriser",
+      "jamaisAvec": "Javel, pierre naturelle, bois ciré, écrans, percarbonate"
+    },
+    {
+      "nom": "Acide citrique",
+      "famille": "Acide (plus fort, moins odorant)",
+      "sertA": "Tartre incrusté, WC, bouilloire",
+      "jamaisAvec": "Javel, pierre naturelle, percarbonate"
+    },
+    {
+      "nom": "Cristaux de soude",
+      "famille": "Base forte",
+      "sertA": "Graisse lourde, canalisations, filtres de hotte, linge encrassé",
+      "jamaisAvec": "Aluminium, vinaigre (neutralisation), mains nues"
+    },
+    {
+      "nom": "Percarbonate de soude",
+      "famille": "Oxydant (eau oxygénée solide)",
+      "sertA": "Blanchir, détacher, moisissure, désodoriser",
+      "jamaisAvec": "Acides, Javel. Actif dès 40 °C (idéal 60 °C)"
+    },
+    {
+      "nom": "Eau oxygénée (3 %, 10 vol.)",
+      "famille": "Oxydant liquide",
+      "sertA": "Taches organiques (sang, urine) sur blanc/matelas",
+      "jamaisAvec": "Javel. Peut décolorer les couleurs"
+    },
+    {
+      "nom": "Savon noir",
+      "famille": "Savon potassique",
+      "sertA": "Sols, dégraissage courant, pierre naturelle, cuir",
+      "jamaisAvec": "—"
+    },
+    {
+      "nom": "Savon de Marseille",
+      "famille": "Savon doux",
+      "sertA": "Cuir, textiles, taches fraîches",
+      "jamaisAvec": "—"
+    },
+    {
+      "nom": "Savon glycériné",
+      "famille": "Savon doux nourrissant",
+      "sertA": "Cuir",
+      "jamaisAvec": "—"
+    },
+    {
+      "nom": "Liquide vaisselle",
+      "famille": "Tensioactif",
+      "sertA": "Film de savon, plexiglas, graisse fraîche",
+      "jamaisAvec": "Javel en mélange non maîtrisé"
+    },
+    {
+      "nom": "Pastille lave-vaisselle",
+      "famille": "Détergent + enzymes",
+      "sertA": "Four, vitre de four, grilles, filtres",
+      "jamaisAvec": "Four à catalyse, résistances, joints"
+    },
+    {
+      "nom": "Blanc de Meudon",
+      "famille": "Craie fine, abrasif très doux",
+      "sertA": "Vitres, inox, vitro, film anti-calcaire, marbre",
+      "jamaisAvec": "Laisse un voile blanc s'il est mal rincé"
+    },
+    {
+      "nom": "Terre de Sommières / talc / farine / fécule",
+      "famille": "Absorbants",
+      "sertA": "Taches grasses et liquides sur textile et cuir",
+      "jamaisAvec": "—"
+    },
+    {
+      "nom": "Pierre d'argile",
+      "famille": "Abrasif doux savonneux",
+      "sertA": "Inox, émail, cuir (encre), joints",
+      "jamaisAvec": "Surfaces laquées ou très fragiles"
+    },
+    {
+      "nom": "Citron",
+      "famille": "Acide doux",
+      "sertA": "Calcaire léger, micro-ondes, odeurs, rouille sur textile",
+      "jamaisAvec": "Mêmes interdits que le vinaigre"
+    },
+    {
+      "nom": "Gros sel / sel fin",
+      "famille": "Abrasif + absorbant",
+      "sertA": "Fonte, planche en bois, argenterie (avec alu)",
+      "jamaisAvec": "—"
+    },
+    {
+      "nom": "Lait démaquillant / lait corporel",
+      "famille": "Nettoyant-nourrissant",
+      "sertA": "Cuir véritable",
+      "jamaisAvec": "Choisir sans alcool, sans silicone"
+    },
+    {
+      "nom": "Alcool à 70–90° / alcool ménager",
+      "famille": "Solvant",
+      "sertA": "Encre de stylo, feutre, vitres, quartz",
+      "jamaisAvec": "Flamme ; peut décolorer"
+    },
+    {
+      "nom": "Ammoniaque",
+      "famille": "Base forte volatile",
+      "sertA": "Taches très tenaces (dernier recours)",
+      "jamaisAvec": "Javel ; pièce fermée"
+    },
+    {
+      "nom": "Éponge mélamine (\"gomme magique\")",
+      "famille": "Micro-abrasif",
+      "sertA": "Traces sur murs lessivables, plinthes, semelles",
+      "jamaisAvec": "Laqué, brillant, bois non vernis, écrans, peinture non lessivable"
+    },
+    {
+      "nom": "Cendre de bois (non traité, tamisée)",
+      "famille": "Abrasif fin",
+      "sertA": "Vitre de poêle / insert",
+      "jamaisAvec": "—"
+    },
+    {
+      "nom": "Huile (lin, alimentaire)",
+      "famille": "Nourrissant",
+      "sertA": "Bois brut, planche à découper, plan de travail en bois",
+      "jamaisAvec": "—"
+    }
+  ],
+  "recettes": [
+    {
+      "nom": "Spray vinaigre",
+      "methode": "Moitié vinaigre blanc, moitié eau. Vitres, robinetterie, calcaire léger."
+    },
+    {
+      "nom": "Spray vinaigre \"qui colle\"",
+      "methode": "1 verre de vinaigre chaud + 1 cuillère à soupe de liquide vaisselle. Parois verticales entartrées."
+    },
+    {
+      "nom": "Pâte bicarbonate",
+      "methode": "Bicarbonate + un peu d'eau jusqu'à consistance de dentifrice. Four, joints, taches, émail."
+    },
+    {
+      "nom": "Crème à récurer douce",
+      "methode": "¼ de tasse de bicarbonate + 1 cuillère à soupe de savon noir (ou liquide vaisselle). Émail, évier, lavabo, baignoire."
+    },
+    {
+      "nom": "Crème à récurer très douce",
+      "methode": "2/3 de blanc de Meudon + 1/3 de savon noir. Inox, vitro, surfaces fragiles. Bien rincer (voile blanc)."
+    },
+    {
+      "nom": "Crème à récurer forte",
+      "methode": "½ verre de bicarbonate + 2 c. à s. d'argile + ¼ de verre de cristaux de soude + ½ verre de savon liquide. Joints moisis, plaques encrassées. Gants, rincer. Pas sur alu."
+    },
+    {
+      "nom": "Solution dégraissante",
+      "methode": "Eau très chaude + cristaux de soude (≈ 5 c. à s. pour une bassine). Filtres, grilles, sols très gras."
+    },
+    {
+      "nom": "Solution blanchissante",
+      "methode": "1 dose de percarbonate pour 9–10 doses d'eau chaude. Joints, linge blanc. À utiliser dans l'heure."
+    },
+    {
+      "nom": "Spray matelas / taches organiques",
+      "methode": "500 ml d'eau oxygénée 3 % + 4 c. à s. de bicarbonate + 1 goutte de liquide vaisselle."
+    }
+  ],
+  "astuces": [
+    {
+      "id": "A001",
+      "categorie": "Cuisine",
+      "sujet": "Four (émail classique)",
+      "titre": "Pâte bicarbonate",
+      "texte": "Graisse cuite sur parois, sole, porte → pâte bicarbonate + eau chaude → étaler (pinceau pour les recoins) → 30 min à une nuit → éponge humide. Un voile blanc restant part avec un spray de vinaigre, puis essuyer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A002",
+      "categorie": "Cuisine",
+      "sujet": "Four (émail classique)",
+      "titre": "Plaque très encrassée",
+      "texte": "Couvrir les zones sales de bicarbonate, remplir d'eau, au four à 100 °C jusqu'à évaporation → éponge.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A003",
+      "categorie": "Cuisine",
+      "sujet": "Four (émail classique)",
+      "titre": "Pastille lave-vaisselle \"vapeur\"",
+      "texte": "(viral) — Récipient + eau + 1 pastille au fond du four → 100 à 150 °C, 20 à 60 min → refroidissement complet avant d'ouvrir → éponge, plusieurs rinçages. Bien sur saleté légère à modérée, pas sur carbonisé. Mal rincé = odeur au prochain usage.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A004",
+      "categorie": "Cuisine",
+      "sujet": "Four (émail classique)",
+      "titre": "Pyrolyse",
+      "texte": "Nettoie les parois, ni la vitre ni les grilles.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A005",
+      "categorie": "Cuisine",
+      "sujet": "Four (émail classique)",
+      "titre": "Four à catalyse",
+      "texte": "ni pastille, ni abrasif, ni pâte grattée. Suivre la notice.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A006",
+      "categorie": "Cuisine",
+      "sujet": "Vitre du four",
+      "titre": "Pâte de pastille",
+      "texte": "Ramollir une pastille lave-vaisselle dans un peu d'eau tiède → étaler sur la face intérieure → 30 min → éponge non abrasive → chiffon humide → chiffon sec.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A007",
+      "categorie": "Cuisine",
+      "sujet": "Vitre du four",
+      "titre": "Pastille gomme",
+      "texte": "Humidifier vitre et pastille, frotter en cercles, rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A008",
+      "categorie": "Cuisine",
+      "sujet": "Vitre du four",
+      "titre": "Résidus secs",
+      "texte": "Grattoir spécial vitro ou spatule en bois. Jamais de cutter.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A009",
+      "categorie": "Cuisine",
+      "sujet": "Grilles et lèchefrite",
+      "titre": "Trempage",
+      "texte": "Baignoire ou bassine (vieille serviette au fond) + eau très chaude + 1 pastille lave-vaisselle ou une poignée de cristaux de soude → quelques heures à une nuit → brosse → rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A010",
+      "categorie": "Cuisine",
+      "sujet": "Plaque vitrocéramique / induction",
+      "titre": "Plaque vitrocéramique / induction",
+      "texte": "Résidus brûlés : grattoir vitro tenu à plat.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A011",
+      "categorie": "Cuisine",
+      "sujet": "Plaque vitrocéramique / induction",
+      "titre": "Plaque vitrocéramique / induction",
+      "texte": "Taches : pâte bicarbonate ou crème blanc de Meudon, rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A012",
+      "categorie": "Cuisine",
+      "sujet": "Plaque vitrocéramique / induction",
+      "titre": "Plaque vitrocéramique / induction",
+      "texte": "Auréoles blanches : vinaigre dilué, puis chiffon sec.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A013",
+      "categorie": "Cuisine",
+      "sujet": "Micro-ondes",
+      "titre": "Citron vapeur",
+      "texte": "Bol d'eau + jus et moitiés de citron → 3 min → porte fermée 5 min → essuyer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A014",
+      "categorie": "Cuisine",
+      "sujet": "Hotte",
+      "titre": "Filtres métal",
+      "texte": "Bassine d'eau très chaude + cristaux de soude → 30 min → brosse → rincer → sécher avant de remettre.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A015",
+      "categorie": "Cuisine",
+      "sujet": "Hotte",
+      "titre": "Filtres inox",
+      "texte": "Lave-vaisselle cycle chaud, à la verticale. Suffisant en entretien courant, pas pour un encrassement ancien.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A016",
+      "categorie": "Cuisine",
+      "sujet": "Hotte",
+      "titre": "Filtres alu (gris mat)",
+      "texte": "Noircissent au lave-vaisselle et aux cristaux : lavage main, bicarbonate + liquide vaisselle.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A017",
+      "categorie": "Cuisine",
+      "sujet": "Hotte",
+      "titre": "Filtre à charbon",
+      "texte": "Ne se lave pas : se remplace (tous les 3 à 6 mois environ).",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A018",
+      "categorie": "Cuisine",
+      "sujet": "Hotte",
+      "titre": "Carrosserie",
+      "texte": "Chiffon imbibé de vinaigre blanc.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A019",
+      "categorie": "Cuisine",
+      "sujet": "Réfrigérateur",
+      "titre": "Nettoyage complet",
+      "texte": "Débrancher, vider (glacière), sortir bacs et clayettes → eau chaude + bicarbonate (1 c. à s. pour ½ L) ou eau vinaigrée → rincer → sécher → rebrancher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A020",
+      "categorie": "Cuisine",
+      "sujet": "Réfrigérateur",
+      "titre": "Joints de porte",
+      "texte": "Brosse à dents souple + bicarbonate (ou eau vinaigrée) dans les plis, sécher. Taches noires = moisissure.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A021",
+      "categorie": "Cuisine",
+      "sujet": "Réfrigérateur",
+      "titre": "Anti-odeurs permanent",
+      "texte": "Petit pot ouvert de bicarbonate au fond, à renouveler tous les 2–3 mois.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A022",
+      "categorie": "Cuisine",
+      "sujet": "Réfrigérateur",
+      "titre": "Javel dans le frigo",
+      "texte": "déconseillée (surfaces en contact avec les aliments).",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A023",
+      "categorie": "Cuisine",
+      "sujet": "Congélateur",
+      "titre": "Dégivrage",
+      "texte": "Débrancher, vider, porte ouverte, serviettes au sol, laisser fondre (bol d'eau chaude à l'intérieur pour accélérer). Jamais de couteau pour décoller la glace.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A024",
+      "categorie": "Cuisine",
+      "sujet": "Congélateur",
+      "titre": "Lavage",
+      "texte": "1 c. à s. de bicarbonate pour 4 verres d'eau, parois et joints.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A025",
+      "categorie": "Cuisine",
+      "sujet": "Congélateur",
+      "titre": "Séchage complet",
+      "texte": "avant de rebrancher : toute humidité restante regèle immédiatement.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A026",
+      "categorie": "Cuisine",
+      "sujet": "Congélateur",
+      "titre": "Odeur tenace",
+      "texte": "Bol de marc de café ou de charbon actif quelques jours. Si l'odeur persiste : joint abîmé ou résidu dans le système d'évacuation.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A027",
+      "categorie": "Cuisine",
+      "sujet": "Plan de travail — selon la matière",
+      "titre": "Bois huilé",
+      "texte": "Quotidien : eau + savon noir ou liquide vaisselle, rincer, sécher (le bois craint l'humidité). Huiler au pinceau plusieurs fois par an.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A028",
+      "categorie": "Cuisine",
+      "sujet": "Plan de travail — selon la matière",
+      "titre": "Stratifié",
+      "texte": "Eau savonneuse, sécher. Pas d'éponge abrasive.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A029",
+      "categorie": "Cuisine",
+      "sujet": "Plan de travail — selon la matière",
+      "titre": "Quartz / composite",
+      "texte": "Eau savonneuse au quotidien. Eau vinaigrée diluée ponctuellement pour une tache ; sources divergentes, éviter acide pur et alcalins forts (ils attaquent la résine).",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A030",
+      "categorie": "Cuisine",
+      "sujet": "Plan de travail — selon la matière",
+      "titre": "Granit / pierre",
+      "texte": "pH neutre uniquement. Ni citron, ni vinaigre, ni Javel.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A031",
+      "categorie": "Cuisine",
+      "sujet": "Plan de travail — selon la matière",
+      "titre": "Inox",
+      "texte": "Eau savonneuse, microfibre dans le sens du brossage. Pierre d'argile pour l'éclat. Jamais de paille de fer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A032",
+      "categorie": "Cuisine",
+      "sujet": "Plan de travail — selon la matière",
+      "titre": "Plan de travail — selon la matière",
+      "texte": "Toujours une planche à découper, même sur quartz.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A033",
+      "categorie": "Cuisine",
+      "sujet": "Planche à découper en bois",
+      "titre": "Désinfection",
+      "texte": "Jus de citron (ou vinaigre) + gros sel, frotter, 15 min, rincer, sécher debout.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A034",
+      "categorie": "Cuisine",
+      "sujet": "Planche à découper en bois",
+      "titre": "Huilage",
+      "texte": "Sur planche propre et sèche, huile alimentaire jusqu'à saturation, 12 h avant usage. Tous les 2 à 4 mois.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A035",
+      "categorie": "Cuisine",
+      "sujet": "Planche à découper en bois",
+      "titre": "Planche à découper en bois",
+      "texte": "Jamais au lave-vaisselle (gondole, fend).",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A036",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Inox et émail — fond brûlé",
+      "texte": "Couvrir de bicarbonate + eau → ébullition quelques minutes → refroidir → frotter avec la poudre restante avant de rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A037",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Inox — traces blanches ou arc-en-ciel",
+      "texte": "Faire bouillir eau + vinaigre dedans.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A038",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Inox — éclat",
+      "texte": "Pierre d'argile ou vinaigre à la microfibre.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A039",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Fonte brute",
+      "texte": "Gros sel, rincer, sécher sur le feu, huiler légèrement. Pas de trempage long, pas de lave-vaisselle.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A040",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Antiadhésif",
+      "texte": "Trempage eau chaude savonneuse. Rien d'abrasif, pas de métal, pas de choc thermique.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A041",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Aluminium nu",
+      "texte": "Eau savonneuse ; vinaigre + eau bouilli pour les taches. Ni bicarbonate ni cristaux. Bien sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A042",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Cuivre étamé",
+      "texte": "Eau chaude et douceur uniquement.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A043",
+      "categorie": "Cuisine",
+      "sujet": "Casseroles et poêles — identifier la matière d'abord",
+      "titre": "Casseroles et poêles — identifier la matière d'abord",
+      "texte": "Javel sur une casserole : désinfecte mais ne nettoie pas, et tache l'inox.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A044",
+      "categorie": "Cuisine",
+      "sujet": "Argenterie noircie",
+      "titre": "Bain alu",
+      "texte": "Fond de bassine tapissé de papier alu (côté brillant en haut) → pièces posées au contact de l'alu → eau très chaude + 1 c. à s. de sel et 1 c. à s. de bicarbonate par litre → 5 à 10 min → rincer → sécher tout de suite. Le noir se transfère sur l'alu. Aérer (odeur soufrée).",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A045",
+      "categorie": "Cuisine",
+      "sujet": "Argenterie noircie",
+      "titre": "Argenterie noircie",
+      "texte": "Pas pour les pièces avec manche en bois, nacre, corne, pierres, ni pour l'argenterie ancienne de valeur.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A046",
+      "categorie": "Cuisine",
+      "sujet": "Argenterie noircie",
+      "titre": "Retouche",
+      "texte": "Brosse à dents + pâte bicarbonate ou citron, rincer, sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A047",
+      "categorie": "Cuisine",
+      "sujet": "Évier et canalisations",
+      "titre": "Dégraisser",
+      "texte": "2 L d'eau bouillante + 3 c. à s. de cristaux de soude dissous → verser → 1 h → rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A048",
+      "categorie": "Cuisine",
+      "sujet": "Évier et canalisations",
+      "titre": "Bicarbonate puis vinaigre puis eau bouillante",
+      "texte": "(viral) — La mousse impressionne mais les deux se neutralisent : l'effet vient surtout de l'eau bouillante. Entretien uniquement, pas pour un bouchon.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A049",
+      "categorie": "Cuisine",
+      "sujet": "Évier et canalisations",
+      "titre": "Évier inox / émail",
+      "texte": "Crème à récurer douce, rincer, sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A050",
+      "categorie": "Cuisine",
+      "sujet": "Lave-vaisselle",
+      "titre": "Lave-vaisselle",
+      "texte": "Nettoyer le filtre régulièrement.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A051",
+      "categorie": "Cuisine",
+      "sujet": "Lave-vaisselle",
+      "titre": "Lave-vaisselle",
+      "texte": "Cycle à vide le plus chaud avec cristaux de soude dans le bac.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A052",
+      "categorie": "Cuisine",
+      "sujet": "Lave-vaisselle",
+      "titre": "Lave-vaisselle",
+      "texte": "Vinaigre : ponctuellement, pas en continu (joints).",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A053",
+      "categorie": "Cuisine",
+      "sujet": "Bouilloire / cafetière",
+      "titre": "Bouilloire / cafetière",
+      "texte": "Eau + vinaigre ou acide citrique → ébullition → reposer → vider → 2 ébullitions d'eau claire.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A054",
+      "categorie": "Cuisine",
+      "sujet": "Poubelle",
+      "titre": "Poubelle",
+      "texte": "Fond de bicarbonate (ou morceaux de charbon de bois) au fond du bac sous le sac. Laver le bac à l'eau chaude + cristaux de soude.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A055",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Prévention n°1 : raclette après chaque douche",
+      "texte": ", de haut en bas.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A056",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Spray courant",
+      "texte": "Spray vinaigre 50/50 → 5 à 10 min → rincer → microfibre.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A057",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Tartre installé",
+      "texte": "Spray vinaigre \"qui colle\" → 10 à 15 min → éponge non abrasive → rincer → sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A058",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Voile de savon",
+      "texte": "Eau chaude + quelques gouttes de liquide vaisselle, éponge douce, rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A059",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Tartre très incrusté",
+      "texte": "Acide citrique dilué (5–10 %), gants, rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A060",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Film protecteur",
+      "texte": "Pâte blanc de Meudon + eau → étaler → sécher → essuyer → lustrer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A061",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi de douche en VERRE",
+      "titre": "Paroi de douche en VERRE",
+      "texte": "Dentifrice blanc : dépannage ponctuel sur petite zone.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A062",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi en PLEXIGLAS / acrylique",
+      "titre": "Paroi en PLEXIGLAS / acrylique",
+      "texte": "Liquide vaisselle + eau tiède, éponge douce.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A063",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Paroi en PLEXIGLAS / acrylique",
+      "titre": "Paroi en PLEXIGLAS / acrylique",
+      "texte": "Ni acide, ni abrasif : micro-rayures et voile définitifs.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A064",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Baignoire",
+      "titre": "Émail (fonte, acier)",
+      "texte": "Crème à récurer douce bicarbonate + savon noir. Calcaire : vinaigre, rincer au bout de ~5 min. Pas de poudre abrasive, éviter l'abus de sels de bain.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A065",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Baignoire",
+      "titre": "Acrylique",
+      "texte": "Spray vinaigre 50/50, 15 à 20 min, éponge douce. Zones très entartrées (bonde, robinet) : papier absorbant imbibé de vinaigre pur posé en cataplasme.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A066",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Baignoire",
+      "titre": "Acrylique",
+      "texte": "pas d'acétone, pas de solvants, pas d'éponge abrasive, pas d'acide fort.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A067",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Baignoire",
+      "titre": "Finition",
+      "texte": "Microfibre sèche : une surface sèche et lisse accroche moins le calcaire.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A068",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Lavabo et robinetterie",
+      "titre": "Robinets",
+      "texte": "Spray vinaigre 50/50, quelques minutes, éponge douce, rincer, microfibre sèche pour la brillance.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A069",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Lavabo et robinetterie",
+      "titre": "Mousseur / pied de robinet",
+      "texte": "Chiffon imbibé de vinaigre enroulé autour, 30 min, brosse à dents.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A070",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Lavabo et robinetterie",
+      "titre": "Robinetterie noire mate, dorée, laiton",
+      "texte": "Finition fragile : eau savonneuse seulement, vérifier la notice.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A071",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Pommeau de douche",
+      "titre": "Sac de vinaigre",
+      "texte": "noué autour du pommeau (ou pommeau dans une bassine) → 30 min à quelques heures → faire couler l'eau.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A072",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Joints de carrelage",
+      "titre": "Jaunis / tartre",
+      "texte": "Vinaigre pur 15–30 min, ou acide citrique (≈ 5 c. à s./L d'eau chaude) 1 h → brosse à dents → rincer. Avec modération sur joints ciment.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A073",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Joints de carrelage",
+      "titre": "Points noirs (moisissure)",
+      "texte": "Solution blanchissante percarbonate (eau ≥ 40 °C) → 2 h → brosse → rincer → sécher. Gants.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A074",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Joints de carrelage",
+      "titre": "Encrassement léger",
+      "texte": "Pâte bicarbonate, brosse à dents.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A075",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Joints de carrelage",
+      "titre": "Javel",
+      "texte": "Dernier recours, diluée, joints blancs, jamais mélangée.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A076",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Joints de carrelage",
+      "titre": "Silicone noirci en profondeur",
+      "texte": "Se remplace.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A077",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Joints de carrelage",
+      "titre": "Joints de carrelage",
+      "texte": "Prévention : aérer, essuyer les joints exposés.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A078",
+      "categorie": "Salle de bain et WC",
+      "sujet": "WC",
+      "titre": "Tartre",
+      "texte": "3 c. à s. d'acide citrique dans la cuvette → une nuit → brosse → chasse.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A079",
+      "categorie": "Salle de bain et WC",
+      "sujet": "WC",
+      "titre": "Taches",
+      "texte": "50 g de cristaux de soude dans ½ L d'eau chaude → 15 à 30 min → brosse.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A080",
+      "categorie": "Salle de bain et WC",
+      "sujet": "WC",
+      "titre": "Coca-Cola",
+      "texte": "Testé : aucun effet sur le tartre.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A081",
+      "categorie": "Salle de bain et WC",
+      "sujet": "Astuce d'organisation",
+      "titre": "Astuce d'organisation",
+      "texte": "Nettoyer la douche pendant la douche : la vapeur ramollit les dépôts.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A082",
+      "categorie": "Chambre et literie",
+      "sujet": "Matelas",
+      "titre": "Désodoriser",
+      "texte": "Bicarbonate saupoudré → quelques heures (au soleil si possible) → aspirer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A083",
+      "categorie": "Chambre et literie",
+      "sujet": "Matelas",
+      "titre": "Tache d'urine / transpiration / jaunie",
+      "texte": "Spray matelas (eau oxygénée + bicarbonate + goutte de liquide vaisselle) → vaporiser sans détremper → saupoudrer de bicarbonate → laisser sécher (idéalement une journée, pièce aérée) → aspirer. À faire le matin.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A084",
+      "categorie": "Chambre et literie",
+      "sujet": "Matelas",
+      "titre": "Tache de sang",
+      "texte": "Eau froide d'abord. Tenace : pâte fécule de maïs + eau oxygénée à parts égales + 1 c. de sel, laisser sécher, brosser.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A085",
+      "categorie": "Chambre et literie",
+      "sujet": "Matelas",
+      "titre": "Ammoniaque + liquide vaisselle",
+      "texte": "Efficace mais odeur forte pendant des heures, gants, aérer. Dernier recours.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A086",
+      "categorie": "Chambre et literie",
+      "sujet": "Matelas",
+      "titre": "Ne jamais détremper un matelas",
+      "texte": "(moisissure interne). Travailler en tamponnant.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A087",
+      "categorie": "Chambre et literie",
+      "sujet": "Matelas",
+      "titre": "Matelas",
+      "texte": "Prévention : protège-matelas lavable, retourner le matelas plusieurs fois par an.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A088",
+      "categorie": "Chambre et literie",
+      "sujet": "Oreillers et couette (synthétiques)",
+      "titre": "Oreillers et couette (synthétiques)",
+      "texte": "Lavables en machine domestique si l'étiquette l'autorise. Ajouter 2 balles de tennis (ou de lavage) dans le tambour pour éviter les paquets.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A089",
+      "categorie": "Chambre et literie",
+      "sujet": "Oreillers et couette (synthétiques)",
+      "titre": "Oreillers et couette (synthétiques)",
+      "texte": "Taches jaunes : pâte bicarbonate + eau oxygénée avant lavage.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A090",
+      "categorie": "Chambre et literie",
+      "sujet": "Oreillers et couette (synthétiques)",
+      "titre": "Oreillers et couette (synthétiques)",
+      "texte": "Sécher complètement (plusieurs cycles ou plein air) : un rembourrage humide moisit.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A091",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en tissu",
+      "titre": "Désodoriser / raviver",
+      "texte": "Bicarbonate saupoudré, frotter légèrement → 1 h à une nuit → aspirer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A092",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en tissu",
+      "titre": "Tache grasse",
+      "texte": "Talc, terre de Sommières ou farine → plusieurs heures → aspirer → tamponner à l'eau savonneuse.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A093",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en tissu",
+      "titre": "Tache alimentaire",
+      "texte": "Pâte 1 part bicarbonate / 2 parts eau froide → 30 min → brosse douce → chiffon humide.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A094",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en tissu",
+      "titre": "Tache de vin fraîche",
+      "texte": "Absorber, puis farine ou terre de Sommières → sécher → brosser.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A095",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en tissu",
+      "titre": "Spray rafraîchissant",
+      "texte": "1 L d'eau tiède + 1 verre de vinaigre + 1 c. à café de bicarbonate → vaporiser légèrement → brosse → sécher à l'air, hors soleil.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A096",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en tissu",
+      "titre": "Urine d'animal au vinaigre",
+      "texte": "La tache part, l'odeur reste souvent. Préférer bicarbonate sec une nuit.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A097",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Dépoussiérer",
+      "texte": "Microfibre légèrement humide chaque semaine.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A098",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Nettoyage",
+      "texte": "Eau tiède + quelques gouttes de savon glycériné ou de Marseille → chiffon bien essoré, par zones → rincer au chiffon humide → sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A099",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Doux + nourrissant",
+      "texte": "Lait démaquillant (sans alcool) + une goutte de vinaigre sur coton, cercles légers.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A100",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Nourrir",
+      "texte": "Lait corporel (sans silicone) ou lait bébé, par zones → lustrer à la chamoisine. Environ tous les 2 mois.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A101",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Tache grasse",
+      "texte": "Talc + terre de Sommières une nuit → brosser → nourrir.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A102",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Tache d'encre",
+      "texte": "Pierre d'argile sur éponge humide → rincer → sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A103",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Canapé en cuir véritable",
+      "titre": "Canapé en cuir véritable",
+      "texte": "Jamais détremper, jamais de sèche-cheveux ni de soleil direct.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A104",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Similicuir",
+      "titre": "Similicuir",
+      "texte": "Eau + liquide vaisselle doux, rincer, sécher. Pas besoin de nourrir.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A105",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Tapis et moquette",
+      "titre": "Tapis et moquette",
+      "texte": "Désodoriser : bicarbonate, quelques heures, aspirer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A106",
+      "categorie": "Salon et textiles d'ameublement",
+      "sujet": "Tapis et moquette",
+      "titre": "Tapis et moquette",
+      "texte": "Taches : mêmes méthodes que le canapé en tissu (absorbant d'abord, liquide ensuite, tamponner sans frotter).",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A107",
+      "categorie": "Meubles et bois",
+      "sujet": "Auréole blanche",
+      "titre": "Fer à repasser",
+      "texte": "Vider l'eau du fer, température basse, chiffon sec (ou très légèrement humide) sur la tache, quelques secondes, contrôler, répéter. Risque de brûler la finition si trop chaud ou trop long.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A108",
+      "categorie": "Meubles et bois",
+      "sujet": "Auréole blanche",
+      "titre": "Mayonnaise",
+      "texte": "Fine couche sur l'auréole, 30 min à une nuit sous un essuie-tout → essuyer. Peut laisser un résidu gras.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A109",
+      "categorie": "Meubles et bois",
+      "sujet": "Auréole blanche",
+      "titre": "Dentifrice blanc (non gel)",
+      "texte": "Frotter doucement en cercle, essuyer. Légèrement abrasif.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A110",
+      "categorie": "Meubles et bois",
+      "sujet": "Auréole blanche",
+      "titre": "Bois ciré, tache encore humide",
+      "texte": "Frotter avec un bouchon de liège.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A111",
+      "categorie": "Meubles et bois",
+      "sujet": "Auréole blanche",
+      "titre": "Finir",
+      "texte": "par une cire ou une huile adaptée au bois.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A112",
+      "categorie": "Meubles et bois",
+      "sujet": "Entretien courant",
+      "titre": "Bois vernis",
+      "texte": "Chiffon à peine humide, sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A113",
+      "categorie": "Meubles et bois",
+      "sujet": "Entretien courant",
+      "titre": "Bois ciré / huilé",
+      "texte": "Chiffon sec ou gant lustrant. Pas de vinaigre (dissout la cire).",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A114",
+      "categorie": "Meubles et bois",
+      "sujet": "Entretien courant",
+      "titre": "Petite rayure",
+      "texte": "Frotter une noix décortiquée : l'huile fonce et masque la marque. Sur bois foncé uniquement.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A115",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Sols",
+      "titre": "Carrelage",
+      "texte": "1 à 2 c. à s. de savon noir dans un seau d'eau chaude, pas de rinçage.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A116",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Sols",
+      "titre": "Carrelage très gras (cuisine)",
+      "texte": "Solution de cristaux de soude, balai-brosse.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A117",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Sols",
+      "titre": "Parquet vitrifié",
+      "texte": "Savon noir très dilué, serpillière très essorée.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A118",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Sols",
+      "titre": "Parquet ciré ou huilé",
+      "texte": "Pas de vinaigre.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A119",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Sols",
+      "titre": "Marbre / pierre naturelle",
+      "texte": "Savon noir, savon de Marseille, pH neutre, blanc de Meudon. Jamais d'acide.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A120",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Murs",
+      "titre": "Éponge mélamine",
+      "texte": "Humidifier, essorer, frotter légèrement et brièvement. Parfaite sur peinture lessivable et plinthes. Sur peinture mate non lessivable, elle peut lustrer ou arracher la peinture : tester.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A121",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Murs",
+      "titre": "Trace de stylo sur mur lessivable / plastique",
+      "texte": "Alcool ménager sur chiffon, tester avant.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A122",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Vitres et miroirs",
+      "titre": "Vitres et miroirs",
+      "texte": "Spray vinaigre dilué + microfibre, ou papier journal froissé.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A123",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Vitres et miroirs",
+      "titre": "Vitres et miroirs",
+      "texte": "Blanc de Meudon : pâte, sécher, essuyer, lustrer. Sans traces, mais poussiéreux à rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A124",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Vitres et miroirs",
+      "titre": "Vitres et miroirs",
+      "texte": "Écrans : ni vinaigre ni produit. Microfibre sèche.",
+      "fiabilite": "mythe"
+    },
+    {
+      "id": "A125",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Poussière",
+      "titre": "Radiateurs",
+      "texte": "Éteint et froid, chiffon au sol, aspirateur embout fin de haut en bas. Entre les ailettes : chaussette enfilée sur une spatule ou un cintre, tenue par un élastique. Poussière tenace : sèche-cheveux pour la chasser vers le bas.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A126",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Poussière",
+      "titre": "Stores",
+      "texte": "Vieille chaussette enfilée sur la main, trempée dans du vinaigre dilué, lame par lame.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A127",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Poussière",
+      "titre": "Plinthes et stores à la feuille d'assouplissant",
+      "texte": "(viral) — Attrape la poussière et laisse un film antistatique qui la repousse un temps. Produit parfumé et chimique : marche, mais pas \"naturel\".",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A128",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Poussière",
+      "titre": "Claviers, grilles d'aération",
+      "texte": "Air comprimé ou pinceau sec, jamais de liquide.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A129",
+      "categorie": "Électroménager et linge",
+      "sujet": "Lave-linge qui sent mauvais",
+      "titre": "Joint du hublot",
+      "texte": "Écarter les plis, chiffon imbibé de vinaigre (ou eau savonneuse + bicarbonate), 15 min si moisi, frotter, rincer, sécher.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A130",
+      "categorie": "Électroménager et linge",
+      "sujet": "Lave-linge qui sent mauvais",
+      "titre": "Bac à lessive",
+      "texte": "Le déclipser, nettoyer aussi le logement derrière (dépôts gras d'assouplissant), eau chaude + brosse.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A131",
+      "categorie": "Électroménager et linge",
+      "sujet": "Lave-linge qui sent mauvais",
+      "titre": "Filtre de vidange",
+      "texte": "Plusieurs fois par an : bassine dessous, dévisser, vider, rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A132",
+      "categorie": "Électroménager et linge",
+      "sujet": "Lave-linge qui sent mauvais",
+      "titre": "Cycle à vide",
+      "texte": "Une fois par mois environ : 90 °C avec un verre de vinaigre dans le tambour, ou 60 °C avec 2 à 3 c. à s. de percarbonate. Pas les deux ensemble.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A133",
+      "categorie": "Électroménager et linge",
+      "sujet": "Lave-linge qui sent mauvais",
+      "titre": "Prévention (le geste le plus efficace)",
+      "texte": "Hublot et bac entrouverts entre deux lessives, sortir le linge dès la fin, ne pas surdoser la lessive ni l'assouplissant.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A134",
+      "categorie": "Électroménager et linge",
+      "sujet": "Lave-linge qui sent mauvais",
+      "titre": "Lave-linge qui sent mauvais",
+      "texte": "Si l'odeur revient en moins d'une semaine après un nettoyage complet : siphon à sec, tuyau de vidange ou pièce interne → réparateur.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A135",
+      "categorie": "Électroménager et linge",
+      "sujet": "Fer à repasser — semelle",
+      "titre": "Semelle encrassée",
+      "texte": "Fer chaud sans vapeur passé sur du papier alu ou sur une feuille de papier recouverte de gros sel.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A136",
+      "categorie": "Électroménager et linge",
+      "sujet": "Fer à repasser — semelle",
+      "titre": "Détartrage",
+      "texte": "Suivre la notice (beaucoup de fers modernes interdisent le vinaigre dans le réservoir).",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A137",
+      "categorie": "Électroménager et linge",
+      "sujet": "Linge",
+      "titre": "Blanc grisé",
+      "texte": "1 à 2 c. à s. de percarbonate dans le tambour, 40 °C minimum (60 °C idéal).",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A138",
+      "categorie": "Électroménager et linge",
+      "sujet": "Linge",
+      "titre": "Jaunis de transpiration",
+      "texte": "D'abord lavage chaud + cristaux de soude, ensuite percarbonate. L'un après l'autre.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A139",
+      "categorie": "Poêle à bois / insert",
+      "sujet": "Poêle à bois / insert",
+      "titre": "Cendre + papier journal",
+      "texte": "Vitre tiède (jamais brûlante) : papier journal humide trempé dans de la cendre fine tamisée → frotter → renouveler la cendre dès qu'elle est saturée de suie → chiffon humide → chiffon sec.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A140",
+      "categorie": "Poêle à bois / insert",
+      "sujet": "Poêle à bois / insert",
+      "titre": "Dépôts épais",
+      "texte": "Grattoir à lame pour vitre, avec précaution.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A141",
+      "categorie": "Poêle à bois / insert",
+      "sujet": "Poêle à bois / insert",
+      "titre": "Pâte de cristaux de soude",
+      "texte": "Cristaux + un peu d'eau chaude, frotter à l'éponge, rincer.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A142",
+      "categorie": "Poêle à bois / insert",
+      "sujet": "Poêle à bois / insert",
+      "titre": "Poêle à bois / insert",
+      "texte": "Ne pas mouiller ni projeter de produit sur le joint de porte.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A143",
+      "categorie": "Poêle à bois / insert",
+      "sujet": "Poêle à bois / insert",
+      "titre": "Prévention",
+      "texte": "Bois sec (moins de 20 % d'humidité), feu vif, ne pas fermer trop tôt les arrivées d'air, ne pas surcharger. Vitre qui noircit plus vite que d'habitude → vérifier l'étanchéité du joint.",
+      "fiabilite": "solide"
+    }
+  ],
+  "detachage": [
+    {
+      "tache": "Vin rouge",
+      "methode": "Absorber, rincer à l'eau froide ; savon de Marseille frotté sur la tache ; textile épais : farine ou terre de Sommières, sécher, brosser",
+      "eviter": "Gros sel (fausse bonne idée répandue), eau chaude"
+    },
+    {
+      "tache": "Café / thé",
+      "methode": "Rincer à l'eau froide ; chiffon eau froide + vinaigre ou citron, tamponner, laver",
+      "eviter": "Eau chaude"
+    },
+    {
+      "tache": "Sang",
+      "methode": "Eau froide immédiatement ; tenace : vinaigre + eau gazeuse, ou eau oxygénée (blanc uniquement)",
+      "eviter": "Eau chaude (fixe définitivement)"
+    },
+    {
+      "tache": "Herbe",
+      "methode": "Chiffon eau froide + vinaigre, tamponner, laver",
+      "eviter": "—"
+    },
+    {
+      "tache": "Graisse / huile",
+      "methode": "Absorbant (talc, terre de Sommières, fécule) plusieurs heures → brosser → liquide vaisselle pur → laver",
+      "eviter": "Eau seule"
+    },
+    {
+      "tache": "Stylo bille",
+      "methode": "Chiffon sous le tissu, tamponner à l'alcool à 70°, absorber, répéter ; alternative : lait (tissus délicats), glycérine",
+      "eviter": "Acétone (dissout les couleurs), frotter"
+    },
+    {
+      "tache": "Feutre",
+      "methode": "Coton : alcool à 90° ; synthétique : vinaigre ; tremper dans du lait 15 min",
+      "eviter": "Eau chaude"
+    },
+    {
+      "tache": "Cire de bougie",
+      "methode": "Laisser durcir (glaçon), gratter l'excès, papier absorbant dessus et dessous, fer tiède : le papier boit la cire",
+      "eviter": "Frotter la cire molle"
+    },
+    {
+      "tache": "Chewing-gum",
+      "methode": "Vêtement au congélateur (ou glaçon dessus), gratter avec un couteau à bout rond",
+      "eviter": "Tirer à chaud"
+    },
+    {
+      "tache": "Rouille",
+      "methode": "Jus de citron + sel fin, laisser agir (au soleil pour le blanc), rincer",
+      "eviter": "Javel (fonce la rouille)"
+    },
+    {
+      "tache": "Transpiration",
+      "methode": "Lavage chaud + cristaux de soude, puis percarbonate",
+      "eviter": "—"
+    },
+    {
+      "tache": "Rouge à lèvres",
+      "methode": "Laque à cheveux, chiffon humide, laver",
+      "eviter": "—"
+    },
+    {
+      "tache": "Urine (textile)",
+      "methode": "Rincer à l'eau froide, pâte bicarbonate + eau oxygénée (blanc), laver",
+      "eviter": "Vinaigre seul (l'odeur reste)"
+    }
+  ],
+  "mythes": [
+    {
+      "astuce": "Coca dans les WC",
+      "fiabilite": "mythe",
+      "pourquoi": "Aucun effet mesurable sur le tartre"
+    },
+    {
+      "astuce": "Gros sel sur une tache de vin",
+      "fiabilite": "mythe",
+      "pourquoi": "Erreur répandue ; eau froide et savon font mieux"
+    },
+    {
+      "astuce": "Vinaigre + cristaux de soude dans le même seau",
+      "fiabilite": "mythe",
+      "pourquoi": "Neutralisation : eau salée qui mousse"
+    },
+    {
+      "astuce": "Bicarbonate + vinaigre \"qui mousse\"",
+      "fiabilite": "limites",
+      "pourquoi": "Spectaculaire, mais les deux s'annulent ; l'un après l'autre"
+    },
+    {
+      "astuce": "Pastille lave-vaisselle dans le four",
+      "fiabilite": "limites",
+      "pourquoi": "Entretien oui, carbonisé non, catalyse jamais"
+    },
+    {
+      "astuce": "Pastilles de lessive (lave-linge) pour le ménage",
+      "fiabilite": "mythe",
+      "pourquoi": "Détournement non prévu ; l'astuce concerne le lave-vaisselle"
+    },
+    {
+      "astuce": "\"Le vinaigre nettoie tout\"",
+      "fiabilite": "limites",
+      "pourquoi": "Faux sur marbre, pierre, bois ciré, écrans, silicone à long terme"
+    },
+    {
+      "astuce": "Mélanges maison avec Javel",
+      "fiabilite": "mythe",
+      "pourquoi": "Gaz toxique selon ce qu'on ajoute"
+    },
+    {
+      "astuce": "Vinaigre sur l'urine d'animal",
+      "fiabilite": "limites",
+      "pourquoi": "La tache part, pas l'odeur"
+    },
+    {
+      "astuce": "Pyrolyse = four propre",
+      "fiabilite": "limites",
+      "pourquoi": "Ni vitre ni grilles"
+    },
+    {
+      "astuce": "Mayonnaise / fer sur auréole de bois",
+      "fiabilite": "limites",
+      "pourquoi": "Marche sur auréole blanche ; risque de brûlure ou de résidu gras"
+    },
+    {
+      "astuce": "Éponge mélamine partout",
+      "fiabilite": "limites",
+      "pourquoi": "Micro-abrasive : raye le brillant, abîme peintures non lessivables"
+    },
+    {
+      "astuce": "Feuille d'assouplissant anti-poussière",
+      "fiabilite": "limites",
+      "pourquoi": "Efficace, mais chimique et parfumé"
+    },
+    {
+      "astuce": "Bain alu + bicarbonate pour l'argenterie",
+      "fiabilite": "solide",
+      "pourquoi": "Réaction électrochimique réelle ; pas sur pièces fragiles"
+    },
+    {
+      "astuce": "Raclette après chaque douche",
+      "fiabilite": "solide",
+      "pourquoi": "Le geste le plus rentable contre le calcaire"
+    },
+    {
+      "astuce": "Hublot du lave-linge laissé ouvert",
+      "fiabilite": "solide",
+      "pourquoi": "Le geste le plus rentable contre les odeurs"
+    }
+  ]
+}

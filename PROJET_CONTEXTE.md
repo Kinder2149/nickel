@@ -1444,3 +1444,21 @@ Cadrage fait avec Kinder, aucune ligne de code écrite.
 **Tests (émulateur)** — Activation → l'autorisation Android est bien demandée ; bouton de test → notification « Tâches du jour — 17 à faire » ; appui sur la notification → ouvre l'app ; maison sans tâche → message "Rien à faire aujourd'hui : aucun rappel ne serait envoyé", aucune notification ; travail programmé vérifié dans le planificateur Android à l'heure exacte choisie. À noter : Android refuse de déclencher un travail périodique avant son heure, même forcé (`cmd jobscheduler run -f`) — la vérification de bout en bout se fait donc en réglant l'heure à quelques minutes.
 
 **Vérification de bout en bout (2026-09-12)** — Rappel réglé à 8:30, app en arrière-plan : la notification « Tâches du jour » s'est affichée seule entre 8:31 et 8:34, sans que l'application soit ouverte. Le réveil en arrière-plan, la relecture de la base et l'affichage fonctionnent donc réellement, avec le décalage de quelques minutes annoncé. Maisons de test supprimées.
+
+## 21. BIBLIOTHÈQUE D'ASTUCES — 2026-09-12
+
+Kinder a rassemblé une bibliothèque d'astuces ménage (`astuces_menage_bibliotheque.md`, matière brute : sécurité, produits, recettes, astuces par pièce, détachage, mythes). Constat partagé : une bonne moitié de ce savoir ne se rattache à aucune fréquence (une poêle brûlée, une tache de vin, une odeur de lave-linge arrivent quand elles arrivent) et n'avait donc nulle part où vivre — les champs "produit" et "astuce" d'une tâche récurrente ne couvrent que l'entretien courant.
+
+**Décisions**
+- **Deux portes** : l'accueil (tâches) reste la vitrine, les astuces sont un second onglet. L'app reste une app pour *faire*, pas une encyclopédie.
+- **Astuces embarquées dans l'app**, pas dans Firestore : contenu éditorial identique pour toutes les maisons, qui fonctionne hors connexion, ne coûte rien et se met à jour avec une nouvelle version de l'app. Firestore reste réservé à ce qui appartient au foyer.
+- **Les niveaux de fiabilité sont conservés**, y compris les fausses bonnes idées : savoir que le Coca ne fait rien au tartre a autant de valeur qu'une astuce qui marche.
+- **La sécurité est mise en avant**, pas enterrée : bouton rouge en tête de la bibliothèque.
+
+**Réalisation** — Conversion du Markdown en données (`mobile/assets/astuces/bibliotheque.json`, 54 Ko, script de conversion jetable dans le bac à sable) : 143 astuces, 22 produits, 9 recettes, 13 fiches de détachage, 16 fausses bonnes idées, 12 règles de sécurité, 7 principes de méthode. Le détachage et les fausses bonnes idées deviennent des astuces comme les autres au chargement (`lib/astuces.dart`) : une seule liste, une seule recherche. Écran `lib/ecran_astuces.dart` (recherche, filtres par catégorie, fiche en feuille modale, pages Sécurité et Produits/Recettes/Méthode) et `lib/ecran_racine.dart` (les deux onglets, en `IndexedStack` pour qu'un aller-retour ne recharge pas la maison ni n'interrompe un "Fait" en attente).
+
+**Recherche** — Insensible aux accents et à la casse, avec un classement par pertinence : mot entier dans le titre, puis sous-chaîne dans le titre, puis dans le texte. Sans ce classement, chercher "vin" remontait d'abord toutes les astuces au vinaigre.
+
+**Tests (émulateur)** — Les deux onglets s'affichent, l'accueil est inchangé ; la bibliothèque liste les 143 astuces avec leur marqueur de fiabilité (vert / gris / rouge) ; "vin" remonte bien « Tache de vin fraîche », « Tache de vin rouge » et la fausse bonne idée du gros sel avant les astuces au vinaigre ; la fiche affiche méthode, à éviter et fiabilité ; la page Sécurité s'ouvre avec son bandeau rouge et les 12 règles. Maison de test supprimée.
+
+**Reste à faire (non commencé)** — Lien entre une tâche et sa fiche d'astuce (« Nettoyer l'intérieur du four » → fiche Four), et enrichissement des produits/astuces du modèle à partir de la bibliothèque. Le fichier révèle aussi des tâches récurrentes absentes du modèle (filtre de hotte, cycle de lave-linge à vide, filtre de vidange, planche à huiler, matelas à retourner) — à traiter avec la refonte du modèle (§ 19, reportée à la demande de Kinder).

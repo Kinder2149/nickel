@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
-import 'ecran_accueil.dart';
 import 'ecran_maison.dart';
 import 'ecran_profil.dart';
+import 'ecran_racine.dart';
 import 'firebase_options.dart';
 import 'notifications.dart';
 import 'palette.dart';
@@ -103,7 +103,7 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
       }
 
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => EcranAccueil(profil: profilActuel, maisonId: maisonId)),
+        MaterialPageRoute(builder: (_) => EcranRacine(profil: profilActuel, maisonId: maisonId)),
       );
     } catch (e) {
       setState(() => _erreur = e.toString());

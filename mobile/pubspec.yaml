@@ -74,6 +74,7 @@ flutter:
   assets:
     - assets/modeles/generique.json
     - assets/modeles/foyer-pilote.json
+    - assets/astuces/bibliotheque.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
