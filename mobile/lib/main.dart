@@ -8,12 +8,17 @@ import 'ecran_accueil.dart';
 import 'ecran_maison.dart';
 import 'ecran_profil.dart';
 import 'firebase_options.dart';
+import 'notifications.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initialiserNotifications();
+  // Le rappel est réinstallé à chaque démarrage : ça le remet en place après
+  // une réinstallation, une mise à jour ou un redémarrage du téléphone.
+  await appliquerReglageRappel();
   runApp(const NickelApp());
 }
 

@@ -16,6 +16,22 @@ const _cleProfilCouleur = 'nickel-profil-couleur';
 const _cleMaisonId = 'nickel-maison-id';
 const _cleMaisons = 'nickel-maisons';
 
+// Rappel quotidien (§ 20) : réglage propre à cet appareil, pas partagé
+// avec les autres membres de la maison.
+const _cleRappelActif = 'nickel-rappel-actif';
+const _cleRappelHeure = 'nickel-rappel-heure'; // "HH:mm"
+
+bool rappelActif(SharedPreferences prefs) => prefs.getBool(_cleRappelActif) ?? false;
+
+/// Heure du rappel, "HH:mm". 19:00 par défaut : en fin de journée, on sait
+/// ce qui a été fait et il reste du temps pour agir.
+String rappelHeure(SharedPreferences prefs) => prefs.getString(_cleRappelHeure) ?? '19:00';
+
+Future<void> enregistrerRappel(SharedPreferences prefs, {required bool actif, required String heure}) async {
+  await prefs.setBool(_cleRappelActif, actif);
+  await prefs.setString(_cleRappelHeure, heure);
+}
+
 Future<void> enregistrerProfilLocal(SharedPreferences prefs, Profil profil) async {
   await prefs.setString(_cleProfilId, profil.id);
   await prefs.setString(_cleProfilPrenom, profil.prenom);

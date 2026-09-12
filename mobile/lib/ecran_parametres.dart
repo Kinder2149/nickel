@@ -9,6 +9,7 @@ import 'ecran_gestion.dart';
 import 'ecran_historique.dart';
 import 'ecran_maison.dart';
 import 'navigation.dart';
+import 'notifications.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
@@ -38,14 +39,81 @@ class _EcranParametresState extends State<EcranParametres> {
   List<Map<String, dynamic>> _membres = [];
   List<Map<String, dynamic>>? _mesMaisons;
   StreamSubscription? _subMembres;
+  bool _rappelActif = false;
+  String _rappelHeure = '19:00';
 
   @override
   void initState() {
     super.initState();
+    _chargerRappel();
     _subMembres = ecouterMembres(widget.maisonId).listen((m) {
       if (mounted) setState(() => _membres = m);
     });
     _chargerMesMaisons();
+  }
+
+  Future<void> _chargerRappel() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _rappelActif = rappelActif(prefs);
+      _rappelHeure = rappelHeure(prefs);
+    });
+  }
+
+  Future<void> _changerRappel({bool? actif, String? heure}) async {
+    final nouvelActif = actif ?? _rappelActif;
+    final nouvelleHeure = heure ?? _rappelHeure;
+
+    if (nouvelActif && !_rappelActif) {
+      final autorise = await demanderAutorisationNotifications();
+      if (!autorise) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Notifications refusées. Autorisez-les dans les réglages Android pour recevoir le rappel.'),
+            backgroundColor: Palette.rouge,
+          ),
+        );
+        return;
+      }
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    await enregistrerRappel(prefs, actif: nouvelActif, heure: nouvelleHeure);
+    await appliquerReglageRappel();
+    if (!mounted) return;
+    setState(() {
+      _rappelActif = nouvelActif;
+      _rappelHeure = nouvelleHeure;
+    });
+  }
+
+  Future<void> _choisirHeure() async {
+    final parties = _rappelHeure.split(':').map(int.parse).toList();
+    final choisie = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: parties[0], minute: parties[1]),
+    );
+    if (choisie == null) return;
+    final heure = '${choisie.hour.toString().padLeft(2, '0')}:${choisie.minute.toString().padLeft(2, '0')}';
+    await _changerRappel(heure: heure);
+  }
+
+  /// Affiche tout de suite le rappel tel qu'il serait envoyé ce soir —
+  /// sans attendre l'heure choisie, et sans rien programmer.
+  Future<void> _testerRappel() async {
+    final autorise = await demanderAutorisationNotifications();
+    if (!autorise) return;
+    final compte = await compterTachesDuJour();
+    if (!mounted) return;
+    if (compte == null || compte.aFaire == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Rien à faire aujourd\'hui : aucun rappel ne serait envoyé.')),
+      );
+      return;
+    }
+    await afficherRappel(compte.aFaire, compte.enRetard);
   }
 
   Future<void> _chargerMesMaisons() async {
@@ -232,6 +300,42 @@ class _EcranParametresState extends State<EcranParametres> {
             style: boutonSecondaire(),
             child: const Text('+ AJOUTER OU REJOINDRE UNE MAISON', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
           ),
+          const SizedBox(height: 28),
+          const Text('Rappel quotidien', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            activeThumbColor: Palette.papier,
+            activeTrackColor: Palette.encre,
+            value: _rappelActif,
+            onChanged: (v) => _changerRappel(actif: v),
+            title: const Text('Me rappeler les tâches du jour', style: TextStyle(color: Palette.encre)),
+            subtitle: const Text(
+              'Une seule notification par jour. Aucune si rien n\'est à faire.',
+              style: TextStyle(fontSize: 12, color: Palette.encreFaible),
+            ),
+          ),
+          if (_rappelActif) ...[
+            InkWell(
+              onTap: _choisirHeure,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    const Icon(Icons.schedule, size: 20, color: Palette.encreDouce),
+                    const SizedBox(width: 12),
+                    const Expanded(child: Text('Heure du rappel', style: TextStyle(color: Palette.encre))),
+                    Text(_rappelHeure, style: const TextStyle(fontWeight: FontWeight.bold, color: Palette.encre)),
+                    const SizedBox(width: 6),
+                    const Text('modifier ›', style: TextStyle(fontSize: 12, color: Palette.encreDouce)),
+                  ],
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: _testerRappel,
+              child: const Text('Voir ce que ça donne maintenant', style: TextStyle(color: Palette.encreDouce)),
+            ),
+          ],
           const SizedBox(height: 28),
           const Text('Cette maison', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
           const SizedBox(height: 8),

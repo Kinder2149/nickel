@@ -220,6 +220,14 @@ Future<void> creerTache(
   });
 }
 
+/// Lecture ponctuelle des tâches (pas un abonnement) — utilisée par le
+/// rappel quotidien, qui se réveille en arrière-plan, lit une fois et se
+/// rendort.
+Future<List<Map<String, dynamic>>> lireTaches(String maisonId) async {
+  final snap = await _db.collection('maisons').doc(maisonId).collection('taches').get();
+  return snap.docs.map((d) => {'id': d.id, ...d.data()}).toList();
+}
+
 Stream<List<Map<String, dynamic>>> ecouterPieces(String maisonId) {
   return _db.collection('maisons').doc(maisonId).collection('pieces').snapshots().map((snap) {
     final pieces = snap.docs.map((d) => {'id': d.id, ...d.data()}).toList();

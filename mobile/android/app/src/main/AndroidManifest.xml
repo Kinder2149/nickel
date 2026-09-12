@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Rappel quotidien des tâches (§ 20) : demandé à l'utilisateur au
+         moment où il active le rappel, pas au premier lancement. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:label="Nickel"
         android:name="${applicationName}"
