@@ -1462,3 +1462,39 @@ Kinder a rassemblé une bibliothèque d'astuces ménage (`astuces_menage_bibliot
 **Tests (émulateur)** — Les deux onglets s'affichent, l'accueil est inchangé ; la bibliothèque liste les 143 astuces avec leur marqueur de fiabilité (vert / gris / rouge) ; "vin" remonte bien « Tache de vin fraîche », « Tache de vin rouge » et la fausse bonne idée du gros sel avant les astuces au vinaigre ; la fiche affiche méthode, à éviter et fiabilité ; la page Sécurité s'ouvre avec son bandeau rouge et les 12 règles. Maison de test supprimée.
 
 **Reste à faire (non commencé)** — Lien entre une tâche et sa fiche d'astuce (« Nettoyer l'intérieur du four » → fiche Four), et enrichissement des produits/astuces du modèle à partir de la bibliothèque. Le fichier révèle aussi des tâches récurrentes absentes du modèle (filtre de hotte, cycle de lave-linge à vide, filtre de vidange, planche à huiler, matelas à retourner) — à traiter avec la refonte du modèle (§ 19, reportée à la demande de Kinder).
+
+---
+
+## 22. MISSIONS EN ATTENTE — cadrage 2026-09-27
+
+Reprise après pause. Aucune ligne de code écrite depuis le § 21 (2026-09-12). Inventaire des missions ouvertes, remises dans l'ordre : d'abord ce qui bloque la validation du terrain, ensuite le code déjà cadré mais pas commencé.
+
+**Règle rappelée** : une mission à la fois, testée avant de passer à la suivante.
+
+### Mission A — Vérifications terrain (Kinder, pas de code)
+
+Bloque la clôture de la reconstruction Flutter (§ 18-19). Deux actions dues depuis le 2026-09-10/11, statut inconnu au 2026-09-27 :
+1. Recréer "Chez nous" depuis le téléphone avec la dernière version de l'app, confirmer qu'elle apparaît en base, puis supprimer l'ancienne maison `329547b0…` (code 3WS3NG).
+2. Installation sur les 3 téléphones Android + test de synchronisation à deux téléphones réels (un coche, l'autre voit disparaître) — seul test qui vérifie réellement Firestore en conditions réelles, jamais fait avec la version Flutter.
+
+**Première question au retour de pause** : ces deux points ont-ils été faits pendant la coupure ? Leur statut conditionne si la Mission B est prioritaire ou si on rouvre d'abord une correction terrain.
+
+### Mission B — Lier une tâche à sa fiche d'astuce
+
+Cadrée au § 21, pas commencée. Faire correspondre une tâche du modèle (ex. « Nettoyer l'intérieur du four ») à une fiche de `bibliotheque.json` (ex. fiche Four), accessible depuis la fiche détail de la tâche (§ 19 étape 2).
+
+**Reste à décider avant exécution** : comment associer tâche ↔ astuce (référence par identifiant explicite dans le modèle, ou correspondance par mot-clé/titre) — à trancher avec Claude avant d'écrire du code.
+
+### Mission C — Enrichir produits/astuces du modèle
+
+Cadrée au § 21, pas commencée. Reprendre les champs `produit`/`astuce` des 35 tâches du modèle Spécial Chez nous à partir du contenu de `bibliotheque.json`, plus complet que la saisie d'origine.
+
+### Mission D — Refonte du modèle de tâches
+
+Reportée par Kinder (§ 19, § 21). La bibliothèque d'astuces révèle des tâches récurrentes absentes du modèle : filtre de hotte, cycle de lave-linge à vide, filtre de vidange, planche à huiler, matelas à retourner. Pas de date de reprise fixée — à ouvrir seulement si Kinder relance ce point.
+
+### Ordre proposé
+
+Mission A (vérification terrain) → Mission B (lien astuce) → Mission C (enrichissement modèle) → Mission D (refonte modèle, en attente de relance).
+
+Justification : A n'est pas du code mais conditionne si la base Flutter est réellement validée avant d'ajouter de nouvelles fonctionnalités ; B et C sont des extensions déjà cadrées et petites ; D est explicitement en attente, sans date.
