@@ -1498,3 +1498,11 @@ Reportée par Kinder (§ 19, § 21). La bibliothèque d'astuces révèle des tâ
 Mission A (vérification terrain) → Mission B (lien astuce) → Mission C (enrichissement modèle) → Mission D (refonte modèle, en attente de relance).
 
 Justification : A n'est pas du code mais conditionne si la base Flutter est réellement validée avant d'ajouter de nouvelles fonctionnalités ; B et C sont des extensions déjà cadrées et petites ; D est explicitement en attente, sans date.
+
+**Confirmé par Kinder le 2026-09-27** : la Mission A n'a pas été faite pendant la pause. C'est donc la mission active à la reprise, avant tout code — les Missions B et C restent cadrées mais ne démarrent pas tant que A n'est pas close.
+
+**Mission active — Mission A, deux actions dues, dans l'ordre :**
+1. Depuis le téléphone de Kinder : recréer "Chez nous" avec le modèle Spécial Chez nous (emoji inclus), vérifier qu'elle apparaît en base Firestore, puis supprimer l'ancienne maison `329547b0…` (code 3WS3NG).
+2. Installer l'APK sur les 3 téléphones (Val, Sam, Yo) et vérifier la synchronisation en temps réel entre deux d'entre eux (un coche une tâche, l'autre la voit disparaître en quelques secondes).
+
+Rien à exécuter côté Claude Code ici : ce sont des actions manuelles de Kinder sur les téléphones réels. Prochain point avec Claude Code : une fois ces deux actions faites et confirmées, cadrage de la Mission B (lien tâche ↔ fiche d'astuce).
