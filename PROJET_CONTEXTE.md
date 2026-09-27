@@ -1506,3 +1506,16 @@ Justification : A n'est pas du code mais conditionne si la base Flutter est rée
 2. Installer l'APK sur les 3 téléphones (Val, Sam, Yo) et vérifier la synchronisation en temps réel entre deux d'entre eux (un coche une tâche, l'autre la voit disparaître en quelques secondes).
 
 Rien à exécuter côté Claude Code ici : ce sont des actions manuelles de Kinder sur les téléphones réels. Prochain point avec Claude Code : une fois ces deux actions faites et confirmées, cadrage de la Mission B (lien tâche ↔ fiche d'astuce).
+
+---
+
+## CLÔTURE DE SESSION — 2026-09-27
+
+**Aucun code touché dans cette session.** Travail fait : cadrage et documentation uniquement (§ 22 ci-dessus). Repo propre, tout poussé sur `origin/main`, une seule branche, rien en attente de fusion.
+
+**Pour reprendre demain, dans l'ordre :**
+1. Vérifier si Kinder a fait la Mission A pendant la nuit/journée (recréation "Chez nous" + suppression 3WS3NG, installation + test synchro sur les 3 téléphones).
+2. Si Mission A faite → cadrer la Mission B avec Claude (comment associer une tâche à sa fiche d'astuce) avant d'écrire du code.
+3. Si Mission A pas faite → ne pas avancer sur B/C : relancer Kinder sur ces vérifications, elles conditionnent la validation de toute la reconstruction Flutter (§ 18-19).
+
+Aucune décision en suspens côté cadrage, aucun fichier modifié non commité.
