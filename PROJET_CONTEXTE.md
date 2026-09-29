@@ -1519,3 +1519,18 @@ Rien à exécuter côté Claude Code ici : ce sont des actions manuelles de Kind
 3. Si Mission A pas faite → ne pas avancer sur B/C : relancer Kinder sur ces vérifications, elles conditionnent la validation de toute la reconstruction Flutter (§ 18-19).
 
 Aucune décision en suspens côté cadrage, aucun fichier modifié non commité.
+
+---
+
+## CLÔTURE DE SESSION — 2026-09-29
+
+**Aucun code touché.** Kinder a indiqué que la Mission A est **faite partiellement** depuis le 27/09, mais n'a pas encore précisé laquelle des deux actions est faite et laquelle reste en attente :
+1. Recréation de "Chez nous" (modèle Spécial Chez nous) + suppression de l'ancienne maison `329547b0…` (3WS3NG)
+2. Installation sur les 3 téléphones + test de synchronisation réelle entre deux téléphones
+
+**Pour reprendre demain, dans l'ordre :**
+1. Demander à Kinder lequel des deux points ci-dessus est fait, et le résultat obtenu (la maison apparaît-elle en base ? la synchro a-t-elle été vérifiée ?).
+2. Si les deux sont faits et confirmés bons → Mission A close, cadrer la Mission B (lien tâche ↔ fiche d'astuce) avant d'écrire du code.
+3. Si un seul est fait, ou si un point a révélé un problème → traiter ce problème avant toute nouvelle fonctionnalité (B/C restent en pause).
+
+Repo propre, tout poussé sur `origin/main`, une seule branche, rien en attente de fusion.
