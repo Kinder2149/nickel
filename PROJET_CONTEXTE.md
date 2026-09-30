@@ -1556,3 +1556,13 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 3. Nom par défaut du bouton « Spécial Chez nous » = « Chez nous (test) » (`ecran_maison.dart:155`) : à corriger ou à ignorer selon le résultat.
 4. Tâches absentes du modèle (mission D) : filtre de hotte, cycle de lave-linge à vide, filtre de vidange, planche à huiler, matelas à retourner.
 5. Le modèle ne porte pas d'attribution : ne pas en ajouter.
+
+### Modèle « Chez nous » v2 intégré — 2026-09-30
+
+`foyer-pilote.json` remplacé par la version 2 issue du cadrage : 6 pièces, 40 tâches, charge ≈ 4,1 tâches/jour. La pièce Buanderie disparaît (lave-linge rangé en Cuisine). Les deux tâches « meuble individuel » (Cuisine, Salle de bain) sont **conservées volontairement** : ces meubles sont dans les espaces communs. « Gel WC » et « Spray désinfectant » sont des noms génériques de produits, pas des références.
+
+**Code** : la tâche gagne quatre champs facultatifs — `ustensile`, `aEviter`, `fiabilite` (`solide` / `limites`), `dureeMinutes`. `produit` et `ustensile` restent du **texte** en base (« a, b, c ») : l'import convertit les listes du modèle, les maisons existantes et le modèle générique v1 continuent de fonctionner. La fiche tâche affiche durée, produit, ustensile, astuce, à éviter et une mention « à nuancer » ; le formulaire de modification permet d'éditer ustensile et à éviter (fiabilité et durée viennent du modèle).
+
+**À tester par Kinder** : créer une maison depuis « Modèle spécial Chez nous » (nom « Chez nous »), vérifier 6 pièces / 40 tâches, ouvrir la fiche de « Nettoyer le four » et de « Nettoyer la douche ».
+
+**Reste de la liste (hors cette mission)** : correction plexiglas/acrylique et 6 nouvelles astuces dans `bibliotheque.json` ; modèle générique à refaire sur ce principe ; missions B/C à rouvrir.

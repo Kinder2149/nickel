@@ -1,285 +1,75 @@
 {
-  "version": 1,
+  "version": 2,
   "nom": "Foyer pilote — Val / Sam / Yo",
   "pieces": [
     {
       "nom": "Salon",
       "taches": [
-        {
-          "nom": "Laver le sol du salon (parquet)",
-          "frequenceJours": 7,
-          "produit": "Savon noir dilué (1-2 c.à.s./L eau chaude)",
-          "astuce": "Lavette essorée, ne jamais détremper le parquet.",
-          "emoji": "🪣"
-        },
-        {
-          "nom": "Dépoussiérer les meubles bois du salon",
-          "frequenceJours": 7,
-          "produit": "",
-          "astuce": "Microfibre sèche, dans le sens du bois.",
-          "emoji": "🪑"
-        },
-        {
-          "nom": "Nettoyer le bureau en verre",
-          "frequenceJours": 14,
-          "produit": "Produit à vitre",
-          "astuce": "Vaporiser puis essuyer avec une microfibre.",
-          "emoji": "💻"
-        },
-        {
-          "nom": "Nettoyer la baie vitrée",
-          "frequenceJours": 30,
-          "produit": "Produit à vitre",
-          "astuce": "Raclette si possible pour éviter les traces.",
-          "emoji": "🪟"
-        },
-        {
-          "nom": "Traitement annuel du parquet",
-          "frequenceJours": 365,
-          "produit": "Produit protecteur parquet",
-          "astuce": "Huile ou cire à appliquer juste après un lavage.",
-          "emoji": "🧴"
-        },
-        {
-          "nom": "Aspirer le canapé tissu",
-          "frequenceJours": 7,
-          "produit": "",
-          "astuce": "Ne pas oublier les coussins et les interstices.",
-          "emoji": "🛋️"
-        },
-        {
-          "nom": "Nettoyer le canapé tissu en profondeur",
-          "frequenceJours": 180,
-          "produit": "Bicarbonate + savon noir dilué",
-          "astuce": "Bicarbonate 2h puis aspirer, puis tamponner au savon noir dilué.",
-          "emoji": "🛋️"
-        },
-        {
-          "nom": "Dépoussiérer le canapé cuir",
-          "frequenceJours": 7,
-          "produit": "",
-          "astuce": "Microfibre sèche, geste doux pour ne pas rayer.",
-          "emoji": "🛋️"
-        },
-        {
-          "nom": "Nettoyer et nourrir le canapé cuir",
-          "frequenceJours": 90,
-          "produit": "Savon de Marseille dilué",
-          "astuce": "Tamponner en petits cercles, jamais frotter fort.",
-          "emoji": "🛋️"
-        }
+        {"nom": "Dépoussiérer les meubles et la TV", "frequenceJours": 7, "emoji": "🪑", "produit": [], "ustensile": ["Microfibre"], "astuce": "À faire avant le sol. De haut en bas : bibliothèque, armoires, meuble TV, table, dessus de la cave à vin, cache-radiateur. Écran : microfibre sèche.", "aEviter": "Tout produit sur l'écran. Vinaigre sur le bois ciré.", "fiabilite": "solide", "dureeMinutes": 10},
+        {"nom": "Laver le sol du salon", "frequenceJours": 7, "emoji": "🪣", "produit": ["Savon noir"], "ustensile": ["Aspirateur", "Seau", "Serpillière"], "astuce": "Aspirer d'abord. Laver avec 1 c. à s. de savon noir par seau d'eau, serpillière très essorée, sans rincer.", "aEviter": "Vinaigre, excès d'eau, Javel.", "fiabilite": "solide", "dureeMinutes": 20},
+        {"nom": "Entretenir les canapés", "frequenceJours": 14, "emoji": "🛋️", "produit": [], "ustensile": ["Aspirateur", "Microfibre"], "astuce": "Canapé tissu, coussins et repose-pied à l'aspirateur (embout brosse), sans oublier les interstices. Canapé simili : microfibre légèrement humide.", "aEviter": "Détremper le simili.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Nettoyer les canapés en profondeur", "frequenceJours": 90, "emoji": "🛋️", "produit": ["Bicarbonate de soude", "Liquide vaisselle"], "ustensile": ["Aspirateur", "Microfibre"], "astuce": "Tissu : saupoudrer de bicarbonate, frotter légèrement, 1 h de pose, aspirer. Simili : eau et quelques gouttes de liquide vaisselle, microfibre bien essorée, repasser à la microfibre humide, sécher.", "aEviter": "Détremper le tissu. Mélanger bicarbonate et vinaigre. Tester d'abord sur une zone cachée.", "fiabilite": "solide", "dureeMinutes": 30},
+        {"nom": "Nettoyer la vitre", "frequenceJours": 30, "emoji": "🪟", "produit": ["Produit à vitre"], "ustensile": ["Raclette", "Microfibre"], "astuce": "Vaporiser, passer la raclette de haut en bas, finir à la microfibre sèche.", "aEviter": "Laisser couler le produit sur le parquet : poser une microfibre au pied de la vitre.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Dépoussiérer le radiateur", "frequenceJours": 180, "emoji": "♨️", "produit": [], "ustensile": ["Aspirateur", "Microfibre"], "astuce": "Radiateur éteint et froid. Aspirer de haut en bas derrière le cache (embout fin), puis microfibre sèche sur les zones accessibles.", "aEviter": "Tout liquide. Le faire radiateur chaud.", "fiabilite": "solide", "dureeMinutes": 15}
       ]
     },
     {
       "nom": "Entrée",
       "taches": [
-        {
-          "nom": "Essuyer le meuble d'entrée et la porte de placard",
-          "frequenceJours": 14,
-          "produit": "",
-          "astuce": "Microfibre légèrement humide.",
-          "emoji": "🚪"
-        }
+        {"nom": "Dépoussiérer les meubles de l'entrée", "frequenceJours": 14, "emoji": "🪑", "produit": [], "ustensile": ["Microfibre"], "astuce": "De haut en bas : meuble à chaussures, banc, puis porte du placard.", "aEviter": "Vinaigre sur le bois ciré.", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Aspirer le placard et derrière les meubles", "frequenceJours": 30, "emoji": "🧹", "produit": [], "ustensile": ["Aspirateur"], "astuce": "Embout fin : sol du placard, rails des portes, puis derrière les deux meubles sans les déplacer.", "aEviter": "Tout liquide dans les rails.", "fiabilite": "solide", "dureeMinutes": 10}
       ]
     },
     {
       "nom": "Cuisine",
       "taches": [
-        {
-          "nom": "Nettoyer le plan de travail et l'évier",
-          "frequenceJours": 1,
-          "produit": "Liquide vaisselle",
-          "astuce": "Rincer puis sécher après chaque utilisation intensive.",
-          "emoji": "🚰"
-        },
-        {
-          "nom": "Nettoyer la plaque de cuisson",
-          "frequenceJours": 1,
-          "produit": "Savon noir pur",
-          "astuce": "30 minutes de pose avant de frotter.",
-          "emoji": "🍳"
-        },
-        {
-          "nom": "Nettoyer l'intérieur du four",
-          "frequenceJours": 30,
-          "produit": "Savon noir + bicarbonate",
-          "astuce": "Savon noir la nuit sur four tiède, puis frotter au bicarbonate.",
-          "emoji": "🔥"
-        },
-        {
-          "nom": "Nettoyer l'intérieur du micro-ondes",
-          "frequenceJours": 7,
-          "produit": "Liquide vaisselle",
-          "astuce": "Un bol d'eau chaude 2 min avant décolle la saleté.",
-          "emoji": "🔌"
-        },
-        {
-          "nom": "Essuyer l'extérieur du frigo",
-          "frequenceJours": 7,
-          "produit": "Liquide vaisselle",
-          "astuce": "Microfibre légèrement imbibée.",
-          "emoji": "🧊"
-        },
-        {
-          "nom": "Nettoyer l'intérieur du frigo",
-          "frequenceJours": 30,
-          "produit": "Savon de Marseille",
-          "astuce": "Vider et bien sécher avant de ranger.",
-          "emoji": "🧊"
-        },
-        {
-          "nom": "Nettoyer le joint du frigo",
-          "frequenceJours": 30,
-          "produit": "Savon de Marseille",
-          "astuce": "Chiffon imbibé, insister dans les plis.",
-          "emoji": "🧊"
-        },
-        {
-          "nom": "Essuyer les meubles de cuisine",
-          "frequenceJours": 7,
-          "produit": "Dégraissant",
-          "astuce": "Insister sur les poignées, souvent les plus grasses.",
-          "emoji": "🧽"
-        },
-        {
-          "nom": "Purger les canalisations de l'évier",
-          "frequenceJours": 7,
-          "produit": "",
-          "astuce": "Verser une bouilloire d'eau bouillante.",
-          "emoji": "💧"
-        },
-        {
-          "nom": "Détartrer la bouilloire",
-          "frequenceJours": 30,
-          "produit": "Anti-calcaire ou vinaigre blanc",
-          "astuce": "Faire bouillir puis rincer 2 à 3 fois.",
-          "emoji": "🧴"
-        },
-        {
-          "nom": "Vider la poubelle de tri",
-          "frequenceJours": 3,
-          "produit": "",
-          "astuce": "",
-          "emoji": "♻️"
-        },
-        {
-          "nom": "Vider la poubelle de verre",
-          "frequenceJours": 14,
-          "produit": "",
-          "astuce": "",
-          "emoji": "🗑️"
-        }
+        {"nom": "Remettre la cuisine au propre", "frequenceJours": 1, "emoji": "🧽", "produit": ["Liquide vaisselle"], "ustensile": ["Éponge", "Microfibre"], "astuce": "Éponge sur le bar, le plan de travail et l'évier, puis un passage sur la plaque. Rincer, sécher l'évier.", "aEviter": "Laisser tremper la planche en bois.", "fiabilite": "solide", "dureeMinutes": 10},
+        {"nom": "Sortir les poubelles (classique et tri)", "frequenceJours": 3, "emoji": "🗑️", "produit": [], "ustensile": [], "astuce": "Sortir les sacs, remettre des sacs neufs.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Sortir le verre", "frequenceJours": 14, "emoji": "🍾", "produit": [], "ustensile": [], "astuce": "Vider au conteneur.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Nettoyer la plaque à fond", "frequenceJours": 7, "emoji": "🔥", "produit": ["Bicarbonate de soude", "Spray vinaigre"], "ustensile": ["Grattoir vitro", "Éponge", "Microfibre"], "astuce": "Plaque froide. Grattoir tenu à plat sur les résidus brûlés, puis pâte de bicarbonate, rincer. Auréoles blanches : spray vinaigre, puis sécher.", "aEviter": "Cutter, face abrasive de l'éponge.", "fiabilite": "solide", "dureeMinutes": 10},
+        {"nom": "Essuyer les façades, les poignées et la crédence", "frequenceJours": 7, "emoji": "🚪", "produit": ["Spray savon noir"], "ustensile": ["Microfibre"], "astuce": "Vaporiser sur la microfibre, pas sur le meuble. Portes, tiroirs, extérieur du frigo, carrelage mural, rebords. Insister sur les poignées.", "aEviter": "Vaporiser près des prises.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Purger les canalisations", "frequenceJours": 7, "emoji": "💧", "produit": [], "ustensile": [], "astuce": "Verser une bouilloire d'eau bouillante dans chaque évier.", "aEviter": "Compter dessus pour déboucher : c'est de l'entretien.", "fiabilite": "limites", "dureeMinutes": 2},
+        {"nom": "Dégager et dépoussiérer les dessus", "frequenceJours": 14, "emoji": "🧹", "produit": ["Spray savon noir"], "ustensile": ["Microfibre"], "astuce": "Tout retirer. Microfibre humide avec le spray sur les dessus du meuble à couverts, du micro-ondes et du four, et sur les bouteilles d'huile. Multiprise, cales et chauffe-eau : microfibre sèche. Remettre en place.", "aEviter": "Tout liquide sur la multiprise.", "fiabilite": "solide", "dureeMinutes": 20},
+        {"nom": "Laver l'égouttoir et le bac à couverts", "frequenceJours": 14, "emoji": "🍴", "produit": ["Liquide vaisselle", "Spray vinaigre"], "ustensile": ["Éponge"], "astuce": "Vider. Laver à l'eau chaude avec du liquide vaisselle. Calcaire : spray vinaigre, 5 min, rincer, sécher.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Désinfecter la planche en bois", "frequenceJours": 30, "emoji": "🪵", "produit": ["Vinaigre blanc ménager", "Gros sel"], "ustensile": ["Éponge"], "astuce": "Gros sel et vinaigre, frotter, 15 min de pose, rincer, sécher debout.", "aEviter": "Trempage, lave-vaisselle.", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Entretenir le lave-linge", "frequenceJours": 30, "emoji": "🧺", "produit": ["Vinaigre blanc ménager"], "ustensile": ["Microfibre"], "astuce": "Un verre de vinaigre dans le tambour, cycle à vide à 90 °C. Pendant le cycle, écarter les plis du joint, le nettoyer à la microfibre imbibée de vinaigre, sécher.", "aEviter": "Ajouter un autre produit au même cycle, surtout du percarbonate.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Nettoyer et désinfecter l'intérieur du frigo", "frequenceJours": 60, "emoji": "🧊", "produit": ["Vinaigre blanc ménager"], "ustensile": ["Éponge", "Microfibre"], "astuce": "Débrancher, vider, sortir bacs et clayettes. Tout laver à l'eau vinaigrée (moitié vinaigre, moitié eau chaude), joint compris. Rincer, sécher complètement, rebrancher.", "aEviter": "Javel, spray désinfectant (contact avec la nourriture).", "fiabilite": "solide", "dureeMinutes": 45},
+        {"nom": "Nettoyer le micro-ondes", "frequenceJours": 60, "emoji": "🔌", "produit": ["Vinaigre blanc ménager", "Liquide vaisselle"], "ustensile": ["Microfibre"], "astuce": "Bol d'eau avec un trait de vinaigre, 3 min de chauffe, puis 5 min porte fermée. Essuyer l'intérieur et le plateau à la microfibre avec du liquide vaisselle.", "aEviter": "", "fiabilite": "limites", "dureeMinutes": 15},
+        {"nom": "Entretenir les petits appareils", "frequenceJours": 60, "emoji": "☕", "produit": ["Acide citrique"], "ustensile": ["Microfibre"], "astuce": "Bouilloire : eau et acide citrique, faire bouillir, laisser reposer, vider, puis deux ébullitions d'eau claire. Machine à café : détartrer selon sa notice. Grille-pain : débrancher, vider le tiroir à miettes, secouer tête en bas.", "aEviter": "Eau dans le grille-pain.", "fiabilite": "solide", "dureeMinutes": 30},
+        {"nom": "Laver les bacs à poubelle", "frequenceJours": 60, "emoji": "🗑️", "produit": ["Spray savon noir", "Bicarbonate de soude"], "ustensile": ["Éponge"], "astuce": "Laver les bacs à l'eau chaude avec le spray savon noir, rincer, sécher. Un fond de bicarbonate sous le sac contre les odeurs.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Nettoyer le four", "frequenceJours": 90, "emoji": "🔥", "produit": ["Bicarbonate de soude", "Liquide vaisselle", "Spray vinaigre"], "ustensile": ["Éponge", "Microfibre"], "astuce": "Four froid. Pâte de bicarbonate et d'eau chaude sur les parois, la sole et la vitre, 30 min de pose. Pendant ce temps, laver les grilles dans l'évier au liquide vaisselle. Retirer à l'éponge humide. Voile blanc : spray vinaigre, microfibre.", "aEviter": "Cutter sur la vitre. Four à catalyse (parois rugueuses et mates) : pas de pâte sur les parois.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Nettoyer l'intérieur des rangements communs", "frequenceJours": 90, "emoji": "🗄️", "produit": ["Liquide vaisselle"], "ustensile": ["Microfibre"], "astuce": "Vider, essuyer à la microfibre humide avec du liquide vaisselle, sécher avant de ranger. Tiroirs, placards sous l'évier, étage commun du meuble à deux niveaux, cases communes du meuble à couverts.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 30},
+        {"nom": "Nettoyer son meuble individuel", "frequenceJours": 30, "emoji": "🙋", "produit": ["Liquide vaisselle"], "ustensile": ["Microfibre"], "astuce": "Vider, essuyer à la microfibre humide avec du liquide vaisselle, sécher avant de ranger.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 15}
       ]
     },
     {
       "nom": "Salle de bain",
       "taches": [
-        {
-          "nom": "Nettoyer les parois de douche PVC",
-          "frequenceJours": 7,
-          "produit": "Savon noir",
-          "astuce": "Rincer à l'eau claire après application.",
-          "emoji": "🚿"
-        },
-        {
-          "nom": "Détartrer les joints de la douche",
-          "frequenceJours": 30,
-          "produit": "Anti-calcaire",
-          "astuce": "Brosse à dents dédiée pour les joints.",
-          "emoji": "🪥"
-        },
-        {
-          "nom": "Nettoyer l'évier et la robinetterie de la salle de bain",
-          "frequenceJours": 7,
-          "produit": "Anti-calcaire",
-          "astuce": "15 minutes de pose avant de rincer.",
-          "emoji": "🚰"
-        },
-        {
-          "nom": "Nettoyer le miroir de la salle de bain",
-          "frequenceJours": 7,
-          "produit": "Produit à vitre",
-          "astuce": "",
-          "emoji": "🪞"
-        },
-        {
-          "nom": "Entretenir la VMC (salle de bain et WC)",
-          "frequenceJours": 180,
-          "produit": "",
-          "astuce": "Aspirateur pour dépoussiérer la grille.",
-          "emoji": "🧹"
-        }
+        {"nom": "Nettoyer la douche", "frequenceJours": 7, "emoji": "🚿", "produit": ["Spray savon noir", "Spray vinaigre"], "ustensile": ["Éponge", "Microfibre"], "astuce": "Spray savon noir sur les parois, la structure, les portes et le bac, éponge côté doux. Zones entartrées : spray vinaigre, 5 min maximum sur le plastique, 10 min sur le carrelage. Rincer, sécher à la microfibre.", "aEviter": "Face abrasive de l'éponge. Acide citrique sur le plastique. Tester le vinaigre sur un coin caché la première fois.", "fiabilite": "limites", "dureeMinutes": 20},
+        {"nom": "Détartrer les joints, les recoins et le pommeau", "frequenceJours": 30, "emoji": "🧪", "produit": ["Acide citrique", "Vinaigre blanc ménager", "Spray vinaigre"], "ustensile": ["Sac plastique", "Brosse à dents", "Éponge"], "astuce": "Nouer un sac rempli de vinaigre autour du pommeau, 1 h maximum. Pendant ce temps, joints du carrelage : acide citrique (5 c. à s. par litre d'eau chaude) à la brosse à dents, rincer. Recoins du plastique : spray vinaigre et brosse à dents, rincer aussitôt. Retirer le sac, faire couler l'eau.", "aEviter": "Acide citrique sur le plastique et le silicone. En abuser sur les joints en ciment.", "fiabilite": "limites", "dureeMinutes": 15},
+        {"nom": "Nettoyer le lavabo, la robinetterie et le miroir", "frequenceJours": 7, "emoji": "🚰", "produit": ["Spray savon noir", "Spray vinaigre", "Produit à vitre"], "ustensile": ["Éponge", "Microfibre"], "astuce": "Spray savon noir sur le lavabo et le carrelage, éponge. Robinet : spray vinaigre, quelques minutes. Rincer, microfibre sèche. Produit à vitre sur le miroir. Façade du meuble : microfibre humide.", "aEviter": "Vinaigre sur une robinetterie noire mate ou dorée.", "fiabilite": "solide", "dureeMinutes": 10},
+        {"nom": "Dépoussiérer la grille de ventilation", "frequenceJours": 90, "emoji": "🌀", "produit": [], "ustensile": ["Aspirateur", "Microfibre"], "astuce": "Aspirer la grille (embout fin), finir à la microfibre sèche.", "aEviter": "Tout liquide dans la grille.", "fiabilite": "solide", "dureeMinutes": 10},
+        {"nom": "Nettoyer ses cases du meuble lavabo", "frequenceJours": 30, "emoji": "🙋", "produit": ["Liquide vaisselle"], "ustensile": ["Microfibre"], "astuce": "Vider, essuyer à la microfibre humide avec du liquide vaisselle, sécher avant de ranger.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 10}
       ]
     },
     {
       "nom": "WC",
       "taches": [
-        {
-          "nom": "Nettoyer la cuvette et l'abattant",
-          "frequenceJours": 4,
-          "produit": "Javel",
-          "astuce": "Éponge dédiée pour l'abattant, jamais celle de la cuvette.",
-          "emoji": "🚽"
-        }
-      ]
-    },
-    {
-      "nom": "Buanderie",
-      "taches": [
-        {
-          "nom": "Nettoyer le tambour du lave-linge à vide",
-          "frequenceJours": 30,
-          "produit": "Vinaigre blanc (1L)",
-          "astuce": "Cycle à 90°C.",
-          "emoji": "🧺"
-        },
-        {
-          "nom": "Nettoyer le joint du hublot du lave-linge",
-          "frequenceJours": 30,
-          "produit": "Eau chaude + vinaigre blanc",
-          "astuce": "Insister dans les plis du joint.",
-          "emoji": "🧺"
-        }
+        {"nom": "Nettoyer la cuvette et l'abattant", "frequenceJours": 7, "emoji": "🚽", "produit": ["Gel WC", "Spray désinfectant"], "ustensile": ["Brosse WC", "Microfibre dédiée WC"], "astuce": "Gel sous les rebords, pose selon l'étiquette. Pendant ce temps, spray sur l'abattant, l'extérieur de la cuvette et la chasse, essuyer à la microfibre dédiée WC. Brosser, tirer la chasse.", "aEviter": "Utiliser la microfibre du WC ailleurs.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Détartrer la cuvette", "frequenceJours": 30, "emoji": "🧪", "produit": ["Acide citrique"], "ustensile": ["Brosse WC"], "astuce": "Tirer la chasse deux fois. Verser 3 c. à s. d'acide citrique, 1 h de pose, brosser, tirer la chasse.", "aEviter": "Le faire juste après le gel sans avoir tiré la chasse.", "fiabilite": "limites", "dureeMinutes": 5},
+        {"nom": "Nettoyer la brosse WC et son support", "frequenceJours": 30, "emoji": "🪥", "produit": ["Spray désinfectant"], "ustensile": ["Brosse WC"], "astuce": "Rincer la brosse sous la chasse, vaporiser la brosse et le support, pose selon l'étiquette, rincer. Laisser sécher la brosse coincée entre la cuvette et l'abattant.", "aEviter": "", "fiabilite": "limites", "dureeMinutes": 10},
+        {"nom": "Dépoussiérer la panière", "frequenceJours": 30, "emoji": "📚", "produit": [], "ustensile": ["Microfibre"], "astuce": "Sortir les livres, microfibre sèche, ranger.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Dépoussiérer la grille de ventilation", "frequenceJours": 90, "emoji": "🌀", "produit": [], "ustensile": ["Aspirateur", "Microfibre"], "astuce": "Aspirer la grille (embout fin), finir à la microfibre sèche.", "aEviter": "Tout liquide dans la grille.", "fiabilite": "solide", "dureeMinutes": 10}
       ]
     },
     {
       "nom": "Général",
       "taches": [
-        {
-          "nom": "Laver les sols carrelés (cuisine, entrée, WC, SDB)",
-          "frequenceJours": 7,
-          "produit": "Savon noir dilué",
-          "astuce": "Même dilution que pour le parquet.",
-          "emoji": "🪣"
-        },
-        {
-          "nom": "Laver la nappe",
-          "frequenceJours": 14,
-          "produit": "Pastille de lessive",
-          "astuce": "Machine normale.",
-          "emoji": "🍽️"
-        },
-        {
-          "nom": "Laver les torchons",
-          "frequenceJours": 3,
-          "produit": "Pastille de lessive",
-          "astuce": "60°C.",
-          "emoji": "🧺"
-        },
-        {
-          "nom": "Laver la lavette et les microfibres",
-          "frequenceJours": 3,
-          "produit": "Pastille de lessive",
-          "astuce": "Sans adoucissant, ça les rend moins absorbantes.",
-          "emoji": "🧽"
-        },
-        {
-          "nom": "Vérifier le stock PQ / liquide vaisselle / savon mains",
-          "frequenceJours": 7,
-          "produit": "",
-          "astuce": "",
-          "emoji": "📦"
-        }
+        {"nom": "Aspirer et laver les sols carrelés", "frequenceJours": 7, "emoji": "🪣", "produit": ["Savon noir"], "ustensile": ["Aspirateur", "Seau", "Serpillière"], "astuce": "Aspirer tous les sols carrelés, puis laver avec 1 à 2 c. à s. de savon noir par seau d'eau chaude, sans rincer. Ordre : salle de bain, cuisine, entrée, WC en dernier.", "aEviter": "Laver avant d'aspirer.", "fiabilite": "solide", "dureeMinutes": 30},
+        {"nom": "Laver les torchons, les lavettes et les microfibres", "frequenceJours": 3, "emoji": "🧺", "produit": ["Lessive"], "ustensile": [], "astuce": "Machine à 60 °C, sans adoucissant. La microfibre dédiée WC passe dans le même cycle (pratique courante, à nuancer).", "aEviter": "Adoucissant : il rend les microfibres moins absorbantes.", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Changer et laver la nappe", "frequenceJours": 14, "emoji": "🍽️", "produit": ["Lessive"], "ustensile": [], "astuce": "Mettre une nappe propre, laver l'autre à la température de l'étiquette.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 5},
+        {"nom": "Désinfecter les poignées, les interrupteurs et les prises", "frequenceJours": 14, "emoji": "🚪", "produit": ["Spray désinfectant"], "ustensile": ["Microfibre"], "astuce": "Vaporiser sur la microfibre, jamais sur l'interrupteur. Tour du logement : salon, entrée, cuisine, salle de bain, WC. Prises : microfibre sèche uniquement.", "aEviter": "Tout liquide sur les prises et les interrupteurs.", "fiabilite": "solide", "dureeMinutes": 15},
+        {"nom": "Vérifier le papier toilette, le liquide vaisselle et le savon", "frequenceJours": 7, "emoji": "📦", "produit": [], "ustensile": [], "astuce": "Regarder ce qui manque et le signaler au foyer.", "aEviter": "", "fiabilite": "solide", "dureeMinutes": 2}
       ]
     }
   ]

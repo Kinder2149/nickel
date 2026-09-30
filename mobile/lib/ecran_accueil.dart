@@ -529,6 +529,10 @@ class _EcranAccueilState extends State<EcranAccueil> {
     final echeance = t['prochaineEcheance'] as String?;
     final produit = (t['produit'] as String?) ?? '';
     final astuce = (t['astuce'] as String?) ?? '';
+    final ustensile = (t['ustensile'] as String?) ?? '';
+    final aEviter = (t['aEviter'] as String?) ?? '';
+    final duree = t['dureeMinutes'] as int?;
+    final reserves = t['fiabilite'] == 'limites';
     final derniere = _derniereRealisation(id);
     final dateDerniere = (derniere?['dateRealisation'] as String?) ?? (echeance != null ? ajouterJours(echeance, -frequence) : null);
     final parDerniere = _prenomMembre(derniere?['realiseParId'] as String?);
@@ -573,8 +577,17 @@ class _EcranAccueilState extends State<EcranAccueil> {
                 dateDerniere == null ? 'Jamais' : '${_dateCourte(dateDerniere)}${parDerniere != null ? ' par $parDerniere' : ''}',
               ),
               _info('Prochaine fois', echeance == null ? 'Dès que possible' : _dateCourte(echeance)),
+              if (duree != null) _info('Durée', '$duree min'),
               if (produit.isNotEmpty) _encart('Produit', produit),
+              if (ustensile.isNotEmpty) _encart('Ustensile', ustensile),
               if (astuce.isNotEmpty) _encart('Astuce', astuce),
+              if (aEviter.isNotEmpty) _encart('À éviter', aEviter),
+              if (reserves)
+                const Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text('Méthode à nuancer : son efficacité dépend de votre matériel.',
+                      style: TextStyle(color: Palette.encreFaible, fontSize: 12)),
+                ),
               if (produit.isEmpty && astuce.isEmpty)
                 const Padding(
                   padding: EdgeInsets.only(top: 12),

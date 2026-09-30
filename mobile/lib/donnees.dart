@@ -207,6 +207,10 @@ Future<void> creerTache(
   String produit = '',
   String astuce = '',
   String emoji = '🧹',
+  String ustensile = '',
+  String aEviter = '',
+  String fiabilite = '',
+  int? dureeMinutes,
 }) async {
   await _db.collection('maisons').doc(maisonId).collection('taches').add({
     'nom': nom,
@@ -215,6 +219,10 @@ Future<void> creerTache(
     'produit': produit,
     'astuce': astuce,
     'emoji': emoji,
+    'ustensile': ustensile,
+    'aEviter': aEviter,
+    'fiabilite': fiabilite,
+    'dureeMinutes': dureeMinutes,
     'responsablePrevu': null,
     'prochaineEcheance': null,
   });
@@ -257,8 +265,9 @@ Future<void> supprimerPiece(String maisonId, String pieceId) async {
   await _db.collection('maisons').doc(maisonId).collection('pieces').doc(pieceId).delete();
 }
 
-/// Modifie une Tâche (nom, fréquence, produit, astuce, emoji). Ne touche
-/// jamais à `pieceId` : déplacer une tâche d'une pièce à l'autre est hors
+/// Modifie une Tâche (nom, fréquence, produit, ustensile, astuce, à éviter,
+/// emoji). Ne touche ni à la fiabilité ni à la durée (elles viennent du
+/// modèle) ni à `pieceId` : déplacer une tâche d'une pièce à l'autre est hors
 /// périmètre (comme en V2).
 Future<void> modifierTache(
   String maisonId,
@@ -268,6 +277,8 @@ Future<void> modifierTache(
   String produit = '',
   String astuce = '',
   String emoji = '🧹',
+  String ustensile = '',
+  String aEviter = '',
 }) async {
   await _db.collection('maisons').doc(maisonId).collection('taches').doc(tacheId).update({
     'nom': nom,
@@ -275,6 +286,8 @@ Future<void> modifierTache(
     'produit': produit,
     'astuce': astuce,
     'emoji': emoji,
+    'ustensile': ustensile,
+    'aEviter': aEviter,
   });
 }
 
@@ -371,6 +384,14 @@ Stream<List<Map<String, dynamic>>> ecouterRealisations(String maisonId, {int lim
       .map((snap) => snap.docs.map((d) => {'id': d.id, ...d.data()}).toList());
 }
 
+/// Produits et ustensiles sont des listes dans les modèles v2, du texte dans
+/// les maisons déjà créées (et dans le modèle générique v1) : on stocke
+/// toujours du texte « a, b, c ».
+String _texteModele(dynamic valeur) {
+  if (valeur is List) return valeur.join(', ');
+  return (valeur as String?) ?? '';
+}
+
 /// Importe une structure (pièces + tâches) depuis un modèle JSON : crée
 /// toujours une NOUVELLE maison (V2-D9, jamais de fusion). Même format que
 /// public/v2/modeles/*.json.
@@ -389,9 +410,13 @@ Future<({String id, String codeInvitation})> importerStructure(
         nom: tache['nom'] as String,
         pieceId: pieceId,
         frequenceJours: tache['frequenceJours'] as int,
-        produit: tache['produit'] as String? ?? '',
+        produit: _texteModele(tache['produit']),
         astuce: tache['astuce'] as String? ?? '',
         emoji: tache['emoji'] as String? ?? '🧹',
+        ustensile: _texteModele(tache['ustensile']),
+        aEviter: tache['aEviter'] as String? ?? '',
+        fiabilite: tache['fiabilite'] as String? ?? '',
+        dureeMinutes: tache['dureeMinutes'] as int?,
       );
     }
   }

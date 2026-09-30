@@ -216,7 +216,7 @@ class _EcranGestionState extends State<EcranGestion> {
                 Text(tache['nom'] as String, style: const TextStyle(fontWeight: FontWeight.w600, color: Palette.encre)),
                 Text(sousTitre, style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
                 if (astuce != null && astuce.isNotEmpty)
-                  Text(astuce, style: const TextStyle(fontSize: 11, color: Palette.encreFaible)),
+                  Text(astuce, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 11, color: Palette.encreFaible)),
               ],
             ),
           ),
@@ -256,6 +256,8 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
   );
   late final _produit = TextEditingController(text: widget.tacheExistante?['produit'] as String? ?? '');
   late final _astuce = TextEditingController(text: widget.tacheExistante?['astuce'] as String? ?? '');
+  late final _ustensile = TextEditingController(text: widget.tacheExistante?['ustensile'] as String? ?? '');
+  late final _aEviter = TextEditingController(text: widget.tacheExistante?['aEviter'] as String? ?? '');
   late String _emoji = widget.tacheExistante?['emoji'] as String? ?? emojiParDefaut;
 
   @override
@@ -264,6 +266,8 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
     _frequence.dispose();
     _produit.dispose();
     _astuce.dispose();
+    _ustensile.dispose();
+    _aEviter.dispose();
     super.dispose();
   }
 
@@ -281,6 +285,8 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
         produit: _produit.text.trim(),
         astuce: _astuce.text.trim(),
         emoji: _emoji,
+        ustensile: _ustensile.text.trim(),
+        aEviter: _aEviter.text.trim(),
       );
     } else {
       await modifierTache(
@@ -291,6 +297,8 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
         produit: _produit.text.trim(),
         astuce: _astuce.text.trim(),
         emoji: _emoji,
+        ustensile: _ustensile.text.trim(),
+        aEviter: _aEviter.text.trim(),
       );
     }
     if (mounted) Navigator.pop(context, true);
@@ -321,9 +329,17 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
             const SizedBox(height: 4),
             TextField(controller: _produit, decoration: decorationChamp('Liquide vaisselle')),
             const SizedBox(height: 12),
+            const Text('Ustensile', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            const SizedBox(height: 4),
+            TextField(controller: _ustensile, decoration: decorationChamp('Microfibre')),
+            const SizedBox(height: 12),
             const Text('Astuce', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
             const SizedBox(height: 4),
-            TextField(controller: _astuce, decoration: decorationChamp('Rincer et sécher')),
+            TextField(controller: _astuce, minLines: 1, maxLines: 6, decoration: decorationChamp('Rincer et sécher')),
+            const SizedBox(height: 12),
+            const Text('À éviter', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            const SizedBox(height: 4),
+            TextField(controller: _aEviter, minLines: 1, maxLines: 3, decoration: decorationChamp('Javel')),
             const SizedBox(height: 12),
             const Text('Pictogramme', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
             const SizedBox(height: 8),
