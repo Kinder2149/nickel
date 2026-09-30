@@ -223,7 +223,6 @@ Future<void> creerTache(
     'aEviter': aEviter,
     'fiabilite': fiabilite,
     'dureeMinutes': dureeMinutes,
-    'responsablePrevu': null,
     'prochaineEcheance': null,
   });
 }

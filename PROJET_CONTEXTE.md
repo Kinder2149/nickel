@@ -1566,3 +1566,9 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 **À tester par Kinder** : créer une maison depuis « Modèle spécial Chez nous » (nom « Chez nous »), vérifier 6 pièces / 40 tâches, ouvrir la fiche de « Nettoyer le four » et de « Nettoyer la douche ».
 
 **Reste de la liste (hors cette mission)** : correction plexiglas/acrylique et 6 nouvelles astuces dans `bibliotheque.json` ; modèle générique à refaire sur ce principe ; missions B/C à rouvrir.
+
+### Passe de correction avant test — 2026-09-30
+
+- **Bibliothèque** : règle unique plexiglas/acrylique (même matière) — pas d'acide fort ni d'abrasif ; vinaigre 50/50 toléré 5 min maximum, rincé aussitôt, après test sur un coin caché (A062, A063, A065). 6 astuces ajoutées (A144–A149) : spatules en bois, four à catalyse, finition du parquet, repérer la Javel, micro-ondes au vinaigre, microfibre du WC. Bibliothèque : 149 astuces.
+- **Code** : le champ mort `responsablePrevu` n'est plus écrit sur les nouvelles tâches (décision : aucun responsable). Les tâches existantes le gardent à vide, sans effet.
+- Analyse du code sans alerte, test de démarrage OK, règles Firestore compatibles avec les nouveaux champs (aucun changement de règles). APK de test : `mobile/build/app/outputs/flutter-apk/app-release.apk`.

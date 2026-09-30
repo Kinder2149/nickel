@@ -725,7 +725,7 @@
       "categorie": "Salle de bain et WC",
       "sujet": "Paroi en PLEXIGLAS / acrylique",
       "titre": "Paroi en PLEXIGLAS / acrylique",
-      "texte": "Ni acide, ni abrasif : micro-rayures et voile définitifs.",
+      "texte": "Pas d'acide fort ni d'abrasif : micro-rayures et voile définitifs. Vinaigre dilué 50/50 toléré 5 min maximum, rincé aussitôt, après un test sur un coin caché.",
       "fiabilite": "mythe"
     },
     {
@@ -741,7 +741,7 @@
       "categorie": "Salle de bain et WC",
       "sujet": "Baignoire",
       "titre": "Acrylique",
-      "texte": "Spray vinaigre 50/50, 15 à 20 min, éponge douce. Zones très entartrées (bonde, robinet) : papier absorbant imbibé de vinaigre pur posé en cataplasme.",
+      "texte": "Spray vinaigre 50/50, 5 min maximum, éponge douce, rincer aussitôt. Zones très entartrées (bonde, robinet) : papier absorbant imbibé de vinaigre 50/50, 5 min maximum, rincer. Même règle que pour le plexiglas (même matière).",
       "fiabilite": "solide"
     },
     {
@@ -1367,6 +1367,54 @@
       "titre": "Prévention",
       "texte": "Bois sec (moins de 20 % d'humidité), feu vif, ne pas fermer trop tôt les arrivées d'air, ne pas surcharger. Vitre qui noircit plus vite que d'habitude → vérifier l'étanchéité du joint.",
       "fiabilite": "solide"
+    },
+    {
+      "id": "A144",
+      "categorie": "Cuisine",
+      "sujet": "Spatules en bois",
+      "titre": "Spatules en bois",
+      "texte": "Vinaigre et gros sel, rincer, sécher debout, jamais de trempage. Si le bois devient gris ou rêche, un peu d'huile alimentaire le soir.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A145",
+      "categorie": "Cuisine",
+      "sujet": "Four : savoir s'il est à catalyse",
+      "titre": "Reconnaître un four à catalyse",
+      "texte": "Parois intérieures rugueuses et mates : pas de pâte de bicarbonate sur les parois, suivre la notice du four.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A146",
+      "categorie": "Sols, murs, vitres, poussière",
+      "sujet": "Parquet : reconnaître la finition",
+      "titre": "Reconnaître la finition d'un parquet",
+      "texte": "Une goutte d'eau qui perle signale un parquet vitrifié ; une goutte qui s'imprègne signale un parquet huilé ou ciré.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A147",
+      "categorie": "Cuisine",
+      "sujet": "Javel : la repérer sur une étiquette",
+      "titre": "Repérer la Javel sur une étiquette",
+      "texte": "La mention « hypochlorite de sodium » indique de la Javel : ne jamais la mélanger à un acide (vinaigre, détartrant, acide citrique) ni à de l'ammoniaque.",
+      "fiabilite": "solide"
+    },
+    {
+      "id": "A148",
+      "categorie": "Cuisine",
+      "sujet": "Micro-ondes",
+      "titre": "Micro-ondes : vinaigre à la place du citron",
+      "texte": "Un trait de vinaigre dans le bol d'eau peut remplacer le citron pour ramollir les projections.",
+      "fiabilite": "limites"
+    },
+    {
+      "id": "A149",
+      "categorie": "Électroménager et linge",
+      "sujet": "Microfibre du WC",
+      "titre": "Microfibre du WC",
+      "texte": "Elle se lave à 60 °C avec les autres textiles de ménage (pratique courante), sans adoucissant.",
+      "fiabilite": "limites"
     }
   ],
   "detachage": [
