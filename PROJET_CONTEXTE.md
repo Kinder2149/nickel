@@ -1534,3 +1534,25 @@ Aucune décision en suspens côté cadrage, aucun fichier modifié non commité.
 3. Si un seul est fait, ou si un point a révélé un problème → traiter ce problème avant toute nouvelle fonctionnalité (B/C restent en pause).
 
 Repo propre, tout poussé sur `origin/main`, une seule branche, rien en attente de fusion.
+
+---
+
+## 23. CADRAGE DES MODÈLES — 2026-09-30
+
+Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nous » + suppression de `329547b0…`, puis installation sur 3 téléphones + test de synchro. **Gardée pour les tests finaux**, Kinder ne la traite pas maintenant.
+
+**Deux modèles embarqués** (`mobile/assets/modeles/`, chargés par `ecran_maison.dart`, importés par `importerStructure()` dans `donnees.dart`) :
+- `generique.json` : 6 pièces, 17 tâches. **Mis de côté** : on le refera ensuite en généralisant le principe du modèle « Chez nous ».
+- `foyer-pilote.json` (bouton « Modèle spécial Chez nous ») : 7 pièces, 35 tâches = § 6. **C'est lui qu'on approfondit.**
+
+**Décisions (Kinder, 2026-09-30)**
+- **Aucun responsable de tâche, définitivement** (confirme D11). `responsablePrevu` est écrit à `null` (`donnees.dart:218`) et n'est lu nulle part : rien à construire ; le champ pourra être retiré lors d'un nettoyage.
+- Le modèle « Chez nous » est approfondi **pièce par pièce**, avec des fiches astuces plus riches par tâche, dans une conversation de cadrage séparée (Claude). Kinder revient ensuite avec le modèle propre.
+- Ordre : modèle « Chez nous » propre → généralisation en modèle générique → missions B (lien tâche ↔ fiche) et C (enrichissement) s'y fondent.
+
+**Points de code à traiter au retour du modèle propre**
+1. Le format actuel d'une tâche (`nom`, `frequenceJours`, `produit`, `astuce`, `emoji`) ne porte pas de fiche riche : prévoir soit des champs en plus (ustensile, étapes, à éviter, fiabilité), soit un lien vers une fiche de `bibliotheque.json` (mission B). À trancher **après** réception du modèle.
+2. `importerStructure()` ne lit que ces 5 champs : tout champ nouveau exige de l'étendre, ainsi que `creerTache()`.
+3. Nom par défaut du bouton « Spécial Chez nous » = « Chez nous (test) » (`ecran_maison.dart:155`) : à corriger ou à ignorer selon le résultat.
+4. Tâches absentes du modèle (mission D) : filtre de hotte, cycle de lave-linge à vide, filtre de vidange, planche à huiler, matelas à retourner.
+5. Le modèle ne porte pas d'attribution : ne pas en ajouter.
