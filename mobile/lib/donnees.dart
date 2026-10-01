@@ -382,6 +382,14 @@ Future<void> modifierProfil(
   });
 }
 
+/// Achète un objet de la boutique : l'ajoute à la liste d'achats du membre.
+/// Le solde est vérifié par l'appelant (gains calculés − dépenses).
+Future<void> acheterObjet(String maisonId, String membreId, String objetId) async {
+  await _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId).update({
+    'achats': FieldValue.arrayUnion([objetId]),
+  });
+}
+
 /// Réinscrit ce profil dans sa maison sous l'identifiant actuel de
 /// l'appareil quand celui-ci a changé (réinstallation avec restauration de
 /// la sauvegarde Android : le profil local revient, mais Firebase attribue

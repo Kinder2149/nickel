@@ -101,4 +101,30 @@ void main() {
     expect(o.image, 'a.png');
     expect(kitAvatars.every((a) => a.prix == 0), true);
   });
+
+  test('Bulles : gains par niveaux et succès, achats, solde, exclusifs', () {
+    expect(bullesNiveau(2), 30);
+    expect(bullesNiveau(10), 70);
+    expect(bullesSucces(Rarete.legendaire), 100);
+
+    // 300 XP = niveau 3 (30 + 35 = 65 Bulles de niveau) + succès débloqués.
+    final rea = [for (var i = 0; i < 30; i++) r('val', '2026-09-${(i % 28 + 1).toString().padLeft(2, '0')}', xp: 10)];
+    final s = calculerStats('val', rea, [], aujourdhui: '2026-10-01');
+    expect(s.niveau, 3);
+    final ctx = contexteMaison([{'id': 'val'}], rea, [], aujourdhui: '2026-10-01');
+    final ok = succesDebloques(s, ctx);
+    final gagnees = bullesGagnees(s, ok);
+    expect(gagnees, 65 + ok.fold<int>(0, (a, id) => a + bullesSucces(succes.firstWhere((x) => x.id == id).rarete)));
+
+    expect(soldeBulles(500, ['casque', 'boussole']), 500 - 40 - 100);
+    expect(soldeBulles(10, ['trone']), 0, reason: 'jamais négatif');
+    expect(soldeBulles(500, ['trophee']), 500, reason: 'un exclusif ne se paie pas');
+
+    final avatarsPossedes = objetsPossedes(TypeObjet.avatar, ['casque'], {'serie7'}).map((o) => o.id);
+    expect(avatarsPossedes, containsAll(['initiale', 'casque', 'foudre']));
+    expect(avatarsPossedes.contains('trone'), false);
+    expect(avatarsPossedes.contains('diamant'), false);
+    expect(tousLesObjets.map((o) => o.id).toSet().length, tousLesObjets.length, reason: 'ids uniques');
+    expect(boutique.every((o) => o.succesRequis == null || succes.any((x) => x.id == o.succesRequis)), true);
+  });
 }

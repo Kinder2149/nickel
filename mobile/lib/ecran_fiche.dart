@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'catalogue.dart';
 import 'donnees.dart';
+import 'ecran_boutique.dart';
 import 'ecran_guide.dart';
 import 'jeu.dart';
 import 'palette.dart';
@@ -122,6 +123,7 @@ class _EcranFicheState extends State<EcranFiche> {
     final debloques = succesDebloques(stats, contexte);
     final couverture = couverturePourId(membre['couverture'] as String?);
     final badges = badgesAffiches(membre['badges'] as List?, debloques);
+    final solde = soldeBulles(bullesGagnees(stats, debloques), membre['achats'] as List?);
 
     return Scaffold(
       appBar: AppBar(
@@ -135,6 +137,14 @@ class _EcranFicheState extends State<EcranFiche> {
             icon: const Icon(Icons.help_outline),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EcranGuide())),
           ),
+          if (_estMoi)
+            IconButton(
+              tooltip: 'Boutique',
+              icon: const Icon(Icons.storefront_outlined),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => EcranBoutique(maisonId: widget.maisonId, profil: widget.profil)),
+              ),
+            ),
           if (_estMoi)
             TextButton(
               onPressed: () => _modifier(membre, stats, debloques),
@@ -175,6 +185,16 @@ class _EcranFicheState extends State<EcranFiche> {
                     style: const TextStyle(color: Palette.encreDouce, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 10),
                 BarreXp(xp: stats.xp),
+                if (_estMoi) ...[
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Icon(Icons.bubble_chart, size: 18, color: Palette.encreDouce),
+                      const SizedBox(width: 6),
+                      Text('$solde Bulles', style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: 20),
                 Row(
                   children: [
@@ -430,12 +450,12 @@ class _EditeurProfilState extends State<_EditeurProfil> {
             ],
             _titre('Nom'),
             TextField(controller: _nom, maxLength: 20, decoration: decorationChamp('Votre prénom')),
-            _titre('Avatar (kit gratuit)'),
+            _titre('Avatar'),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final a in kitAvatars)
+                for (final a in objetsPossedes(TypeObjet.avatar, widget.membre['achats'] as List?, widget.debloques))
                   _case(
                     choisi: a.id == _avatar,
                     onTap: () => setState(() => _avatar = a.id),
@@ -443,12 +463,12 @@ class _EditeurProfilState extends State<_EditeurProfil> {
                   ),
               ],
             ),
-            _titre('Couverture (kit gratuit)'),
+            _titre('Couverture'),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final c in kitCouvertures)
+                for (final c in objetsPossedes(TypeObjet.couverture, widget.membre['achats'] as List?, widget.debloques))
                   _case(
                     choisi: c.id == _couverture,
                     largeur: 72,

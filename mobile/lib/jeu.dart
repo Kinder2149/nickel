@@ -267,6 +267,32 @@ final succes = <Succes>[
   Succes('maison5', Icons.castle, 'Maison de rêve', 'La maison atteint le niveau 5', Rarete.epique, 5, (s, m) => m.niveauMaison),
 ];
 
+// -------------------------------------------------------------- Bulles
+
+/// Bulles gagnées en atteignant le niveau n (n ≥ 2) : 30 au niveau 2, 70 au 10.
+int bullesNiveau(int niveau) => 20 + 5 * niveau;
+
+/// Bulles gagnées en débloquant un succès, selon sa rareté.
+int bullesSucces(Rarete r) => switch (r) {
+      Rarete.commun => 5,
+      Rarete.rare => 15,
+      Rarete.epique => 40,
+      Rarete.legendaire => 100,
+    };
+
+/// Total des Bulles gagnées par un membre (niveaux + succès). Calculé à
+/// l'affichage comme l'XP : rien à stocker, rien à désynchroniser.
+int bullesGagnees(StatsMembre s, Set<String> debloques) {
+  var total = 0;
+  for (var n = 2; n <= s.niveau; n++) {
+    total += bullesNiveau(n);
+  }
+  for (final x in succes) {
+    if (debloques.contains(x.id)) total += bullesSucces(x.rarete);
+  }
+  return total;
+}
+
 // ---------------------------------------------------------- Profil
 
 /// Les 3 badges d'un profil : ids de succès, limités aux débloqués.

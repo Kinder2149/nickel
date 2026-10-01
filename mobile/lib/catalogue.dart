@@ -21,6 +21,8 @@ class Objet {
     this.icone,
     this.couleurs,
     this.image,
+    this.succesRequis,
+    this.saison,
   });
 
   /// Lu depuis une entrée de `catalogue.json` (objets à image).
@@ -31,6 +33,8 @@ class Objet {
         rarete: Rarete.values.firstWhere((r) => r.name == j['rarete'], orElse: () => Rarete.commun),
         prix: (j['prix'] as int?) ?? 0,
         image: j['image'] as String?,
+        succesRequis: j['succesRequis'] as String?,
+        saison: j['saison'] as String?,
       );
 
   final String id;
@@ -49,6 +53,78 @@ class Objet {
 
   /// Objet de boutique : chemin de l'image dans le catalogue distant.
   final String? image;
+
+  /// Objet exclusif : ne s'achète pas, il se gagne avec ce succès.
+  final String? succesRequis;
+
+  /// Collection d'origine (ex. « lancement », « saison-1-hiver »).
+  final String? saison;
+
+  bool get estGratuit => prix == 0 && succesRequis == null;
+  bool get estAchetable => prix > 0 && succesRequis == null;
+}
+
+/// Prix de la boutique selon la rareté (en Bulles).
+int prixParRarete(Rarete r) => switch (r) {
+      Rarete.commun => 40,
+      Rarete.rare => 100,
+      Rarete.epique => 250,
+      Rarete.legendaire => 600,
+    };
+
+/// Boutique de lancement — contenu PROVISOIRE (pictogrammes et dégradés) pour
+/// faire vivre la boutique avant l'arrivée des visuels des saisons (étapes 3
+/// et 4). Le remplacer par `catalogue.json` ne change rien au reste du code.
+final boutique = <Objet>[
+  // Avatars à acheter
+  Objet(id: 'casque', type: TypeObjet.avatar, nom: 'Casque', rarete: Rarete.commun, prix: prixParRarete(Rarete.commun), icone: Icons.headphones, saison: 'lancement'),
+  Objet(id: 'disque', type: TypeObjet.avatar, nom: 'Disque', rarete: Rarete.commun, prix: prixParRarete(Rarete.commun), icone: Icons.album, saison: 'lancement'),
+  Objet(id: 'robot', type: TypeObjet.avatar, nom: 'Robot', rarete: Rarete.commun, prix: prixParRarete(Rarete.commun), icone: Icons.smart_toy, saison: 'lancement'),
+  Objet(id: 'voilier', type: TypeObjet.avatar, nom: 'Voilier', rarete: Rarete.commun, prix: prixParRarete(Rarete.commun), icone: Icons.sailing, saison: 'lancement'),
+  Objet(id: 'boussole', type: TypeObjet.avatar, nom: 'Boussole', rarete: Rarete.rare, prix: prixParRarete(Rarete.rare), icone: Icons.explore, saison: 'lancement'),
+  Objet(id: 'ancre', type: TypeObjet.avatar, nom: 'Ancre', rarete: Rarete.rare, prix: prixParRarete(Rarete.rare), icone: Icons.anchor, saison: 'lancement'),
+  Objet(id: 'circuit', type: TypeObjet.avatar, nom: 'Circuit', rarete: Rarete.rare, prix: prixParRarete(Rarete.rare), icone: Icons.memory, saison: 'lancement'),
+  Objet(id: 'platine', type: TypeObjet.avatar, nom: 'Platine', rarete: Rarete.rare, prix: prixParRarete(Rarete.rare), icone: Icons.graphic_eq, saison: 'lancement'),
+  Objet(id: 'chateau', type: TypeObjet.avatar, nom: 'Château', rarete: Rarete.epique, prix: prixParRarete(Rarete.epique), icone: Icons.castle, saison: 'lancement'),
+  Objet(id: 'galaxie', type: TypeObjet.avatar, nom: 'Galaxie', rarete: Rarete.epique, prix: prixParRarete(Rarete.epique), icone: Icons.auto_awesome, saison: 'lancement'),
+  Objet(id: 'trone', type: TypeObjet.avatar, nom: 'Trône de balais', rarete: Rarete.legendaire, prix: prixParRarete(Rarete.legendaire), icone: Icons.chair, saison: 'lancement'),
+  // Avatars exclusifs : se gagnent, ne s'achètent pas
+  Objet(id: 'trophee', type: TypeObjet.avatar, nom: 'Trophée', rarete: Rarete.legendaire, icone: Icons.emoji_events, succesRequis: 'cinqcents', saison: 'lancement'),
+  Objet(id: 'diamant', type: TypeObjet.avatar, nom: 'Diamant', rarete: Rarete.legendaire, icone: Icons.diamond, succesRequis: 'serie30', saison: 'lancement'),
+  Objet(id: 'foudre', type: TypeObjet.avatar, nom: 'Foudre', rarete: Rarete.rare, icone: Icons.flash_on, succesRequis: 'serie7', saison: 'lancement'),
+  // Couvertures à acheter
+  Objet(id: 'aurore', type: TypeObjet.couverture, nom: 'Aurore', rarete: Rarete.commun, prix: prixParRarete(Rarete.commun), couleurs: [Color(0xFFF2A65A), Color(0xFFF6D6A0)], saison: 'lancement'),
+  Objet(id: 'ocean', type: TypeObjet.couverture, nom: 'Océan', rarete: Rarete.commun, prix: prixParRarete(Rarete.commun), couleurs: [Color(0xFF5AA9E6), Color(0xFFB5DCF7)], saison: 'lancement'),
+  Objet(id: 'neon', type: TypeObjet.couverture, nom: 'Néon', rarete: Rarete.rare, prix: prixParRarete(Rarete.rare), couleurs: [Color(0xFF8A3FC7), Color(0xFF2F6FB5)], saison: 'lancement'),
+  Objet(id: 'braise-vive', type: TypeObjet.couverture, nom: 'Braise vive', rarete: Rarete.rare, prix: prixParRarete(Rarete.rare), couleurs: [Color(0xFFB4321F), Color(0xFFF2A65A)], saison: 'lancement'),
+  Objet(id: 'nuit-etoilee', type: TypeObjet.couverture, nom: 'Nuit étoilée', rarete: Rarete.epique, prix: prixParRarete(Rarete.epique), couleurs: [Color(0xFF1B2A49), Color(0xFF5B6EA8)], saison: 'lancement'),
+  Objet(id: 'or', type: TypeObjet.couverture, nom: 'Or', rarete: Rarete.legendaire, prix: prixParRarete(Rarete.legendaire), couleurs: [Color(0xFFB8860B), Color(0xFFFFE08A)], saison: 'lancement'),
+  // Couverture exclusive
+  Objet(id: 'sommet', type: TypeObjet.couverture, nom: 'Sommet', rarete: Rarete.legendaire, couleurs: [Color(0xFF16150F), Color(0xFFB8860B)], succesRequis: 'niveau10', saison: 'lancement'),
+];
+
+final tousLesObjets = <Objet>[...kitAvatars, ...kitCouvertures, ...boutique];
+
+/// Ce que possède un membre : le kit gratuit, ses achats, et les exclusifs
+/// dont il a débloqué le succès.
+List<Objet> objetsPossedes(TypeObjet type, List<dynamic>? achats, Set<String> succesDebloques) {
+  final ids = (achats ?? const []).whereType<String>().toSet();
+  return tousLesObjets
+      .where((o) => o.type == type)
+      .where((o) => o.estGratuit || ids.contains(o.id) && o.estAchetable || (o.succesRequis != null && succesDebloques.contains(o.succesRequis)))
+      .toList();
+}
+
+int bullesDepensees(List<dynamic>? achats) {
+  final ids = (achats ?? const []).whereType<String>().toSet();
+  return tousLesObjets.where((o) => o.estAchetable && ids.contains(o.id)).fold(0, (a, o) => a + o.prix);
+}
+
+/// Solde = gagné − dépensé (jamais négatif : annuler une tâche peut faire
+/// redescendre le gagné sous le dépensé).
+int soldeBulles(int gagnees, List<dynamic>? achats) {
+  final solde = gagnees - bullesDepensees(achats);
+  return solde < 0 ? 0 : solde;
 }
 
 /// Avatars gratuits. Le premier est le défaut : l'initiale du prénom.
@@ -78,9 +154,11 @@ const kitCouvertures = <Objet>[
 
 /// L'avatar d'un id. Un id inconnu (ancien emoji, objet retiré) donne
 /// l'initiale : un profil ne peut jamais se retrouver sans avatar.
-Objet avatarPourId(String? id) => kitAvatars.firstWhere((a) => a.id == id, orElse: () => kitAvatars.first);
+Objet avatarPourId(String? id) =>
+    tousLesObjets.firstWhere((a) => a.type == TypeObjet.avatar && a.id == id, orElse: () => kitAvatars.first);
 
-Objet couverturePourId(String? id) => kitCouvertures.firstWhere((c) => c.id == id, orElse: () => kitCouvertures.first);
+Objet couverturePourId(String? id) =>
+    tousLesObjets.firstWhere((c) => c.type == TypeObjet.couverture && c.id == id, orElse: () => kitCouvertures.first);
 
 /// Fond d'une couverture : image si l'objet en a une, sinon couleur unie ou
 /// dégradé.

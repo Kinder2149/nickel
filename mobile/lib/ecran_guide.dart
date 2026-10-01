@@ -88,8 +88,15 @@ class EcranGuide extends StatelessWidget {
           _texte('Sur ta fiche, « Prochains objectifs » montre les 3 succès les plus proches, avec ta progression. Certains sont collectifs : ils ne se débloquent que si toute la maison joue le jeu.'),
           _titre('Les badges'),
           _texte('Tu choisis 3 de tes succès débloqués pour les afficher sur ta fiche. Les autres membres les voient dans l\'onglet Équipe.'),
-          _titre('Se personnaliser'),
-          _texte('Un kit de départ gratuit te permet de choisir un avatar et une couverture. D\'autres objets arriveront avec la boutique.'),
+          _titre('Les Bulles et la boutique'),
+          _texte('Les Bulles sont la monnaie du jeu. On en gagne en montant de niveau et en débloquant des succès. On les dépense à la boutique (icône magasin sur ta fiche) contre des avatars et des couvertures.'),
+          _encart([
+            Text('Chaque niveau : ${bullesNiveau(2)} Bulles au niveau 2, ${bullesNiveau(10)} au niveau 10', style: const TextStyle(color: Palette.encre)),
+            for (final r in Rarete.values)
+              Text('Succès ${r.libelle.toLowerCase()} : ${bullesSucces(r)} Bulles', style: TextStyle(color: r.couleur, fontWeight: FontWeight.w600)),
+          ]),
+          _texte(''),
+          _texte('On ne peut pas tout acheter : à toi de choisir. Certains objets sont exclusifs, ils ne s\'achètent pas et se gagnent avec un succès précis. Un kit de départ est gratuit pour tout le monde.'),
           _titre('La maison'),
           _texte('Tout l\'XP de tous les habitants fait monter le niveau de la maison. Personne n\'est classé : on progresse ensemble. Le succès « Tous ensemble » se débloque quand chacun a fait au moins une tâche dans la semaine.'),
         ],

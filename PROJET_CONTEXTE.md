@@ -1651,3 +1651,13 @@ Plus aucun emoji dans le jeu (avatars, badges, fêtes, titres du guide). Les emo
 - **Badges de succès** : 30 pictogrammes monochromes colorés par rareté.
 - **Modèle de catalogue** (`lib/catalogue.dart`) : un objet (id, type avatar/couverture, nom, rareté, prix, pictogramme ou couleur, image optionnelle) lisible depuis `catalogue.json` — prêt pour la boutique (étape 2) et le catalogue distant (étape 3).
 - Tests : 9 verts. Prochaine étape : boutique et Bulles.
+
+### Étape 2 faite — Bulles et boutique — 2026-10-01 (en attente de test Kinder)
+
+- **Bulles** : gagnées en atteignant un niveau (20 + 5×niveau : 30 au niveau 2, 70 au 10) et en débloquant un succès (5 / 15 / 40 / 100 selon la rareté). **Calculées** à l'affichage, comme l'XP ; seule la liste des achats est stockée (`achats` sur la fiche du membre). Solde = gagné − dépensé, jamais négatif (annuler une tâche peut faire redescendre le gagné).
+- **Boutique** (icône magasin sur « Mon profil ») : onglets Avatars / Couvertures, solde en tête, cartes colorées par rareté (état : prix, « Possédé », ou « Succès : … » pour les exclusifs). Prix : 40 / 100 / 250 / 600. Confirmation avant achat. Les objets possédés se choisissent ensuite dans Mon profil → Modifier.
+- **Exclusifs** (ne s'achètent pas) : avatars Foudre (série 7), Diamant (série 30), Trophée (500 tâches) ; couverture Sommet (niveau 10).
+- **Contenu PROVISOIRE** : 14 avatars et 7 couvertures en pictogrammes et dégradés, pour tester le circuit complet. Ils seront remplacés par les visuels des saisons (étapes 3 et 4) ; le code ne change pas.
+- La fête de progression et le guide indiquent maintenant les Bulles gagnées.
+- Aucune nouvelle règle Firestore nécessaire (`achats` passe par la mise à jour de sa propre fiche, déjà déployée).
+- Tests : 10 verts. Prochaine étape : catalogue distant (étape 3).

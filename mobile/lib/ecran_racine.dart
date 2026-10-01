@@ -104,7 +104,7 @@ class _EcranRacineState extends State<EcranRacine> {
             if (montee)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text('Vous êtes maintenant « ${titreNiveau(stats.niveau)} ».',
+                child: Text('Vous êtes maintenant « ${titreNiveau(stats.niveau)} ». +${[for (var n = niveauVu + 1; n <= stats.niveau; n++) bullesNiveau(n)].fold(0, (a, b) => a + b)} Bulles.',
                     style: const TextStyle(color: Palette.encreDouce)),
               ),
             for (final s in nouveaux)
@@ -121,7 +121,7 @@ class _EcranRacineState extends State<EcranRacine> {
                           Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
                           Text(s.rarete.libelle.toUpperCase(),
                               style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleur)),
-                          Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
+                          Text('${s.description} · +${bullesSucces(s.rarete)} Bulles', style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
                         ],
                       ),
                     ),
