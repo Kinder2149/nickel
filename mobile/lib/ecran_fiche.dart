@@ -1,0 +1,477 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'donnees.dart';
+import 'jeu.dart';
+import 'palette.dart';
+import 'stockage_local.dart';
+
+/// Pastille d'un membre : son avatar si il en a choisi un, sinon son
+/// initiale sur sa couleur.
+class PastilleMembre extends StatelessWidget {
+  const PastilleMembre({super.key, required this.membre, this.taille = 36});
+
+  final Map<String, dynamic>? membre;
+  final double taille;
+
+  @override
+  Widget build(BuildContext context) {
+    final avatar = membre?['avatar'] as String?;
+    final couleur = membre != null ? hexVersCouleur(membre!['couleur'] as String) : Palette.encreFaible;
+    final prenom = (membre?['prenom'] as String?) ?? '?';
+    return Container(
+      width: taille,
+      height: taille,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: couleur, shape: BoxShape.circle),
+      child: avatar != null && avatar.isNotEmpty
+          ? Text(avatar, style: TextStyle(fontSize: taille * 0.55))
+          : Text(prenom.substring(0, 1).toUpperCase(),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: taille * 0.4)),
+    );
+  }
+}
+
+/// Barre d'XP vers le niveau suivant.
+class BarreXp extends StatelessWidget {
+  const BarreXp({super.key, required this.xp, this.echelle = 50, this.couleur = Palette.vert});
+
+  final int xp;
+  final int echelle;
+  final Color couleur;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = progressionNiveau(xp, echelle: echelle);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LinearProgressIndicator(
+          value: p.pourSuivant == 0 ? 0 : p.dansNiveau / p.pourSuivant,
+          minHeight: 10,
+          color: couleur,
+          backgroundColor: Palette.trait,
+        ),
+        const SizedBox(height: 4),
+        Text('${p.dansNiveau} / ${p.pourSuivant} XP vers le niveau suivant',
+            style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
+      ],
+    );
+  }
+}
+
+/// Fiche personnage d'un membre, visible par toute la maison. Le sien est
+/// modifiable (nom, avatar, couverture, trois badges).
+class EcranFiche extends StatefulWidget {
+  const EcranFiche({super.key, required this.maisonId, required this.profil, required this.membreId});
+
+  final String maisonId;
+  final Profil profil;
+  final String membreId;
+
+  @override
+  State<EcranFiche> createState() => _EcranFicheState();
+}
+
+class _EcranFicheState extends State<EcranFiche> {
+  List<Map<String, dynamic>> _membres = [];
+  List<Map<String, dynamic>> _taches = [];
+  List<Map<String, dynamic>> _realisations = [];
+  final _abonnements = <StreamSubscription>[];
+
+  @override
+  void initState() {
+    super.initState();
+    _abonnements.add(ecouterMembres(widget.maisonId).listen((m) {
+      if (mounted) setState(() => _membres = m);
+    }));
+    _abonnements.add(ecouterTaches(widget.maisonId).listen((t) {
+      if (mounted) setState(() => _taches = t);
+    }));
+    _abonnements.add(ecouterToutesRealisations(widget.maisonId).listen((r) {
+      if (mounted) setState(() => _realisations = r);
+    }));
+  }
+
+  @override
+  void dispose() {
+    for (final a in _abonnements) {
+      a.cancel();
+    }
+    super.dispose();
+  }
+
+  bool get _estMoi => widget.membreId == widget.profil.id;
+
+  @override
+  Widget build(BuildContext context) {
+    final membre = _membres.where((m) => m['id'] == widget.membreId).firstOrNull;
+    if (membre == null) {
+      return Scaffold(
+        appBar: AppBar(backgroundColor: Palette.papier, foregroundColor: Palette.encre, elevation: 0),
+        body: const Center(child: CircularProgressIndicator(color: Palette.encre)),
+      );
+    }
+
+    final stats = calculerStats(widget.membreId, _realisations, _taches);
+    final contexte = contexteMaison(_membres, _realisations, _taches);
+    final debloques = succesDebloques(stats, contexte);
+    final couverture = couverturePourId(membre['couverture'] as String?);
+    final badges = badgesAffiches(membre['badges'] as List?, debloques);
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Palette.papier,
+        foregroundColor: Palette.encre,
+        elevation: 0,
+        title: Text(_estMoi ? 'Mon profil' : membre['prenom'] as String, style: const TextStyle(fontWeight: FontWeight.w900)),
+        actions: [
+          if (_estMoi)
+            TextButton(
+              onPressed: () => _modifier(membre, stats, debloques),
+              child: const Text('MODIFIER', style: TextStyle(fontWeight: FontWeight.bold, color: Palette.encre)),
+            ),
+        ],
+      ),
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                height: 130,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: couverture.couleurs, begin: Alignment.topLeft, end: Alignment.bottomRight),
+                ),
+              ),
+              Positioned(
+                left: 22,
+                bottom: -36,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(color: Palette.papier, shape: BoxShape.circle),
+                  child: PastilleMembre(membre: membre, taille: 80),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 46),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(membre['prenom'] as String,
+                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Palette.encre)),
+                Text('Niveau ${stats.niveau} · ${titreNiveau(stats.niveau)} · ${stats.xp} XP',
+                    style: const TextStyle(color: Palette.encreDouce, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 10),
+                BarreXp(xp: stats.xp),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    for (var i = 0; i < 3; i++) ...[
+                      if (i > 0) const SizedBox(width: 10),
+                      Expanded(child: _emplacementBadge(i < badges.length ? succes.firstWhere((s) => s.id == badges[i]) : null)),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    _stat('${stats.taches}', 'Tâches faites'),
+                    _stat('${stats.semaine}', 'Cette semaine'),
+                    _stat('${stats.serie} j', 'Série en cours'),
+                    _stat('${stats.meilleureSerie} j', 'Meilleure série'),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Text('SUCCÈS · ${debloques.length} / ${succes.length}',
+                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+                const SizedBox(height: 8),
+                for (final s in succes) _ligneSucces(s, debloques.contains(s.id)),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _emplacementBadge(Succes? s) {
+    return Container(
+      height: 84,
+      decoration: BoxDecoration(
+        color: Palette.papierClair,
+        border: Border.all(color: s != null ? Palette.encre : Palette.trait, width: s != null ? 2 : 1.5),
+      ),
+      alignment: Alignment.center,
+      child: s == null
+          ? const Text('—', style: TextStyle(fontSize: 22, color: Palette.encreFaible))
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(s.emoji, style: const TextStyle(fontSize: 28)),
+                const SizedBox(height: 4),
+                Text(s.nom, textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Palette.encre)),
+              ],
+            ),
+    );
+  }
+
+  Widget _stat(String valeur, String libelle) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(valeur, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Palette.encre)),
+          const SizedBox(height: 2),
+          Text(libelle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 10, color: Palette.encreDouce)),
+        ],
+      ),
+    );
+  }
+
+  Widget _ligneSucces(Succes s, bool debloque) {
+    return Opacity(
+      opacity: debloque ? 1 : 0.4,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.trait)),
+              child: Text(debloque ? s.emoji : '🔒', style: const TextStyle(fontSize: 20)),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre)),
+                  Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _modifier(Map<String, dynamic> membre, StatsMembre stats, Set<String> debloques) async {
+    final enregistre = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Palette.papier,
+      builder: (_) => _EditeurProfil(
+        maisonId: widget.maisonId,
+        profil: widget.profil,
+        membre: membre,
+        niveau: stats.niveau,
+        debloques: debloques,
+      ),
+    );
+    if (enregistre == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profil enregistré. Le nouveau nom s\'affichera partout au prochain démarrage.')),
+      );
+    }
+  }
+}
+
+class _EditeurProfil extends StatefulWidget {
+  const _EditeurProfil({
+    required this.maisonId,
+    required this.profil,
+    required this.membre,
+    required this.niveau,
+    required this.debloques,
+  });
+
+  final String maisonId;
+  final Profil profil;
+  final Map<String, dynamic> membre;
+  final int niveau;
+  final Set<String> debloques;
+
+  @override
+  State<_EditeurProfil> createState() => _EditeurProfilState();
+}
+
+class _EditeurProfilState extends State<_EditeurProfil> {
+  late final _nom = TextEditingController(text: widget.membre['prenom'] as String);
+  late String _avatar = (widget.membre['avatar'] as String?) ?? avatars.first.emoji;
+  late String _couverture = (widget.membre['couverture'] as String?) ?? couvertures.first.id;
+  late List<String> _badges = badgesAffiches(widget.membre['badges'] as List?, widget.debloques);
+  bool _enCours = false;
+  String? _erreur;
+
+  @override
+  void dispose() {
+    _nom.dispose();
+    super.dispose();
+  }
+
+  Future<void> _enregistrer() async {
+    final nom = _nom.text.trim();
+    if (nom.isEmpty) {
+      setState(() => _erreur = 'Le nom ne peut pas être vide.');
+      return;
+    }
+    setState(() {
+      _enCours = true;
+      _erreur = null;
+    });
+    try {
+      await modifierProfil(widget.maisonId, widget.profil.id,
+          prenom: nom, avatar: _avatar, couverture: _couverture, badges: _badges);
+      final prefs = await SharedPreferences.getInstance();
+      await enregistrerProfilLocal(prefs, Profil(id: widget.profil.id, prenom: nom, couleur: widget.profil.couleur));
+      if (mounted) Navigator.pop(context, true);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _enCours = false;
+        _erreur = 'Enregistrement impossible : $e';
+      });
+    }
+  }
+
+  void _basculerBadge(String id) {
+    setState(() {
+      if (_badges.contains(id)) {
+        _badges = [..._badges]..remove(id);
+      } else if (_badges.length < 3) {
+        _badges = [..._badges, id];
+      }
+    });
+  }
+
+  Widget _titre(String texte) => Padding(
+        padding: const EdgeInsets.only(top: 18, bottom: 8),
+        child: Text(texte, style: const TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(22, 20, 22, MediaQuery.of(context).viewInsets.bottom + 24),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Mon profil', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Palette.encre)),
+            if (_erreur != null) ...[
+              const SizedBox(height: 10),
+              Text(_erreur!, style: const TextStyle(color: Palette.rouge)),
+            ],
+            _titre('Nom'),
+            TextField(controller: _nom, maxLength: 20, decoration: decorationChamp('Votre prénom')),
+            _titre('Avatar'),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final a in avatars)
+                  _case(
+                    choisi: a.emoji == _avatar,
+                    verrouille: a.niveauRequis > widget.niveau,
+                    niveau: a.niveauRequis,
+                    onTap: () => setState(() => _avatar = a.emoji),
+                    enfant: Text(a.emoji, style: const TextStyle(fontSize: 22)),
+                  ),
+              ],
+            ),
+            _titre('Image de couverture'),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final c in couvertures)
+                  _case(
+                    choisi: c.id == _couverture,
+                    verrouille: c.niveauRequis > widget.niveau,
+                    niveau: c.niveauRequis,
+                    largeur: 72,
+                    onTap: () => setState(() => _couverture = c.id),
+                    enfant: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: c.couleurs, begin: Alignment.topLeft, end: Alignment.bottomRight),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            _titre('Trois badges (${_badges.length} / 3) — à choisir parmi vos succès'),
+            if (widget.debloques.isEmpty)
+              const Text('Aucun succès débloqué pour l\'instant : cochez une tâche !',
+                  style: TextStyle(color: Palette.encreFaible, fontSize: 12))
+            else
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final s in succes.where((s) => widget.debloques.contains(s.id)))
+                    _case(
+                      choisi: _badges.contains(s.id),
+                      verrouille: false,
+                      niveau: 0,
+                      onTap: () => _basculerBadge(s.id),
+                      enfant: Text(s.emoji, style: const TextStyle(fontSize: 22)),
+                    ),
+                ],
+              ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _enCours ? null : _enregistrer,
+              style: boutonPrincipal(),
+              child: const Text('ENREGISTRER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _case({
+    required bool choisi,
+    required bool verrouille,
+    required int niveau,
+    required VoidCallback onTap,
+    required Widget enfant,
+    double largeur = 46,
+  }) {
+    return GestureDetector(
+      onTap: verrouille ? null : onTap,
+      child: Container(
+        width: largeur,
+        height: 46,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Palette.papierClair,
+          border: Border.all(color: choisi ? Palette.encre : Palette.trait, width: choisi ? 2.5 : 1.5),
+        ),
+        child: verrouille
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('🔒', style: TextStyle(fontSize: 14)),
+                  Text('niv. $niveau', style: const TextStyle(fontSize: 9, color: Palette.encreDouce)),
+                ],
+              )
+            : SizedBox.expand(child: Center(child: enfant)),
+      ),
+    );
+  }
+}
+
+extension _FirstOrNull<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
+}

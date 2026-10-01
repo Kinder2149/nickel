@@ -80,6 +80,9 @@ service cloud.firestore {
         allow read: if estAuthentifie();
         // Rejoindre = créer son propre document (l'id du document est l'uid).
         allow create: if estAuthentifie() && request.auth.uid == profilId;
+        // Modifier sa propre fiche personnage (nom, avatar, couverture, badges).
+        // Jamais celle d'un autre membre (§ 25).
+        allow update: if estAuthentifie() && request.auth.uid == profilId;
         // Quitter soi-même (V2-D6), ou retirer un autre membre (V2-D5).
         allow delete: if estAuthentifie() &&
           (request.auth.uid == profilId || estMembre(maisonId));

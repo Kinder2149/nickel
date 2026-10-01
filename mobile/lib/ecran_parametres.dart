@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
+import 'ecran_fiche.dart';
 import 'ecran_gestion.dart';
 import 'ecran_historique.dart';
 import 'ecran_maison.dart';
@@ -282,6 +283,16 @@ class _EcranParametresState extends State<EcranParametres> {
               ],
             ),
           ),
+          const SizedBox(height: 16),
+          OutlinedButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => EcranFiche(maisonId: widget.maisonId, profil: widget.profil, membreId: widget.profil.id),
+              ),
+            ),
+            style: boutonSecondaire(),
+            child: const Text('MON PROFIL', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+          ),
           const SizedBox(height: 24),
           const Text('Mes maisons', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
           const SizedBox(height: 4),
@@ -409,20 +420,17 @@ class _EcranParametresState extends State<EcranParametres> {
 
   Widget _ligneMembre(Map<String, dynamic> membre) {
     final estMoi = membre['id'] == widget.profil.id;
-    final couleur = hexVersCouleur(membre['couleur'] as String);
     final prenom = membre['prenom'] as String;
 
-    return Padding(
+    return InkWell(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => EcranFiche(maisonId: widget.maisonId, profil: widget.profil, membreId: membre['id'] as String)),
+      ),
+      child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(color: couleur, shape: BoxShape.circle),
-            child: Text(prenom.substring(0, 1).toUpperCase(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
+          PastilleMembre(membre: membre),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -437,6 +445,7 @@ class _EcranParametresState extends State<EcranParametres> {
               child: const Text('Retirer', style: TextStyle(fontSize: 12, color: Palette.encreDouce)),
             ),
         ],
+      ),
       ),
     );
   }

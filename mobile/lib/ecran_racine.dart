@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'donnees.dart';
 import 'ecran_accueil.dart';
 import 'ecran_astuces.dart';
+import 'ecran_equipe.dart';
 import 'palette.dart';
 
-/// Les deux portes de l'app (§ 21) : soit je fais ce qui est à faire chez
-/// moi, soit je cherche une astuce. L'accueil reste la vitrine — les
+/// Les trois portes de l'app (§ 21, § 25) : je fais ce qui est à faire chez
+/// moi, je vois où en est l'équipe, ou je cherche une astuce. L'accueil reste la vitrine — les
 /// astuces sont un second temps, jamais le premier écran.
 class EcranRacine extends StatefulWidget {
   const EcranRacine({super.key, required this.profil, required this.maisonId});
@@ -31,6 +32,7 @@ class _EcranRacineState extends State<EcranRacine> {
         index: _onglet,
         children: [
           EcranAccueil(profil: widget.profil, maisonId: widget.maisonId),
+          EcranEquipe(profil: widget.profil, maisonId: widget.maisonId),
           const EcranAstuces(),
         ],
       ),
@@ -44,6 +46,11 @@ class _EcranRacineState extends State<EcranRacine> {
             icon: Icon(Icons.home_outlined, color: Palette.encreDouce),
             selectedIcon: Icon(Icons.home, color: Palette.papier),
             label: 'Maison',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.emoji_events_outlined, color: Palette.encreDouce),
+            selectedIcon: Icon(Icons.emoji_events, color: Palette.papier),
+            label: 'Équipe',
           ),
           NavigationDestination(
             icon: Icon(Icons.lightbulb_outline, color: Palette.encreDouce),

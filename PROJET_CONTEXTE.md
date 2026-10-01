@@ -1580,3 +1580,17 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 **Corrigé** : écran « Pièces et tâches » — chaque pièce et chaque tâche se déroule d'un appui pour montrer ses boutons d'actions (Modifier/Renommer, Supprimer), larges et espacés.
 
 **Demandes à cadrer (pas de code)** : page Profil (nom, avatar, couverture, 3 badges, visible par la maison), onglet Statistiques, XP/niveaux/succès/trophées. Voir le cadrage ci-dessous une fois validé par Kinder.
+
+## 25. PROFIL, XP, ÉQUIPE ET SUCCÈS — 2026-10-01
+
+**Décisions (Kinder)** : confiance entre les trois habitants, aucun contrôle anti-triche. Esprit **coopératif d'abord** (recommandation retenue par défaut) : niveau de la maison en tête, membres non classés. Contenu visuel **sans téléchargement** : avatars = emoji, couvertures = dégradés dessinés dans l'app, badges = succès — aucun hébergement d'images (Firebase Storage exigerait le forfait payant).
+
+**XP** : une tâche cochée rapporte sa durée en minutes (bornée 5–60, 10 si inconnue). L'XP est **figé dans la Réalisation** (`xp`) au moment de la coche : il survit à une tâche supprimée ou à une durée modifiée ; annuler une coche retire l'XP. Les Réalisations antérieures valent 10. Niveaux : seuil du niveau n = 50·n·(n−1) (niv. 2 = 100 XP, 3 = 300, 4 = 600, 5 = 1000…), titres de « Novice » à « Mythe ». La maison monte avec l'XP de tous (échelle 150).
+
+**Écrans** : onglet **Équipe** (niveau de la maison, une carte par membre : niveau, barre d'XP, tâches de la semaine / totales, série, badges) ; **fiche personnage** (couverture, avatar, nom, niveau, 3 badges, statistiques, 14 succès) ouverte depuis Équipe, depuis la liste des membres de Paramètres, ou par **Paramètres → Mon profil** où elle devient modifiable (nom, avatar, couverture, 3 badges parmi les succès débloqués). Avatars et couvertures se débloquent avec le niveau. Les avatars remplacent les initiales dans l'historique et la liste des membres. Cocher affiche « +N XP ».
+
+**Données** : la fiche d'un membre (`membres/{uid}`) gagne `avatar`, `couverture`, `badges`. **Règle Firestore ajoutée** : un membre peut modifier sa propre fiche (`allow update`) — **à déployer** (`firebase deploy --only firestore:rules`), sinon l'enregistrement du profil est refusé. Nouveau nom : pris en compte partout au prochain démarrage de l'app.
+
+**Code** : `lib/jeu.dart` (logique pure, testée dans `test/jeu_test.dart`), `ecran_fiche.dart`, `ecran_equipe.dart`.
+
+**Non fait** : succès « sur mesure » liés à une pièce ou à une tâche précise ; récompenses collectives au-delà du succès « Tous ensemble » ; achat de nouveaux avatars à partir d'une banque d'illustrations (non retenu : emoji suffisants pour le pilote).

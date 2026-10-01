@@ -304,14 +304,17 @@ Future<void> enregistrerRealisation(
   String tacheId,
   String profilId,
   String dateISO,
-  String prochaineEcheance,
-) async {
+  String prochaineEcheance, {
+  int xp = 10,
+}) async {
   final maison = _db.collection('maisons').doc(maisonId);
   final lot = _db.batch();
   lot.set(maison.collection('realisations').doc(), {
     'tacheId': tacheId,
     'realiseParId': profilId,
     'dateRealisation': dateISO,
+    // XP gagné, figé au moment de la coche (§ 25).
+    'xp': xp,
     'enregistreLe': DateTime.now().toIso8601String(),
   });
   lot.update(maison.collection('taches').doc(tacheId), {
@@ -349,6 +352,34 @@ Future<void> supprimerRealisation(String maisonId, String realisationId, String 
     });
   }
   await lot.commit();
+}
+
+/// Toutes les Réalisations de la maison (sans limite) : nécessaire au calcul
+/// de l'XP et des succès. Un foyer de quelques personnes en produit peu.
+Stream<List<Map<String, dynamic>>> ecouterToutesRealisations(String maisonId) {
+  return _db
+      .collection('maisons')
+      .doc(maisonId)
+      .collection('realisations')
+      .snapshots()
+      .map((snap) => snap.docs.map((d) => {'id': d.id, ...d.data()}).toList());
+}
+
+/// Met à jour sa propre fiche personnage dans une maison (§ 25).
+Future<void> modifierProfil(
+  String maisonId,
+  String membreId, {
+  required String prenom,
+  required String avatar,
+  required String couverture,
+  required List<String> badges,
+}) async {
+  await _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId).update({
+    'prenom': prenom,
+    'avatar': avatar,
+    'couverture': couverture,
+    'badges': badges,
+  });
 }
 
 /// Réinscrit ce profil dans sa maison sous l'identifiant actuel de

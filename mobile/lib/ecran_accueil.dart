@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
+import 'jeu.dart';
 import 'ecran_parametres.dart';
 import 'navigation.dart';
 import 'palette.dart';
@@ -130,7 +131,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
       enregistre = true;
       _enAttente.remove(tacheId);
       if (mounted && !_enFermeture) setState(() {});
-      enregistrerRealisation(widget.maisonId, tacheId, widget.profil.id, aujourdhui, prochaineEcheance).catchError((Object e) {
+      enregistrerRealisation(widget.maisonId, tacheId, widget.profil.id, aujourdhui, prochaineEcheance, xp: xpPourTache(tache)).catchError((Object e) {
         if (mounted && !_enFermeture) _signaler('« ${tache['nom']} » n\'a pas pu être enregistrée : $e');
       });
     }
@@ -498,7 +499,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
   Widget _ligneFait(Map<String, dynamic> t, Map<String, dynamic>? realisation) {
     final enAttente = _enAttente[t['id']];
     if (enAttente != null) {
-      return _ligne(t, sousTitre: 'Fait · annulable quelques secondes', action: _bouton('ANNULER', enAttente.annuler));
+      return _ligne(t, sousTitre: 'Fait · +${xpPourTache(t)} XP · annulable quelques secondes', action: _bouton('ANNULER', enAttente.annuler));
     }
     final par = _prenomMembre(realisation?['realiseParId'] as String?);
     final piece = _nomPiece(t);

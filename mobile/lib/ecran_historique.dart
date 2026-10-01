@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'donnees.dart';
+import 'ecran_fiche.dart';
 import 'palette.dart';
 
 /// Écran "Historique" — équivalent Flutter de `afficherEcranHistorique`
@@ -100,20 +101,11 @@ class _EcranHistoriqueState extends State<EcranHistorique> {
     final tache = _taches.where((t) => t['id'] == r['tacheId']).firstOrNull;
     final membre = _membres.where((m) => m['id'] == r['realiseParId']).firstOrNull;
 
-    final couleurMembre = membre != null ? hexVersCouleur(membre['couleur'] as String) : Palette.encreFaible;
-    final initiale = membre != null ? (membre['prenom'] as String).substring(0, 1).toUpperCase() : '?';
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Container(
-            width: 32,
-            height: 32,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(color: couleurMembre, shape: BoxShape.circle),
-            child: Text(initiale, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
-          ),
+          PastilleMembre(membre: membre, taille: 32),
           const SizedBox(width: 10),
           Container(
             width: 32,
