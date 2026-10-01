@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
 import 'ecran_accueil.dart';
 import 'ecran_astuces.dart';
 import 'ecran_equipe.dart';
+import 'jeu.dart';
 import 'palette.dart';
 
 /// Les trois portes de l'app (§ 21, § 25) : je fais ce qui est à faire chez
@@ -21,6 +25,118 @@ class EcranRacine extends StatefulWidget {
 
 class _EcranRacineState extends State<EcranRacine> {
   int _onglet = 0;
+
+  // Suivi de progression : on compare ce que l'on vient de calculer à ce que
+  // l'on avait déjà « vu » sur cet appareil, pour fêter un nouveau niveau ou
+  // un nouveau succès (§ 25). La première fois, on enregistre sans fêter :
+  // sinon l'historique d'avant le jeu déclencherait une avalanche.
+  List<Map<String, dynamic>> _membres = [];
+  List<Map<String, dynamic>> _taches = [];
+  List<Map<String, dynamic>> _realisations = [];
+  final _recus = <String>{};
+  final _abonnements = <StreamSubscription>[];
+  bool _celebrationOuverte = false;
+
+  String get _cleVu => 'nickel-vu-${widget.maisonId}-${widget.profil.id}';
+
+  @override
+  void initState() {
+    super.initState();
+    _abonnements.add(ecouterMembres(widget.maisonId).listen((m) {
+      _membres = m;
+      _recus.add('membres');
+      _verifierProgression();
+    }));
+    _abonnements.add(ecouterTaches(widget.maisonId).listen((t) {
+      _taches = t;
+      _recus.add('taches');
+      _verifierProgression();
+    }));
+    _abonnements.add(ecouterToutesRealisations(widget.maisonId).listen((r) {
+      _realisations = r;
+      _recus.add('realisations');
+      _verifierProgression();
+    }));
+  }
+
+  @override
+  void dispose() {
+    for (final a in _abonnements) {
+      a.cancel();
+    }
+    super.dispose();
+  }
+
+  Future<void> _verifierProgression() async {
+    if (_recus.length < 3 || _celebrationOuverte || !mounted) return;
+    if (!_membres.any((m) => m['id'] == widget.profil.id)) return;
+
+    final stats = calculerStats(widget.profil.id, _realisations, _taches);
+    final contexte = contexteMaison(_membres, _realisations, _taches);
+    final debloques = succesDebloques(stats, contexte);
+
+    final prefs = await SharedPreferences.getInstance();
+    final vu = prefs.getString(_cleVu);
+    final niveauVu = vu == null ? stats.niveau : int.tryParse(vu.split(';').first) ?? stats.niveau;
+    final idsVus = vu == null ? debloques : vu.split(';').last.split(',').where((e) => e.isNotEmpty).toSet();
+
+    final nouveaux = succes.where((s) => debloques.contains(s.id) && !idsVus.contains(s.id)).toList();
+    final montee = stats.niveau > niveauVu;
+
+    await prefs.setString(
+      _cleVu,
+      '${stats.niveau > niveauVu ? stats.niveau : niveauVu};${{...idsVus, ...debloques}.join(',')}',
+    );
+    if (vu == null || (!montee && nouveaux.isEmpty) || !mounted) return;
+
+    _celebrationOuverte = true;
+    await showDialog<void>(
+      context: context,
+      builder: (contexteDialogue) => AlertDialog(
+        backgroundColor: Palette.papier,
+        shape: const RoundedRectangleBorder(),
+        title: Text(montee ? '🎉 Niveau ${stats.niveau} !' : '🏅 Succès débloqué !',
+            style: const TextStyle(fontWeight: FontWeight.w900, color: Palette.encre)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (montee)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text('Vous êtes maintenant « ${titreNiveau(stats.niveau)} ». De nouveaux avatars et couvertures se débloquent peut-être : voyez Mon profil.',
+                    style: const TextStyle(color: Palette.encreDouce)),
+              ),
+            for (final s in nouveaux)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Text(s.emoji, style: const TextStyle(fontSize: 30)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
+                          Text(s.rarete.libelle.toUpperCase(),
+                              style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleur)),
+                          Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(contexteDialogue), child: const Text('SUPER !', style: TextStyle(color: Palette.encre, fontWeight: FontWeight.bold))),
+        ],
+      ),
+    );
+    _celebrationOuverte = false;
+  }
 
   @override
   Widget build(BuildContext context) {

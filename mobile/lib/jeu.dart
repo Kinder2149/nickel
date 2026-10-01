@@ -77,6 +77,8 @@ class StatsMembre {
     required this.leveTot,
     required this.coucheTard,
     required this.pieces,
+    required this.weekend,
+    required this.joursActifs,
   });
 
   final int xp;
@@ -88,6 +90,8 @@ class StatsMembre {
   final bool leveTot; // une tâche cochée avant 8 h
   final bool coucheTard; // une tâche cochée à 22 h ou après
   final int pieces; // nombre de pièces différentes nettoyées
+  final int weekend; // tâches faites un samedi ou un dimanche
+  final int joursActifs; // jours différents où il a fait au moins une tâche
 
   int get niveau => niveauPourXp(xp);
 }
@@ -108,6 +112,7 @@ StatsMembre calculerStats(
   var semaine = 0;
   var leveTot = false;
   var coucheTard = false;
+  var weekend = 0;
   final pieces = <String>{};
   final debutSemaine = ajouterJours(jourJ, -6);
 
@@ -116,6 +121,9 @@ StatsMembre calculerStats(
     final date = r['dateRealisation'] as String;
     parJour[date] = (parJour[date] ?? 0) + 1;
     if (date.compareTo(debutSemaine) >= 0 && date.compareTo(jourJ) <= 0) semaine++;
+
+    final jourSemaine = _dateDe(date).weekday;
+    if (jourSemaine == DateTime.saturday || jourSemaine == DateTime.sunday) weekend++;
 
     final heure = DateTime.tryParse((r['enregistreLe'] as String?) ?? '')?.hour;
     if (heure != null) {
@@ -160,19 +168,50 @@ StatsMembre calculerStats(
     leveTot: leveTot,
     coucheTard: coucheTard,
     pieces: pieces.length,
+    weekend: weekend,
+    joursActifs: parJour.length,
   );
+}
+
+DateTime _dateDe(String dateISO) {
+  final p = dateISO.split('-').map(int.parse).toList();
+  return DateTime(p[0], p[1], p[2]);
 }
 
 // -------------------------------------------------------------- Succès
 
+enum Rarete { commun, rare, epique, legendaire }
+
+extension LibelleRarete on Rarete {
+  String get libelle => switch (this) {
+        Rarete.commun => 'Commun',
+        Rarete.rare => 'Rare',
+        Rarete.epique => 'Épique',
+        Rarete.legendaire => 'Légendaire',
+      };
+
+  Color get couleur => switch (this) {
+        Rarete.commun => const Color(0xFF6B675A),
+        Rarete.rare => const Color(0xFF2F6FB5),
+        Rarete.epique => const Color(0xFF8A3FC7),
+        Rarete.legendaire => const Color(0xFFB8860B),
+      };
+}
+
+/// Un succès se débloque quand `valeur` atteint `objectif` (les succès
+/// « oui / non » ont un objectif de 1).
 class Succes {
-  const Succes(this.id, this.emoji, this.nom, this.description, this.debloque);
+  const Succes(this.id, this.emoji, this.nom, this.description, this.rarete, this.objectif, this.valeur);
 
   final String id;
   final String emoji;
   final String nom;
   final String description;
-  final bool Function(StatsMembre s, ContexteMaison m) debloque;
+  final Rarete rarete;
+  final int objectif;
+  final int Function(StatsMembre s, ContexteMaison m) valeur;
+
+  bool debloque(StatsMembre s, ContexteMaison m) => valeur(s, m) >= objectif;
 }
 
 /// Ce qui se joue à l'échelle de la maison (succès coopératifs).
@@ -182,23 +221,50 @@ class ContexteMaison {
   /// Chaque membre a fait au moins une tâche ces 7 derniers jours.
   final bool toutLeMondeActif;
   final int xpMaison;
+
+  int get niveauMaison => niveauPourXp(xpMaison, echelle: echelleMaison);
 }
 
+int _oui(bool b) => b ? 1 : 0;
+
 final succes = <Succes>[
-  Succes('premiere', '🌱', 'Premier pas', 'Cocher sa première tâche', (s, m) => s.taches >= 1),
-  Succes('dix', '🧽', 'Bien lancé', '10 tâches faites', (s, m) => s.taches >= 10),
-  Succes('cinquante', '🧴', 'Increvable', '50 tâches faites', (s, m) => s.taches >= 50),
-  Succes('cent', '🏅', 'Centurion', '100 tâches faites', (s, m) => s.taches >= 100),
-  Succes('troiscents', '🏆', 'Légende du ménage', '300 tâches faites', (s, m) => s.taches >= 300),
-  Succes('serie3', '🔥', 'Sur la lancée', '3 jours de suite', (s, m) => s.meilleureSerie >= 3),
-  Succes('serie7', '⚡', 'Semaine parfaite', '7 jours de suite', (s, m) => s.meilleureSerie >= 7),
-  Succes('serie30', '💎', 'Inarrêtable', '30 jours de suite', (s, m) => s.meilleureSerie >= 30),
-  Succes('marathon', '🏃', 'Marathon', '5 tâches le même jour', (s, m) => s.maxParJour >= 5),
-  Succes('toutterrain', '🧭', 'Touche-à-tout', 'Des tâches dans 4 pièces différentes', (s, m) => s.pieces >= 4),
-  Succes('tot', '🌅', 'Lève-tôt', 'Une tâche avant 8 h', (s, m) => s.leveTot),
-  Succes('tard', '🦉', 'Oiseau de nuit', 'Une tâche à 22 h ou après', (s, m) => s.coucheTard),
-  Succes('niveau5', '⭐', 'Expert', 'Atteindre le niveau 5', (s, m) => s.niveau >= 5),
-  Succes('equipe', '🤝', 'Tous ensemble', 'Toute la maison a fait une tâche cette semaine', (s, m) => m.toutLeMondeActif && s.semaine >= 1),
+  // Volume
+  Succes('premiere', '🌱', 'Premier pas', 'Cocher sa première tâche', Rarete.commun, 1, (s, m) => s.taches),
+  Succes('dix', '🧽', 'Bien lancé', 'Faire 10 tâches', Rarete.commun, 10, (s, m) => s.taches),
+  Succes('vingtcinq', '🧴', 'Dans le rythme', 'Faire 25 tâches', Rarete.commun, 25, (s, m) => s.taches),
+  Succes('cinquante', '💪', 'Increvable', 'Faire 50 tâches', Rarete.rare, 50, (s, m) => s.taches),
+  Succes('cent', '🏅', 'Centurion', 'Faire 100 tâches', Rarete.rare, 100, (s, m) => s.taches),
+  Succes('deuxcents', '🥇', 'Machine de guerre', 'Faire 200 tâches', Rarete.epique, 200, (s, m) => s.taches),
+  Succes('cinqcents', '🏆', 'Légende du ménage', 'Faire 500 tâches', Rarete.legendaire, 500, (s, m) => s.taches),
+  // Régularité
+  Succes('serie3', '🔥', 'Sur la lancée', '3 jours de suite', Rarete.commun, 3, (s, m) => s.meilleureSerie),
+  Succes('serie7', '⚡', 'Semaine parfaite', '7 jours de suite', Rarete.rare, 7, (s, m) => s.meilleureSerie),
+  Succes('serie14', '🌟', "Quinzaine d'or", '14 jours de suite', Rarete.epique, 14, (s, m) => s.meilleureSerie),
+  Succes('serie30', '💎', 'Inarrêtable', '30 jours de suite', Rarete.legendaire, 30, (s, m) => s.meilleureSerie),
+  Succes('fidele', '📅', 'Fidèle au poste', 'Faire une tâche pendant 30 jours différents', Rarete.rare, 30, (s, m) => s.joursActifs),
+  Succes('semaine5', '🗓️', 'Semaine active', '5 tâches en 7 jours', Rarete.commun, 5, (s, m) => s.semaine),
+  Succes('semaine15', '🌪️', 'Semaine de feu', '15 tâches en 7 jours', Rarete.epique, 15, (s, m) => s.semaine),
+  // Efforts d'un jour
+  Succes('triple', '🎯', 'Triplé', '3 tâches le même jour', Rarete.commun, 3, (s, m) => s.maxParJour),
+  Succes('marathon', '🏃', 'Marathon', '5 tâches le même jour', Rarete.rare, 5, (s, m) => s.maxParJour),
+  Succes('tornade', '🌀', 'Tornade blanche', '8 tâches le même jour', Rarete.epique, 8, (s, m) => s.maxParJour),
+  // Variété et habitudes
+  Succes('deuxpieces', '🚪', 'Curieux', 'Des tâches dans 2 pièces différentes', Rarete.commun, 2, (s, m) => s.pieces),
+  Succes('toutterrain', '🧭', 'Touche-à-tout', 'Des tâches dans 4 pièces différentes', Rarete.rare, 4, (s, m) => s.pieces),
+  Succes('maitrelieux', '🗝️', 'Maître des lieux', 'Des tâches dans 6 pièces différentes', Rarete.epique, 6, (s, m) => s.pieces),
+  Succes('tot', '🌅', 'Lève-tôt', 'Cocher une tâche avant 8 h', Rarete.rare, 1, (s, m) => _oui(s.leveTot)),
+  Succes('tard', '🦉', 'Oiseau de nuit', 'Cocher une tâche à 22 h ou après', Rarete.rare, 1, (s, m) => _oui(s.coucheTard)),
+  Succes('weekend', '☀️', 'Week-end productif', 'Faire 5 tâches un samedi ou un dimanche', Rarete.commun, 5, (s, m) => s.weekend),
+  // Niveaux
+  Succes('niveau3', '🥉', 'Habitué', 'Atteindre le niveau 3', Rarete.commun, 3, (s, m) => s.niveau),
+  Succes('niveau5', '🥈', 'Expert', 'Atteindre le niveau 5', Rarete.rare, 5, (s, m) => s.niveau),
+  Succes('niveau8', '🎖️', 'Légende', 'Atteindre le niveau 8', Rarete.epique, 8, (s, m) => s.niveau),
+  Succes('niveau10', '👑', 'Au sommet', 'Atteindre le niveau 10', Rarete.legendaire, 10, (s, m) => s.niveau),
+  // Coopération
+  Succes('equipe', '🤝', 'Tous ensemble', 'Toute la maison a fait une tâche cette semaine (vous aussi)', Rarete.rare, 1,
+      (s, m) => _oui(m.toutLeMondeActif && s.semaine >= 1)),
+  Succes('maison3', '🏡', 'Maison en forme', 'La maison atteint le niveau 3', Rarete.commun, 3, (s, m) => m.niveauMaison),
+  Succes('maison5', '🏰', 'Maison de rêve', 'La maison atteint le niveau 5', Rarete.epique, 5, (s, m) => m.niveauMaison),
 ];
 
 // ---------------------------------------------- Personnalisation (profil)

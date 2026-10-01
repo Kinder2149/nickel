@@ -6,7 +6,7 @@ Map<String, dynamic> r(String par, String date, {int? xp, String tache = 't1', S
       'dateRealisation': date,
       'tacheId': tache,
       'enregistreLe': '${date}T$heure',
-      if (xp != null) 'xp': xp,
+      'xp': ?xp,
     };
 
 void main() {
@@ -69,5 +69,19 @@ void main() {
     expect(ok, containsAll(['premiere', 'equipe']));
     expect(ok.contains('cent'), false);
     expect(badgesAffiches(['premiere', 'cent', 'equipe', 'x'], ok), ['premiere', 'equipe']);
+  });
+
+  test('week-end, jours actifs et progression des succès', () {
+    // 2026-10-03 est un samedi, 2026-10-04 un dimanche.
+    final rea = [r('val', '2026-10-03'), r('val', '2026-10-04'), r('val', '2026-10-05')];
+    final s = calculerStats('val', rea, [], aujourdhui: '2026-10-05');
+    expect(s.weekend, 2);
+    expect(s.joursActifs, 3);
+    final ctx = contexteMaison([{'id': 'val'}], rea, [], aujourdhui: '2026-10-05');
+    final dix = succes.firstWhere((x) => x.id == 'dix');
+    expect(dix.valeur(s, ctx), 3);
+    expect(dix.debloque(s, ctx), false);
+    expect(succes.firstWhere((x) => x.id == 'serie3').debloque(s, ctx), true);
+    expect(succes.map((x) => x.id).toSet().length, succes.length, reason: 'ids uniques');
   });
 }

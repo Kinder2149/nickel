@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
+import 'ecran_guide.dart';
 import 'jeu.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
@@ -128,6 +129,11 @@ class _EcranFicheState extends State<EcranFiche> {
         elevation: 0,
         title: Text(_estMoi ? 'Mon profil' : membre['prenom'] as String, style: const TextStyle(fontWeight: FontWeight.w900)),
         actions: [
+          IconButton(
+            tooltip: 'Comment ça marche ?',
+            icon: const Icon(Icons.help_outline),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EcranGuide())),
+          ),
           if (_estMoi)
             TextButton(
               onPressed: () => _modifier(membre, stats, debloques),
@@ -189,10 +195,7 @@ class _EcranFicheState extends State<EcranFiche> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                Text('SUCCÈS · ${debloques.length} / ${succes.length}',
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
-                const SizedBox(height: 8),
-                for (final s in succes) _ligneSucces(s, debloques.contains(s.id)),
+                ..._sectionSucces(stats, contexte, debloques),
                 const SizedBox(height: 32),
               ],
             ),
@@ -207,7 +210,7 @@ class _EcranFicheState extends State<EcranFiche> {
       height: 84,
       decoration: BoxDecoration(
         color: Palette.papierClair,
-        border: Border.all(color: s != null ? Palette.encre : Palette.trait, width: s != null ? 2 : 1.5),
+        border: Border.all(color: s != null ? s.rarete.couleur : Palette.trait, width: s != null ? 2.5 : 1.5),
       ),
       alignment: Alignment.center,
       child: s == null
@@ -235,32 +238,89 @@ class _EcranFicheState extends State<EcranFiche> {
     );
   }
 
-  Widget _ligneSucces(Succes s, bool debloque) {
-    return Opacity(
-      opacity: debloque ? 1 : 0.4,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.trait)),
-              child: Text(debloque ? s.emoji : '🔒', style: const TextStyle(fontSize: 20)),
+  /// « Prochains objectifs » (les plus proches), puis les succès débloqués,
+  /// puis le reste à découvrir.
+  List<Widget> _sectionSucces(StatsMembre stats, ContexteMaison contexte, Set<String> debloques) {
+    double avancement(Succes s) => (s.valeur(stats, contexte) / s.objectif).clamp(0, 1).toDouble();
+    final aDebloquer = succes.where((s) => !debloques.contains(s.id)).toList()
+      ..sort((a, b) => avancement(b).compareTo(avancement(a)));
+    final prochains = aDebloquer.take(3).toList();
+    final reste = aDebloquer.skip(3).toList();
+    final obtenus = succes.where((s) => debloques.contains(s.id)).toList();
+
+    Widget titre(String t) => Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 6),
+          child: Text(t, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+        );
+
+    return [
+      titre('SUCCÈS · ${debloques.length} / ${succes.length}'),
+      if (prochains.isNotEmpty) ...[
+        titre('PROCHAINS OBJECTIFS'),
+        for (final s in prochains) _ligneSucces(s, stats, contexte, false),
+      ],
+      if (obtenus.isNotEmpty) ...[
+        titre('DÉBLOQUÉS'),
+        for (final s in obtenus) _ligneSucces(s, stats, contexte, true),
+      ],
+      if (reste.isNotEmpty) ...[
+        titre('À DÉCOUVRIR'),
+        for (final s in reste) _ligneSucces(s, stats, contexte, false),
+      ],
+    ];
+  }
+
+  Widget _ligneSucces(Succes s, StatsMembre stats, ContexteMaison contexte, bool debloque) {
+    final valeur = s.valeur(stats, contexte).clamp(0, s.objectif);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Palette.papierClair,
+              border: Border.all(color: debloque ? s.rarete.couleur : Palette.trait, width: debloque ? 2.5 : 1.5),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre)),
-                  Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
+            child: Opacity(opacity: debloque ? 1 : 0.35, child: Text(debloque ? s.emoji : '🔒', style: const TextStyle(fontSize: 22))),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flexible(child: Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre))),
+                    const SizedBox(width: 8),
+                    Text(s.rarete.libelle.toUpperCase(),
+                        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleur)),
+                  ],
+                ),
+                Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
+                if (!debloque && s.objectif > 1) ...[
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LinearProgressIndicator(
+                          value: valeur / s.objectif,
+                          minHeight: 6,
+                          color: s.rarete.couleur,
+                          backgroundColor: Palette.trait,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text('$valeur / ${s.objectif}', style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
+                    ],
+                  ),
                 ],
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

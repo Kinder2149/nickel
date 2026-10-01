@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'donnees.dart';
 import 'ecran_fiche.dart';
+import 'ecran_guide.dart';
 import 'jeu.dart';
 import 'palette.dart';
 
@@ -60,6 +61,13 @@ class _EcranEquipeState extends State<EcranEquipe> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: const Text('Équipe', style: TextStyle(fontWeight: FontWeight.w900)),
+        actions: [
+          IconButton(
+            tooltip: 'Comment ça marche ?',
+            icon: const Icon(Icons.help_outline),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EcranGuide())),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(22, 8, 22, 32),

@@ -1594,3 +1594,13 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 **Code** : `lib/jeu.dart` (logique pure, testée dans `test/jeu_test.dart`), `ecran_fiche.dart`, `ecran_equipe.dart`.
 
 **Non fait** : succès « sur mesure » liés à une pièce ou à une tâche précise ; récompenses collectives au-delà du succès « Tous ensemble » ; achat de nouveaux avatars à partir d'une banque d'illustrations (non retenu : emoji suffisants pour le pilote).
+
+### Système de jeu étoffé — 2026-10-01
+
+**Règle Firestore déployée** (`allow update` sur sa propre fiche membre) sur `nickel-menage-57692`, avec accord de Kinder. Sans elle l'enregistrement du profil était refusé. Ne donne aucun droit sur les données des autres membres ni sur le reste de la base.
+
+**31 succès en 4 raretés** (commun / rare / épique / légendaire) : volume (1 → 500 tâches), régularité (séries 3 → 30 jours, jours actifs, semaine active), efforts d'un jour (3, 5, 8 tâches), variété (2, 4, 6 pièces), habitudes (lève-tôt, oiseau de nuit, week-end), niveaux (3, 5, 8, 10), coopération (« Tous ensemble », niveau de la maison 3 et 5). Chaque succès a un objectif chiffré : la fiche montre la progression et les 3 « prochains objectifs » les plus proches.
+
+**Page « Comment ça marche ? »** (`ecran_guide.dart`), accessible par le point d'interrogation de l'onglet Équipe et de la fiche : XP, niveaux (tableau), séries, raretés, badges, déblocages par niveau. Les chiffres viennent des mêmes listes que le jeu.
+
+**Fête de progression** : à l'ouverture de l'app (et après une coche), une fenêtre annonce un nouveau niveau ou un nouveau succès. Mémoire de ce qui a déjà été vu stockée sur l'appareil ; la première fois, rien n'est fêté (l'historique antérieur ne déclenche pas d'avalanche).
