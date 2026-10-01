@@ -1,40 +1,282 @@
 {
-  "saison": { "id": "saison-1-hiver", "nom": "Saison 1 — Hiver", "theme": "Trônes et dragons", "debut": "2026-10-01" },
+  "saison": {
+    "id": "saison-1-hiver",
+    "nom": "Saison 1 — Hiver",
+    "theme": "Trônes et dragons",
+    "debut": "2026-10-01"
+  },
   "style": "Flat graphic illustration in the style of a bold linocut / woodblock print. Thick dark ink outlines (#16150F), flat color fills, a limited palette of at most 5 colors per image built on cream paper tones with one or two vivid accents, subtle paper grain, slightly rough printed edges. Charming, characterful and a little fierce, like a collectible game emblem. No text, no letters, no watermark, no frame, no border.",
   "formatAvatar": "Format: square 1:1. A single character or emblem centered, filling about 70% of the frame with safe margins on every side, on a plain flat solid background of color {fond}. It will be cropped into a circle, so keep everything inside the central circle. One image only.",
   "formatCouverture": "Format: wide banner 16:9. Keep the key subject inside the middle horizontal band (central 40% of the height) because the top and bottom will be cropped. Atmospheric wide scene, no close-up faces. One image only.",
   "objets": [
-    { "n": 1, "id": "louveteau", "type": "avatar", "nom": "Louveteau des neiges", "rarete": "commun", "fond": "#A8C4D8",
-      "sujet": "A cute but fierce baby white wolf pup, head and shoulders, big expressive eyes, fluffy fur, wearing a tiny red scarf." },
-    { "n": 2, "id": "corbeau-messager", "type": "avatar", "nom": "Corbeau messager", "rarete": "commun", "fond": "#BFC8D0",
-      "sujet": "A clever black raven perched with its head turned, holding a tiny rolled scroll tied with a ribbon in its beak." },
-    { "n": 3, "id": "blason-eponge", "type": "avatar", "nom": "Blason à l'éponge", "rarete": "commun", "fond": "#8FA3B8",
-      "sujet": "A heraldic shield emblem showing a golden sponge and a bucket crossed like swords, a small crown on top, frosty decorative edge." },
-    { "n": 4, "id": "torche", "type": "avatar", "nom": "Torche de la garde", "rarete": "commun", "fond": "#2B3340",
-      "sujet": "A burning torch with a bright orange flame and swirling sparks, handle wrapped in cloth, a few snowflakes around it." },
-    { "n": 5, "id": "loup-du-nord", "type": "avatar", "nom": "Loup du Nord", "rarete": "rare", "fond": "#5B6EA8",
-      "sujet": "A majestic large grey northern wolf, head and shoulders, stern gaze, thick fur collar with snowflakes on the fur." },
-    { "n": 6, "id": "chevalier-eponge", "type": "avatar", "nom": "Chevalier à l'éponge", "rarete": "rare", "fond": "#7A8CA0",
-      "sujet": "A small brave knight in a dented steel helmet with a plume, holding a giant sponge like a sword and a bucket as a shield, heroic pose." },
-    { "n": 7, "id": "dragonneau", "type": "avatar", "nom": "Dragonneau", "rarete": "rare", "fond": "#6FA8A0",
-      "sujet": "A baby dragon with tiny wings hatching from a cracked egg, a small puff of smoke from its nostrils, big curious eyes, silver and teal scales." },
-    { "n": 8, "id": "maitre-des-corbeaux", "type": "avatar", "nom": "Maître des corbeaux", "rarete": "rare", "fond": "#3A3A5C",
-      "sujet": "A hooded mystic in a dark cloak, three ravens perched on the shoulders, softly glowing eyes under the hood." },
-    { "n": 9, "id": "dragon-argent", "type": "avatar", "nom": "Dragon d'argent", "rarete": "epique", "fond": "#1B2A49",
-      "sujet": "An elegant silver dragon coiled in a circle, wings folded, icy blue eyes, frost breath curling, fine scale details." },
-    { "n": 10, "id": "reine-des-dragons", "type": "avatar", "nom": "Reine des dragons", "rarete": "epique", "fond": "#4B2E5E",
-      "sujet": "A regal queen with long pale braided hair and a silver crown, a small dragon curled around her shoulders, calm commanding expression, ice-blue and silver cloak." },
-    { "n": 11, "id": "garde-du-balai", "type": "avatar", "nom": "Garde du balai", "rarete": "epique", "fond": "#3B4A5A",
-      "sujet": "A guard in a black hooded cloak with a fur collar, holding a long broom like a spear, a lantern at the belt, snow falling, stern pose." },
-    { "n": 12, "id": "trone-de-balais", "type": "avatar", "nom": "Trône de balais", "rarete": "legendaire", "fond": "#7A5A12",
-      "sujet": "A grand throne built from hundreds of brooms and crossed swords, a tall fan-shaped back made of broom bristles, golden accents, snow on top, imposing and humorous." },
-    { "n": 13, "id": "plaine-enneigee", "type": "couverture", "nom": "Plaine enneigée", "rarete": "commun",
-      "sujet": "A wide snowy plain under a pale pink and blue winter sky, a lone bare tree in the center, distant soft hills, falling snow." },
-    { "n": 14, "id": "foret-des-loups", "type": "couverture", "nom": "Forêt des loups", "rarete": "rare",
-      "sujet": "A pine forest at dusk in deep blue and purple tones, three wolf silhouettes standing on a ridge in the center, a full moon behind them." },
-    { "n": 15, "id": "nuit-des-dragons", "type": "couverture", "nom": "Nuit des dragons", "rarete": "epique",
-      "sujet": "A night sky full of stars over jagged snowy mountains, two dragons soaring across the middle, a glow of embers, deep indigo with orange accents." },
-    { "n": 16, "id": "salle-du-trone", "type": "couverture", "nom": "Salle du trône de balais", "rarete": "legendaire",
-      "sujet": "A vast stone hall with tall arched windows letting in golden light, in the center a throne of brooms and swords on steps, banners hanging, dust motes floating, gold and deep brown." }
+    {
+      "n": 1,
+      "id": "louveteau",
+      "type": "avatar",
+      "nom": "Louveteau des neiges",
+      "rarete": "commun",
+      "fond": "#A8C4D8",
+      "sujet": "A cute but fierce baby white wolf pup, head and shoulders, big expressive eyes, fluffy fur, wearing a tiny red scarf.",
+      "recherche": {
+        "decrit": "Un louveteau blanc mignon mais fier, tête et épaules, regard expressif, petite écharpe rouge si possible.",
+        "requetes": [
+          "white wolf pup flat illustration avatar",
+          "cute baby wolf cartoon snow",
+          "louveteau blanc illustration mignon",
+          "direwolf pup art"
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "id": "corbeau-messager",
+      "type": "avatar",
+      "nom": "Corbeau messager",
+      "rarete": "commun",
+      "fond": "#BFC8D0",
+      "sujet": "A clever black raven perched with its head turned, holding a tiny rolled scroll tied with a ribbon in its beak.",
+      "recherche": {
+        "decrit": "Un corbeau noir malin, perché, avec un petit parchemin ou un message.",
+        "requetes": [
+          "raven messenger flat illustration icon",
+          "cute crow cartoon avatar scroll",
+          "corbeau messager illustration"
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "id": "blason-eponge",
+      "type": "avatar",
+      "nom": "Blason à l'éponge",
+      "rarete": "commun",
+      "fond": "#8FA3B8",
+      "sujet": "A heraldic shield emblem showing a golden sponge and a bucket crossed like swords, a small crown on top, frosty decorative edge.",
+      "recherche": {
+        "decrit": "Un blason / écusson médiéval, idéalement avec une éponge et un seau croisés, sinon un blason médiéval décoratif sans texte.",
+        "requetes": [
+          "medieval crest shield flat icon",
+          "heraldic coat of arms illustration vector",
+          "blason médiéval illustration"
+        ]
+      }
+    },
+    {
+      "n": 4,
+      "id": "torche",
+      "type": "avatar",
+      "nom": "Torche de la garde",
+      "rarete": "commun",
+      "fond": "#2B3340",
+      "sujet": "A burning torch with a bright orange flame and swirling sparks, handle wrapped in cloth, a few snowflakes around it.",
+      "recherche": {
+        "decrit": "Une torche enflammée avec flamme orange et étincelles.",
+        "requetes": [
+          "torch flame flat icon illustration",
+          "medieval torch cartoon fire",
+          "torche médiévale illustration"
+        ]
+      }
+    },
+    {
+      "n": 5,
+      "id": "loup-du-nord",
+      "type": "avatar",
+      "nom": "Loup du Nord",
+      "rarete": "rare",
+      "fond": "#5B6EA8",
+      "sujet": "A majestic large grey northern wolf, head and shoulders, stern gaze, thick fur collar with snowflakes on the fur.",
+      "recherche": {
+        "decrit": "Un grand loup gris du Nord, tête et épaules, regard sévère, fourrure épaisse enneigée.",
+        "requetes": [
+          "grey wolf head flat illustration avatar",
+          "wolf sigil emblem art",
+          "loup gris portrait stylisé neige"
+        ]
+      }
+    },
+    {
+      "n": 6,
+      "id": "chevalier-eponge",
+      "type": "avatar",
+      "nom": "Chevalier à l'éponge",
+      "rarete": "rare",
+      "fond": "#7A8CA0",
+      "sujet": "A small brave knight in a dented steel helmet with a plume, holding a giant sponge like a sword and a bucket as a shield, heroic pose.",
+      "recherche": {
+        "decrit": "Un petit chevalier courageux avec casque à plumet, bouclier, pose héroïque (style mignon / chibi bienvenu).",
+        "requetes": [
+          "cute knight chibi avatar flat illustration",
+          "knight helmet plume cartoon",
+          "petit chevalier illustration kawaii"
+        ]
+      }
+    },
+    {
+      "n": 7,
+      "id": "dragonneau",
+      "type": "avatar",
+      "nom": "Dragonneau",
+      "rarete": "rare",
+      "fond": "#6FA8A0",
+      "sujet": "A baby dragon with tiny wings hatching from a cracked egg, a small puff of smoke from its nostrils, big curious eyes, silver and teal scales.",
+      "recherche": {
+        "decrit": "Un bébé dragon qui sort de son œuf, grands yeux curieux, petites ailes.",
+        "requetes": [
+          "baby dragon hatching egg cartoon",
+          "cute baby dragon flat illustration avatar",
+          "bébé dragon oeuf illustration"
+        ]
+      }
+    },
+    {
+      "n": 8,
+      "id": "maitre-des-corbeaux",
+      "type": "avatar",
+      "nom": "Maître des corbeaux",
+      "rarete": "rare",
+      "fond": "#3A3A5C",
+      "sujet": "A hooded mystic in a dark cloak, three ravens perched on the shoulders, softly glowing eyes under the hood.",
+      "recherche": {
+        "decrit": "Un personnage encapuchonné mystérieux entouré de corbeaux.",
+        "requetes": [
+          "hooded wizard ravens illustration avatar",
+          "dark hooded figure crows flat art",
+          "magicien capuche corbeaux illustration"
+        ]
+      }
+    },
+    {
+      "n": 9,
+      "id": "dragon-argent",
+      "type": "avatar",
+      "nom": "Dragon d'argent",
+      "rarete": "epique",
+      "fond": "#1B2A49",
+      "sujet": "An elegant silver dragon coiled in a circle, wings folded, icy blue eyes, frost breath curling, fine scale details.",
+      "recherche": {
+        "decrit": "Un élégant dragon argenté enroulé en cercle, yeux bleu glace, souffle de givre.",
+        "requetes": [
+          "silver dragon coiled illustration emblem",
+          "ice dragon flat vector art",
+          "dragon d'argent illustration"
+        ]
+      }
+    },
+    {
+      "n": 10,
+      "id": "reine-des-dragons",
+      "type": "avatar",
+      "nom": "Reine des dragons",
+      "rarete": "epique",
+      "fond": "#4B2E5E",
+      "sujet": "A regal queen with long pale braided hair and a silver crown, a small dragon curled around her shoulders, calm commanding expression, ice-blue and silver cloak.",
+      "recherche": {
+        "decrit": "Une reine altière aux longs cheveux clairs tressés et couronne argentée, avec un petit dragon sur l'épaule.",
+        "requetes": [
+          "dragon queen silver hair crown illustration avatar",
+          "fantasy queen dragon portrait flat",
+          "reine des dragons illustration"
+        ]
+      }
+    },
+    {
+      "n": 11,
+      "id": "garde-du-balai",
+      "type": "avatar",
+      "nom": "Garde du balai",
+      "rarete": "epique",
+      "fond": "#3B4A5A",
+      "sujet": "A guard in a black hooded cloak with a fur collar, holding a long broom like a spear, a lantern at the belt, snow falling, stern pose.",
+      "recherche": {
+        "decrit": "Un garde en cape noire à capuche et col de fourrure, tenant une longue lance (ou un balai), de nuit sous la neige.",
+        "requetes": [
+          "night watch guard black cloak illustration avatar",
+          "winter sentinel fur cloak spear flat art",
+          "garde de nuit cape noire illustration"
+        ]
+      }
+    },
+    {
+      "n": 12,
+      "id": "trone-de-balais",
+      "type": "avatar",
+      "nom": "Trône de balais",
+      "rarete": "legendaire",
+      "fond": "#7A5A12",
+      "sujet": "A grand throne built from hundreds of brooms and crossed swords, a tall fan-shaped back made of broom bristles, golden accents, snow on top, imposing and humorous.",
+      "recherche": {
+        "decrit": "Un trône monumental fait d'épées (ou de balais et d'épées), dossier en éventail, imposant.",
+        "requetes": [
+          "iron throne swords illustration flat",
+          "throne made of swords art",
+          "trône d'épées illustration"
+        ]
+      }
+    },
+    {
+      "n": 13,
+      "id": "plaine-enneigee",
+      "type": "couverture",
+      "nom": "Plaine enneigée",
+      "rarete": "commun",
+      "sujet": "A wide snowy plain under a pale pink and blue winter sky, a lone bare tree in the center, distant soft hills, falling snow.",
+      "recherche": {
+        "decrit": "Une grande plaine enneigée sous un ciel rose et bleu pâle, un arbre nu au centre, neige qui tombe. Format panoramique.",
+        "requetes": [
+          "snowy plain winter landscape wallpaper minimalist",
+          "winter field lone tree wallpaper",
+          "paysage neige arbre seul fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 14,
+      "id": "foret-des-loups",
+      "type": "couverture",
+      "nom": "Forêt des loups",
+      "rarete": "rare",
+      "sujet": "A pine forest at dusk in deep blue and purple tones, three wolf silhouettes standing on a ridge in the center, a full moon behind them.",
+      "recherche": {
+        "decrit": "Une forêt de pins au crépuscule (bleus et violets) avec des silhouettes de loups sur une crête, pleine lune. Format panoramique.",
+        "requetes": [
+          "wolves pine forest night moon wallpaper illustration",
+          "wolf silhouettes ridge full moon forest wallpaper",
+          "loups forêt nuit lune fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 15,
+      "id": "nuit-des-dragons",
+      "type": "couverture",
+      "nom": "Nuit des dragons",
+      "rarete": "epique",
+      "sujet": "A night sky full of stars over jagged snowy mountains, two dragons soaring across the middle, a glow of embers, deep indigo with orange accents.",
+      "recherche": {
+        "decrit": "Un ciel étoilé au-dessus de montagnes enneigées, deux dragons en vol, lueur de braises, indigo et orange. Format panoramique.",
+        "requetes": [
+          "dragons flying night mountains wallpaper",
+          "dragons over snowy mountains night art wallpaper",
+          "dragons montagnes nuit fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 16,
+      "id": "salle-du-trone",
+      "type": "couverture",
+      "nom": "Salle du trône de balais",
+      "rarete": "legendaire",
+      "sujet": "A vast stone hall with tall arched windows letting in golden light, in the center a throne of brooms and swords on steps, banners hanging, dust motes floating, gold and deep brown.",
+      "recherche": {
+        "decrit": "Une vaste salle de pierre aux hautes fenêtres en arc, lumière dorée, un trône monumental sur des marches, bannières. Format panoramique.",
+        "requetes": [
+          "throne room epic hall fantasy wallpaper",
+          "medieval castle throne room golden light concept art",
+          "salle du trône château fantasy fond d'écran"
+        ]
+      }
+    }
   ]
 }
