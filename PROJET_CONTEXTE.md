@@ -1642,3 +1642,12 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 **Validé par Kinder le 2026-10-01** : cadre des § 27 (Bulles, saisons, catalogue distant, kit gratuit sans emoji).
 
 **Emplacement et lisibilité des visuels (décidé)** : une seule source de vérité, `public/catalogue/chez-nous/`, publiée telle quelle sur Firebase Hosting. Rangement par saison puis par type ; nom de fichier lisible `<type>_<rareté>_<nom>.png` (ex. `avatar_epique_dragonne-de-lumiere.png`). Une **galerie** `galerie.html`, générée automatiquement à partir de `catalogue.json`, montre chaque image avec son nom, sa rareté, son prix et **comment l'obtenir** (achat en Bulles, succès X, objectif de saison…). Kinder la valide en double-cliquant sur le fichier, sans lancer l'app, avant toute intégration. Le kit gratuit reste dans `mobile/assets/kit/` (embarqué, hors connexion).
+
+### Étape 1 de la boutique faite — 2026-10-01 (en attente de test Kinder)
+
+Plus aucun emoji dans le jeu (avatars, badges, fêtes, titres du guide). Les emoji de pictogramme des **tâches** (🧹, 🔥…) sont conservés : ils appartiennent au modèle de tâches, pas au jeu.
+
+- **Kit gratuit** : avatars = initiale (défaut) + 10 pictogrammes (balai, savon, goutte, flamme, éclair, étoile, feuille, note, fusée, bouclier) sur la couleur du membre ; couvertures = 6 fonds unis. Plus aucun déblocage par niveau pour l'instant : tout le kit est libre ; l'ancien avatar emoji d'un profil retombe sur l'initiale.
+- **Badges de succès** : 30 pictogrammes monochromes colorés par rareté.
+- **Modèle de catalogue** (`lib/catalogue.dart`) : un objet (id, type avatar/couverture, nom, rareté, prix, pictogramme ou couleur, image optionnelle) lisible depuis `catalogue.json` — prêt pour la boutique (étape 2) et le catalogue distant (étape 3).
+- Tests : 9 verts. Prochaine étape : boutique et Bulles.

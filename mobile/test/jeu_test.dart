@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nickel_mobile/catalogue.dart';
 import 'package:nickel_mobile/jeu.dart';
 
 Map<String, dynamic> r(String par, String date, {int? xp, String tache = 't1', String heure = '12:00:00'}) => {
@@ -83,5 +84,21 @@ void main() {
     expect(dix.debloque(s, ctx), false);
     expect(succes.firstWhere((x) => x.id == 'serie3').debloque(s, ctx), true);
     expect(succes.map((x) => x.id).toSet().length, succes.length, reason: 'ids uniques');
+  });
+
+  test('catalogue : un id inconnu (ancien emoji) retombe sur le défaut', () {
+    expect(avatarPourId('🐱').id, 'initiale');
+    expect(avatarPourId(null).id, 'initiale');
+    expect(avatarPourId('balai').icone, isNotNull);
+    expect(couverturePourId('nuit').id, 'encre');
+    expect(couverturePourId('foret').id, 'foret');
+  });
+
+  test('catalogue : lecture d un objet à image depuis le JSON', () {
+    final o = Objet.depuisJson({'id': 'x', 'type': 'avatar', 'nom': 'Dragon', 'rarete': 'epique', 'prix': 250, 'image': 'a.png'});
+    expect(o.rarete, Rarete.epique);
+    expect(o.prix, 250);
+    expect(o.image, 'a.png');
+    expect(kitAvatars.every((a) => a.prix == 0), true);
   });
 }

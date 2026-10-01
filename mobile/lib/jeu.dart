@@ -201,10 +201,10 @@ extension LibelleRarete on Rarete {
 /// Un succès se débloque quand `valeur` atteint `objectif` (les succès
 /// « oui / non » ont un objectif de 1).
 class Succes {
-  const Succes(this.id, this.emoji, this.nom, this.description, this.rarete, this.objectif, this.valeur);
+  const Succes(this.id, this.icone, this.nom, this.description, this.rarete, this.objectif, this.valeur);
 
   final String id;
-  final String emoji;
+  final IconData icone;
   final String nom;
   final String description;
   final Rarete rarete;
@@ -229,84 +229,45 @@ int _oui(bool b) => b ? 1 : 0;
 
 final succes = <Succes>[
   // Volume
-  Succes('premiere', '🌱', 'Premier pas', 'Cocher sa première tâche', Rarete.commun, 1, (s, m) => s.taches),
-  Succes('dix', '🧽', 'Bien lancé', 'Faire 10 tâches', Rarete.commun, 10, (s, m) => s.taches),
-  Succes('vingtcinq', '🧴', 'Dans le rythme', 'Faire 25 tâches', Rarete.commun, 25, (s, m) => s.taches),
-  Succes('cinquante', '💪', 'Increvable', 'Faire 50 tâches', Rarete.rare, 50, (s, m) => s.taches),
-  Succes('cent', '🏅', 'Centurion', 'Faire 100 tâches', Rarete.rare, 100, (s, m) => s.taches),
-  Succes('deuxcents', '🥇', 'Machine de guerre', 'Faire 200 tâches', Rarete.epique, 200, (s, m) => s.taches),
-  Succes('cinqcents', '🏆', 'Légende du ménage', 'Faire 500 tâches', Rarete.legendaire, 500, (s, m) => s.taches),
+  Succes('premiere', Icons.eco, 'Premier pas', 'Cocher sa première tâche', Rarete.commun, 1, (s, m) => s.taches),
+  Succes('dix', Icons.cleaning_services, 'Bien lancé', 'Faire 10 tâches', Rarete.commun, 10, (s, m) => s.taches),
+  Succes('vingtcinq', Icons.soap, 'Dans le rythme', 'Faire 25 tâches', Rarete.commun, 25, (s, m) => s.taches),
+  Succes('cinquante', Icons.fitness_center, 'Increvable', 'Faire 50 tâches', Rarete.rare, 50, (s, m) => s.taches),
+  Succes('cent', Icons.military_tech, 'Centurion', 'Faire 100 tâches', Rarete.rare, 100, (s, m) => s.taches),
+  Succes('deuxcents', Icons.workspace_premium, 'Machine de guerre', 'Faire 200 tâches', Rarete.epique, 200, (s, m) => s.taches),
+  Succes('cinqcents', Icons.emoji_events, 'Légende du ménage', 'Faire 500 tâches', Rarete.legendaire, 500, (s, m) => s.taches),
   // Régularité
-  Succes('serie3', '🔥', 'Sur la lancée', '3 jours de suite', Rarete.commun, 3, (s, m) => s.meilleureSerie),
-  Succes('serie7', '⚡', 'Semaine parfaite', '7 jours de suite', Rarete.rare, 7, (s, m) => s.meilleureSerie),
-  Succes('serie14', '🌟', "Quinzaine d'or", '14 jours de suite', Rarete.epique, 14, (s, m) => s.meilleureSerie),
-  Succes('serie30', '💎', 'Inarrêtable', '30 jours de suite', Rarete.legendaire, 30, (s, m) => s.meilleureSerie),
-  Succes('fidele', '📅', 'Fidèle au poste', 'Faire une tâche pendant 30 jours différents', Rarete.rare, 30, (s, m) => s.joursActifs),
-  Succes('semaine5', '🗓️', 'Semaine active', '5 tâches en 7 jours', Rarete.commun, 5, (s, m) => s.semaine),
-  Succes('semaine15', '🌪️', 'Semaine de feu', '15 tâches en 7 jours', Rarete.epique, 15, (s, m) => s.semaine),
+  Succes('serie3', Icons.local_fire_department, 'Sur la lancée', '3 jours de suite', Rarete.commun, 3, (s, m) => s.meilleureSerie),
+  Succes('serie7', Icons.bolt, 'Semaine parfaite', '7 jours de suite', Rarete.rare, 7, (s, m) => s.meilleureSerie),
+  Succes('serie14', Icons.auto_awesome, "Quinzaine d'or", '14 jours de suite', Rarete.epique, 14, (s, m) => s.meilleureSerie),
+  Succes('serie30', Icons.diamond, 'Inarrêtable', '30 jours de suite', Rarete.legendaire, 30, (s, m) => s.meilleureSerie),
+  Succes('fidele', Icons.event_available, 'Fidèle au poste', 'Faire une tâche pendant 30 jours différents', Rarete.rare, 30, (s, m) => s.joursActifs),
+  Succes('semaine5', Icons.calendar_view_week, 'Semaine active', '5 tâches en 7 jours', Rarete.commun, 5, (s, m) => s.semaine),
+  Succes('semaine15', Icons.cyclone, 'Semaine de feu', '15 tâches en 7 jours', Rarete.epique, 15, (s, m) => s.semaine),
   // Efforts d'un jour
-  Succes('triple', '🎯', 'Triplé', '3 tâches le même jour', Rarete.commun, 3, (s, m) => s.maxParJour),
-  Succes('marathon', '🏃', 'Marathon', '5 tâches le même jour', Rarete.rare, 5, (s, m) => s.maxParJour),
-  Succes('tornade', '🌀', 'Tornade blanche', '8 tâches le même jour', Rarete.epique, 8, (s, m) => s.maxParJour),
+  Succes('triple', Icons.looks_3, 'Triplé', '3 tâches le même jour', Rarete.commun, 3, (s, m) => s.maxParJour),
+  Succes('marathon', Icons.directions_run, 'Marathon', '5 tâches le même jour', Rarete.rare, 5, (s, m) => s.maxParJour),
+  Succes('tornade', Icons.tornado, 'Tornade blanche', '8 tâches le même jour', Rarete.epique, 8, (s, m) => s.maxParJour),
   // Variété et habitudes
-  Succes('deuxpieces', '🚪', 'Curieux', 'Des tâches dans 2 pièces différentes', Rarete.commun, 2, (s, m) => s.pieces),
-  Succes('toutterrain', '🧭', 'Touche-à-tout', 'Des tâches dans 4 pièces différentes', Rarete.rare, 4, (s, m) => s.pieces),
-  Succes('maitrelieux', '🗝️', 'Maître des lieux', 'Des tâches dans 6 pièces différentes', Rarete.epique, 6, (s, m) => s.pieces),
-  Succes('tot', '🌅', 'Lève-tôt', 'Cocher une tâche avant 8 h', Rarete.rare, 1, (s, m) => _oui(s.leveTot)),
-  Succes('tard', '🦉', 'Oiseau de nuit', 'Cocher une tâche à 22 h ou après', Rarete.rare, 1, (s, m) => _oui(s.coucheTard)),
-  Succes('weekend', '☀️', 'Week-end productif', 'Faire 5 tâches un samedi ou un dimanche', Rarete.commun, 5, (s, m) => s.weekend),
+  Succes('deuxpieces', Icons.meeting_room, 'Curieux', 'Des tâches dans 2 pièces différentes', Rarete.commun, 2, (s, m) => s.pieces),
+  Succes('toutterrain', Icons.explore, 'Touche-à-tout', 'Des tâches dans 4 pièces différentes', Rarete.rare, 4, (s, m) => s.pieces),
+  Succes('maitrelieux', Icons.vpn_key, 'Maître des lieux', 'Des tâches dans 6 pièces différentes', Rarete.epique, 6, (s, m) => s.pieces),
+  Succes('tot', Icons.wb_twilight, 'Lève-tôt', 'Cocher une tâche avant 8 h', Rarete.rare, 1, (s, m) => _oui(s.leveTot)),
+  Succes('tard', Icons.nightlight, 'Oiseau de nuit', 'Cocher une tâche à 22 h ou après', Rarete.rare, 1, (s, m) => _oui(s.coucheTard)),
+  Succes('weekend', Icons.wb_sunny, 'Week-end productif', 'Faire 5 tâches un samedi ou un dimanche', Rarete.commun, 5, (s, m) => s.weekend),
   // Niveaux
-  Succes('niveau3', '🥉', 'Habitué', 'Atteindre le niveau 3', Rarete.commun, 3, (s, m) => s.niveau),
-  Succes('niveau5', '🥈', 'Expert', 'Atteindre le niveau 5', Rarete.rare, 5, (s, m) => s.niveau),
-  Succes('niveau8', '🎖️', 'Légende', 'Atteindre le niveau 8', Rarete.epique, 8, (s, m) => s.niveau),
-  Succes('niveau10', '👑', 'Au sommet', 'Atteindre le niveau 10', Rarete.legendaire, 10, (s, m) => s.niveau),
+  Succes('niveau3', Icons.trending_up, 'Habitué', 'Atteindre le niveau 3', Rarete.commun, 3, (s, m) => s.niveau),
+  Succes('niveau5', Icons.star, 'Expert', 'Atteindre le niveau 5', Rarete.rare, 5, (s, m) => s.niveau),
+  Succes('niveau8', Icons.shield, 'Légende', 'Atteindre le niveau 8', Rarete.epique, 8, (s, m) => s.niveau),
+  Succes('niveau10', Icons.rocket_launch, 'Au sommet', 'Atteindre le niveau 10', Rarete.legendaire, 10, (s, m) => s.niveau),
   // Coopération
-  Succes('equipe', '🤝', 'Tous ensemble', 'Toute la maison a fait une tâche cette semaine (vous aussi)', Rarete.rare, 1,
+  Succes('equipe', Icons.handshake, 'Tous ensemble', 'Toute la maison a fait une tâche cette semaine (vous aussi)', Rarete.rare, 1,
       (s, m) => _oui(m.toutLeMondeActif && s.semaine >= 1)),
-  Succes('maison3', '🏡', 'Maison en forme', 'La maison atteint le niveau 3', Rarete.commun, 3, (s, m) => m.niveauMaison),
-  Succes('maison5', '🏰', 'Maison de rêve', 'La maison atteint le niveau 5', Rarete.epique, 5, (s, m) => m.niveauMaison),
+  Succes('maison3', Icons.home, 'Maison en forme', 'La maison atteint le niveau 3', Rarete.commun, 3, (s, m) => m.niveauMaison),
+  Succes('maison5', Icons.castle, 'Maison de rêve', 'La maison atteint le niveau 5', Rarete.epique, 5, (s, m) => m.niveauMaison),
 ];
 
-// ---------------------------------------------- Personnalisation (profil)
-
-/// Avatars : un emoji, à débloquer avec le niveau. Le premier est le défaut.
-class Avatar {
-  const Avatar(this.emoji, this.niveauRequis);
-  final String emoji;
-  final int niveauRequis;
-}
-
-const avatars = [
-  Avatar('🙂', 1), Avatar('🐱', 1), Avatar('🐶', 1), Avatar('🦊', 1), Avatar('🐼', 1), Avatar('🐸', 1),
-  Avatar('🐰', 2), Avatar('🦁', 2), Avatar('🐯', 2), Avatar('🐨', 2),
-  Avatar('🦄', 3), Avatar('🐙', 3), Avatar('🦉', 3), Avatar('🐧', 3),
-  Avatar('🤖', 5), Avatar('👽', 5), Avatar('🧙', 5), Avatar('🐲', 5),
-  Avatar('🦸', 7), Avatar('👑', 7),
-];
-
-/// Images de couverture : des dégradés dessinés dans l'app (aucune image à
-/// télécharger ni à héberger).
-class Couverture {
-  const Couverture(this.id, this.nom, this.couleurs, this.niveauRequis);
-  final String id;
-  final String nom;
-  final List<Color> couleurs;
-  final int niveauRequis;
-}
-
-const couvertures = [
-  Couverture('encre', 'Encre', [Color(0xFF16150F), Color(0xFF4A463A)], 1),
-  Couverture('aube', 'Aube', [Color(0xFFF2A65A), Color(0xFFF6D6A0)], 1),
-  Couverture('ciel', 'Ciel', [Color(0xFF5AA9E6), Color(0xFFB5DCF7)], 1),
-  Couverture('foret', 'Forêt', [Color(0xFF2E6B4E), Color(0xFF8CC3A2)], 2),
-  Couverture('orchidee', 'Orchidée', [Color(0xFFC77DFF), Color(0xFFF0D2FF)], 3),
-  Couverture('braise', 'Braise', [Color(0xFFB4321F), Color(0xFFF2A65A)], 4),
-  Couverture('nuit', 'Nuit', [Color(0xFF1B2A49), Color(0xFF5B6EA8)], 5),
-  Couverture('or', 'Or', [Color(0xFFB8860B), Color(0xFFFFE08A)], 7),
-];
-
-Couverture couverturePourId(String? id) =>
-    couvertures.firstWhere((c) => c.id == id, orElse: () => couvertures.first);
+// ---------------------------------------------------------- Profil
 
 /// Les 3 badges d'un profil : ids de succès, limités aux débloqués.
 List<String> badgesAffiches(List<dynamic>? ids, Set<String> debloques) =>

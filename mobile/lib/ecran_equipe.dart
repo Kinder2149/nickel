@@ -130,7 +130,11 @@ class _EcranEquipeState extends State<EcranEquipe> {
                     ],
                   ),
                 ),
-                for (final b in badges) Text(succes.firstWhere((s) => s.id == b).emoji, style: const TextStyle(fontSize: 22)),
+                for (final b in badges)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Icon(succes.firstWhere((s) => s.id == b).icone, size: 22, color: succes.firstWhere((s) => s.id == b).rarete.couleur),
+                  ),
                 const Icon(Icons.chevron_right, color: Palette.encreFaible),
               ],
             ),

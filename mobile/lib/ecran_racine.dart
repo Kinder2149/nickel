@@ -95,7 +95,7 @@ class _EcranRacineState extends State<EcranRacine> {
       builder: (contexteDialogue) => AlertDialog(
         backgroundColor: Palette.papier,
         shape: const RoundedRectangleBorder(),
-        title: Text(montee ? '🎉 Niveau ${stats.niveau} !' : '🏅 Succès débloqué !',
+        title: Text(montee ? 'Niveau ${stats.niveau} !' : 'Succès débloqué !',
             style: const TextStyle(fontWeight: FontWeight.w900, color: Palette.encre)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -104,7 +104,7 @@ class _EcranRacineState extends State<EcranRacine> {
             if (montee)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text('Vous êtes maintenant « ${titreNiveau(stats.niveau)} ». De nouveaux avatars et couvertures se débloquent peut-être : voyez Mon profil.',
+                child: Text('Vous êtes maintenant « ${titreNiveau(stats.niveau)} ».',
                     style: const TextStyle(color: Palette.encreDouce)),
               ),
             for (final s in nouveaux)
@@ -112,7 +112,7 @@ class _EcranRacineState extends State<EcranRacine> {
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
                   children: [
-                    Text(s.emoji, style: const TextStyle(fontSize: 30)),
+                    Icon(s.icone, size: 34, color: s.rarete.couleur),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(

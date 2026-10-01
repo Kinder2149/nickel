@@ -41,8 +41,8 @@ class EcranGuide extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(22, 4, 22, 40),
         children: [
-          _texte('Chaque tâche cochée fait gagner de l\'XP. L\'XP fait monter de niveau, débloque des succès, des avatars et des couvertures. Ici, on joue ensemble : la maison a aussi son niveau.'),
-          _titre('⭐ L\'XP'),
+          _texte('Chaque tâche cochée fait gagner de l\'XP. L\'XP fait monter de niveau et débloque des succès. Ici, on joue ensemble : la maison a aussi son niveau.'),
+          _titre('L\'XP'),
           _texte('Une tâche rapporte autant d\'XP que sa durée en minutes (entre 5 et 60). Plus c\'est long ou pénible, plus ça rapporte.'),
           _encart(const [
             Text('Vider le verre → 5 XP', style: TextStyle(color: Palette.encre)),
@@ -52,7 +52,7 @@ class EcranGuide extends StatelessWidget {
           ]),
           _texte(''),
           _texte('Cocher par erreur puis annuler retire l\'XP. Cocher en avance compte aussi.'),
-          _titre('📈 Les niveaux'),
+          _titre('Les niveaux'),
           _encart([
             for (var n = 1; n <= 10; n++)
               Padding(
@@ -66,9 +66,9 @@ class EcranGuide extends StatelessWidget {
                 ),
               ),
           ]),
-          _titre('🔥 Les séries'),
+          _titre('Les séries'),
           _texte('Faire au moins une tâche chaque jour allonge ta série. Elle ne se casse qu\'à minuit : si tu n\'as encore rien fait aujourd\'hui, hier compte encore. Les séries débloquent des succès de plus en plus rares.'),
-          _titre('🏅 Les succès'),
+          _titre('Les succès'),
           _texte('${succes.length} succès à débloquer, répartis en quatre raretés :'),
           _encart([
             for (final r in Rarete.values)
@@ -86,33 +86,11 @@ class EcranGuide extends StatelessWidget {
           ]),
           _texte(''),
           _texte('Sur ta fiche, « Prochains objectifs » montre les 3 succès les plus proches, avec ta progression. Certains sont collectifs : ils ne se débloquent que si toute la maison joue le jeu.'),
-          _titre('🎖️ Les badges'),
+          _titre('Les badges'),
           _texte('Tu choisis 3 de tes succès débloqués pour les afficher sur ta fiche. Les autres membres les voient dans l\'onglet Équipe.'),
-          _titre('🎨 Se personnaliser'),
-          _texte('Avatars et couvertures se débloquent en montant de niveau :'),
-          _encart([
-            for (final n in {...avatars.map((a) => a.niveauRequis), ...couvertures.map((c) => c.niveauRequis)}.toList()..sort())
-              if (n > 1)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 70, child: Text('Niveau $n', style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre))),
-                      Expanded(
-                        child: Text(
-                          [
-                            avatars.where((a) => a.niveauRequis == n).map((a) => a.emoji).join(' '),
-                            couvertures.where((c) => c.niveauRequis == n).map((c) => 'couverture ${c.nom}').join(', '),
-                          ].where((t) => t.isNotEmpty).join(' · '),
-                          style: const TextStyle(color: Palette.encre),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-          ]),
-          _titre('🏡 La maison'),
+          _titre('Se personnaliser'),
+          _texte('Un kit de départ gratuit te permet de choisir un avatar et une couverture. D\'autres objets arriveront avec la boutique.'),
+          _titre('La maison'),
           _texte('Tout l\'XP de tous les habitants fait monter le niveau de la maison. Personne n\'est classé : on progresse ensemble. Le succès « Tous ensemble » se débloque quand chacun a fait au moins une tâche dans la semaine.'),
         ],
       ),

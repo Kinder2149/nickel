@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'catalogue.dart';
 import 'donnees.dart';
 import 'ecran_guide.dart';
 import 'jeu.dart';
@@ -19,7 +20,7 @@ class PastilleMembre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = membre?['avatar'] as String?;
+    final avatar = avatarPourId(membre?['avatar'] as String?);
     final couleur = membre != null ? hexVersCouleur(membre!['couleur'] as String) : Palette.encreFaible;
     final prenom = (membre?['prenom'] as String?) ?? '?';
     return Container(
@@ -27,8 +28,8 @@ class PastilleMembre extends StatelessWidget {
       height: taille,
       alignment: Alignment.center,
       decoration: BoxDecoration(color: couleur, shape: BoxShape.circle),
-      child: avatar != null && avatar.isNotEmpty
-          ? Text(avatar, style: TextStyle(fontSize: taille * 0.55))
+      child: avatar.icone != null
+          ? Icon(avatar.icone, color: Colors.white, size: taille * 0.55)
           : Text(prenom.substring(0, 1).toUpperCase(),
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: taille * 0.4)),
     );
@@ -149,9 +150,7 @@ class _EcranFicheState extends State<EcranFiche> {
             children: [
               Container(
                 height: 130,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: couverture.couleurs, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                ),
+                decoration: decorationCouverture(couverture),
               ),
               Positioned(
                 left: 22,
@@ -218,7 +217,7 @@ class _EcranFicheState extends State<EcranFiche> {
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(s.emoji, style: const TextStyle(fontSize: 28)),
+                Icon(s.icone, size: 30, color: s.rarete.couleur),
                 const SizedBox(height: 4),
                 Text(s.nom, textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Palette.encre)),
               ],
@@ -284,7 +283,7 @@ class _EcranFicheState extends State<EcranFiche> {
               color: Palette.papierClair,
               border: Border.all(color: debloque ? s.rarete.couleur : Palette.trait, width: debloque ? 2.5 : 1.5),
             ),
-            child: Opacity(opacity: debloque ? 1 : 0.35, child: Text(debloque ? s.emoji : '🔒', style: const TextStyle(fontSize: 22))),
+            child: Icon(debloque ? s.icone : Icons.lock_outline, size: 24, color: debloque ? s.rarete.couleur : Palette.encreFaible),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -334,7 +333,6 @@ class _EcranFicheState extends State<EcranFiche> {
         maisonId: widget.maisonId,
         profil: widget.profil,
         membre: membre,
-        niveau: stats.niveau,
         debloques: debloques,
       ),
     );
@@ -351,14 +349,12 @@ class _EditeurProfil extends StatefulWidget {
     required this.maisonId,
     required this.profil,
     required this.membre,
-    required this.niveau,
     required this.debloques,
   });
 
   final String maisonId;
   final Profil profil;
   final Map<String, dynamic> membre;
-  final int niveau;
   final Set<String> debloques;
 
   @override
@@ -367,8 +363,8 @@ class _EditeurProfil extends StatefulWidget {
 
 class _EditeurProfilState extends State<_EditeurProfil> {
   late final _nom = TextEditingController(text: widget.membre['prenom'] as String);
-  late String _avatar = (widget.membre['avatar'] as String?) ?? avatars.first.emoji;
-  late String _couverture = (widget.membre['couverture'] as String?) ?? couvertures.first.id;
+  late String _avatar = avatarPourId(widget.membre['avatar'] as String?).id;
+  late String _couverture = couverturePourId(widget.membre['couverture'] as String?).id;
   late List<String> _badges = badgesAffiches(widget.membre['badges'] as List?, widget.debloques);
   bool _enCours = false;
   String? _erreur;
@@ -434,38 +430,30 @@ class _EditeurProfilState extends State<_EditeurProfil> {
             ],
             _titre('Nom'),
             TextField(controller: _nom, maxLength: 20, decoration: decorationChamp('Votre prénom')),
-            _titre('Avatar'),
+            _titre('Avatar (kit gratuit)'),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final a in avatars)
+                for (final a in kitAvatars)
                   _case(
-                    choisi: a.emoji == _avatar,
-                    verrouille: a.niveauRequis > widget.niveau,
-                    niveau: a.niveauRequis,
-                    onTap: () => setState(() => _avatar = a.emoji),
-                    enfant: Text(a.emoji, style: const TextStyle(fontSize: 22)),
+                    choisi: a.id == _avatar,
+                    onTap: () => setState(() => _avatar = a.id),
+                    enfant: PastilleMembre(membre: {...widget.membre, 'avatar': a.id}, taille: 34),
                   ),
               ],
             ),
-            _titre('Image de couverture'),
+            _titre('Couverture (kit gratuit)'),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final c in couvertures)
+                for (final c in kitCouvertures)
                   _case(
                     choisi: c.id == _couverture,
-                    verrouille: c.niveauRequis > widget.niveau,
-                    niveau: c.niveauRequis,
                     largeur: 72,
                     onTap: () => setState(() => _couverture = c.id),
-                    enfant: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: c.couleurs, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                      ),
-                    ),
+                    enfant: Container(decoration: decorationCouverture(c)),
                   ),
               ],
             ),
@@ -481,10 +469,8 @@ class _EditeurProfilState extends State<_EditeurProfil> {
                   for (final s in succes.where((s) => widget.debloques.contains(s.id)))
                     _case(
                       choisi: _badges.contains(s.id),
-                      verrouille: false,
-                      niveau: 0,
                       onTap: () => _basculerBadge(s.id),
-                      enfant: Text(s.emoji, style: const TextStyle(fontSize: 22)),
+                      enfant: Icon(s.icone, size: 24, color: s.rarete.couleur),
                     ),
                 ],
               ),
@@ -502,14 +488,12 @@ class _EditeurProfilState extends State<_EditeurProfil> {
 
   Widget _case({
     required bool choisi,
-    required bool verrouille,
-    required int niveau,
     required VoidCallback onTap,
     required Widget enfant,
     double largeur = 46,
   }) {
     return GestureDetector(
-      onTap: verrouille ? null : onTap,
+      onTap: onTap,
       child: Container(
         width: largeur,
         height: 46,
@@ -518,15 +502,7 @@ class _EditeurProfilState extends State<_EditeurProfil> {
           color: Palette.papierClair,
           border: Border.all(color: choisi ? Palette.encre : Palette.trait, width: choisi ? 2.5 : 1.5),
         ),
-        child: verrouille
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('🔒', style: TextStyle(fontSize: 14)),
-                  Text('niv. $niveau', style: const TextStyle(fontSize: 9, color: Palette.encreDouce)),
-                ],
-              )
-            : SizedBox.expand(child: Center(child: enfant)),
+        child: SizedBox.expand(child: Center(child: enfant)),
       ),
     );
   }
