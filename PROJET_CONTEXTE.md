@@ -1572,3 +1572,11 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 - **Bibliothèque** : règle unique plexiglas/acrylique (même matière) — pas d'acide fort ni d'abrasif ; vinaigre 50/50 toléré 5 min maximum, rincé aussitôt, après test sur un coin caché (A062, A063, A065). 6 astuces ajoutées (A144–A149) : spatules en bois, four à catalyse, finition du parquet, repérer la Javel, micro-ondes au vinaigre, microfibre du WC. Bibliothèque : 149 astuces.
 - **Code** : le champ mort `responsablePrevu` n'est plus écrit sur les nouvelles tâches (décision : aucun responsable). Les tâches existantes le gardent à vide, sans effet.
 - Analyse du code sans alerte, test de démarrage OK, règles Firestore compatibles avec les nouveaux champs (aucun changement de règles). APK de test : `mobile/build/app/outputs/flutter-apk/app-release.apk`.
+
+## 24. RETOUR DE TEST #4 — 2026-10-01
+
+**Test terrain réussi (Kinder)** : plusieurs téléphones dans la même maison, une tâche faite par l'un visible chez l'autre, fréquence modifiée visible sur l'autre appareil. La synchronisation réelle est validée (moitié de la Mission A).
+
+**Corrigé** : écran « Pièces et tâches » — chaque pièce et chaque tâche se déroule d'un appui pour montrer ses boutons d'actions (Modifier/Renommer, Supprimer), larges et espacés.
+
+**Demandes à cadrer (pas de code)** : page Profil (nom, avatar, couverture, 3 badges, visible par la maison), onglet Statistiques, XP/niveaux/succès/trophées. Voir le cadrage ci-dessous une fois validé par Kinder.

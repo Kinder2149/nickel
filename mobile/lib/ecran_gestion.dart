@@ -25,6 +25,40 @@ class _EcranGestionState extends State<EcranGestion> {
   StreamSubscription? _subPieces;
   StreamSubscription? _subTaches;
   final _controleurNomPiece = TextEditingController();
+  // Pièces et tâches dont les boutons d'actions sont déroulés.
+  final Set<String> _deroules = {};
+
+  void _basculer(String id) => setState(() => _deroules.contains(id) ? _deroules.remove(id) : _deroules.add(id));
+
+  /// Boutons d'actions déroulés sous une entrée : larges et espacés, pour ne
+  /// pas confondre « Modifier » et « Supprimer ».
+  Widget _actions({required String libelleModifier, required VoidCallback onModifier, required VoidCallback onSupprimer}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: OutlinedButton(
+              onPressed: onModifier,
+              style: boutonSecondaire().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(44))),
+              child: Text(libelleModifier, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, letterSpacing: 1)),
+            ),
+          ),
+          const SizedBox(width: 24),
+          Expanded(
+            child: OutlinedButton(
+              onPressed: onSupprimer,
+              style: boutonSecondaire().copyWith(
+                minimumSize: const WidgetStatePropertyAll(Size.fromHeight(44)),
+                foregroundColor: const WidgetStatePropertyAll(Palette.rouge),
+              ),
+              child: const Text('SUPPRIMER', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, letterSpacing: 1)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -161,15 +195,26 @@ class _EcranGestionState extends State<EcranGestion> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(piece['nom'] as String, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Palette.encre)),
+          InkWell(
+            onTap: () => _basculer(piece['id'] as String),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(piece['nom'] as String, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Palette.encre)),
+                  ),
+                  Icon(_deroules.contains(piece['id']) ? Icons.expand_less : Icons.expand_more, color: Palette.encreDouce),
+                ],
               ),
-              TextButton(onPressed: () => _renommerPiece(piece), child: const Text('Renommer')),
-              TextButton(onPressed: () => _supprimerPiece(piece), child: const Text('Supprimer')),
-            ],
+            ),
           ),
+          if (_deroules.contains(piece['id']))
+            _actions(
+              libelleModifier: 'RENOMMER',
+              onModifier: () => _renommerPiece(piece),
+              onSupprimer: () => _supprimerPiece(piece),
+            ),
           if (tachesPiece.isEmpty)
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 4),
@@ -196,40 +241,47 @@ class _EcranGestionState extends State<EcranGestion> {
     ].join(' · ');
     final astuce = tache['astuce'] as String?;
 
+    final ouvert = _deroules.contains(tache['id']);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.trait)),
-            child: Text((tache['emoji'] as String?) ?? emojiParDefaut, style: const TextStyle(fontSize: 18)),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
+          InkWell(
+            onTap: () => _basculer(tache['id'] as String),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(tache['nom'] as String, style: const TextStyle(fontWeight: FontWeight.w600, color: Palette.encre)),
-                Text(sousTitre, style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
-                if (astuce != null && astuce.isNotEmpty)
-                  Text(astuce, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 11, color: Palette.encreFaible)),
+                Container(
+                  width: 40,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.trait)),
+                  child: Text((tache['emoji'] as String?) ?? emojiParDefaut, style: const TextStyle(fontSize: 18)),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(tache['nom'] as String, style: const TextStyle(fontWeight: FontWeight.w600, color: Palette.encre)),
+                      Text(sousTitre, style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
+                      if (astuce != null && astuce.isNotEmpty)
+                        Text(astuce, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 11, color: Palette.encreFaible)),
+                    ],
+                  ),
+                ),
+                Icon(ouvert ? Icons.expand_less : Icons.expand_more, color: Palette.encreDouce),
               ],
             ),
           ),
-          TextButton(
-            onPressed: () => _ouvrirFormulaireTache(tache['pieceId'] as String, tacheExistante: tache),
-            style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 0)),
-            child: const Text('Modifier', style: TextStyle(fontSize: 12)),
-          ),
-          TextButton(
-            onPressed: () => _supprimerTache(tache),
-            style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 0)),
-            child: const Text('Supprimer', style: TextStyle(fontSize: 12)),
-          ),
+          if (ouvert)
+            _actions(
+              libelleModifier: 'MODIFIER',
+              onModifier: () => _ouvrirFormulaireTache(tache['pieceId'] as String, tacheExistante: tache),
+              onSupprimer: () => _supprimerTache(tache),
+            ),
         ],
       ),
     );
