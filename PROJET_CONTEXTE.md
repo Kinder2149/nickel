@@ -1671,3 +1671,11 @@ Plus aucun emoji dans le jeu (avatars, badges, fêtes, titres du guide). Les emo
 - **Procédure pour ajouter du contenu** : déposer les images dans le dossier de la saison, ajouter les lignes dans `catalogue.json`, relancer le script de galerie, valider la galerie, puis `firebase deploy --only hosting`. Aucune mise à jour de l'APK.
 - **Retirer le pack avant la production** : supprimer `public/catalogue/chez-nous/` et redéployer ; l'app retombe sur le kit.
 - Tests : 11 verts. Prochaine étape : contenu de la saison 1 (visuels).
+
+### Étape 4 — chaîne de production de la saison 1 (hiver) — 2026-10-01
+
+**Outil d'images retenu : Gemini** (générateur d'images de l'application Gemini, gratuit avec un compte Google, quota quotidien confirmé par plusieurs sources — à vérifier dans le compte de Kinder). Écartés : ChatGPT gratuit (2 à 3 images par jour : ~8 jours pour 16 images, sauf abonnement Plus), Midjourney (payant, pas de gratuit), Claude (ne génère pas d'images). Gemini ne produit pas de fond transparent : les avatars sont donc demandés sur fond uni, de toute façon recadrés en rond dans l'app.
+
+**Saison 1 — Hiver (« trônes et dragons », univers original)** : 12 avatars (4 communs, 4 rares, 3 épiques, 1 légendaire : Louveteau des neiges, Corbeau messager, Blason à l'éponge, Torche de la garde, Loup du Nord, Chevalier à l'éponge, Dragonneau, Maître des corbeaux, Dragon d'argent, Reine des dragons, Garde du balai, Trône de balais) + 4 couvertures (Plaine enneigée, Forêt des loups, Nuit des dragons, Salle du trône de balais). Date de sortie réglée au 2026-10-01 (modifiable dans `scripts/saison-1-hiver.json`).
+
+**Chaîne** : `python scripts/saison.py prompts scripts/saison-1-hiver.json` écrit `arrivage/saison-1-hiver/PROMPTS.txt` (un prompt complet par image). Kinder colle chaque prompt dans Gemini, télécharge l'image, dépose les fichiers dans `arrivage/saison-1-hiver/` ; `python scripts/saison.py ranger scripts/saison-1-hiver.json` les renomme (`<type>_<rareté>_<id>.webp`), recadre (avatars 384 px carrés, couvertures 1200×400), range sous `public/catalogue/chez-nous/saison-1-hiver/`, met à jour `catalogue.json` et la galerie. Validation par la galerie, puis `firebase deploy --only hosting`. Le dossier `arrivage/` n'est pas versionné.
