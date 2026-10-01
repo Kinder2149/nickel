@@ -84,7 +84,7 @@ def commande_prompts(args):
 
 BRIEF_RECHERCHE = """MISSION : trouver sur internet {total} images pour l'application de ménage « Nickel » (usage strictement privé : un foyer de trois personnes). Tu les cherches UNE PAR UNE, comme sur Pinterest, tu en choisis une par fiche et tu la télécharges.
 
-UNIVERS DU FOYER : technologie et IA, sport (ultimate frisbee), musique (Chinese Man, techno, Les Kassos), animés et séries (One Piece, Game of Thrones, House of the Dragon). Thème de cette saison : « {theme} ». Les clins d'œil à ces univers sont bienvenus.
+UNIVERS DU FOYER : technologie et IA, sport (ultimate frisbee), musique (Chinese Man, techno, Les Kassos), animés et séries (One Piece, Game of Thrones, House of the Dragon). Thème de cette saison : « {theme} ». Les personnages, objets et lieux RÉELS de ces œuvres sont attendus et bienvenus (usage privé) : cherche directement leurs illustrations, fan arts et fonds d'écran.
 
 OÙ CHERCHER
 - Avatars (illustrations rondes de personnages ou emblèmes) : Pinterest, Google Images (filtre « Illustration »), ArtStation, DeviantArt, Behance, Dribbble, Freepik, Flaticon, itch.io.
@@ -98,11 +98,14 @@ CRITÈRES DE QUALITÉ (très important : l'ensemble doit être beau ET cohérent
 - Si une fiche propose plusieurs intentions (ex. « éponge ET seau »), prends l'image qui s'en rapproche le plus ; sinon une version générique du même sujet, mais JAMAIS un sujet différent.
 
 MÉTHODE
-1. Commence par les fiches n°1 et n°{premiere_couverture} SEULEMENT, puis ARRÊTE-TOI et montre-moi les deux images choisies avec leur lien source. Ne continue que si je dis « ok ».
+1. Commence par les fiches n°1 et n°{premiere_couverture} SEULEMENT, puis ARRÊTE-TOI : montre-moi les deux images choisies avec leur lien source et ATTENDS ma réponse « ok ». Ne passe JAMAIS aux fiches suivantes de ta propre initiative, même si tout se passe bien. Fais ensuite les fiches par paquets de 4 à 6, en t'arrêtant à chaque fin de paquet.
 2. Pour chaque fiche : essaie les requêtes proposées (et tes propres variantes, en français et en anglais), parcours au moins 15 résultats, retiens 3 candidates, choisis la meilleure selon les critères, puis télécharge-la.
 3. Enregistre chaque image en gardant son format d'origine et en commençant son nom de fichier par le numéro de la fiche sur deux chiffres (exemple : « 01_louveteau.jpg », « 13_plaine.jpg »). Si tu ne peux pas choisir le nom, télécharge les images STRICTEMENT dans l'ordre des numéros, une seule image par fiche, rien d'autre.
-4. Si tu ne trouves rien de satisfaisant après 3 séries de recherches, ne force pas : écris « À REFAIRE » pour cette fiche, propose 3 alternatives de sujet proches, et passe à la suivante.
-5. Ne te connecte jamais à un compte à ma place, ne paie rien, n'accepte aucune condition d'utilisation, ne saisis aucun mot de passe : si un site l'exige, passe au suivant.
+4. UNE SEULE image téléchargée par fiche : la version FINALE. Ne télécharge pas de variantes ou d'essais (pas de « v1 » / « v2 »). Si tu hésites, compare les candidates à l'écran et ne télécharge que la gagnante.
+5. Si tu ne trouves rien de satisfaisant après 3 séries de recherches, ne force pas : écris « À REFAIRE » pour cette fiche, propose 3 alternatives de sujet proches, et passe à la suivante.
+6. Ne te connecte jamais à un compte à ma place, ne paie rien, n'accepte aucune condition d'utilisation, ne saisis aucun mot de passe : si un site l'exige, passe au suivant.
+
+VÉRIFICATION OBLIGATOIRE à chaque fin de paquet : ouvre le dossier où le navigateur enregistre les téléchargements, liste les fichiers numérotés qui s'y trouvent avec leur taille, et donne-moi le CHEMIN COMPLET de ce dossier. N'annonce jamais « téléchargé » pour un fichier que tu n'as pas vu dans ce dossier.
 
 À LA FIN, donne-moi un tableau : n° | nom de la fiche | nom du fichier téléchargé | adresse de la page source | pourquoi cette image | « OK » ou « À REFAIRE ».
 
@@ -134,16 +137,20 @@ def commande_recherche(args):
     print(f"Prompt de recherche écrit : {cible} ({len(texte)} caractères)")
 
 
-def recadrer(img, ratio_l, ratio_h, taille):
+def recadrer(img, ratio_l, ratio_h, taille, focus=(0.5, 0.5)):
+    """Recadre au ratio voulu. `focus` = (x, y) entre 0 et 1 : où se trouve le
+    sujet dans l'image (0.5, 0.5 = centre ; un visage en haut à droite = (0.7, 0.3))."""
     img = img.convert("RGB")
     w, h = img.size
     cible_ratio = ratio_l / ratio_h
     if w / h > cible_ratio:
         nw = int(h * cible_ratio)
-        img = img.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
+        x0 = int((w - nw) * focus[0])
+        img = img.crop((x0, 0, x0 + nw, h))
     else:
         nh = int(w / cible_ratio)
-        img = img.crop((0, (h - nh) // 2, w, (h - nh) // 2 + nh))
+        y0 = int((h - nh) * focus[1])
+        img = img.crop((0, y0, w, y0 + nh))
     return img.resize(taille, Image.LANCZOS)
 
 
@@ -192,9 +199,9 @@ def commande_ranger(args):
         cible.parent.mkdir(parents=True, exist_ok=True)
         with Image.open(f) as img:
             if o["type"] == "avatar":
-                out = recadrer(img, 1, 1, (TAILLE_AVATAR, TAILLE_AVATAR))
+                out = recadrer(img, 1, 1, (TAILLE_AVATAR, TAILLE_AVATAR), tuple(o.get("focus", (0.5, 0.5))))
             else:
-                out = recadrer(img, 3, 1, TAILLE_COUVERTURE)
+                out = recadrer(img, 3, 1, TAILLE_COUVERTURE, tuple(o.get("focus", (0.5, 0.5))))
             out.save(cible, "WEBP", quality=85, method=6)
         entree = {
             "id": o["id"], "type": o["type"], "nom": o["nom"], "rarete": o["rarete"],

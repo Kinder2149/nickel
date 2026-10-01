@@ -2,15 +2,70 @@
   "version": 1,
   "nom": "Pack Chez nous",
   "saisons": [
-    { "id": "avant-premiere", "nom": "Avant-première", "theme": "Test du catalogue distant", "debut": "2026-10-01" },
-    { "id": "saison-1-hiver", "nom": "Saison 1 — Hiver", "theme": "Trônes et dragons", "debut": "2026-12-21" }
+    {
+      "id": "avant-premiere",
+      "nom": "Avant-première",
+      "theme": "Test du catalogue distant",
+      "debut": "2026-10-01"
+    },
+    {
+      "id": "saison-1-hiver",
+      "nom": "Saison 1 — Hiver",
+      "theme": "Trônes et dragons",
+      "debut": "2026-12-21"
+    }
   ],
   "objets": [
-    { "id": "pastille-test", "type": "avatar", "nom": "Pastille test (à supprimer)", "rarete": "commun", "prix": 40,
-      "image": "avant-premiere/avatars/avatar_commun_pastille-test.png", "saison": "avant-premiere" },
-    { "id": "brume-de-dragon", "type": "couverture", "nom": "Brume de dragon", "rarete": "epique", "prix": 250,
-      "couleurs": ["#2B3340", "#8C9BB0"], "saison": "avant-premiere" },
-    { "id": "aube-boreale", "type": "couverture", "nom": "Aube boréale", "rarete": "rare", "prix": 100,
-      "couleurs": ["#2E6B4E", "#7FD1C7"], "saison": "avant-premiere" }
+    {
+      "id": "pastille-test",
+      "type": "avatar",
+      "nom": "Pastille test (à supprimer)",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "avant-premiere/avatars/avatar_commun_pastille-test.png",
+      "saison": "avant-premiere"
+    },
+    {
+      "id": "brume-de-dragon",
+      "type": "couverture",
+      "nom": "Brume de dragon",
+      "rarete": "epique",
+      "prix": 250,
+      "couleurs": [
+        "#2B3340",
+        "#8C9BB0"
+      ],
+      "saison": "avant-premiere"
+    },
+    {
+      "id": "aube-boreale",
+      "type": "couverture",
+      "nom": "Aube boréale",
+      "rarete": "rare",
+      "prix": 100,
+      "couleurs": [
+        "#2E6B4E",
+        "#7FD1C7"
+      ],
+      "saison": "avant-premiere"
+    },
+    {
+      "id": "fantome",
+      "type": "avatar",
+      "nom": "Fantôme",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-1-hiver/avatars/avatar_commun_fantome.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "jon-et-fantome",
+      "type": "couverture",
+      "nom": "Jon et Fantôme",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-1-hiver/couvertures/couverture_commun_jon-et-fantome.webp",
+      "saison": "saison-1-hiver"
+    }
   ]
 }

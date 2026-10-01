@@ -1,0 +1,281 @@
+{
+  "saison": {
+    "id": "saison-2-grand-large",
+    "nom": "Saison 2 — Grand large",
+    "theme": "One Piece : la mer, l'équipage, la piraterie",
+    "debut": "2027-01-01"
+  },
+  "style": "Flat graphic illustration in the style of a bold linocut / woodblock print. Thick dark ink outlines (#16150F), flat color fills, a limited palette of at most 5 colors per image built on cream paper tones with one or two vivid accents, subtle paper grain, slightly rough printed edges. Charming, characterful and a little fierce, like a collectible game emblem. No text, no letters, no watermark, no frame, no border.",
+  "formatAvatar": "Format: square 1:1. A single character or emblem centered, filling about 70% of the frame with safe margins on every side, on a plain flat solid background of color {fond}. It will be cropped into a circle, so keep everything inside the central circle. One image only.",
+  "formatCouverture": "Format: wide banner 16:9. Keep the key subject inside the middle horizontal band (central 40% of the height) because the top and bottom will be cropped. Atmospheric wide scene, no close-up faces. One image only.",
+  "objets": [
+    {
+      "n": 1,
+      "id": "chapeau-de-paille",
+      "type": "avatar",
+      "nom": "Chapeau de paille",
+      "rarete": "commun",
+      "fond": "#E6C36A",
+      "sujet": "Le chapeau de paille de Luffy (ruban rouge), seul, bien centré, en illustration ou en icône.",
+      "recherche": {
+        "decrit": "Le chapeau de paille de Luffy (ruban rouge), seul, bien centré, en illustration ou en icône.",
+        "requetes": [
+          "straw hat luffy icon illustration",
+          "one piece straw hat flat art",
+          "chapeau de paille one piece illustration"
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "id": "jolly-roger",
+      "type": "avatar",
+      "nom": "Drapeau des Chapeaux de paille",
+      "rarete": "commun",
+      "fond": "#2B3340",
+      "sujet": "Le drapeau pirate de l'équipage (tête de mort avec chapeau de paille), centré, façon emblème.",
+      "recherche": {
+        "decrit": "Le drapeau pirate de l'équipage (tête de mort avec chapeau de paille), centré, façon emblème.",
+        "requetes": [
+          "straw hat pirates jolly roger emblem",
+          "one piece jolly roger flag art",
+          "drapeau pirate chapeau de paille"
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "id": "den-den-mushi",
+      "type": "avatar",
+      "nom": "Escargophone",
+      "rarete": "commun",
+      "fond": "#9DB8A6",
+      "sujet": "Un Den Den Mushi (escargot téléphone) mignon, en illustration ou en icône.",
+      "recherche": {
+        "decrit": "Un Den Den Mushi (escargot téléphone) mignon, en illustration ou en icône.",
+        "requetes": [
+          "den den mushi illustration cute",
+          "one piece den den mushi art",
+          "escargophone one piece illustration"
+        ]
+      }
+    },
+    {
+      "n": 4,
+      "id": "log-pose",
+      "type": "avatar",
+      "nom": "Log Pose",
+      "rarete": "commun",
+      "fond": "#C9B58A",
+      "sujet": "Le Log Pose (boussole du Grand Line) ou, à défaut, une boussole pirate en illustration.",
+      "recherche": {
+        "decrit": "Le Log Pose (boussole du Grand Line) ou, à défaut, une boussole pirate en illustration.",
+        "requetes": [
+          "log pose one piece illustration",
+          "one piece compass art",
+          "boussole pirate illustration"
+        ]
+      }
+    },
+    {
+      "n": 5,
+      "id": "chopper",
+      "type": "avatar",
+      "nom": "Chopper",
+      "rarete": "rare",
+      "fond": "#E8A0B4",
+      "sujet": "Tony Tony Chopper, tête et épaules ou plan serré, mignon, chapeau rose visible.",
+      "recherche": {
+        "decrit": "Tony Tony Chopper, tête et épaules ou plan serré, mignon, chapeau rose visible.",
+        "requetes": [
+          "tony tony chopper avatar art",
+          "chopper one piece cute illustration",
+          "chopper one piece fan art flat"
+        ]
+      }
+    },
+    {
+      "n": 6,
+      "id": "usopp",
+      "type": "avatar",
+      "nom": "Usopp",
+      "rarete": "rare",
+      "fond": "#C9A23A",
+      "sujet": "Usopp avec son lance-pierre / ses lunettes de tireur, en illustration stylisée.",
+      "recherche": {
+        "decrit": "Usopp avec son lance-pierre / ses lunettes de tireur, en illustration stylisée.",
+        "requetes": [
+          "usopp one piece illustration avatar",
+          "usopp sniper fan art",
+          "usopp one piece art flat"
+        ]
+      }
+    },
+    {
+      "n": 7,
+      "id": "nami",
+      "type": "avatar",
+      "nom": "Nami",
+      "rarete": "rare",
+      "fond": "#E58A3A",
+      "sujet": "Nami avec son bâton climatique ou sa carte, illustration stylisée tête et épaules.",
+      "recherche": {
+        "decrit": "Nami avec son bâton climatique ou sa carte, illustration stylisée tête et épaules.",
+        "requetes": [
+          "nami one piece illustration avatar",
+          "nami clima tact fan art",
+          "nami one piece art flat"
+        ]
+      }
+    },
+    {
+      "n": 8,
+      "id": "robin",
+      "type": "avatar",
+      "nom": "Nico Robin",
+      "rarete": "rare",
+      "fond": "#6A4A8A",
+      "sujet": "Nico Robin, tête et épaules, illustration stylisée avec ses bras croisés (Hana Hana) si possible.",
+      "recherche": {
+        "decrit": "Nico Robin, tête et épaules, illustration stylisée avec ses bras croisés (Hana Hana) si possible.",
+        "requetes": [
+          "nico robin one piece illustration avatar",
+          "robin one piece fan art",
+          "nico robin art flat"
+        ]
+      }
+    },
+    {
+      "n": 9,
+      "id": "zoro",
+      "type": "avatar",
+      "nom": "Zoro",
+      "rarete": "epique",
+      "fond": "#2E6B4E",
+      "sujet": "Roronoa Zoro avec ses trois sabres, pose de combat, illustration stylisée.",
+      "recherche": {
+        "decrit": "Roronoa Zoro avec ses trois sabres, pose de combat, illustration stylisée.",
+        "requetes": [
+          "roronoa zoro three swords illustration",
+          "zoro one piece fan art avatar",
+          "zoro one piece art"
+        ]
+      }
+    },
+    {
+      "n": 10,
+      "id": "luffy-gear-5",
+      "type": "avatar",
+      "nom": "Luffy Gear 5",
+      "rarete": "epique",
+      "fond": "#F0F0F0",
+      "sujet": "Luffy en Gear 5 (cheveux blancs, sourire), illustration dynamique, sujet bien centré.",
+      "recherche": {
+        "decrit": "Luffy en Gear 5 (cheveux blancs, sourire), illustration dynamique, sujet bien centré.",
+        "requetes": [
+          "luffy gear 5 illustration",
+          "luffy nika fan art",
+          "one piece gear 5 art"
+        ]
+      }
+    },
+    {
+      "n": 11,
+      "id": "shanks",
+      "type": "avatar",
+      "nom": "Shanks le Roux",
+      "rarete": "epique",
+      "fond": "#B4321F",
+      "sujet": "Shanks le Roux, portrait stylisé avec sa cape et ses cheveux rouges, regard calme.",
+      "recherche": {
+        "decrit": "Shanks le Roux, portrait stylisé avec sa cape et ses cheveux rouges, regard calme.",
+        "requetes": [
+          "red haired shanks illustration",
+          "shanks one piece fan art portrait",
+          "shanks le roux illustration"
+        ]
+      }
+    },
+    {
+      "n": 12,
+      "id": "gol-d-roger",
+      "type": "avatar",
+      "nom": "Gol D. Roger",
+      "rarete": "legendaire",
+      "fond": "#7A5A12",
+      "sujet": "Gol D. Roger, le Roi des pirates, portrait stylisé avec son sourire.",
+      "recherche": {
+        "decrit": "Gol D. Roger, le Roi des pirates, portrait stylisé avec son sourire.",
+        "requetes": [
+          "gol d roger illustration",
+          "pirate king roger fan art",
+          "gol d roger one piece art portrait"
+        ]
+      }
+    },
+    {
+      "n": 13,
+      "id": "vogue-merry",
+      "type": "couverture",
+      "nom": "Vogue Merry",
+      "rarete": "commun",
+      "sujet": "Le Vogue Merry (Going Merry) naviguant sur une mer calme sous un ciel bleu. Format panoramique.",
+      "recherche": {
+        "decrit": "Le Vogue Merry (Going Merry) naviguant sur une mer calme sous un ciel bleu. Format panoramique.",
+        "requetes": [
+          "going merry wallpaper one piece",
+          "one piece merry sailing sea wallpaper",
+          "vogue merry fond d'écran one piece"
+        ]
+      }
+    },
+    {
+      "n": 14,
+      "id": "grand-line-tempete",
+      "type": "couverture",
+      "nom": "Tempête sur Grand Line",
+      "rarete": "rare",
+      "sujet": "Un navire pirate dans une tempête sur une mer déchaînée, éclairs. Format panoramique.",
+      "recherche": {
+        "decrit": "Un navire pirate dans une tempête sur une mer déchaînée, éclairs. Format panoramique.",
+        "requetes": [
+          "one piece storm ship wallpaper",
+          "pirate ship storm ocean art wallpaper",
+          "tempête navire pirate fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 15,
+      "id": "thousand-sunny",
+      "type": "couverture",
+      "nom": "Thousand Sunny au couchant",
+      "rarete": "epique",
+      "sujet": "Le Thousand Sunny voguant au coucher du soleil, ciel orange et rose. Format panoramique.",
+      "recherche": {
+        "decrit": "Le Thousand Sunny voguant au coucher du soleil, ciel orange et rose. Format panoramique.",
+        "requetes": [
+          "thousand sunny sunset wallpaper",
+          "one piece sunny ship sunset art",
+          "thousand sunny fond d'écran coucher de soleil"
+        ]
+      }
+    },
+    {
+      "n": 16,
+      "id": "laugh-tale",
+      "type": "couverture",
+      "nom": "Laugh Tale",
+      "rarete": "legendaire",
+      "sujet": "L'île de Laugh Tale / le trésor de One Piece, ambiance épique et dorée, ou toute vue majestueuse du Grand Line. Format panoramique.",
+      "recherche": {
+        "decrit": "L'île de Laugh Tale / le trésor de One Piece, ambiance épique et dorée, ou toute vue majestueuse du Grand Line. Format panoramique.",
+        "requetes": [
+          "laugh tale one piece wallpaper",
+          "one piece treasure island epic wallpaper",
+          "one piece grand line epic landscape wallpaper"
+        ]
+      }
+    }
+  ]
+}
