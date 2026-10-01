@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'catalogue_distant.dart';
 import 'donnees.dart';
 import 'ecran_accueil.dart';
 import 'ecran_astuces.dart';
@@ -42,6 +43,7 @@ class _EcranRacineState extends State<EcranRacine> {
   @override
   void initState() {
     super.initState();
+    chargerCatalogue(); // nouveautés de la boutique (n'attend pas, ne bloque rien)
     _abonnements.add(ecouterMembres(widget.maisonId).listen((m) {
       _membres = m;
       _recus.add('membres');

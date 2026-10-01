@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galerie du pack Chez nous</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #EFE7D6; color: #16150F; margin: 0; padding: 24px; }
+  h1 { margin: 0 0 4px; } .sous { color: #6B675A; margin: 0 0 16px; }
+  .filtres { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  select { padding: 8px; border: 2px solid #16150F; background: #F6EFDE; }
+  .grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .carte { background: #F6EFDE; border: 3px solid; padding: 12px; }
+  .visuel { height: 150px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .visuel img.avatar { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; }
+  .visuel img.couverture, .couleur.couverture { width: 100%; height: 90px; object-fit: cover; }
+  .couleur.avatar { width: 130px; height: 130px; border-radius: 50%; }
+  .vide { color: #A9A18D; }
+  h3 { margin: 4px 0; font-size: 16px; } p { margin: 4px 0; font-size: 13px; }
+  .rarete { font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+  .saison { color: #6B675A; } .id { color: #A9A18D; font-family: monospace; font-size: 11px; }
+  .kit { background: #F6EFDE; border: 2px solid #D8CFB8; padding: 12px; margin-bottom: 16px; font-size: 13px; }
+  .compte { font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>Galerie du pack Chez nous</h1>
+<p class="sous">Générée le 2026-10-01 depuis catalogue.json — 3 objet(s). Pour la régénérer : <code>node scripts/generer-galerie.mjs</code></p>
+<div class="kit"><strong>Kit gratuit (dans l'application, hors catalogue) :</strong>
+  avatars — initiale, balai, savon, goutte, flamme, éclair, étoile, feuille, note, fusée, bouclier ;
+  couvertures — 6 fonds unis (encre, orange, bleu, vert, violet, rouge). La boutique de lancement (pictogrammes et dégradés) est aussi dans l'application.</div>
+<div class="filtres">
+  <select id="f-saison"><option value="">Toutes les saisons</option><option value="avant-premiere">Avant-première</option><option value="saison-1-hiver">Saison 1 — Hiver</option></select>
+  <select id="f-type"><option value="">Avatars et couvertures</option><option value="avatar">Avatars</option><option value="couverture">Couvertures</option></select>
+  <select id="f-rarete"><option value="">Toutes les raretés</option><option value="commun">Commun</option><option value="rare">Rare</option><option value="epique">Épique</option><option value="legendaire">Légendaire</option></select>
+  <span class="compte" id="compte"></span>
+</div>
+<div class="grille" id="grille">
+
+  <article class="carte" data-saison="avant-premiere" data-type="avatar" data-rarete="commun"
+           style="border-color:#6B675A">
+    <div class="visuel"><img src="avant-premiere/avatars/avatar_commun_pastille-test.png" alt="Pastille test (à supprimer)" class="avatar"></div>
+    <h3>Pastille test (à supprimer)</h3>
+    <p class="rarete" style="color:#6B675A">Commun · Avatar</p>
+    <p>S'achète 40 Bulles à la boutique</p>
+    <p class="saison">Avant-première</p>
+    <p class="id">pastille-test</p>
+  </article>
+
+  <article class="carte" data-saison="avant-premiere" data-type="couverture" data-rarete="epique"
+           style="border-color:#8A3FC7">
+    <div class="visuel"><div class="couleur couverture" style="background:linear-gradient(135deg, #2B3340, #8C9BB0)"></div></div>
+    <h3>Brume de dragon</h3>
+    <p class="rarete" style="color:#8A3FC7">Épique · Couverture</p>
+    <p>S'achète 250 Bulles à la boutique</p>
+    <p class="saison">Avant-première</p>
+    <p class="id">brume-de-dragon</p>
+  </article>
+
+  <article class="carte" data-saison="avant-premiere" data-type="couverture" data-rarete="rare"
+           style="border-color:#2F6FB5">
+    <div class="visuel"><div class="couleur couverture" style="background:linear-gradient(135deg, #2E6B4E, #7FD1C7)"></div></div>
+    <h3>Aube boréale</h3>
+    <p class="rarete" style="color:#2F6FB5">Rare · Couverture</p>
+    <p>S'achète 100 Bulles à la boutique</p>
+    <p class="saison">Avant-première</p>
+    <p class="id">aube-boreale</p>
+  </article>
+</div>
+<script>
+  const filtres = ['saison', 'type', 'rarete'].map((k) => [k, document.getElementById('f-' + k)]);
+  const cartes = [...document.querySelectorAll('.carte')];
+  function appliquer() {
+    let visibles = 0;
+    for (const c of cartes) {
+      const ok = filtres.every(([k, el]) => !el.value || c.dataset[k] === el.value);
+      c.style.display = ok ? '' : 'none';
+      if (ok) visibles++;
+    }
+    document.getElementById('compte').textContent = visibles + ' affiché(s)';
+  }
+  filtres.forEach(([, el]) => el.addEventListener('change', appliquer));
+  appliquer();
+</script>
+</body>
+</html>

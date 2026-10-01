@@ -1661,3 +1661,13 @@ Plus aucun emoji dans le jeu (avatars, badges, fêtes, titres du guide). Les emo
 - La fête de progression et le guide indiquent maintenant les Bulles gagnées.
 - Aucune nouvelle règle Firestore nécessaire (`achats` passe par la mise à jour de sa propre fiche, déjà déployée).
 - Tests : 10 verts. Prochaine étape : catalogue distant (étape 3).
+
+### Étape 3 faite — catalogue distant — 2026-10-01 (en attente de test Kinder)
+
+- **Publié** sur l'hébergement Firebase (`firebase deploy --only hosting`, 2026-10-01) : `https://nickel-menage-57692.web.app/catalogue/chez-nous/` (catalogue.json, images, galerie.html). Servi en 200 (JSON et PNG vérifiés). Le déploiement a republié aussi le reste de `public/` (ancienne PWA, inchangée).
+- **App** (`lib/catalogue_distant.dart`) : au démarrage de la maison, lit le dernier catalogue en cache (instantané), puis le rafraîchit depuis l'hébergement ; hors connexion, garde le cache ; à défaut, kit + boutique de lancement embarqués. Un objet mal formé est ignoré sans casser les autres ; un objet dont la **saison n'est pas encore sortie** (date `debut`) reste caché — on peut donc préparer l'hiver à l'avance. Un id local n'est jamais écrasé par le distant. Images avec cache disque (`cached_network_image`).
+- **Contenu de test** (saison « Avant-première », visible dès maintenant) : avatar « Pastille test (à supprimer) » 40 Bulles (vraie image PNG, pour valider le circuit), couvertures « Brume de dragon » (250) et « Aube boréale » (100) en dégradés définis dans le JSON. La saison « Saison 1 — Hiver » est déclarée mais sortira le 2026-12-21 : vide pour l'instant.
+- **Galerie** : `node scripts/generer-galerie.mjs` régénère `galerie.html` (nom, rareté, prix, comment l'obtenir, saison, « pas encore sortie »). Noms de succès lus dans `jeu.dart`. Ouverte par double-clic sur le fichier ; aussi en ligne à l'adresse du dossier.
+- **Procédure pour ajouter du contenu** : déposer les images dans le dossier de la saison, ajouter les lignes dans `catalogue.json`, relancer le script de galerie, valider la galerie, puis `firebase deploy --only hosting`. Aucune mise à jour de l'APK.
+- **Retirer le pack avant la production** : supprimer `public/catalogue/chez-nous/` et redéployer ; l'app retombe sur le kit.
+- Tests : 11 verts. Prochaine étape : contenu de la saison 1 (visuels).

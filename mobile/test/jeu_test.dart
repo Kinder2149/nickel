@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nickel_mobile/catalogue.dart';
+import 'package:nickel_mobile/catalogue_distant.dart';
 import 'package:nickel_mobile/jeu.dart';
 
 Map<String, dynamic> r(String par, String date, {int? xp, String tache = 't1', String heure = '12:00:00'}) => {
@@ -126,5 +127,28 @@ void main() {
     expect(avatarsPossedes.contains('diamant'), false);
     expect(tousLesObjets.map((o) => o.id).toSet().length, tousLesObjets.length, reason: 'ids uniques');
     expect(boutique.every((o) => o.succesRequis == null || succes.any((x) => x.id == o.succesRequis)), true);
+  });
+
+  test('catalogue distant : lecture, dates de sortie, objets mal formés', () {
+    const json = '''
+    {"saisons":[{"id":"a","debut":"2026-10-01"},{"id":"b","debut":"2026-12-21"}],
+     "objets":[
+       {"id":"x","type":"avatar","nom":"X","rarete":"rare","prix":100,"image":"a/x.png","saison":"a"},
+       {"id":"y","type":"couverture","nom":"Y","couleurs":["#112233","#445566"],"saison":"a"},
+       {"id":"futur","type":"avatar","nom":"F","saison":"b"},
+       {"type":"avatar"}
+     ]}''';
+    final objets = lireCatalogue(json, aujourdhui: '2026-10-15', base: 'https://h/');
+    expect(objets.map((o) => o.id), ['x', 'y']);
+    expect(objets.first.image, 'https://h/a/x.png');
+    expect(objets.last.couleurs!.length, 2);
+    expect(lireCatalogue(json, aujourdhui: '2026-12-21', base: '').map((o) => o.id), ['x', 'y', 'futur']);
+
+    objetsDistants.value = objets;
+    expect(avatarPourId('x').rarete, Rarete.rare);
+    // un id local n'est jamais écrasé par le distant
+    objetsDistants.value = [const Objet(id: 'balai', type: TypeObjet.avatar, nom: 'Intrus', prix: 5)];
+    expect(avatarPourId('balai').nom, 'Balai');
+    objetsDistants.value = const [];
   });
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'catalogue.dart';
+import 'catalogue_distant.dart';
 import 'donnees.dart';
 import 'ecran_boutique.dart';
 import 'ecran_guide.dart';
@@ -21,18 +23,36 @@ class PastilleMembre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = avatarPourId(membre?['avatar'] as String?);
-    final couleur = membre != null ? hexVersCouleur(membre!['couleur'] as String) : Palette.encreFaible;
-    final prenom = (membre?['prenom'] as String?) ?? '?';
-    return Container(
-      width: taille,
-      height: taille,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(color: couleur, shape: BoxShape.circle),
-      child: avatar.icone != null
-          ? Icon(avatar.icone, color: Colors.white, size: taille * 0.55)
-          : Text(prenom.substring(0, 1).toUpperCase(),
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: taille * 0.4)),
+    // Se redessine quand le catalogue distant arrive (un avatar à image).
+    return ValueListenableBuilder<List<Objet>>(
+      valueListenable: objetsDistants,
+      builder: (context, objets, enfant) {
+        final avatar = avatarPourId(membre?['avatar'] as String?);
+        final couleur = membre != null ? hexVersCouleur(membre!['couleur'] as String) : Palette.encreFaible;
+        final prenom = (membre?['prenom'] as String?) ?? '?';
+        final initiale = Text(prenom.substring(0, 1).toUpperCase(),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: taille * 0.4));
+        return Container(
+          width: taille,
+          height: taille,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(color: couleur, shape: BoxShape.circle),
+          child: avatar.image != null
+              ? ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: avatar.image!,
+                    width: taille,
+                    height: taille,
+                    fit: BoxFit.cover,
+                    errorWidget: (contexte, url, erreur) => initiale,
+                    placeholder: (contexte, url) => initiale,
+                  ),
+                )
+              : avatar.icone != null
+                  ? Icon(avatar.icone, color: Colors.white, size: taille * 0.55)
+                  : initiale,
+        );
+      },
     );
   }
 }

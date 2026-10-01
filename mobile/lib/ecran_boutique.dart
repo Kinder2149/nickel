@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'catalogue.dart';
+import 'catalogue_distant.dart';
 import 'donnees.dart';
 import 'jeu.dart';
 import 'palette.dart';
@@ -95,6 +97,13 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
     final debloques = succesDebloques(stats, contexte);
     final achats = moi?['achats'] as List?;
     final solde = soldeBulles(bullesGagnees(stats, debloques), achats);
+    return ValueListenableBuilder<List<Objet>>(
+      valueListenable: objetsDistants,
+      builder: (context, objets, enfant) => _corps(solde, achats, debloques),
+    );
+  }
+
+  Widget _corps(int solde, List<dynamic>? achats, Set<String> debloques) {
     final possedes = {
       for (final o in [...objetsPossedes(TypeObjet.avatar, achats, debloques), ...objetsPossedes(TypeObjet.couverture, achats, debloques)])
         o.id,
@@ -228,7 +237,10 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
         height: 72,
         alignment: Alignment.center,
         decoration: BoxDecoration(color: widget.profil.couleur, shape: BoxShape.circle),
-        child: Icon(o.icone, size: 38, color: Colors.white),
+        child: o.image != null
+            ? ClipOval(child: CachedNetworkImage(imageUrl: o.image!, width: 72, height: 72, fit: BoxFit.cover,
+                errorWidget: (contexte, url, erreur) => const Icon(Icons.image_not_supported_outlined, color: Colors.white)))
+            : Icon(o.icone, size: 38, color: Colors.white),
       );
     }
     return Container(height: 64, decoration: decorationCouverture(o));

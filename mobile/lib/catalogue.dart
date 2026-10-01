@@ -5,8 +5,11 @@
 // pictogrammes simples et des fonds unis. Les objets de la boutique et des
 // saisons (images) suivront le même modèle, lus depuis `catalogue.json`.
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'catalogue_distant.dart';
+import 'donnees.dart';
 import 'jeu.dart';
 
 enum TypeObjet { avatar, couverture }
@@ -26,13 +29,15 @@ class Objet {
   });
 
   /// Lu depuis une entrée de `catalogue.json` (objets à image).
-  factory Objet.depuisJson(Map<String, dynamic> j) => Objet(
+  /// `base` est ajoutée devant le chemin de l'image (catalogue distant).
+  factory Objet.depuisJson(Map<String, dynamic> j, {String base = ''}) => Objet(
         id: j['id'] as String,
         type: j['type'] == 'couverture' ? TypeObjet.couverture : TypeObjet.avatar,
         nom: j['nom'] as String,
         rarete: Rarete.values.firstWhere((r) => r.name == j['rarete'], orElse: () => Rarete.commun),
         prix: (j['prix'] as int?) ?? 0,
-        image: j['image'] as String?,
+        image: j['image'] == null ? null : '$base${j['image']}',
+        couleurs: (j['couleurs'] as List?)?.map((c) => hexVersCouleur(c as String)).toList(),
         succesRequis: j['succesRequis'] as String?,
         saison: j['saison'] as String?,
       );
@@ -103,7 +108,13 @@ final boutique = <Objet>[
   Objet(id: 'sommet', type: TypeObjet.couverture, nom: 'Sommet', rarete: Rarete.legendaire, couleurs: [Color(0xFF16150F), Color(0xFFB8860B)], succesRequis: 'niveau10', saison: 'lancement'),
 ];
 
-final tousLesObjets = <Objet>[...kitAvatars, ...kitCouvertures, ...boutique];
+/// Kit + boutique de lancement + objets distants. Un id déjà connu localement
+/// n'est jamais écrasé par le catalogue distant.
+List<Objet> get tousLesObjets {
+  final locaux = <Objet>[...kitAvatars, ...kitCouvertures, ...boutique];
+  final ids = locaux.map((o) => o.id).toSet();
+  return [...locaux, ...objetsDistants.value.where((o) => !ids.contains(o.id))];
+}
 
 /// Ce que possède un membre : le kit gratuit, ses achats, et les exclusifs
 /// dont il a débloqué le succès.
@@ -164,7 +175,7 @@ Objet couverturePourId(String? id) =>
 /// dégradé.
 BoxDecoration decorationCouverture(Objet c) {
   if (c.image != null) {
-    return BoxDecoration(image: DecorationImage(image: NetworkImage(c.image!), fit: BoxFit.cover));
+    return BoxDecoration(image: DecorationImage(image: CachedNetworkImageProvider(c.image!), fit: BoxFit.cover));
   }
   final couleurs = c.couleurs ?? const [Color(0xFF16150F)];
   if (couleurs.length == 1) return BoxDecoration(color: couleurs.first);
