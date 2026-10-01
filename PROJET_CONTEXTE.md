@@ -1620,3 +1620,21 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 **Sources vérifiées le 2026-10-01** : game-icons.net (CC BY 3.0, usage commercial permis avec crédit, SVG recolorables, > 3 400 icônes) ; DiceBear (styles Pixelbot, Pixel Art en CC0 ; Adventurer, Big Ears en CC BY 4.0 ; Bottts libre de droits) ; itch.io / OpenGameArt (filtre CC0) ; Kenney.nl (CC0, licence à reconfirmer sur la page du pack avant usage). Photos de couverture : Unsplash/Pexels.
 
 **À décider** : source de la cohérence visuelle (générateur d'images à lancer par Kinder, ou packs gratuits uniquement).
+
+## 27. CADRAGE — BOUTIQUE, MONNAIE ET CONTENU DANS LE TEMPS — 2026-10-01 (non commencé)
+
+**Précision de Kinder (annule la contrainte de licence du § 26)** : la banque visuelle « Chez nous » sert uniquement le logement de Kinder (3 téléphones). Elle sera **supprimée de l'app** quand le produit sortira en production. Conséquence : univers libre (One Piece, GoT/HotD, Chinese Man, Les Kassos — vidéos et musiques Canal+/YouTube — ultimate, techno, tech/IA), plus de page « Crédits » obligatoire. **Garde-fou retenu** : tout ce contenu vit dans un « pack Chez nous » isolé (un dossier, un fichier de catalogue) qu'on retire en une opération ; aucun code du produit ne dépend de lui.
+
+**Décisions**
+- **Pas d'emoji** pour les avatars. Kit gratuit minimal, disponible dès le début : avatar = initiale sur couleur unie (6 couleurs) + quelques pictogrammes simples ; couvertures = 6 fonds colorés unis.
+- **Monnaie unique et simple** : les « Bulles ». On en gagne à chaque niveau, et à chaque succès (selon sa rareté). On ne peut **pas tout acheter**.
+- **Boutique** : avatars, couvertures, cadres, badges décoratifs ; prix par rareté. Certains objets ne s'achètent pas : ils se gagnent (exclusifs de succès, de saison).
+
+**Cadre proposé (à valider)**
+1. *Saisons de 3 mois* (4 par an), chacune avec un thème, une collection de boutique (~12 avatars, 4 couvertures, 8 badges), des succès de saison et une couverture exclusive débloquée par un **objectif commun de la maison** (coopératif). Suggestion de thèmes : hiver = trônes et dragons ; printemps = grand large ; été = ultimate ; automne = électro/musique.
+2. *Catalogue distant* : fichier `catalogue.json` + images sur l'hébergement Firebase existant (gratuit). L'app le télécharge et le garde en cache ; une nouvelle saison apparaît sans réinstaller l'APK. Kit gratuit embarqué en secours hors connexion. Retirer le pack = supprimer son dossier.
+3. *Économie* : gains dérivés (niveaux + succès), dépenses stockées sur la fiche du membre (liste d'achats). Solde = gains − dépenses. Barème de départ : niveau n → 20 + 5n Bulles ; succès commun 5, rare 15, épique 40, légendaire 100. Prix : commun 40, rare 100, épique 250, légendaire 600. À recalibrer avec les données réelles après 3 semaines d'usage.
+4. *Au-delà du niveau 10* : la courbe d'XP continue (un an d'usage ≈ niveau 12), titres supplémentaires tous les 5 niveaux ; piste « prestige » plus tard.
+5. *Phase 2 possible* : quête de la semaine (défi tournant payé en Bulles), cadeau d'anniversaire de la maison.
+
+**Ordre d'exécution envisagé** : (1) retirer les emoji + kit gratuit + modèle de catalogue ; (2) boutique et Bulles ; (3) catalogue distant ; (4) contenu de la saison 1 ; (5) quêtes.
