@@ -1691,3 +1691,9 @@ Le rapport de l'assistant de recherche annonçait 16 fiches (V1 + V2) dans `V:\T
 **Brief de recherche amélioré** (générateur `saison.py recherche`) : personnages et lieux réels des œuvres attendus ; arrêt obligatoire après les fiches 1 et 13 ; paquets de 4 à 6 fiches ; une seule image par fiche (pas de V1/V2) ; vérification obligatoire du dossier de téléchargement avec chemin complet à chaque fin de paquet. `saison.py ranger` gère le point de focus du recadrage (`focus` par fiche).
 
 **Saison 2 « Grand large » (One Piece)** préparée : `scripts/saison-2-grand-large.json` (16 fiches : 12 avatars — Chapeau de paille, drapeau, escargophone, Log Pose, Chopper, Usopp, Nami, Robin, Zoro, Luffy Gear 5, Shanks, Gol D. Roger — et 4 couvertures — Vogue Merry, tempête sur Grand Line, Thousand Sunny, Laugh Tale), sortie prévue le 2027-01-01, prompt dans `arrivage/saison-2-grand-large/PROMPT-RECHERCHE.txt`.
+
+### Saison 1 — 15 images sur 16 rangées — 2026-10-01 (soir)
+
+Après vérification sur disque (`V:\Téléchargements\`) : 15 fiches présentes, **la fiche 14 (Forêt des loups / « loup aux feuilles rouges ») est absente**. Planche contact vérifiée visuellement : la fiche 16 en `_v2` est une image Dragon Ball (écartée, la `_v3` est la bonne) ; `02_corbeau-parchemin` écarté (filigrane « Cici AI », image générée) au profit de `02_corbeau-lettre-aquarelle`.
+
+**Rangées** (local, non publiées) : 12 avatars — Fantôme, Corbeau messager, Blason du lion, Le Mur (communs) ; Loup Stark, Casque du Limier, Dragon noir, Corbeau et chaîne de mestre (rares) ; Silverwing, La reine aux trois dragons, Garde royale (épiques) ; Trône de fer (légendaire) — et 3 couvertures — Jon et Fantôme (commun), Sigil en flammes (épique), Grande salle du trône (légendaire). Poids total de la saison : 452 Ko. Les noms et identifiants des fiches suivent les vraies images choisies. À publier après validation de la galerie et réception de la fiche 14 (`firebase deploy --only hosting`).

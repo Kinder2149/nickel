@@ -59,12 +59,129 @@
       "saison": "saison-1-hiver"
     },
     {
+      "id": "corbeau-messager",
+      "type": "avatar",
+      "nom": "Corbeau messager",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-1-hiver/avatars/avatar_commun_corbeau-messager.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "blason-lion",
+      "type": "avatar",
+      "nom": "Blason du lion",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-1-hiver/avatars/avatar_commun_blason-lion.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "le-mur",
+      "type": "avatar",
+      "nom": "Le Mur",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-1-hiver/avatars/avatar_commun_le-mur.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "loup-stark",
+      "type": "avatar",
+      "nom": "Loup Stark",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-1-hiver/avatars/avatar_rare_loup-stark.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "casque-limier",
+      "type": "avatar",
+      "nom": "Casque du Limier",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-1-hiver/avatars/avatar_rare_casque-limier.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "dragon-noir",
+      "type": "avatar",
+      "nom": "Dragon noir",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-1-hiver/avatars/avatar_rare_dragon-noir.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "corbeau-mestre",
+      "type": "avatar",
+      "nom": "Corbeau et chaîne de mestre",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-1-hiver/avatars/avatar_rare_corbeau-mestre.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "silverwing",
+      "type": "avatar",
+      "nom": "Silverwing",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-1-hiver/avatars/avatar_epique_silverwing.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "reine-trois-dragons",
+      "type": "avatar",
+      "nom": "La reine aux trois dragons",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-1-hiver/avatars/avatar_epique_reine-trois-dragons.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "garde-royale",
+      "type": "avatar",
+      "nom": "Garde royale",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-1-hiver/avatars/avatar_epique_garde-royale.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "trone-de-fer",
+      "type": "avatar",
+      "nom": "Trône de fer",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-1-hiver/avatars/avatar_legendaire_trone-de-fer.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
       "id": "jon-et-fantome",
       "type": "couverture",
       "nom": "Jon et Fantôme",
       "rarete": "commun",
       "prix": 40,
       "image": "saison-1-hiver/couvertures/couverture_commun_jon-et-fantome.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "sigil-flammes",
+      "type": "couverture",
+      "nom": "Sigil en flammes",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-1-hiver/couvertures/couverture_epique_sigil-flammes.webp",
+      "saison": "saison-1-hiver"
+    },
+    {
+      "id": "grande-salle",
+      "type": "couverture",
+      "nom": "Grande salle du trône",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-1-hiver/couvertures/couverture_legendaire_grande-salle.webp",
       "saison": "saison-1-hiver"
     }
   ]
