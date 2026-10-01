@@ -1638,3 +1638,7 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 5. *Phase 2 possible* : quête de la semaine (défi tournant payé en Bulles), cadeau d'anniversaire de la maison.
 
 **Ordre d'exécution envisagé** : (1) retirer les emoji + kit gratuit + modèle de catalogue ; (2) boutique et Bulles ; (3) catalogue distant ; (4) contenu de la saison 1 ; (5) quêtes.
+
+**Validé par Kinder le 2026-10-01** : cadre des § 27 (Bulles, saisons, catalogue distant, kit gratuit sans emoji).
+
+**Emplacement et lisibilité des visuels (décidé)** : une seule source de vérité, `public/catalogue/chez-nous/`, publiée telle quelle sur Firebase Hosting. Rangement par saison puis par type ; nom de fichier lisible `<type>_<rareté>_<nom>.png` (ex. `avatar_epique_dragonne-de-lumiere.png`). Une **galerie** `galerie.html`, générée automatiquement à partir de `catalogue.json`, montre chaque image avec son nom, sa rareté, son prix et **comment l'obtenir** (achat en Bulles, succès X, objectif de saison…). Kinder la valide en double-cliquant sur le fichier, sans lancer l'app, avant toute intégration. Le kit gratuit reste dans `mobile/assets/kit/` (embarqué, hors connexion).
