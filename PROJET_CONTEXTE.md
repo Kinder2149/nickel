@@ -1604,3 +1604,19 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 **Page « Comment ça marche ? »** (`ecran_guide.dart`), accessible par le point d'interrogation de l'onglet Équipe et de la fiche : XP, niveaux (tableau), séries, raretés, badges, déblocages par niveau. Les chiffres viennent des mêmes listes que le jeu.
 
 **Fête de progression** : à l'ouverture de l'app (et après une coche), une fenêtre annonce un nouveau niveau ou un nouveau succès. Mémoire de ce qui a déjà été vu stockée sur l'appareil ; la première fois, rien n'est fêté (l'historique antérieur ne déclenche pas d'avalanche).
+
+## 26. CADRAGE — BANQUE VISUELLE (avatars, couvertures, badges) — 2026-10-01
+
+**Périmètre** : uniquement le modèle « Chez nous » (le modèle générique viendra après). Aucun code tant que la banque n'est pas choisie.
+
+**Univers de Kinder** : technologie et IA ; sport (ultimate frisbee) ; musique (Chinese Man, techno) ; animés et séries (One Piece, Game of Thrones, House of the Dragon).
+
+**Règle de droit** : on s'inspire de l'esprit, on ne reproduit pas les œuvres. Pas de personnages, logos ni fan art (One Piece, GoT, HotD, Chinese Man) : leurs droits appartiennent à leurs auteurs. Licences acceptées : CC0, CC BY, MIT (jamais « non commercial » : le produit générique est prévu). Page « Crédits » dans l'app pour les CC BY.
+
+**Besoins (≈ 105 visuels)** : 40 avatars (aujourd'hui 20 emoji) ; 16 couvertures 3:1 (aujourd'hui 8 dégradés) ; 30 badges (un par succès) + 4 cadres de rareté ; 10 emblèmes de niveau ; 5 emblèmes de maison. Contraintes : lisible à 48 px, fond transparent (avatars, badges), PNG/WebP, ≤ 6 Mo au total, un seul style cohérent.
+
+**Cinq piliers** (matière créative, tous originaux) : 1 Tech/IA (robots, circuits, néon, pixel) ; 2 Ultimate (disque, layout, terrain, esprit du jeu) ; 3 Musique (platines, vinyle, cassette, casque, ondes techno, motifs rétro asiatiques) ; 4 Grand large, esprit One Piece (navire, carte au trésor, boussole, affiche « WANTED » détournée, drapeau éponge-seau) ; 5 Trônes et dragons, esprit GoT/HotD (dragons, blasons, loups, corbeaux, « Trône de balais », devise « La poussière vient »).
+
+**Sources vérifiées le 2026-10-01** : game-icons.net (CC BY 3.0, usage commercial permis avec crédit, SVG recolorables, > 3 400 icônes) ; DiceBear (styles Pixelbot, Pixel Art en CC0 ; Adventurer, Big Ears en CC BY 4.0 ; Bottts libre de droits) ; itch.io / OpenGameArt (filtre CC0) ; Kenney.nl (CC0, licence à reconfirmer sur la page du pack avant usage). Photos de couverture : Unsplash/Pexels.
+
+**À décider** : source de la cohérence visuelle (générateur d'images à lancer par Kinder, ou packs gratuits uniquement).
