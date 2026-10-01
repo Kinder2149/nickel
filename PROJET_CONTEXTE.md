@@ -1599,7 +1599,7 @@ Mission A (vérifications terrain, § 22) reste due : recréation de « Chez nou
 
 **Règle Firestore déployée** (`allow update` sur sa propre fiche membre) sur `nickel-menage-57692`, avec accord de Kinder. Sans elle l'enregistrement du profil était refusé. Ne donne aucun droit sur les données des autres membres ni sur le reste de la base.
 
-**31 succès en 4 raretés** (commun / rare / épique / légendaire) : volume (1 → 500 tâches), régularité (séries 3 → 30 jours, jours actifs, semaine active), efforts d'un jour (3, 5, 8 tâches), variété (2, 4, 6 pièces), habitudes (lève-tôt, oiseau de nuit, week-end), niveaux (3, 5, 8, 10), coopération (« Tous ensemble », niveau de la maison 3 et 5). Chaque succès a un objectif chiffré : la fiche montre la progression et les 3 « prochains objectifs » les plus proches.
+**30 succès en 4 raretés (10 communs, 10 rares, 7 épiques, 3 légendaires)** (commun / rare / épique / légendaire) : volume (1 → 500 tâches), régularité (séries 3 → 30 jours, jours actifs, semaine active), efforts d'un jour (3, 5, 8 tâches), variété (2, 4, 6 pièces), habitudes (lève-tôt, oiseau de nuit, week-end), niveaux (3, 5, 8, 10), coopération (« Tous ensemble », niveau de la maison 3 et 5). Chaque succès a un objectif chiffré : la fiche montre la progression et les 3 « prochains objectifs » les plus proches.
 
 **Page « Comment ça marche ? »** (`ecran_guide.dart`), accessible par le point d'interrogation de l'onglet Équipe et de la fiche : XP, niveaux (tableau), séries, raretés, badges, déblocages par niveau. Les chiffres viennent des mêmes listes que le jeu.
 
