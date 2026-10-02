@@ -7,6 +7,7 @@ import 'catalogue_distant.dart';
 import 'donnees.dart';
 import 'jeu.dart';
 import 'palette.dart';
+import 'quetes.dart';
 import 'widgets_objet.dart';
 
 enum _Filtre { tout, avatars, couvertures }
@@ -106,6 +107,16 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
       _message('« ${o.nom} » équipé.');
     } catch (e) {
       _message('Impossible d\'équiper : $e', erreur: true);
+    }
+  }
+
+  Future<void> _basculerFavori(Objet o) async {
+    final estFavori = _moi?['favori'] == o.id;
+    try {
+      await definirFavori(widget.maisonId, widget.profil.id, estFavori ? null : o.id);
+      _message(estFavori ? '« ${o.nom} » n\'est plus votre objectif.' : '« ${o.nom} » est maintenant votre objectif.');
+    } catch (e) {
+      _message('Impossible de changer l\'objectif : $e', erreur: true);
     }
   }
 
@@ -255,13 +266,27 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
         couleur: widget.profil.couleur,
         commentObtenir: comment,
         bouton: _bouton(o, etat, solde, maintenant, ferme: true, contexte: contexte),
+        actionSecondaire: (etat == EtatObjet.possede || etat == EtatObjet.equipe)
+            ? null
+            : TextButton.icon(
+                onPressed: () {
+                  Navigator.pop(contexte);
+                  _basculerFavori(o);
+                },
+                icon: Icon(_moi?['favori'] == o.id ? Icons.star : Icons.star_border, color: Palette.encre),
+                label: Text(_moi?['favori'] == o.id ? 'Retirer de mes objectifs' : 'En faire mon objectif',
+                    style: const TextStyle(color: Palette.encre, fontWeight: FontWeight.w700)),
+              ),
       ),
     );
   }
 
   Widget _entete(Map<String, dynamic>? moi, int solde, DateTime maintenant) {
-    final serie = (moi?['serieConnexion'] as int?) ?? 0;
-    final prisAujourdhui = moi?['derniereConnexion'] == dateAujourdhui();
+    final lundi = lundiDe(dateAujourdhui());
+    final joursSemaine = ((moi?['joursConnexion'] as List?) ?? const []).whereType<String>().where((j) => j.compareTo(lundi) >= 0).toSet().length;
+    final favoriId = moi?['favori'] as String?;
+    final favori = favoriId == null ? null : tousLesObjets.where((o) => o.id == favoriId).firstOrNull;
+    final favoriPossede = favori != null && ((moi?['achats'] as List?) ?? const []).contains(favori.id);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 4),
@@ -279,11 +304,15 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
           ),
           const SizedBox(height: 6),
           Text(
-            serie == 0
-                ? 'Connectez-vous chaque jour pour gagner des Bulles.'
-                : 'Connexion : $serie jour${serie > 1 ? 's' : ''} de suite${prisAujourdhui ? ' · demain +${bonusConnexion(serie + 1)} Bulles' : ''}',
-            style: const TextStyle(fontSize: 12, color: Color(0xFFA29B85)),
+            joursSemaine >= joursPourBonusSemaine
+                ? 'Connexions de la semaine : $joursSemaine jours · bonus de la semaine obtenu'
+                : 'Connexions de la semaine : $joursSemaine / $joursPourBonusSemaine jours · +$bonusConnexionSemaine Bulles au ${joursPourBonusSemaine}e jour',
+            style: const TextStyle(fontSize: 12, color: Color(0xFFD8CFB8)),
           ),
+          if (favori != null && !favoriPossede) ...[
+            const SizedBox(height: 12),
+            BarreObjectif(objet: favori, solde: solde, couleur: widget.profil.couleur, maintenant: maintenant, surMarche: true),
+          ],
         ],
       ),
     );

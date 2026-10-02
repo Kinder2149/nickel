@@ -289,12 +289,13 @@ int bullesSucces(Rarete r) => switch (r) {
       Rarete.legendaire => 100,
     };
 
-/// Bonus de connexion : 2 Bulles par jour, et 10 de plus chaque 7e jour de
-/// suite. Le bonus n'est pas calculé mais enregistré (c'est un événement).
+/// Bonus de connexion : 2 Bulles par jour d'ouverture, et 10 de plus la
+/// première fois qu'on a ouvert l'app 5 jours différents dans la même semaine
+/// (pas forcément de suite). Ce bonus n'est pas calculé mais enregistré
+/// (c'est un événement).
 const bonusConnexionJour = 2;
-const bonusConnexionHebdo = 10;
-
-int bonusConnexion(int serie) => bonusConnexionJour + (serie > 0 && serie % 7 == 0 ? bonusConnexionHebdo : 0);
+const bonusConnexionSemaine = 10;
+const joursPourBonusSemaine = 5;
 
 /// Cadeau offert à chaque membre à chaque saison (récupérable une fois par
 /// saison et par année).

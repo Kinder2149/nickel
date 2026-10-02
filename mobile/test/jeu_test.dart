@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nickel_mobile/catalogue.dart';
 import 'package:nickel_mobile/catalogue_distant.dart';
+import 'package:nickel_mobile/donnees.dart' show ajouterJours;
 import 'package:nickel_mobile/jeu.dart';
+import 'package:nickel_mobile/quetes.dart';
 
 Map<String, dynamic> r(String par, String date, {int? xp, String tache = 't1', String heure = '12:00:00'}) => {
       'realiseParId': par,
@@ -189,13 +191,63 @@ void main() {
     saisonsDistantes.value = const [];
   });
 
-  test('bonus de connexion et solde avec bonus', () {
-    expect(bonusConnexion(1), 2);
-    expect(bonusConnexion(6), 2);
-    expect(bonusConnexion(7), 12);
-    expect(bonusConnexion(8), 2);
-    expect(bonusConnexion(14), 12);
+  test('bonus de connexion (2 par jour, +10 à 5 jours dans la semaine) et solde avec bonus', () {
+    expect(bonusConnexionJour, 2);
+    expect(bonusConnexionSemaine, 10);
+    expect(joursPourBonusSemaine, 5);
     expect(soldeBulles(100, ['casque'], bonus: 30), 100 + 30 - 40);
     expect(soldeBulles(0, null, bonus: 12), 12);
+  });
+
+  test('quêtes : lundi, tirage déterministe, avancement, quête commune', () {
+    expect(lundiDe('2026-10-02'), '2026-09-28'); // vendredi
+    expect(lundiDe('2026-10-04'), '2026-09-28'); // dimanche
+    expect(lundiDe('2026-10-05'), '2026-10-05'); // lundi
+    expect(lundiDe('2027-01-01'), '2026-12-28'); // passage d'année
+
+    final a = quetesDeLaSemaine('2026-09-28'), b = quetesDeLaSemaine('2026-09-28');
+    expect(a.map((q) => q.id), b.map((q) => q.id), reason: 'même tirage sur tous les appareils');
+    expect(a.map((q) => q.difficulte), [Difficulte.facile, Difficulte.moyenne, Difficulte.difficile]);
+    final vues = <String>{};
+    var lundi = '2026-09-28';
+    for (var i = 0; i < 40; i++) {
+      vues.addAll(quetesDeLaSemaine(lundi).map((q) => q.id));
+      lundi = ajouterJours(lundi, 7);
+    }
+    expect(vues.length, greaterThanOrEqualTo(8), reason: 'les quêtes varient d\'une semaine à l\'autre');
+
+    final taches = [
+      {'id': 't1', 'pieceId': 'p1'},
+      {'id': 't2', 'pieceId': 'p2'},
+    ];
+    Map<String, dynamic> rea(String par, String date, String tache, {int xp = 10, String heure = '19:00:00'}) =>
+        {'realiseParId': par, 'dateRealisation': date, 'tacheId': tache, 'xp': xp, 'enregistreLe': '${date}T$heure'};
+    final realisations = [
+      rea('val', '2026-09-28', 't1', heure: '08:00:00'),
+      rea('val', '2026-09-30', 't2', xp: 30),
+      rea('val', '2026-10-02', 't1'),
+      rea('sam', '2026-09-29', 't1'),
+      rea('val', '2026-09-27', 't1'), // semaine précédente : ne compte pas
+    ];
+    final s = statsSemaine('val', realisations, taches, '2026-09-28');
+    expect((s.taches, s.xp, s.joursActifs, s.pieces, s.avant10h), (3, 50, 3, 2, true));
+    final maison = statsSemaine(null, realisations, taches, '2026-09-28');
+    expect(maison.taches, 4);
+
+    final lignes = quetesAffichees(
+      membreId: 'val', realisations: realisations, taches: taches, nbMembres: 3, dejaReclamees: null, aujourdhui: '2026-10-02');
+    expect(lignes.length, 4);
+    expect(lignes.last.commune, true);
+    expect(lignes.last.objectif, tachesParMembreCommune * 3);
+    expect(lignes.last.valeur, 4);
+    expect(lignes.every((l) => l.valeur <= l.objectif), true);
+    final prete = lignes.first;
+    final apres = quetesAffichees(
+      membreId: 'val', realisations: realisations, taches: taches, nbMembres: 3, dejaReclamees: [prete.cle], aujourdhui: '2026-10-02');
+    expect(apres.first.reclamee, true);
+    expect(apres.first.aRecuperer, false);
+    expect(recompenseQuete(Difficulte.facile), 5);
+    expect(recompenseQuete(Difficulte.difficile), 12);
+    expect(nombreARecuperer(lignes), lignes.where((l) => l.terminee).length);
   });
 }

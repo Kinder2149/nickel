@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'jeu.dart';
+import 'quetes.dart';
 import 'palette.dart';
 
 /// « Comment ça marche ? » — le système expliqué en clair : XP, niveaux,
@@ -94,11 +95,16 @@ class EcranGuide extends StatelessWidget {
             Text('Montée de niveau : ${bullesNiveau(2)} Bulles au niveau 2, ${bullesNiveau(10)} au niveau 10', style: const TextStyle(color: Palette.encre)),
             for (final r in Rarete.values)
               Text('Succès ${r.libelle.toLowerCase()} : ${bullesSucces(r)} Bulles', style: TextStyle(color: r.couleurTexte, fontWeight: FontWeight.w600)),
-            Text('Connexion : $bonusConnexionJour Bulles par jour, +$bonusConnexionHebdo le 7e jour de suite', style: const TextStyle(color: Palette.encre)),
+            Text('Connexion : $bonusConnexionJour Bulles par jour, +$bonusConnexionSemaine la première fois qu\'on se connecte $joursPourBonusSemaine jours dans la même semaine', style: const TextStyle(color: Palette.encre)),
+            Text('Quêtes de la semaine : ${recompenseQuete(Difficulte.facile)}, ${recompenseQuete(Difficulte.moyenne)} ou ${recompenseQuete(Difficulte.difficile)} Bulles chacune, +$recompenseQueteCommune pour la quête commune', style: const TextStyle(color: Palette.encre)),
             Text('Cadeau de saison : $dotationSaison Bulles à chaque nouvelle saison', style: const TextStyle(color: Palette.encre)),
           ]),
           _texte(''),
-          _texte('Le bonus de connexion se récupère tout seul en ouvrant l\'app. Un jour sauté remet la série à zéro. Le cadeau de saison se récupère au Marché.'),
+          _texte('Le bonus de connexion se récupère tout seul en ouvrant l\'app, pas besoin d\'être connecté sept jours de suite : cinq jours dans la semaine suffisent. Le cadeau de saison se récupère au Marché.'),
+          _titre('Les quêtes de la semaine'),
+          _texte('Chaque lundi, trois nouvelles quêtes (une facile, une moyenne, une difficile) apparaissent dans l\'onglet Équipe, plus une quête commune à toute la maison. Elles avancent toutes seules quand tu coches des tâches. Appuie sur RÉCUPÉRER pour encaisser les Bulles ; une pastille sur l\'onglet Équipe te prévient.'),
+          _titre('Mon objectif'),
+          _texte('Dans le Marché, ouvre une fiche et choisis « En faire mon objectif » : une barre de progression te montre combien de Bulles il te manque, au Marché et sur ton profil.'),
           _titre('Le Marché et les saisons'),
           _texte('L\'année est coupée en quatre saisons de trois mois. Chaque saison a sa collection d\'avatars et de couvertures, en vente SEULEMENT pendant ses mois — et elle revient chaque année, à la même période :'),
           _encart([

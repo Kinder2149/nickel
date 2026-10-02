@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'jeu.dart';
+import 'quetes.dart';
 
 final _db = FirebaseFirestore.instance;
 
@@ -393,24 +394,38 @@ Future<void> acheterObjet(String maisonId, String membreId, String objetId) asyn
 }
 
 /// Bonus de connexion du jour : à appeler à l'ouverture de l'app. Une seule
-/// fois par jour (sinon renvoie 0). La série repart de 1 si un jour a été
-/// sauté. Transaction : deux appareils du même membre ne le comptent pas deux fois.
-Future<({int montant, int serie})> reclamerBonusConnexion(String maisonId, String membreId) {
+/// fois par jour (sinon renvoie 0). +2 Bulles, et +10 la première fois qu'on
+/// atteint 5 jours de connexion différents dans la semaine. La série de jours
+/// consécutifs repart de 1 si un jour a été sauté (elle ne rapporte rien, elle
+/// s'affiche). Transaction : deux appareils du même membre ne le comptent pas
+/// deux fois.
+Future<({int montant, int serie, bool bonusSemaine, int joursSemaine})> reclamerBonusConnexion(String maisonId, String membreId) {
   final ref = _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId);
   return _db.runTransaction((tx) async {
     final data = (await tx.get(ref)).data() ?? {};
     final aujourdhui = dateAujourdhui();
+    final lundi = lundiDe(aujourdhui);
     final derniere = data['derniereConnexion'] as String?;
     final serieActuelle = (data['serieConnexion'] as int?) ?? 0;
-    if (derniere == aujourdhui) return (montant: 0, serie: serieActuelle);
+    final anciens = ((data['joursConnexion'] as List?) ?? const []).whereType<String>().toList();
+    final joursSemaineAvant = anciens.where((j) => j.compareTo(lundi) >= 0).toSet().length;
+    if (derniere == aujourdhui) return (montant: 0, serie: serieActuelle, bonusSemaine: false, joursSemaine: joursSemaineAvant);
+
     final serie = derniere == ajouterJours(aujourdhui, -1) ? serieActuelle + 1 : 1;
-    final montant = bonusConnexion(serie);
+    final limite = ajouterJours(aujourdhui, -21);
+    final jours = [...anciens.where((j) => j.compareTo(limite) >= 0 && j != aujourdhui), aujourdhui];
+    final joursSemaine = jours.where((j) => j.compareTo(lundi) >= 0).toSet().length;
+    final semaines = ((data['bonusSemaines'] as List?) ?? const []).whereType<String>().toList();
+    final bonusSemaine = joursSemaine >= joursPourBonusSemaine && !semaines.contains(lundi);
+    final montant = bonusConnexionJour + (bonusSemaine ? bonusConnexionSemaine : 0);
     tx.update(ref, {
       'derniereConnexion': aujourdhui,
       'serieConnexion': serie,
+      'joursConnexion': jours,
+      if (bonusSemaine) 'bonusSemaines': [...semaines.where((s) => s.compareTo(ajouterJours(aujourdhui, -70)) >= 0), lundi],
       'bullesBonus': ((data['bullesBonus'] as int?) ?? 0) + montant,
     });
-    return (montant: montant, serie: serie);
+    return (montant: montant, serie: serie, bonusSemaine: bonusSemaine, joursSemaine: joursSemaine);
   });
 }
 
@@ -428,6 +443,29 @@ Future<bool> reclamerDotationSaison(String maisonId, String membreId, String cle
     });
     return true;
   });
+}
+
+/// Récupère la récompense d'une quête de la semaine (clé « lundi:identifiant »),
+/// une seule fois. Renvoie false si elle l'était déjà. Les clés de plus de dix
+/// semaines sont oubliées pour ne pas faire grossir la fiche.
+Future<bool> reclamerQuete(String maisonId, String membreId, String cle, int montant) {
+  final ref = _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId);
+  return _db.runTransaction((tx) async {
+    final data = (await tx.get(ref)).data() ?? {};
+    final deja = ((data['quetes'] as List?) ?? const []).whereType<String>().toList();
+    if (deja.contains(cle)) return false;
+    final limite = ajouterJours(dateAujourdhui(), -70);
+    tx.update(ref, {
+      'quetes': [...deja.where((k) => k.split(':').first.compareTo(limite) >= 0), cle],
+      'bullesBonus': ((data['bullesBonus'] as int?) ?? 0) + montant,
+    });
+    return true;
+  });
+}
+
+/// Épingle (ou retire, avec null) l'objet que le joueur vise.
+Future<void> definirFavori(String maisonId, String membreId, String? objetId) async {
+  await _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId).update({'favori': objetId});
 }
 
 /// Équipe un objet possédé : champ `avatar` ou `couverture` de sa fiche.

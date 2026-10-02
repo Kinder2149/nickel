@@ -10,6 +10,7 @@ import 'donnees.dart';
 import 'ecran_boutique.dart';
 import 'ecran_guide.dart';
 import 'jeu.dart';
+import 'widgets_objet.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
 
@@ -150,6 +151,8 @@ class _EcranFicheState extends State<EcranFiche> {
     final couverture = couverturePourId(membre['couverture'] as String?);
     final badges = badgesAffiches(membre['badges'] as List?, debloques);
     final solde = soldeBulles(bullesGagnees(stats, debloques), membre['achats'] as List?, bonus: (membre['bullesBonus'] as int?) ?? 0);
+    final objectifId = membre['favori'] as String?;
+    final objectif = objectifId == null ? null : tousLesObjets.where((o) => o.id == objectifId).firstOrNull;
 
     return Scaffold(
       appBar: AppBar(
@@ -220,6 +223,10 @@ class _EcranFicheState extends State<EcranFiche> {
                       Text('$solde Bulles', style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
                     ],
                   ),
+                  if (objectif != null && !((membre['achats'] as List?) ?? const []).contains(objectif.id)) ...[
+                    const SizedBox(height: 12),
+                    BarreObjectif(objet: objectif, solde: solde, couleur: hexVersCouleur(membre['couleur'] as String), maintenant: DateTime.now()),
+                  ],
                 ],
                 const SizedBox(height: 20),
                 Row(

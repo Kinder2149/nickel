@@ -17,6 +17,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nickel_mobile/catalogue.dart';
 import 'package:nickel_mobile/catalogue_distant.dart';
 import 'package:nickel_mobile/jeu.dart';
+import 'package:nickel_mobile/quetes.dart';
 
 String iso(DateTime d) => '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
@@ -45,6 +46,12 @@ class Joueur {
   final achatsDetail = <String>[];
   final joursSucces = <String, int>{};
   int? premierAchat;
+  final joursConnexion = <String>{};
+  final semainesBonus = <String>{};
+  final quetesReclamees = <String>[];
+  int quetesTotal = 0;
+  int quetesNb = 0;
+  int bonusSemaineTotal = 0;
 }
 
 void main() {
@@ -91,14 +98,20 @@ void main() {
         final hier = iso(date.subtract(const Duration(days: 1)));
         j.serie = j.derniereConnexion == hier ? j.serie + 1 : 1;
         if (j.derniereConnexion != dateIso) {
-          final b = bonusConnexion(j.serie);
+          j.derniereConnexion = dateIso;
+          j.joursConnexion.add(dateIso);
+          var b = bonusConnexionJour;
+          final lundi = lundiDe(dateIso);
+          final cetteSemaine = j.joursConnexion.where((x) => x.compareTo(lundi) >= 0).length;
+          if (cetteSemaine >= joursPourBonusSemaine && !j.semainesBonus.contains(lundi)) {
+            j.semainesBonus.add(lundi);
+            b += bonusConnexionSemaine;
+            j.bonusSemaineTotal += bonusConnexionSemaine;
+            j.joursMarquants.add(jour);
+            j.journal.add('j${jour + 1}: $joursPourBonusSemaine jours de connexion dans la semaine (+$bonusConnexionSemaine Bulles)');
+          }
           j.bullesBonus += b;
           j.bonusConnexionTotal += b;
-          j.derniereConnexion = dateIso;
-          if (j.serie % 7 == 0) {
-            j.joursMarquants.add(jour);
-            j.journal.add('j${jour + 1}: série de ${j.serie} jours (+$b Bulles)');
-          }
         }
 
         // --- tâches du jour : on pioche parmi les tâches échues, les plus en retard d'abord
@@ -135,6 +148,22 @@ void main() {
         if (j.joursOuverts.isNotEmpty && j.joursOuverts.last == jour) {
           xpJour += stats.xp;
           var marquant = false;
+          // --- quêtes de la semaine : on encaisse ce qui est terminé
+          for (final l in quetesAffichees(
+            membreId: j.id,
+            realisations: realisations,
+            taches: taches,
+            nbMembres: joueurs.length,
+            dejaReclamees: j.quetesReclamees,
+            aujourdhui: dateIso,
+          ).where((l) => l.aRecuperer)) {
+            j.quetesReclamees.add(l.cle);
+            j.bullesBonus += l.recompense;
+            j.quetesTotal += l.recompense;
+            j.quetesNb++;
+            j.journal.add('j${jour + 1}: quête « ${l.titre} » (+${l.recompense} Bulles)');
+            marquant = true;
+          }
           if (stats.niveau > j.niveauVu) {
             j.journal.add('j${jour + 1}: niveau ${stats.niveau} (${titreNiveau(stats.niveau)})');
             j.niveauVu = stats.niveau;
@@ -215,7 +244,7 @@ void main() {
       l('--- ${j.profil}');
       l('  ouvert l\'app ${j.joursOuverts.length}/$nbJours jours · ${stats.taches} tâches · ${stats.xp} XP · niveau ${stats.niveau} (${titreNiveau(stats.niveau)}) · série max ${stats.meilleureSerie} j');
       l('  succès : ${debloques.length}/${succes.length}');
-      l('  Bulles gagnées : ${gagnees + j.bullesBonus} = niveaux $parNiveau + succès $parSucces + connexion ${j.bonusConnexionTotal} + cadeau ${j.cadeaux}');
+      l('  Bulles gagnées : ${gagnees + j.bullesBonus} = niveaux $parNiveau + succès $parSucces + connexion ${j.bonusConnexionTotal} (dont bonus de semaine ${j.bonusSemaineTotal}) + cadeau ${j.cadeaux} + quêtes ${j.quetesTotal} (${j.quetesNb} terminées)');
       l('  Bulles dépensées : $depense · solde final : ${soldeBulles(gagnees, j.achats, bonus: j.bullesBonus)} · objets achetés : ${j.achats.length}'
           '${j.premierAchat == null ? ' (aucun !)' : ' · 1er achat au jour ${j.premierAchat}'}');
       final seuils = <int>[2, 3, 4, 5];
@@ -233,7 +262,7 @@ void main() {
         maxVide = max(maxVide, m - prec);
         prec = m;
       }
-      l('  jours « wow » (niveau, succès, achat, série de 7) : ${marq.length} · plus longue période sans rien de marquant : $maxVide jours');
+      l('  jours « wow » (niveau, succès, achat, quête, bonus de semaine) : ${marq.length} · plus longue période sans rien de marquant : $maxVide jours');
       if (j.achatsDetail.isNotEmpty) l('  achats : ${j.achatsDetail.join(' ; ')}');
       if (j.id == 'val') jEquipe = j.joursSucces['equipe']?.toString() ?? '-';
     }

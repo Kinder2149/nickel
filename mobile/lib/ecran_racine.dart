@@ -9,6 +9,7 @@ import 'ecran_accueil.dart';
 import 'ecran_astuces.dart';
 import 'ecran_equipe.dart';
 import 'jeu.dart';
+import 'quetes.dart';
 import 'palette.dart';
 
 /// Les trois portes de l'app (§ 21, § 25) : je fais ce qui est à faire chez
@@ -48,17 +49,20 @@ class _EcranRacineState extends State<EcranRacine> {
     _abonnements.add(ecouterMembres(widget.maisonId).listen((m) {
       _membres = m;
       _recus.add('membres');
+      if (mounted) setState(() {});
       _bonusConnexion();
       _verifierProgression();
     }));
     _abonnements.add(ecouterTaches(widget.maisonId).listen((t) {
       _taches = t;
       _recus.add('taches');
+      if (mounted) setState(() {});
       _verifierProgression();
     }));
     _abonnements.add(ecouterToutesRealisations(widget.maisonId).listen((r) {
       _realisations = r;
       _recus.add('realisations');
+      if (mounted) setState(() {});
       _verifierProgression();
     }));
   }
@@ -71,6 +75,20 @@ class _EcranRacineState extends State<EcranRacine> {
     super.dispose();
   }
 
+  /// Récompenses de quête prêtes à être récupérées (pastille sur « Équipe »).
+  int get _questesPretes {
+    final moi = _membres.where((m) => m['id'] == widget.profil.id).firstOrNull;
+    if (moi == null || _recus.length < 3) return 0;
+    return nombreARecuperer(quetesAffichees(
+      membreId: widget.profil.id,
+      realisations: _realisations,
+      taches: _taches,
+      nbMembres: _membres.length,
+      dejaReclamees: moi['quetes'] as List?,
+      aujourdhui: dateAujourdhui(),
+    ));
+  }
+
   /// Bonus de connexion : une fois par jour, dès que la fiche du membre est
   /// connue. Silencieux s'il est déjà pris aujourd'hui.
   Future<void> _bonusConnexion() async {
@@ -80,7 +98,9 @@ class _EcranRacineState extends State<EcranRacine> {
       final r = await reclamerBonusConnexion(widget.maisonId, widget.profil.id);
       if (r.montant > 0 && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Bonus de connexion : +${r.montant} Bulles · ${r.serie} jour${r.serie > 1 ? 's' : ''} de suite'),
+          content: Text(r.bonusSemaine
+              ? 'Bonus de connexion : +${r.montant} Bulles · ${r.joursSemaine}e jour cette semaine, bonus de la semaine !'
+              : 'Bonus de connexion : +${r.montant} Bulles · ${r.joursSemaine} / $joursPourBonusSemaine jours cette semaine'),
         ));
       }
     } catch (_) {
@@ -179,15 +199,15 @@ class _EcranRacineState extends State<EcranRacine> {
         indicatorColor: Palette.encre,
         selectedIndex: _onglet,
         onDestinationSelected: (i) => setState(() => _onglet = i),
-        destinations: const [
+        destinations: [
           NavigationDestination(
             icon: Icon(Icons.home_outlined, color: Palette.encreDouce),
             selectedIcon: Icon(Icons.home, color: Palette.papier),
             label: 'Maison',
           ),
           NavigationDestination(
-            icon: Icon(Icons.emoji_events_outlined, color: Palette.encreDouce),
-            selectedIcon: Icon(Icons.emoji_events, color: Palette.papier),
+            icon: Badge(isLabelVisible: _questesPretes > 0, label: Text('$_questesPretes'), child: const Icon(Icons.emoji_events_outlined, color: Palette.encreDouce)),
+            selectedIcon: Badge(isLabelVisible: _questesPretes > 0, label: Text('$_questesPretes'), child: const Icon(Icons.emoji_events, color: Palette.papier)),
             label: 'Équipe',
           ),
           NavigationDestination(

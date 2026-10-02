@@ -227,14 +227,75 @@ class GrilleObjets extends StatelessWidget {
   }
 }
 
+/// L'objet que le joueur vise : aperçu, nom et barre de progression vers son prix.
+class BarreObjectif extends StatelessWidget {
+  const BarreObjectif({super.key, required this.objet, required this.solde, required this.couleur, required this.maintenant, this.surMarche = false});
+
+  final Objet objet;
+  final int solde;
+  final Color couleur;
+  final DateTime maintenant;
+
+  /// Sur le fond sombre de l'en-tête du marché.
+  final bool surMarche;
+
+  @override
+  Widget build(BuildContext context) {
+    final prix = objet.prix;
+    final enVente = estEnVente(objet, maintenant);
+    final s = saisonPour(objet.saison);
+    final String etat;
+    if (!enVente && s != null) {
+      etat = 'Revient le ${dateLongue(s.prochainRetour(maintenant))}';
+    } else if (solde >= prix) {
+      etat = 'Vous pouvez l\'acheter !';
+    } else {
+      etat = 'Il manque ${prix - solde} Bulles';
+    }
+    final texte = surMarche ? Palette.papier : Palette.encre;
+    final discret = surMarche ? const Color(0xFFD8CFB8) : Palette.encreDouce;
+    return Semantics(
+      label: 'Mon objectif : ${objet.nom}, $solde sur $prix Bulles. $etat',
+      child: ExcludeSemantics(
+        child: Row(
+          children: [
+            ApercuObjet(objet: objet, couleur: couleur, taille: 44),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Mon objectif : ${objet.nom}', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.w800, color: texte)),
+                  const SizedBox(height: 4),
+                  LinearProgressIndicator(
+                    value: prix == 0 ? 1 : (solde / prix).clamp(0.0, 1.0),
+                    minHeight: 8,
+                    color: solde >= prix ? Palette.vert : (surMarche ? Palette.papier : Palette.encre),
+                    backgroundColor: surMarche ? const Color(0xFF4A463A) : Palette.trait,
+                  ),
+                  const SizedBox(height: 3),
+                  Text('${solde.clamp(0, prix)} / $prix Bulles · $etat', style: TextStyle(fontSize: 12, color: discret)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Fiche détaillée d'un objet (feuille modale).
 class FicheObjet extends StatelessWidget {
-  const FicheObjet({super.key, required this.objet, required this.couleur, required this.bouton, required this.commentObtenir});
+  const FicheObjet({super.key, required this.objet, required this.couleur, required this.bouton, required this.commentObtenir, this.actionSecondaire});
 
   final Objet objet;
   final Color couleur;
   final Widget bouton;
   final String commentObtenir;
+
+  /// Sous le bouton principal (ex. définir comme objectif).
+  final Widget? actionSecondaire;
 
   @override
   Widget build(BuildContext context) {
@@ -255,6 +316,7 @@ class FicheObjet extends StatelessWidget {
             Text(commentObtenir, textAlign: TextAlign.center, style: const TextStyle(color: Palette.encre)),
             const SizedBox(height: 16),
             bouton,
+            if (actionSecondaire != null) ...[const SizedBox(height: 6), actionSecondaire!],
           ],
         ),
       ),

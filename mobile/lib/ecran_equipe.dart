@@ -7,6 +7,8 @@ import 'ecran_fiche.dart';
 import 'ecran_guide.dart';
 import 'jeu.dart';
 import 'palette.dart';
+import 'quetes.dart';
+import 'widgets_quetes.dart';
 
 /// Onglet « Équipe » : où en est la maison, et où en est chacun. Esprit
 /// coopératif : le niveau de la maison passe en premier, et les membres ne
@@ -91,9 +93,51 @@ class _EcranEquipeState extends State<EcranEquipe> {
             ),
           ),
           const SizedBox(height: 20),
+          _quetes(),
+          const SizedBox(height: 8),
           for (final membre in _membres) _carteMembre(membre, contexte),
         ],
       ),
+    );
+  }
+
+  Map<String, dynamic>? get _moi => _membres.where((m) => m['id'] == widget.profil.id).firstOrNull;
+
+  Future<void> _recupererQuete(LigneQueteDonnees l) async {
+    try {
+      final ok = await reclamerQuete(widget.maisonId, widget.profil.id, l.cle, l.recompense);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? '+${l.recompense} Bulles : quête accomplie !' : 'Récompense déjà récupérée.')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Impossible de récupérer : $e'), backgroundColor: Palette.rouge));
+    }
+  }
+
+  /// Les quêtes de la semaine du joueur : 3 personnelles + la quête commune.
+  Widget _quetes() {
+    final moi = _moi;
+    if (moi == null) return const SizedBox.shrink();
+    final aujourdhui = dateAujourdhui();
+    final lignes = quetesAffichees(
+      membreId: widget.profil.id,
+      realisations: _realisations,
+      taches: _taches,
+      nbMembres: _membres.length,
+      dejaReclamees: moi['quetes'] as List?,
+      aujourdhui: aujourdhui,
+    );
+    final reste = DateTime.parse(ajouterJours(lundiDe(aujourdhui), 7)).difference(DateTime.parse(aujourdhui)).inDays;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('CETTE SEMAINE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+        const SizedBox(height: 2),
+        Text('Quêtes de la semaine · nouvelles dans $reste jour${reste > 1 ? 's' : ''}',
+            style: const TextStyle(fontSize: 13, color: Palette.encreDouce)),
+        const SizedBox(height: 10),
+        for (final l in lignes) LigneQuete(donnees: l, onRecuperer: () => _recupererQuete(l)),
+      ],
     );
   }
 
@@ -163,4 +207,8 @@ class _EcranEquipeState extends State<EcranEquipe> {
           ],
         ),
       );
+}
+
+extension _FirstOrNull<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
 }
