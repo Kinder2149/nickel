@@ -23,7 +23,13 @@
           "flying disc discraft ultra star art",
           "disque frisbee ultimate illustration"
         ]
-      }
+      },
+      "zone": [
+        0.1,
+        0.215,
+        0.92,
+        0.795
+      ]
     },
     {
       "n": 2,
@@ -119,7 +125,11 @@
           "ultimate frisbee defender art",
           "ultimate frisbee marquage illustration"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.3
+      ]
     },
     {
       "n": 8,
@@ -151,7 +161,11 @@
           "ultimate frisbee overhead throw art",
           "ultimate frisbee hammer dessin"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.3
+      ]
     },
     {
       "n": 10,
@@ -215,7 +229,11 @@
           "frisbee field golden hour wallpaper",
           "terrain ultimate coucher de soleil fond d'écran"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.4
+      ]
     },
     {
       "n": 14,
@@ -247,7 +265,11 @@
           "flying disc dramatic sky wallpaper",
           "ultimate frisbee fond d'écran action"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.55
+      ]
     },
     {
       "n": 16,
@@ -263,7 +285,11 @@
           "beach ultimate tournament sand sea wallpaper",
           "beach ultimate fond d'écran plage"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.6
+      ]
     }
   ]
 }

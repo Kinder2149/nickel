@@ -1707,3 +1707,9 @@ Le premier envoi de l'assistant de recherche n'avait déposé qu'un fichier sur 
 ### Publication des saisons 1 et 2 — 2026-10-02
 
 Déployé sur l'hébergement (`firebase deploy --only hosting`, avec accord de Kinder) : catalogue, galerie et images, vérifiés en ligne (200). **Correction faite avant la fin** : la saison 1 gardait une ancienne date de sortie (2026-12-21) qui la cachait ; `saison.py ranger` met désormais à jour la fiche de saison depuis le JSON, et le catalogue a été republié. État visible dans l'app à ce jour : 18 objets (3 de test « Avant-première » + 15 de la saison 1) ; la saison 2 (16 objets) apparaîtra le **2027-01-01**. Reste : fiche 14 de la saison 1, suppression des 3 objets de test, choix éventuel d'une date plus proche pour la saison 2.
+
+### Saison 3 « Ultimate » — images reçues — 2026-10-02
+
+Tableau de liens fourni par l'assistant, téléchargement accordé par Kinder sur la liste (16 images, ~6,7 Mo au total, 15 depuis Pinterest, 1 depuis Wallhaven), contrôlées comme images valides puis visionnées. **15 rangées** (`public/catalogue/chez-nous/saison-3-ultimate/`, 244 Ko, non publiées ; sortie prévue 2027-04-01) : avatars Le disque (recadré serré sur le disque via la nouvelle option `zone`), Les crampons, Le maillot, Le cône ; Le layout, Le huck (silhouette sombre sur fond noir : faible contraste), Le marquage, L'esprit du jeu ; Le hammer, Le pull, L'équipe ; Le trophée du champion ; couvertures Le terrain au couchant, Le disque en plein vol, L'ultimate sur la plage. **Écartée, à refaire** : fiche 14 « La finale de nuit » (photo d'un stade de football, mise de côté dans `arrivage/saison-3-ultimate/a-refaire/`).
+
+`saison.py ranger` gère une `zone` (fractions x0, y0, x1, y1) par fiche pour cadrer serré avant le recadrage final.

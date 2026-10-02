@@ -283,6 +283,10 @@ def commande_ranger(args):
             continue
         cible.parent.mkdir(parents=True, exist_ok=True)
         with Image.open(f) as img:
+            if o.get("zone"):  # zone utile (fractions x0, y0, x1, y1) avant recadrage : cadrer serré sur le sujet
+                w, h = img.size
+                z = o["zone"]
+                img = img.crop((int(z[0] * w), int(z[1] * h), int(z[2] * w), int(z[3] * h)))
             if o["type"] == "avatar":
                 out = recadrer(img, 1, 1, (TAILLE_AVATAR, TAILLE_AVATAR), tuple(o.get("focus", (0.5, 0.5))))
             else:

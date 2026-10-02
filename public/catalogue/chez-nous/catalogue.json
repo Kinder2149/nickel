@@ -13,6 +13,12 @@
       "nom": "Saison 2 — Grand large",
       "theme": "One Piece : la mer, l'équipage, la piraterie",
       "debut": "2027-01-01"
+    },
+    {
+      "id": "saison-3-ultimate",
+      "nom": "Saison 3 — Ultimate",
+      "theme": "Ultimate frisbee : le disque, le terrain, l'esprit du jeu",
+      "debut": "2027-04-01"
     }
   ],
   "objets": [
@@ -294,6 +300,141 @@
       "prix": 600,
       "image": "saison-2-grand-large/couvertures/couverture_legendaire_equipage-horizon.webp",
       "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "disque",
+      "type": "avatar",
+      "nom": "Le disque",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-3-ultimate/avatars/avatar_commun_disque.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "crampons",
+      "type": "avatar",
+      "nom": "Les crampons",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-3-ultimate/avatars/avatar_commun_crampons.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "maillot",
+      "type": "avatar",
+      "nom": "Le maillot",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-3-ultimate/avatars/avatar_commun_maillot.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "cone",
+      "type": "avatar",
+      "nom": "Le cône de terrain",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-3-ultimate/avatars/avatar_commun_cone.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "layout",
+      "type": "avatar",
+      "nom": "Le layout",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-3-ultimate/avatars/avatar_rare_layout.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "huck",
+      "type": "avatar",
+      "nom": "Le huck",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-3-ultimate/avatars/avatar_rare_huck.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "marquage",
+      "type": "avatar",
+      "nom": "Le marquage",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-3-ultimate/avatars/avatar_rare_marquage.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "spirit",
+      "type": "avatar",
+      "nom": "L'esprit du jeu",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-3-ultimate/avatars/avatar_rare_spirit.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "hammer",
+      "type": "avatar",
+      "nom": "Le hammer",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-3-ultimate/avatars/avatar_epique_hammer.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "pull",
+      "type": "avatar",
+      "nom": "Le pull",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-3-ultimate/avatars/avatar_epique_pull.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "equipe",
+      "type": "avatar",
+      "nom": "L'équipe",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-3-ultimate/avatars/avatar_epique_equipe.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "trophee",
+      "type": "avatar",
+      "nom": "Le trophée du champion",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-3-ultimate/avatars/avatar_legendaire_trophee.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "terrain-couchant",
+      "type": "couverture",
+      "nom": "Le terrain au couchant",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-3-ultimate/couvertures/couverture_commun_terrain-couchant.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "plein-vol",
+      "type": "couverture",
+      "nom": "Le disque en plein vol",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-3-ultimate/couvertures/couverture_epique_plein-vol.webp",
+      "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "plage",
+      "type": "couverture",
+      "nom": "L'ultimate sur la plage",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-3-ultimate/couvertures/couverture_legendaire_plage.webp",
+      "saison": "saison-3-ultimate"
     }
   ]
 }
