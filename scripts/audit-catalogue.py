@@ -27,6 +27,10 @@ print('objets à saison inconnue:', [o['id'] for o in remote if o['saison'] not 
 print('saisons vides:', [s for s in ss if s not in {o['saison'] for o in remote}])
 # prix : cohérence rareté/prix
 prix = {'commun': 40, 'rare': 100, 'epique': 250, 'legendaire': 600}
-print('prix incohérents:', [(o['id'], o['rarete'], o['prix']) for o in remote if o['prix'] != prix[o['rarete']]])
+print('prix incohérents:', [(o['id'], o['rarete'], o['prix']) for o in remote if not o.get('collectionRequise') and o['prix'] != prix[o['rarete']]])
 # nombre par rareté
 print('raretés distantes:', dict(collections.Counter(o['rarete'] for o in remote)))
+
+exclusifs = [o for o in remote if o.get('collectionRequise')]
+print('exclusifs de collection:', [(o['id'], o['collectionRequise']) for o in exclusifs])
+print('exclusifs avec saison inconnue:', [o['id'] for o in exclusifs if o['collectionRequise'] not in ss])

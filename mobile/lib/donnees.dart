@@ -445,6 +445,24 @@ Future<bool> reclamerDotationSaison(String maisonId, String membreId, String cle
   });
 }
 
+/// Crédite des paliers de collection atteints (clé « saison:5 », « saison:cr »,
+/// « saison:complete »), une seule fois chacun. Renvoie les clés réellement
+/// créditées à cet appel.
+Future<List<String>> crediterCollections(String maisonId, String membreId, Map<String, int> paliers) {
+  final ref = _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId);
+  return _db.runTransaction((tx) async {
+    final data = (await tx.get(ref)).data() ?? {};
+    final deja = ((data['collections'] as List?) ?? const []).whereType<String>().toList();
+    final nouveaux = paliers.keys.where((k) => !deja.contains(k)).toList();
+    if (nouveaux.isEmpty) return <String>[];
+    tx.update(ref, {
+      'collections': [...deja, ...nouveaux],
+      'bullesBonus': ((data['bullesBonus'] as int?) ?? 0) + nouveaux.fold<int>(0, (a, k) => a + paliers[k]!),
+    });
+    return nouveaux;
+  });
+}
+
 /// Récupère la récompense d'une quête de la semaine (clé « lundi:identifiant »),
 /// une seule fois. Renvoie false si elle l'était déjà. Les clés de plus de dix
 /// semaines sont oubliées pour ne pas faire grossir la fiche.

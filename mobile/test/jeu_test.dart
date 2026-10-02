@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nickel_mobile/catalogue.dart';
 import 'package:nickel_mobile/catalogue_distant.dart';
+import 'package:nickel_mobile/collections.dart';
 import 'package:nickel_mobile/donnees.dart' show ajouterJours;
 import 'package:nickel_mobile/jeu.dart';
 import 'package:nickel_mobile/quetes.dart';
@@ -249,5 +251,56 @@ void main() {
     expect(recompenseQuete(Difficulte.facile), 5);
     expect(recompenseQuete(Difficulte.difficile), 12);
     expect(nombreARecuperer(lignes), lignes.where((l) => l.terminee).length);
+  });
+
+  test('collections : paliers relatifs, crédit unique, exclusif de collection', () {
+    const saison = Saison(id: 's', nom: 'S', theme: '', debut: '2026-10-01', mois: [10, 11, 12]);
+    Objet o(String id, Rarete r, {String? collection}) => Objet(
+        id: id, type: TypeObjet.avatar, nom: id, rarete: r, prix: collection == null ? 40 : 0, icone: Icons.star, saison: 's', collectionRequise: collection);
+    final objets = [
+      o('c1', Rarete.commun), o('c2', Rarete.commun), o('c3', Rarete.commun),
+      o('r1', Rarete.rare), o('r2', Rarete.rare), o('e1', Rarete.epique),
+      o('x', Rarete.legendaire, collection: 's'),
+    ];
+    saisonsDistantes.value = const [saison];
+    objetsDistants.value = objets;
+    final maintenant = DateTime(2026, 11, 1);
+
+    expect(objetsDeCollection(saison).map((x) => x.id), ['c1', 'c2', 'c3', 'r1', 'r2', 'e1'], reason: 'l\'exclusif ne compte pas dans la collection');
+    expect(objets.last.estGratuit, false);
+    expect(objets.last.estAchetable, false);
+    expect(estEnVente(objets.last, maintenant), false);
+    expect(etatObjet(objets.last, possedes: {}, equipeId: null, solde: 999, maintenant: maintenant), EtatObjet.exclusif);
+
+    var e = etatCollection(saison, {'c1', 'c2'});
+    expect((e.total, e.possedes), (6, 2));
+    expect(e.paliers.map((p) => p.cle), ['s:5', 's:cr', 's:complete']);
+    expect(e.paliers.where((p) => p.atteint), isEmpty);
+    expect(e.exclusif?.id, 'x');
+
+    final cinq = ['c1', 'c2', 'c3', 'r1', 'r2'];
+    e = etatCollection(saison, cinq.toSet());
+    expect(e.paliers.where((p) => p.atteint).map((p) => p.cle), ['s:5', 's:cr']);
+    expect(paliersACrediter(cinq, null, maintenant).map((p) => p.cle), ['s:5', 's:cr']);
+    expect(paliersACrediter(cinq, ['s:5'], maintenant).map((p) => p.cle), ['s:cr'], reason: 'un palier déjà payé ne l\'est jamais deux fois');
+    expect(paliersACrediter(cinq, ['s:5', 's:cr'], maintenant), isEmpty);
+    expect(paliersACrediter([...cinq, 'e1'], ['s:5', 's:cr'], maintenant).map((p) => p.cle), ['s:complete']);
+
+    final sansExclusif = objetsPossedes(TypeObjet.avatar, cinq, {}, collections: ['s:5']).map((x) => x.id);
+    expect(sansExclusif.contains('x'), false);
+    final avecExclusif = objetsPossedes(TypeObjet.avatar, [...cinq, 'e1'], {}, collections: ['s:5', 's:cr', 's:complete']).map((x) => x.id);
+    expect(avecExclusif.contains('x'), true, reason: 'collection complète = exclusif possédé');
+    expect(etatObjet(objets.last, possedes: avecExclusif.toSet(), equipeId: null, solde: 0, maintenant: maintenant), EtatObjet.possede);
+
+    // saison qui n'a pas encore existé : pas de collection affichée
+    expect(toutesLesCollections(cinq, DateTime(2026, 9, 1)), isEmpty);
+    expect(toutesLesCollections(cinq, maintenant).length, 1);
+
+    // petite saison : pas de palier « 5 objets » ni « communs et rares » en doublon
+    objetsDistants.value = [o('a', Rarete.commun), o('b', Rarete.rare), o('c', Rarete.rare), o('d', Rarete.commun)];
+    expect(etatCollection(saison, {}).paliers.map((p) => p.cle), ['s:complete']);
+
+    saisonsDistantes.value = const [];
+    objetsDistants.value = const [];
   });
 }

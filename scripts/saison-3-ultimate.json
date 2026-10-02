@@ -295,6 +295,24 @@
         0.5,
         0.6
       ]
+    },
+    {
+      "n": 17,
+      "id": "disque-de-la-victoire",
+      "type": "avatar",
+      "nom": "Le disque de la victoire",
+      "rarete": "legendaire",
+      "fond": "#7A5A12",
+      "collection": true,
+      "sujet": "Un disque d'ultimate doré, trophée de la victoire, brillant, en illustration ou emblème centré.",
+      "recherche": {
+        "decrit": "Un disque d'ultimate doré, trophée de la victoire, brillant, en illustration ou emblème centré.",
+        "requetes": [
+          "golden frisbee trophy illustration",
+          "gold flying disc award art",
+          "disque frisbee doré trophée illustration"
+        ]
+      }
     }
   ]
 }

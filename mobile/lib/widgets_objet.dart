@@ -155,6 +155,10 @@ class BoutonObjet extends StatelessWidget {
       case EtatObjet.pasAssez:
         return _etiquette('${objet.prix} · il manque ${objet.prix - solde}', icone: Icons.bubble_chart, couleur: Palette.encreFaible);
       case EtatObjet.exclusif:
+        if (objet.collectionRequise != null) {
+          final nom = saisonPour(objet.collectionRequise)?.nom ?? 'la saison';
+          return _etiquette('Collection « $nom » complète', icone: Icons.lock_outline);
+        }
         return _etiquette('Succès : ${nomSucces ?? '?'}', icone: Icons.lock_outline);
       case EtatObjet.horsSaison:
         final s = saisonPour(objet.saison);

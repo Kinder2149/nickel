@@ -342,6 +342,24 @@
         0.5,
         0.5
       ]
+    },
+    {
+      "n": 17,
+      "id": "dragon-glace-feu",
+      "type": "avatar",
+      "nom": "Dragon de glace et de feu",
+      "rarete": "legendaire",
+      "fond": "#1B2A49",
+      "collection": true,
+      "sujet": "Un dragon mi-glace mi-feu, moitié givré bleu et moitié enflammé orange, majestueux et centré, en illustration ou emblème de collection.",
+      "recherche": {
+        "decrit": "Un dragon mi-glace mi-feu, moitié givré bleu et moitié enflammé orange, majestueux et centré, en illustration ou emblème de collection.",
+        "requetes": [
+          "ice and fire dragon illustration",
+          "fire and ice dragon art emblem",
+          "dragon de glace et de feu illustration"
+        ]
+      }
     }
   ]
 }

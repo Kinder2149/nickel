@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'collections.dart';
 import 'jeu.dart';
 import 'quetes.dart';
 import 'palette.dart';
@@ -103,6 +104,15 @@ class EcranGuide extends StatelessWidget {
           _texte('Le bonus de connexion se récupère tout seul en ouvrant l\'app, pas besoin d\'être connecté sept jours de suite : cinq jours dans la semaine suffisent. Le cadeau de saison se récupère au Marché.'),
           _titre('Les quêtes de la semaine'),
           _texte('Chaque lundi, trois nouvelles quêtes (une facile, une moyenne, une difficile) apparaissent dans l\'onglet Équipe, plus une quête commune à toute la maison. Elles avancent toutes seules quand tu coches des tâches. Appuie sur RÉCUPÉRER pour encaisser les Bulles ; une pastille sur l\'onglet Équipe te prévient.'),
+          _titre('Les collections'),
+          _texte('Chaque saison a sa collection : tous les objets que tu peux y acheter. Plus tu en possèdes, plus tu gagnes de Bulles, une seule fois par palier :'),
+          _encart([
+            Text('5 objets de la saison : +$recompensePalier5 Bulles', style: const TextStyle(color: Palette.encre)),
+            Text('Tous les communs et les rares : +$recompensePalierCommunsRares Bulles', style: const TextStyle(color: Palette.encre)),
+            Text('Collection complète : +$recompensePalierComplete Bulles et un objet exclusif', style: const TextStyle(color: Palette.encre)),
+          ]),
+          _texte(''),
+          _texte('Ta progression est visible au Marché (saison en cours) et sur ta fiche, section Collections. Ce qui est gagné ne se perd pas, même si la saison s\'agrandit plus tard.'),
           _titre('Mon objectif'),
           _texte('Dans le Marché, ouvre une fiche et choisis « En faire mon objectif » : une barre de progression te montre combien de Bulles il te manque, au Marché et sur ton profil.'),
           _titre('Le Marché et les saisons'),

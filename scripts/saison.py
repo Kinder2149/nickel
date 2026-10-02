@@ -319,6 +319,9 @@ def commande_ranger(args):
             "id": o["id"], "type": o["type"], "nom": o["nom"], "rarete": o["rarete"],
             "prix": PRIX[o["rarete"]], "image": f'{saison["id"]}/{sous}/{nom}', "saison": saison["id"],
         }
+        if o.get("collection"):  # exclusif offert pour la collection complète : ne s'achète pas
+            entree["prix"] = 0
+            entree["collectionRequise"] = saison["id"]
         catalogue["objets"] = [x for x in catalogue["objets"] if x["id"] != o["id"]] + [entree]
         print(f'{o["n"]:>3}  {f.name:<40} -> {sous}/{nom}  ({cible.stat().st_size // 1024} Ko)')
 

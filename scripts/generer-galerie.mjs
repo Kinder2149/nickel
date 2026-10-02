@@ -28,6 +28,9 @@ const periode = (s) => (s?.mois?.length ? `en vente de ${NOMS_MOIS[s.mois[0] - 1
 const echapper = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 function commentObtenir(o) {
+  if (o.collectionRequise) {
+    return `Se gagne (ne s'achète pas) : en complétant la collection « ${saisons[o.collectionRequise]?.nom ?? o.collectionRequise} »`;
+  }
   if (o.succesRequis) {
     const s = succes[o.succesRequis];
     return s

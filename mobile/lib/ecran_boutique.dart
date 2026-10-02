@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 import 'catalogue.dart';
 import 'catalogue_distant.dart';
+import 'collections.dart';
 import 'donnees.dart';
 import 'jeu.dart';
 import 'palette.dart';
 import 'quetes.dart';
+import 'widgets_collections.dart';
 import 'widgets_objet.dart';
 
 enum _Filtre { tout, avatars, couvertures }
@@ -35,6 +37,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
   final _abonnements = <StreamSubscription>[];
   bool _occupe = false;
   _Filtre _filtre = _Filtre.tout;
+  bool _rattrapageFait = false;
 
   @override
   void initState() {
@@ -93,12 +96,37 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
     setState(() => _occupe = true);
     try {
       await acheterObjet(widget.maisonId, widget.profil.id, o.id);
-      _message('« ${o.nom} » est à vous pour toujours. Touchez ÉQUIPER pour le porter.');
+      final achatsApres = [...((_moi?['achats'] as List?) ?? const []), o.id];
+      final gain = await _crediterPaliers(achatsApres);
+      _message(gain > 0
+          ? '« ${o.nom} » est à vous pour toujours. Collection : +$gain Bulles !'
+          : '« ${o.nom} » est à vous pour toujours. Touchez ÉQUIPER pour le porter.');
     } catch (e) {
       _message('Achat impossible : $e', erreur: true);
     } finally {
       if (mounted) setState(() => _occupe = false);
     }
+  }
+
+  /// Paie les paliers de collection atteints et pas encore crédités.
+  /// Renvoie le total de Bulles versées.
+  Future<int> _crediterPaliers(List<dynamic> achats) async {
+    final dus = paliersACrediter(achats, _moi?['collections'] as List?, DateTime.now());
+    if (dus.isEmpty) return 0;
+    try {
+      final credites = await crediterCollections(widget.maisonId, widget.profil.id, {for (final p in dus) p.cle: p.recompense});
+      return dus.where((p) => credites.contains(p.cle)).fold<int>(0, (a, p) => a + p.recompense);
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Une fois à l'ouverture : rattrape les paliers atteints avant leur mise en service.
+  Future<void> _rattraper() async {
+    if (_rattrapageFait) return;
+    _rattrapageFait = true;
+    final gain = await _crediterPaliers(((_moi?['achats'] as List?) ?? const []));
+    if (gain > 0) _message('Collections : +$gain Bulles pour les paliers déjà atteints !');
   }
 
   Future<void> _equiper(Objet o) async {
@@ -147,9 +175,17 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
     final debloques = succesDebloques(stats, contexte);
     final achats = moi?['achats'] as List?;
     final solde = soldeBulles(bullesGagnees(stats, debloques), achats, bonus: (moi?['bullesBonus'] as int?) ?? 0);
+    final collectionsMembre = moi?['collections'] as List?;
     final possedes = {
-      for (final o in [...objetsPossedes(TypeObjet.avatar, achats, debloques), ...objetsPossedes(TypeObjet.couverture, achats, debloques)]) o.id,
+      for (final o in [
+        ...objetsPossedes(TypeObjet.avatar, achats, debloques, collections: collectionsMembre),
+        ...objetsPossedes(TypeObjet.couverture, achats, debloques, collections: collectionsMembre),
+      ])
+        o.id,
     };
+    if (moi != null && !_rattrapageFait && saisonsDistantes.value.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _rattraper());
+    }
     final equipes = {(moi?['avatar'] as String?) ?? 'initiale', (moi?['couverture'] as String?) ?? 'encre'};
 
     final saisons = saisonsDistantes.value;
@@ -214,6 +250,11 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
           for (final s in enCours) ...[
             _titreSection('SAISON EN COURS', '${s.nom} · ${s.theme}',
                 'En vente jusqu\'au ${dateLongue(s.fin(maintenant))} (${s.joursRestants(maintenant) + 1} j restants)'),
+            LigneCollection(
+              etat: etatCollection(s, {...((achats ?? const []).whereType<String>())}),
+              credites: ((collectionsMembre ?? const []).whereType<String>()).toSet(),
+              couleur: widget.profil.couleur,
+            ),
             _grille(trier(tousLesObjets.where((o) => o.saison == s.id && !o.estGratuit)).map(carte).toList(), 'Rien dans cette catégorie.'),
           ],
           if (enCours.isEmpty) _titreSection('SAISON EN COURS', 'Aucune saison en vente', 'La prochaine est annoncée plus bas.'),
@@ -248,7 +289,10 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
   void _ouvrirFiche(Objet o, EtatObjet etat, int solde, DateTime maintenant) {
     final s = saisonPour(o.saison);
     final String comment;
-    if (o.succesRequis != null) {
+    if (o.collectionRequise != null) {
+      final nomSaison = saisonPour(o.collectionRequise)?.nom ?? 'la saison';
+      comment = 'Cet objet ne s\'achète pas : il est offert à qui complète la collection « $nomSaison » (tous ses objets achetables).';
+    } else if (o.succesRequis != null) {
       final nom = succes.where((x) => x.id == o.succesRequis).map((x) => x.nom).firstOrNull ?? o.succesRequis;
       comment = 'Cet objet ne s\'achète pas : il se gagne en débloquant le succès « $nom ».';
     } else if (s != null) {

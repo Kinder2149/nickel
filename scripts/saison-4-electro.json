@@ -303,6 +303,24 @@
         0.5,
         0.35
       ]
+    },
+    {
+      "n": 17,
+      "id": "mur-de-son",
+      "type": "avatar",
+      "nom": "Le mur de son",
+      "rarete": "legendaire",
+      "fond": "#2B3340",
+      "collection": true,
+      "sujet": "Un immense mur d'enceintes de sound system, imposant, façon sticker ou emblème coloré, bien centré.",
+      "recherche": {
+        "decrit": "Un immense mur d'enceintes de sound system, imposant, façon sticker ou emblème coloré, bien centré.",
+        "requetes": [
+          "sound system speaker wall illustration",
+          "wall of speakers flat art sticker",
+          "mur d'enceintes sound system illustration"
+        ]
+      }
     }
   ]
 }

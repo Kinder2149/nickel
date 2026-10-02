@@ -9,7 +9,9 @@ import 'catalogue_distant.dart';
 import 'donnees.dart';
 import 'ecran_boutique.dart';
 import 'ecran_guide.dart';
+import 'collections.dart';
 import 'jeu.dart';
+import 'widgets_collections.dart';
 import 'widgets_objet.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
@@ -247,6 +249,7 @@ class _EcranFicheState extends State<EcranFiche> {
                   ],
                 ),
                 const SizedBox(height: 24),
+                ..._sectionCollections(membre),
                 ..._sectionSucces(stats, contexte, debloques),
                 const SizedBox(height: 32),
               ],
@@ -295,6 +298,20 @@ class _EcranFicheState extends State<EcranFiche> {
         ],
       ),
     );
+  }
+
+  /// Les collections de saison du joueur (une carte par saison déjà sortie).
+  List<Widget> _sectionCollections(Map<String, dynamic> membre) {
+    final collections = toutesLesCollections(membre['achats'] as List?, DateTime.now());
+    if (collections.isEmpty) return const [];
+    final credites = ((membre['collections'] as List?) ?? const []).whereType<String>().toSet();
+    return [
+      const Padding(
+        padding: EdgeInsets.only(top: 16, bottom: 8),
+        child: Text('COLLECTIONS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+      ),
+      for (final c in collections) LigneCollection(etat: c, credites: credites, couleur: hexVersCouleur(membre['couleur'] as String)),
+    ];
   }
 
   /// « Prochains objectifs » (les plus proches), puis les succès débloqués,
@@ -495,7 +512,7 @@ class _EditeurProfilState extends State<_EditeurProfil> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final a in objetsPossedes(TypeObjet.avatar, widget.membre['achats'] as List?, widget.debloques))
+                for (final a in objetsPossedes(TypeObjet.avatar, widget.membre['achats'] as List?, widget.debloques, collections: widget.membre['collections'] as List?))
                   _case(
                     choisi: a.id == _avatar,
                     onTap: () => setState(() => _avatar = a.id),
@@ -508,7 +525,7 @@ class _EditeurProfilState extends State<_EditeurProfil> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final c in objetsPossedes(TypeObjet.couverture, widget.membre['achats'] as List?, widget.debloques))
+                for (final c in objetsPossedes(TypeObjet.couverture, widget.membre['achats'] as List?, widget.debloques, collections: widget.membre['collections'] as List?))
                   _case(
                     choisi: c.id == _couverture,
                     largeur: 72,

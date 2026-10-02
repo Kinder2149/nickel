@@ -25,6 +25,7 @@ class Objet {
     this.couleurs,
     this.image,
     this.succesRequis,
+    this.collectionRequise,
     this.saison,
   });
 
@@ -39,6 +40,7 @@ class Objet {
         image: j['image'] == null ? null : '$base${j['image']}',
         couleurs: (j['couleurs'] as List?)?.map((c) => hexVersCouleur(c as String)).toList(),
         succesRequis: j['succesRequis'] as String?,
+        collectionRequise: j['collectionRequise'] as String?,
         saison: j['saison'] as String?,
       );
 
@@ -62,11 +64,16 @@ class Objet {
   /// Objet exclusif : ne s'achète pas, il se gagne avec ce succès.
   final String? succesRequis;
 
+  /// Objet exclusif de saison : il s'obtient en complétant la collection de
+  /// cette saison (identifiant de la saison).
+  final String? collectionRequise;
+
   /// Collection d'origine (ex. « lancement », « saison-1-hiver »).
   final String? saison;
 
-  bool get estGratuit => prix == 0 && succesRequis == null;
-  bool get estAchetable => prix > 0 && succesRequis == null;
+  bool get estGratuit => prix == 0 && succesRequis == null && collectionRequise == null;
+  bool get estAchetable => prix > 0 && succesRequis == null && collectionRequise == null;
+  bool get estExclusif => succesRequis != null || collectionRequise != null;
 }
 
 DateTime _jour(String iso) {
@@ -154,7 +161,7 @@ EtatObjet etatObjet(
   required DateTime maintenant,
 }) {
   if (possedes.contains(o.id)) return o.id == equipeId ? EtatObjet.equipe : EtatObjet.possede;
-  if (o.succesRequis != null) return EtatObjet.exclusif;
+  if (o.estExclusif) return EtatObjet.exclusif;
   final s = saisonPour(o.saison);
   if (s != null && !s.enCours(maintenant)) return s.pasEncoreSortie(maintenant) ? EtatObjet.bientot : EtatObjet.horsSaison;
   return solde >= o.prix ? EtatObjet.achetable : EtatObjet.pasAssez;
@@ -209,11 +216,12 @@ List<Objet> get tousLesObjets {
 
 /// Ce que possède un membre : le kit gratuit, ses achats, et les exclusifs
 /// dont il a débloqué le succès.
-List<Objet> objetsPossedes(TypeObjet type, List<dynamic>? achats, Set<String> succesDebloques) {
+List<Objet> objetsPossedes(TypeObjet type, List<dynamic>? achats, Set<String> succesDebloques, {List<dynamic>? collections}) {
+  final cles = (collections ?? const []).whereType<String>().toSet();
   final ids = (achats ?? const []).whereType<String>().toSet();
   return tousLesObjets
       .where((o) => o.type == type)
-      .where((o) => o.estGratuit || ids.contains(o.id) && o.estAchetable || (o.succesRequis != null && succesDebloques.contains(o.succesRequis)))
+      .where((o) => o.estGratuit || ids.contains(o.id) && o.estAchetable || (o.succesRequis != null && succesDebloques.contains(o.succesRequis)) || (o.collectionRequise != null && cles.contains('${o.collectionRequise}:complete')))
       .toList();
 }
 

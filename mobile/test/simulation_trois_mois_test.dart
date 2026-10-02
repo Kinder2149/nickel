@@ -16,6 +16,7 @@ import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nickel_mobile/catalogue.dart';
 import 'package:nickel_mobile/catalogue_distant.dart';
+import 'package:nickel_mobile/collections.dart';
 import 'package:nickel_mobile/jeu.dart';
 import 'package:nickel_mobile/quetes.dart';
 
@@ -52,6 +53,8 @@ class Joueur {
   int quetesTotal = 0;
   int quetesNb = 0;
   int bonusSemaineTotal = 0;
+  final collectionsCredites = <String>[];
+  int collectionsBulles = 0;
 }
 
 void main() {
@@ -214,6 +217,12 @@ void main() {
               j.achatsDetail.add('j${jour + 1}: ${voulu.nom} (${voulu.rarete.libelle}, ${voulu.prix})');
               j.journal.add('j${jour + 1}: ACHAT ${voulu.nom} (${voulu.prix} Bulles)');
               j.joursMarquants.add(jour);
+              for (final p in paliersACrediter(j.achats, j.collectionsCredites, date)) {
+                j.collectionsCredites.add(p.cle);
+                j.bullesBonus += p.recompense;
+                j.collectionsBulles += p.recompense;
+                j.journal.add('j${jour + 1}: palier de collection « ${p.libelle} » (+${p.recompense} Bulles)');
+              }
             }
             expect(soldeBulles(gagnees, j.achats, bonus: j.bullesBonus), greaterThanOrEqualTo(0));
           }
@@ -244,7 +253,7 @@ void main() {
       l('--- ${j.profil}');
       l('  ouvert l\'app ${j.joursOuverts.length}/$nbJours jours · ${stats.taches} tâches · ${stats.xp} XP · niveau ${stats.niveau} (${titreNiveau(stats.niveau)}) · série max ${stats.meilleureSerie} j');
       l('  succès : ${debloques.length}/${succes.length}');
-      l('  Bulles gagnées : ${gagnees + j.bullesBonus} = niveaux $parNiveau + succès $parSucces + connexion ${j.bonusConnexionTotal} (dont bonus de semaine ${j.bonusSemaineTotal}) + cadeau ${j.cadeaux} + quêtes ${j.quetesTotal} (${j.quetesNb} terminées)');
+      l('  Bulles gagnées : ${gagnees + j.bullesBonus} = niveaux $parNiveau + succès $parSucces + connexion ${j.bonusConnexionTotal} (dont bonus de semaine ${j.bonusSemaineTotal}) + cadeau ${j.cadeaux} + quêtes ${j.quetesTotal} (${j.quetesNb} terminées) + collections ${j.collectionsBulles}');
       l('  Bulles dépensées : $depense · solde final : ${soldeBulles(gagnees, j.achats, bonus: j.bullesBonus)} · objets achetés : ${j.achats.length}'
           '${j.premierAchat == null ? ' (aucun !)' : ' · 1er achat au jour ${j.premierAchat}'}');
       final seuils = <int>[2, 3, 4, 5];

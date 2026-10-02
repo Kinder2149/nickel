@@ -293,6 +293,24 @@
           "one piece grand line epic landscape wallpaper"
         ]
       }
+    },
+    {
+      "n": 17,
+      "id": "tresor-roi-des-pirates",
+      "type": "avatar",
+      "nom": "Le trésor du Roi des pirates",
+      "rarete": "legendaire",
+      "fond": "#7A5A12",
+      "collection": true,
+      "sujet": "Le trésor du Roi des pirates : un coffre au trésor débordant d'or, ou le One Piece en emblème brillant, bien centré, en illustration.",
+      "recherche": {
+        "decrit": "Le trésor du Roi des pirates : un coffre au trésor débordant d'or, ou le One Piece en emblème brillant, bien centré, en illustration.",
+        "requetes": [
+          "one piece treasure chest illustration",
+          "pirate treasure chest gold flat art",
+          "trésor one piece coffre illustration"
+        ]
+      }
     }
   ]
 }
