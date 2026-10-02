@@ -139,8 +139,7 @@ def commande_recherche(args):
         # Reprise de quelques fiches : pas de contrôle « fiche 1 + première couverture ».
         debut = texte.index("1. Commence par les fiches")
         fin = texte.index("2. Pour chaque fiche")
-        texte = texte[:debut] + "1. Traite uniquement les fiches ci-dessous, puis ARRÊTE-TOI et attends ma réponse avant toute autre action.
-" + texte[fin:]
+        texte = texte[:debut] + "1. Traite uniquement les fiches ci-dessous, puis ARRÊTE-TOI et attends ma réponse avant toute autre action." + chr(10) + texte[fin:]
     nom_sortie = "PROMPT-RECHERCHE.txt" if voulues is None else "PROMPT-RECHERCHE-" + "-".join(str(x) for x in sorted(voulues)) + ".txt"
     cible = sortie / nom_sortie
     cible.write_text(texte, encoding="utf-8")
