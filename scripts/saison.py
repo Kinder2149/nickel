@@ -186,8 +186,8 @@ def commande_ranger(args):
 
     catalogue_chemin = dest / "catalogue.json"
     catalogue = json.loads(catalogue_chemin.read_text(encoding="utf-8"))
-    if not any(s["id"] == saison["id"] for s in catalogue["saisons"]):
-        catalogue["saisons"].append(saison)
+    # La fiche de saison du JSON fait foi (nom, thème, date de sortie) : on met à jour.
+    catalogue["saisons"] = [s for s in catalogue["saisons"] if s["id"] != saison["id"]] + [saison]
 
     print(f'{"n":>3}  {"fichier déposé":<40} -> nom rangé')
     for f, o in paires:
