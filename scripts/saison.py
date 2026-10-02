@@ -222,6 +222,19 @@ def commande_telecharger(args):
         time.sleep(0.5)
 
 
+
+def avec_marge(img, marge):
+    """Réduit l'image et l'entoure d'une marge de la couleur moyenne de son bord."""
+    from PIL import ImageStat
+    w, h = img.size
+    bandes = [img.crop((0, 0, w, 4)), img.crop((0, h - 4, w, h)), img.crop((0, 0, 4, h)), img.crop((w - 4, 0, w, h))]
+    couleur = tuple(int(sum(ImageStat.Stat(b).mean[i] for b in bandes) / 4) for i in range(3))
+    interieur = int(w * (1 - 2 * marge))
+    toile = Image.new("RGB", (w, h), couleur)
+    toile.paste(img.resize((interieur, interieur), Image.LANCZOS), ((w - interieur) // 2, (h - interieur) // 2))
+    return toile
+
+
 def recadrer(img, ratio_l, ratio_h, taille, focus=(0.5, 0.5)):
     """Recadre au ratio voulu. `focus` = (x, y) entre 0 et 1 : où se trouve le
     sujet dans l'image (0.5, 0.5 = centre ; un visage en haut à droite = (0.7, 0.3))."""
@@ -289,6 +302,8 @@ def commande_ranger(args):
                 img = img.crop((int(z[0] * w), int(z[1] * h), int(z[2] * w), int(z[3] * h)))
             if o["type"] == "avatar":
                 out = recadrer(img, 1, 1, (TAILLE_AVATAR, TAILLE_AVATAR), tuple(o.get("focus", (0.5, 0.5))))
+                if o.get("marge"):  # laisse respirer l'image : un avatar rond coupe les coins
+                    out = avec_marge(out, o["marge"])
             else:
                 out = recadrer(img, 3, 1, TAILLE_COUVERTURE, tuple(o.get("focus", (0.5, 0.5))))
             out.save(cible, "WEBP", quality=85, method=6)

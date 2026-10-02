@@ -19,6 +19,12 @@
       "nom": "Saison 3 — Ultimate",
       "theme": "Ultimate frisbee : le disque, le terrain, l'esprit du jeu",
       "debut": "2027-04-01"
+    },
+    {
+      "id": "saison-4-electro",
+      "nom": "Saison 4 — Électro",
+      "theme": "Musique : platines, techno, Chinese Man, Les Kassos",
+      "debut": "2027-07-01"
     }
   ],
   "objets": [
@@ -435,6 +441,141 @@
       "prix": 600,
       "image": "saison-3-ultimate/couvertures/couverture_legendaire_plage.webp",
       "saison": "saison-3-ultimate"
+    },
+    {
+      "id": "vinyle",
+      "type": "avatar",
+      "nom": "Le vinyle",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-4-electro/avatars/avatar_commun_vinyle.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "casque",
+      "type": "avatar",
+      "nom": "Le casque",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-4-electro/avatars/avatar_commun_casque.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "cassette",
+      "type": "avatar",
+      "nom": "La cassette",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-4-electro/avatars/avatar_commun_cassette.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "enceinte",
+      "type": "avatar",
+      "nom": "L'enceinte",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-4-electro/avatars/avatar_commun_enceinte.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "platine",
+      "type": "avatar",
+      "nom": "La platine",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-4-electro/avatars/avatar_rare_platine.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "boite-a-rythmes",
+      "type": "avatar",
+      "nom": "La boîte à rythmes",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-4-electro/avatars/avatar_rare_boite-a-rythmes.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "synthe",
+      "type": "avatar",
+      "nom": "Le synthé",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-4-electro/avatars/avatar_rare_synthe.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "micro",
+      "type": "avatar",
+      "nom": "Le micro",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-4-electro/avatars/avatar_rare_micro.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "chinese-man",
+      "type": "avatar",
+      "nom": "Chinese Man",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-4-electro/avatars/avatar_epique_chinese-man.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "dj",
+      "type": "avatar",
+      "nom": "Le DJ en action",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-4-electro/avatars/avatar_epique_dj.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "disque-d-or",
+      "type": "avatar",
+      "nom": "Le disque d'or",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-4-electro/avatars/avatar_legendaire_disque-d-or.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "laser-et-fumee",
+      "type": "couverture",
+      "nom": "Lasers et fumée",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-4-electro/couvertures/couverture_commun_laser-et-fumee.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "festival-de-nuit",
+      "type": "couverture",
+      "nom": "Le festival de nuit",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-4-electro/couvertures/couverture_rare_festival-de-nuit.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "synthwave",
+      "type": "couverture",
+      "nom": "Néon synthwave",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-4-electro/couvertures/couverture_epique_synthwave.webp",
+      "saison": "saison-4-electro"
+    },
+    {
+      "id": "mer-de-bras",
+      "type": "couverture",
+      "nom": "La mer de bras levés",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-4-electro/couvertures/couverture_legendaire_mer-de-bras.webp",
+      "saison": "saison-4-electro"
     }
   ]
 }
