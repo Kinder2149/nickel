@@ -1757,3 +1757,31 @@ Tableau de liens fourni par l'assistant, téléchargement accordé par Kinder su
 **Accessibilité (mesuré dans le code)** : texte discret `encreFaible` à 2,2:1 de contraste (insuffisant), doré « légendaire » à 2,8:1 (insuffisant) ; textes de 9 à 11 px dans la fiche, l'équipe et les cartes d'objets ; aucun libellé pour lecteur d'écran (`Semantics`) sur avatars et pictogrammes ; boutons de 40 px de haut (48 recommandé).
 
 **Suites proposées** (une à la fois) : A accessibilité et lisibilité ; B boucle de la semaine (quêtes hebdomadaires payées en Bulles, bonus de connexion « 5 jours sur 7 », objet favori avec barre de progression) ; C succès de collection par saison ; D remplacement des objets permanents provisoires par des illustrations.
+
+## 30. CADRAGE DES 4 MISSIONS « JEU » — validé par Kinder le 2026-10-02
+
+Règle habituelle : une mission à la fois, testée par Kinder (captures) avant la suivante. Chaque mission est testable sans lire de code.
+
+### Mission 1 — Accessibilité et lisibilité
+**Objectif** : que tout le jeu se lise sans effort et soit utilisable avec un lecteur d'écran.
+**Contenu** : (a) contrastes ≥ 4,5:1 sur les textes (le texte discret `encreFaible` passe de 2,2:1 à ≥ 4,5:1 ; `encreDouce` s'assombrit pour garder la hiérarchie ; texte doré « légendaire » assombri, la bordure reste dorée) ; (b) aucun texte du jeu sous 12 px ; (c) boutons du marché de 48 px de haut ; (d) libellés pour lecteur d'écran sur avatars, objets, badges, barres de progression et succès ; (e) la rareté n'est jamais portée par la couleur seule (le mot est toujours écrit).
+**Validation** : Kinder ouvre le Marché, la fiche et l'Équipe : plus aucun texte minuscule ni gris pâle illisible ; réglage Android « taille de police » au maximum : rien ne déborde ni ne se superpose ; avec TalkBack, une carte se lit « Casque, commun, 40 Bulles ». Garde-fous automatiques : test de contraste des couleurs de la palette, test d'affichage à police agrandie.
+**Risque** : l'assombrissement de `encreFaible` touche toute l'app (acceptable : meilleure lisibilité partout).
+
+### Mission 2 — La boucle de la semaine
+**Objectif** : combler les trous d'attention (jusqu'à 20 jours sans rien de marquant pour un joueur moyen) et donner un but à l'épargne.
+**Contenu** : (a) **3 quêtes par semaine**, les mêmes pour tous les appareils (tirage déterministe par numéro de semaine, sans serveur), calculées à partir des réalisations, récompense en Bulles (10 / 15 / 25), récupérée d'un appui ; (b) **une quête commune** (« à trois, 15 tâches cette semaine ») qui paie chaque membre ; (c) **bonus de connexion « 5 jours sur 7 »** (+10 Bulles une fois par semaine à la 5e connexion de la semaine) à la place du « 7 jours de suite » ; (d) **objet favori** : un objet du marché épinglé avec barre de progression « 60 / 250 Bulles » visible au marché et sur le profil.
+**Validation** : l'onglet Équipe montre « Cette semaine » avec 3 quêtes + la quête commune et leur avancement ; cocher une tâche fait avancer la quête ; récupérer crédite les Bulles ; le favori affiche la barre ; la simulation de 3 mois (rejouée) ramène la plus longue période sans événement marquant sous 10 jours pour le joueur moyen.
+**Dépendances** : mission 1 (couleurs, tailles). **Risque** : quêtes mal calibrées (trop faciles ou irréalistes) → barèmes à ajuster avec la simulation.
+
+### Mission 3 — Succès de collection par saison
+**Objectif** : offrir un objectif long terme aux gros joueurs (26/30 succès en 3 mois).
+**Contenu** : succès **générés depuis le catalogue** (donc automatiques à chaque nouvelle saison) : posséder 5 objets d'une saison, tous ses communs et rares, la collection complète ; récompense en Bulles et mention sur la fiche (section « Collections »). Un exclusif de saison par collection complète, dont l'image sera cherchée avec la même chaîne que les saisons.
+**Validation** : la fiche affiche « Collection Hiver : 4 / 15 » avec barre ; acheter un objet de la saison fait avancer la collection ; compléter les paliers débloque le succès et paie les Bulles.
+**Dépendances** : missions 1 et 2 (affichage, barèmes). **Risque** : saison qui change de taille (objets ajoutés après coup) → les paliers sont relatifs.
+
+### Mission 4 — Remplacer les objets permanents provisoires
+**Objectif** : supprimer le décalage visuel entre les pictogrammes provisoires et les illustrations des saisons.
+**Contenu** : un **pack « classiques »** d'illustrations (12 avatars, 4 couvertures) pris sur la même chaîne (`saison.py`, saison permanente sur 12 mois) ; les 17 objets provisoires sortent de la vente mais restent affichables pour qui les a déjà achetés (aucun achat perdu).
+**Validation** : le Marché permanent ne montre que des illustrations ; un joueur qui avait acheté un pictogramme le retrouve dans son profil.
+**Dépendances** : images à fournir (recherche par l'assistant de navigation, liens, accord de téléchargement).
