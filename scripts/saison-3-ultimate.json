@@ -1,0 +1,269 @@
+{
+  "saison": {
+    "id": "saison-3-ultimate",
+    "nom": "Saison 3 — Ultimate",
+    "theme": "Ultimate frisbee : le disque, le terrain, l'esprit du jeu",
+    "debut": "2027-04-01"
+  },
+  "style": "Flat graphic illustration in the style of a bold linocut / woodblock print. Thick dark ink outlines (#16150F), flat color fills, a limited palette of at most 5 colors per image built on cream paper tones with one or two vivid accents, subtle paper grain, slightly rough printed edges. Charming, characterful and a little fierce, like a collectible game emblem. No text, no letters, no watermark, no frame, no border.",
+  "formatAvatar": "Format: square 1:1. A single character or emblem centered, filling about 70% of the frame with safe margins on every side, on a plain flat solid background of color {fond}. It will be cropped into a circle, so keep everything inside the central circle. One image only.",
+  "formatCouverture": "Format: wide banner 16:9. Keep the key subject inside the middle horizontal band (central 40% of the height) because the top and bottom will be cropped. Atmospheric wide scene, no close-up faces. One image only.",
+  "objets": [
+    {
+      "n": 1,
+      "id": "disque",
+      "type": "avatar",
+      "nom": "Le disque",
+      "rarete": "commun",
+      "sujet": "Un disque d'ultimate frisbee (type Discraft UltraStar) en illustration ou emblème, seul, bien centré.",
+      "recherche": {
+        "decrit": "Un disque d'ultimate frisbee (type Discraft UltraStar) en illustration ou emblème, seul, bien centré.",
+        "requetes": [
+          "ultimate frisbee disc illustration",
+          "flying disc discraft ultra star art",
+          "disque frisbee ultimate illustration"
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "id": "crampons",
+      "type": "avatar",
+      "nom": "Les crampons",
+      "rarete": "commun",
+      "sujet": "Une paire de chaussures à crampons de sport en illustration stylisée, façon sticker.",
+      "recherche": {
+        "decrit": "Une paire de chaussures à crampons de sport en illustration stylisée, façon sticker.",
+        "requetes": [
+          "cleats ultimate frisbee sticker illustration",
+          "soccer cleats flat illustration sticker",
+          "crampons illustration sticker"
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "id": "maillot",
+      "type": "avatar",
+      "nom": "Le maillot",
+      "rarete": "commun",
+      "sujet": "Un maillot d'équipe de sport en illustration (ultimate ou sport collectif), façon sticker ou emblème.",
+      "recherche": {
+        "decrit": "Un maillot d'équipe de sport en illustration (ultimate ou sport collectif), façon sticker ou emblème.",
+        "requetes": [
+          "ultimate frisbee jersey illustration",
+          "team jersey flat illustration sticker",
+          "maillot sport équipe illustration"
+        ]
+      }
+    },
+    {
+      "n": 4,
+      "id": "cone",
+      "type": "avatar",
+      "nom": "Le cône de terrain",
+      "rarete": "commun",
+      "sujet": "Un cône de marquage de terrain orange en illustration mignonne ou emblème.",
+      "recherche": {
+        "decrit": "Un cône de marquage de terrain orange en illustration mignonne ou emblème.",
+        "requetes": [
+          "sports cone illustration cute sticker",
+          "orange training cone flat art",
+          "cône de sport illustration"
+        ]
+      }
+    },
+    {
+      "n": 5,
+      "id": "layout",
+      "type": "avatar",
+      "nom": "Le layout",
+      "rarete": "rare",
+      "sujet": "Un joueur d'ultimate en plein plongeon (layout) pour attraper le disque, illustration dynamique et stylisée.",
+      "recherche": {
+        "decrit": "Un joueur d'ultimate en plein plongeon (layout) pour attraper le disque, illustration dynamique et stylisée.",
+        "requetes": [
+          "ultimate frisbee layout illustration",
+          "ultimate frisbee player diving catch art",
+          "ultimate frisbee layout dessin"
+        ]
+      }
+    },
+    {
+      "n": 6,
+      "id": "huck",
+      "type": "avatar",
+      "nom": "Le huck",
+      "rarete": "rare",
+      "sujet": "Un lanceur d'ultimate qui envoie un long lancer (huck), illustration dynamique stylisée.",
+      "recherche": {
+        "decrit": "Un lanceur d'ultimate qui envoie un long lancer (huck), illustration dynamique stylisée.",
+        "requetes": [
+          "ultimate frisbee huck throw illustration",
+          "ultimate frisbee thrower art",
+          "ultimate frisbee lancer illustration"
+        ]
+      }
+    },
+    {
+      "n": 7,
+      "id": "marquage",
+      "type": "avatar",
+      "nom": "Le marquage",
+      "rarete": "rare",
+      "sujet": "Un défenseur d'ultimate qui marque (bras écartés, pivot), illustration stylisée.",
+      "recherche": {
+        "decrit": "Un défenseur d'ultimate qui marque (bras écartés, pivot), illustration stylisée.",
+        "requetes": [
+          "ultimate frisbee defense mark illustration",
+          "ultimate frisbee defender art",
+          "ultimate frisbee marquage illustration"
+        ]
+      }
+    },
+    {
+      "n": 8,
+      "id": "spirit",
+      "type": "avatar",
+      "nom": "L'esprit du jeu",
+      "rarete": "rare",
+      "sujet": "Le Spirit of the Game : une poignée de main ou un cercle d'équipes d'ultimate, emblème ou illustration chaleureuse.",
+      "recherche": {
+        "decrit": "Le Spirit of the Game : une poignée de main ou un cercle d'équipes d'ultimate, emblème ou illustration chaleureuse.",
+        "requetes": [
+          "spirit of the game ultimate frisbee illustration",
+          "ultimate frisbee spirit circle art",
+          "esprit du jeu ultimate illustration"
+        ]
+      }
+    },
+    {
+      "n": 9,
+      "id": "hammer",
+      "type": "avatar",
+      "nom": "Le hammer",
+      "rarete": "epique",
+      "sujet": "Un lancer en hammer (par-dessus l'épaule) d'ultimate, disque en vol, illustration dynamique.",
+      "recherche": {
+        "decrit": "Un lancer en hammer (par-dessus l'épaule) d'ultimate, disque en vol, illustration dynamique.",
+        "requetes": [
+          "ultimate frisbee hammer throw illustration",
+          "ultimate frisbee overhead throw art",
+          "ultimate frisbee hammer dessin"
+        ]
+      }
+    },
+    {
+      "n": 10,
+      "id": "pull",
+      "type": "avatar",
+      "nom": "Le pull",
+      "rarete": "epique",
+      "sujet": "La mise en jeu d'ultimate (pull) : le disque lancé très loin au-dessus du terrain, illustration épique.",
+      "recherche": {
+        "decrit": "La mise en jeu d'ultimate (pull) : le disque lancé très loin au-dessus du terrain, illustration épique.",
+        "requetes": [
+          "ultimate frisbee pull throw illustration",
+          "ultimate frisbee disc flying field art",
+          "ultimate frisbee pull dessin"
+        ]
+      }
+    },
+    {
+      "n": 11,
+      "id": "equipe",
+      "type": "avatar",
+      "nom": "L'équipe",
+      "rarete": "epique",
+      "sujet": "Une équipe d'ultimate soudée, en illustration ou emblème d'équipe, tous ensemble.",
+      "recherche": {
+        "decrit": "Une équipe d'ultimate soudée, en illustration ou emblème d'équipe, tous ensemble.",
+        "requetes": [
+          "ultimate frisbee team illustration",
+          "ultimate frisbee team logo emblem",
+          "équipe ultimate frisbee illustration logo"
+        ]
+      }
+    },
+    {
+      "n": 12,
+      "id": "trophee",
+      "type": "avatar",
+      "nom": "Le trophée du champion",
+      "rarete": "legendaire",
+      "sujet": "Un trophée de champion (coupe dorée) avec un disque d'ultimate, emblème ou illustration brillante.",
+      "recherche": {
+        "decrit": "Un trophée de champion (coupe dorée) avec un disque d'ultimate, emblème ou illustration brillante.",
+        "requetes": [
+          "ultimate frisbee trophy illustration",
+          "golden trophy flying disc art",
+          "trophée ultimate frisbee illustration"
+        ]
+      }
+    },
+    {
+      "n": 13,
+      "id": "terrain-couchant",
+      "type": "couverture",
+      "nom": "Le terrain au couchant",
+      "rarete": "commun",
+      "sujet": "Un terrain d'ultimate herbeux au coucher du soleil, ciel orange, joueurs en silhouette si possible. Format panoramique.",
+      "recherche": {
+        "decrit": "Un terrain d'ultimate herbeux au coucher du soleil, ciel orange, joueurs en silhouette si possible. Format panoramique.",
+        "requetes": [
+          "ultimate frisbee field sunset wallpaper",
+          "frisbee field golden hour wallpaper",
+          "terrain ultimate coucher de soleil fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 14,
+      "id": "finale-de-nuit",
+      "type": "couverture",
+      "nom": "La finale de nuit",
+      "rarete": "rare",
+      "sujet": "Un stade éclairé de nuit pour une finale sportive, lumières, foule floue. Format panoramique.",
+      "recherche": {
+        "decrit": "Un stade éclairé de nuit pour une finale sportive, lumières, foule floue. Format panoramique.",
+        "requetes": [
+          "stadium night lights wallpaper sports",
+          "frisbee tournament night stadium wallpaper",
+          "stade nuit projecteurs fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 15,
+      "id": "plein-vol",
+      "type": "couverture",
+      "nom": "Le disque en plein vol",
+      "rarete": "epique",
+      "sujet": "Un disque d'ultimate en plein vol devant un grand ciel dramatique, joueurs en contre-jour. Format panoramique.",
+      "recherche": {
+        "decrit": "Un disque d'ultimate en plein vol devant un grand ciel dramatique, joueurs en contre-jour. Format panoramique.",
+        "requetes": [
+          "ultimate frisbee action wallpaper sky",
+          "flying disc dramatic sky wallpaper",
+          "ultimate frisbee fond d'écran action"
+        ]
+      }
+    },
+    {
+      "n": 16,
+      "id": "plage",
+      "type": "couverture",
+      "nom": "L'ultimate sur la plage",
+      "rarete": "legendaire",
+      "sujet": "Un tournoi de beach ultimate : sable, mer turquoise, joueurs en plein saut. Format panoramique.",
+      "recherche": {
+        "decrit": "Un tournoi de beach ultimate : sable, mer turquoise, joueurs en plein saut. Format panoramique.",
+        "requetes": [
+          "beach ultimate frisbee wallpaper",
+          "beach ultimate tournament sand sea wallpaper",
+          "beach ultimate fond d'écran plage"
+        ]
+      }
+    }
+  ]
+}

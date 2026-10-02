@@ -25,47 +25,17 @@
 </head>
 <body>
 <h1>Galerie du pack Chez nous</h1>
-<p class="sous">Générée le 2026-10-02 depuis catalogue.json — 34 objet(s). Pour la régénérer : <code>node scripts/generer-galerie.mjs</code></p>
+<p class="sous">Générée le 2026-10-02 depuis catalogue.json — 31 objet(s). Pour la régénérer : <code>node scripts/generer-galerie.mjs</code></p>
 <div class="kit"><strong>Kit gratuit (dans l'application, hors catalogue) :</strong>
   avatars — initiale, balai, savon, goutte, flamme, éclair, étoile, feuille, note, fusée, bouclier ;
   couvertures — 6 fonds unis (encre, orange, bleu, vert, violet, rouge). La boutique de lancement (pictogrammes et dégradés) est aussi dans l'application.</div>
 <div class="filtres">
-  <select id="f-saison"><option value="">Toutes les saisons</option><option value="avant-premiere">Avant-première</option><option value="saison-1-hiver">Saison 1 — Hiver</option><option value="saison-2-grand-large">Saison 2 — Grand large</option></select>
+  <select id="f-saison"><option value="">Toutes les saisons</option><option value="saison-1-hiver">Saison 1 — Hiver</option><option value="saison-2-grand-large">Saison 2 — Grand large</option></select>
   <select id="f-type"><option value="">Avatars et couvertures</option><option value="avatar">Avatars</option><option value="couverture">Couvertures</option></select>
   <select id="f-rarete"><option value="">Toutes les raretés</option><option value="commun">Commun</option><option value="rare">Rare</option><option value="epique">Épique</option><option value="legendaire">Légendaire</option></select>
   <span class="compte" id="compte"></span>
 </div>
 <div class="grille" id="grille">
-
-  <article class="carte" data-saison="avant-premiere" data-type="avatar" data-rarete="commun"
-           style="border-color:#6B675A">
-    <div class="visuel"><img src="avant-premiere/avatars/avatar_commun_pastille-test.png" alt="Pastille test (à supprimer)" class="avatar"></div>
-    <h3>Pastille test (à supprimer)</h3>
-    <p class="rarete" style="color:#6B675A">Commun · Avatar</p>
-    <p>S'achète 40 Bulles à la boutique</p>
-    <p class="saison">Avant-première</p>
-    <p class="id">pastille-test</p>
-  </article>
-
-  <article class="carte" data-saison="avant-premiere" data-type="couverture" data-rarete="epique"
-           style="border-color:#8A3FC7">
-    <div class="visuel"><div class="couleur couverture" style="background:linear-gradient(135deg, #2B3340, #8C9BB0)"></div></div>
-    <h3>Brume de dragon</h3>
-    <p class="rarete" style="color:#8A3FC7">Épique · Couverture</p>
-    <p>S'achète 250 Bulles à la boutique</p>
-    <p class="saison">Avant-première</p>
-    <p class="id">brume-de-dragon</p>
-  </article>
-
-  <article class="carte" data-saison="avant-premiere" data-type="couverture" data-rarete="rare"
-           style="border-color:#2F6FB5">
-    <div class="visuel"><div class="couleur couverture" style="background:linear-gradient(135deg, #2E6B4E, #7FD1C7)"></div></div>
-    <h3>Aube boréale</h3>
-    <p class="rarete" style="color:#2F6FB5">Rare · Couverture</p>
-    <p>S'achète 100 Bulles à la boutique</p>
-    <p class="saison">Avant-première</p>
-    <p class="id">aube-boreale</p>
-  </article>
 
   <article class="carte" data-saison="saison-1-hiver" data-type="avatar" data-rarete="commun"
            style="border-color:#6B675A">

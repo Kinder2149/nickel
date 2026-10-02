@@ -17,10 +17,13 @@
 Options de `ranger` : --arrivage DIR  --dest DIR  --force
 """
 import argparse
+import io
 import json
 import re
 import subprocess
 import sys
+import time
+import urllib.request
 from pathlib import Path
 
 from PIL import Image
@@ -82,32 +85,29 @@ def commande_prompts(args):
     print(f"Prompts écrits : {cible}")
 
 
-BRIEF_RECHERCHE = """MISSION : trouver sur internet {total} images pour l'application de ménage « Nickel » (usage strictement privé : un foyer de trois personnes). Tu les cherches UNE PAR UNE, comme sur Pinterest, tu en choisis une par fiche et tu la télécharges.
+BRIEF_RECHERCHE = """MISSION : trouver sur internet {total} images pour l'application de ménage « Nickel » (usage strictement privé : un foyer de trois personnes). Tu les cherches UNE PAR UNE, comme sur Pinterest, tu en choisis une par fiche et tu me donnes ses LIENS. TU NE TÉLÉCHARGES RIEN : c'est moi qui récupérerai les fichiers à partir de tes liens.
 
-UNIVERS DU FOYER : technologie et IA, sport (ultimate frisbee), musique (Chinese Man, techno, Les Kassos), animés et séries (One Piece, Game of Thrones, House of the Dragon). Thème de cette saison : « {theme} ». Les personnages, objets et lieux RÉELS de ces œuvres sont attendus et bienvenus (usage privé) : cherche directement leurs illustrations, fan arts et fonds d'écran.
+UNIVERS DU FOYER : technologie et IA, sport (ultimate frisbee), musique (Chinese Man, techno, Les Kassos), animés et séries (One Piece, Game of Thrones, House of the Dragon). Thème de cette saison : « {theme} ». Les personnages, objets et lieux RÉELS de ces œuvres ou de ces univers sont attendus et bienvenus (usage privé) : cherche directement leurs illustrations, fan arts, logos et fonds d'écran.
 
 OÙ CHERCHER
 - Avatars (illustrations rondes de personnages ou emblèmes) : Pinterest, Google Images (filtre « Illustration »), ArtStation, DeviantArt, Behance, Dribbble, Freepik, Flaticon, itch.io.
 - Couvertures (paysages panoramiques) : Wallhaven, Unsplash, Pexels, Pinterest, ArtStation, Google Images (filtre « Grande taille »).
 
 CRITÈRES DE QUALITÉ (très important : l'ensemble doit être beau ET cohérent)
-- COHÉRENCE : tous les AVATARS doivent appartenir à la même famille visuelle — illustration stylisée, aplats de couleurs, contours nets, personnage ou emblème centré, façon « mascotte / blason de collection ». Évite de mélanger photo réaliste, pixel art, aquarelle et vectoriel. Avant de retenir une image, compare-la avec celles déjà retenues. Toutes les COUVERTURES : même ambiance (illustration ou concept art, couleurs travaillées), jamais de photo floue.
+- COHÉRENCE : tous les AVATARS doivent appartenir à la même famille visuelle — illustration stylisée, aplats de couleurs, contours nets, sujet centré, façon « mascotte / sticker / blason de collection ». Évite de mélanger photo réaliste, pixel art, aquarelle et vectoriel. Avant de retenir une image, compare-la avec celles déjà retenues. Toutes les COUVERTURES : même ambiance (illustration ou concept art, couleurs travaillées), jamais de photo floue.
 - AVATARS : sujet unique bien centré qui rentre dans un cercle, bords dégagés, fond simple, au moins 512 × 512 px.
 - COUVERTURES : panoramique (16:9 ou plus large), au moins 1600 px de large, sujet principal dans la bande horizontale centrale (le haut et le bas seront recadrés).
-- REFUSE : filigrane, logo de site, texte incrusté, signature envahissante, capture d'écran d'une page, image floue ou compressée, visages de personnes réelles, contenu choquant ou sexualisé, image déjà utilisée pour une autre fiche.
-- Si une fiche propose plusieurs intentions (ex. « éponge ET seau »), prends l'image qui s'en rapproche le plus ; sinon une version générique du même sujet, mais JAMAIS un sujet différent.
+- REFUSE : filigrane, logo de site, texte incrusté, signature envahissante, capture d'écran d'une page, image floue ou compressée, visages de personnes réelles, contenu choquant ou sexualisé, image déjà retenue pour une autre fiche.
+- Si une fiche propose plusieurs intentions, prends l'image qui s'en rapproche le plus ; sinon une version générique du même sujet, mais JAMAIS un sujet différent. Vérifie bien que le sujet est celui demandé (ne confonds pas les œuvres).
 
 MÉTHODE
-1. Commence par les fiches n°1 et n°{premiere_couverture} SEULEMENT, puis ARRÊTE-TOI : montre-moi les deux images choisies avec leur lien source et ATTENDS ma réponse « ok ». Ne passe JAMAIS aux fiches suivantes de ta propre initiative, même si tout se passe bien. Fais ensuite les fiches par paquets de 4 à 6, en t'arrêtant à chaque fin de paquet.
-2. Pour chaque fiche : essaie les requêtes proposées (et tes propres variantes, en français et en anglais), parcours au moins 15 résultats, retiens 3 candidates, choisis la meilleure selon les critères, puis télécharge-la.
-3. Enregistre chaque image en gardant son format d'origine et en commençant son nom de fichier par le numéro de la fiche sur deux chiffres (exemple : « 01_louveteau.jpg », « 13_plaine.jpg »). Si tu ne peux pas choisir le nom, télécharge les images STRICTEMENT dans l'ordre des numéros, une seule image par fiche, rien d'autre.
-4. UNE SEULE image téléchargée par fiche : la version FINALE. Ne télécharge pas de variantes ou d'essais (pas de « v1 » / « v2 »). Si tu hésites, compare les candidates à l'écran et ne télécharge que la gagnante.
-5. Si tu ne trouves rien de satisfaisant après 3 séries de recherches, ne force pas : écris « À REFAIRE » pour cette fiche, propose 3 alternatives de sujet proches, et passe à la suivante.
-6. Ne te connecte jamais à un compte à ma place, ne paie rien, n'accepte aucune condition d'utilisation, ne saisis aucun mot de passe : si un site l'exige, passe au suivant.
+1. Commence par les fiches n°1 et n°{premiere_couverture} SEULEMENT, puis ARRÊTE-TOI : montre-moi les deux images choisies avec leurs liens et ATTENDS ma réponse « ok ». Ne passe JAMAIS aux fiches suivantes de ta propre initiative, même si tout se passe bien. Fais ensuite les fiches par paquets de 5, en t'arrêtant à chaque fin de paquet.
+2. Pour chaque fiche : essaie les requêtes proposées (et tes propres variantes, en français et en anglais), parcours au moins 15 résultats, retiens 3 candidates, choisis la meilleure selon les critères.
+3. UNE SEULE image retenue par fiche : la version FINALE (pas de variantes). Pour elle, donne : l'adresse de la page source (forme « pinterest.com/pin/NUMÉRO » ou « wallhaven.cc/w/CODE ») et, si tu la connais, l'adresse directe de l'image.
+4. Si tu ne trouves rien de satisfaisant après 3 séries de recherches, ne force pas : écris « À REFAIRE » pour cette fiche, propose 3 alternatives de sujet proches, et passe à la suivante.
+5. Ne te connecte jamais à un compte à ma place, ne paie rien, n'accepte aucune condition d'utilisation, ne saisis aucun mot de passe : si un site l'exige, passe au suivant.
 
-VÉRIFICATION OBLIGATOIRE à chaque fin de paquet : ouvre le dossier où le navigateur enregistre les téléchargements, liste les fichiers numérotés qui s'y trouvent avec leur taille, et donne-moi le CHEMIN COMPLET de ce dossier. N'annonce jamais « téléchargé » pour un fichier que tu n'as pas vu dans ce dossier.
-
-À LA FIN, donne-moi un tableau : n° | nom de la fiche | nom du fichier téléchargé | adresse de la page source | pourquoi cette image | « OK » ou « À REFAIRE ».
+FORMAT DE RÉPONSE : un tableau, UNE LIGNE PAR FICHE, qui commence par le numéro de la fiche sur deux chiffres, puis : nom de la fiche | adresse de la page source | dimensions de l'image | pourquoi cette image | « OK » ou « À REFAIRE ». Exemple : « 01 | Chapeau de paille | https://fr.pinterest.com/pin/123456789/ | 750×1000 | trait net, centré | OK ».
 
 LES {total} FICHES
 {fiches}
@@ -120,8 +120,11 @@ def commande_recherche(args):
     sortie = RACINE / "arrivage" / saison
     sortie.mkdir(parents=True, exist_ok=True)
     premiere_couverture = next(o["n"] for o in d["objets"] if o["type"] == "couverture")
+    voulues = {int(x) for x in args.seulement.split(",")} if getattr(args, "seulement", None) else None
     fiches = []
     for o in d["objets"]:
+        if voulues is not None and o["n"] not in voulues:
+            continue
         r = o["recherche"]
         genre = "AVATAR (rond, 1:1)" if o["type"] == "avatar" else "COUVERTURE (panoramique)"
         fiches.append(
@@ -130,11 +133,94 @@ def commande_recherche(args):
             f'Requêtes pour commencer : ' + " | ".join(r["requetes"])
         )
     texte = BRIEF_RECHERCHE.format(
-        total=len(d["objets"]), theme=d["saison"]["theme"], premiere_couverture=premiere_couverture, fiches="\n".join(fiches)
+        total=len(fiches), theme=d["saison"]["theme"], premiere_couverture=premiere_couverture, fiches="\n".join(fiches)
     )
-    cible = sortie / "PROMPT-RECHERCHE.txt"
+    if voulues is not None:
+        # Reprise de quelques fiches : pas de contrôle « fiche 1 + première couverture ».
+        debut = texte.index("1. Commence par les fiches")
+        fin = texte.index("2. Pour chaque fiche")
+        texte = texte[:debut] + "1. Traite uniquement les fiches ci-dessous, puis ARRÊTE-TOI et attends ma réponse avant toute autre action.
+" + texte[fin:]
+    nom_sortie = "PROMPT-RECHERCHE.txt" if voulues is None else "PROMPT-RECHERCHE-" + "-".join(str(x) for x in sorted(voulues)) + ".txt"
+    cible = sortie / nom_sortie
     cible.write_text(texte, encoding="utf-8")
     print(f"Prompt de recherche écrit : {cible} ({len(texte)} caractères)")
+
+
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+
+
+def http_get(url, referer=None, timeout=60):
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "fr,en;q=0.8", **({"Referer": referer} if referer else {})})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read(), r.headers.get("Content-Type", "")
+
+
+def adresses_image(lien):
+    """Adresses directes possibles de l'image pour une page Pinterest ou Wallhaven."""
+    m = re.search(r"pinterest\.[a-z.]+/pin/(\d+)", lien)
+    if m:
+        html = http_get(f"https://fr.pinterest.com/pin/{m.group(1)}/")[0].decode("utf-8", "replace")
+        og = re.search(r'<meta[^>]+property="og:image"[^>]+content="([^"]+)"', html) or re.search(r'content="([^"]+)"[^>]+property="og:image"', html)
+        cands = ([og.group(1)] if og else []) + re.findall(r"https://i\.pinimg\.com/(?:originals|736x|564x|474x)/[0-9a-f/]+\.(?:jpg|png|webp)", html)
+        essais = []
+        for c in cands:
+            base = re.sub(r"/(?:\d+x|originals)/", "/originals/", c)
+            essais += [base, re.sub(r"\.(jpg|png|webp)$", lambda x: ".png" if x.group(1) != "png" else ".jpg", base), c]
+        return list(dict.fromkeys(essais)), "https://fr.pinterest.com/"
+    m = re.search(r"wallhaven\.cc/w/([0-9a-z]+)", lien)
+    if m:
+        html = http_get(f"https://wallhaven.cc/w/{m.group(1)}")[0].decode("utf-8", "replace")
+        src = re.search(r'id="wallpaper"[^>]+src="([^"]+)"', html)
+        return ([src.group(1)] if src else []), "https://wallhaven.cc/"
+    if re.search(r"https?://\S+\.(?:jpg|jpeg|png|webp)", lien):
+        return [re.search(r"https?://\S+\.(?:jpg|jpeg|png|webp)", lien).group(0)], None
+    return [], None
+
+
+def commande_telecharger(args):
+    """Télécharge les images listées dans le tableau de l'assistant. Seuls des
+    FICHIERS IMAGE valides (vérifiés avec Pillow) sont enregistrés ; rien
+    d'autre n'est écrit ni exécuté."""
+    d = lire(args.fichier)
+    saison = d["saison"]["id"]
+    arrivage = Path(args.arrivage) if args.arrivage else RACINE / "arrivage" / saison
+    arrivage.mkdir(parents=True, exist_ok=True)
+    par_n = {o["n"]: o for o in d["objets"]}
+    for ligne in Path(args.liens).read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^\W*(\d{1,2})\b", ligne)
+        if not m or int(m.group(1)) not in par_n:
+            continue
+        n = int(m.group(1))
+        o = par_n[n]
+        liens = re.findall(r"https?://[^\s|)\]>]+", ligne)
+        etat = "ECHEC : aucun lien exploitable"
+        for lien in liens:
+            try:
+                essais, referer = adresses_image(lien)
+            except Exception as e:  # noqa: BLE001
+                essais, referer = [], None
+            for url in essais:
+                try:
+                    data, ctype = http_get(url, referer=referer, timeout=120)
+                    if not ctype.startswith("image/") or len(data) < 5000:
+                        continue
+                    im = Image.open(io.BytesIO(data))
+                    im.load()
+                    ext = {"JPEG": "jpg", "PNG": "png", "WEBP": "webp"}.get(im.format)
+                    if not ext:
+                        continue
+                    cible = arrivage / f"{n:02d}_{o['id']}.{ext}"
+                    cible.write_bytes(data)
+                    etat = f"OK  {cible.name}  {im.size[0]}x{im.size[1]}  {len(data) // 1024} Ko  <- {url}"
+                    break
+                except Exception:  # noqa: BLE001
+                    continue
+            if etat.startswith("OK"):
+                break
+            etat = "ECHEC : téléchargement refusé ou fichier invalide"
+        print(f"{n:>2} {o['nom'][:32]:<32} {etat[:190]}")
+        time.sleep(0.5)
 
 
 def recadrer(img, ratio_l, ratio_h, taille, focus=(0.5, 0.5)):
@@ -222,13 +308,18 @@ def main():
     a.add_argument("fichier")
     b = sub.add_parser("recherche")
     b.add_argument("fichier")
+    b.add_argument("--seulement", help="numéros de fiches séparés par des virgules (ex. 14 ou 3,9)")
+    t = sub.add_parser("telecharger")
+    t.add_argument("fichier")
+    t.add_argument("liens", help="fichier texte contenant le tableau de l'assistant (une ligne par fiche)")
+    t.add_argument("--arrivage")
     r = sub.add_parser("ranger")
     r.add_argument("fichier")
     r.add_argument("--arrivage")
     r.add_argument("--dest")
     r.add_argument("--force", action="store_true")
     args = p.parse_args()
-    {"prompts": commande_prompts, "recherche": commande_recherche, "ranger": commande_ranger}[args.cmd](args)
+    {"prompts": commande_prompts, "recherche": commande_recherche, "telecharger": commande_telecharger, "ranger": commande_ranger}[args.cmd](args)
 
 
 if __name__ == "__main__":
