@@ -13,6 +13,12 @@
       "nom": "Saison 1 — Hiver",
       "theme": "Trônes et dragons",
       "debut": "2026-12-21"
+    },
+    {
+      "id": "saison-2-grand-large",
+      "nom": "Saison 2 — Grand large",
+      "theme": "One Piece : la mer, l'équipage, la piraterie",
+      "debut": "2027-01-01"
     }
   ],
   "objets": [
@@ -183,6 +189,150 @@
       "prix": 600,
       "image": "saison-1-hiver/couvertures/couverture_legendaire_grande-salle.webp",
       "saison": "saison-1-hiver"
+    },
+    {
+      "id": "chapeau-de-paille",
+      "type": "avatar",
+      "nom": "Chapeau de paille",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-2-grand-large/avatars/avatar_commun_chapeau-de-paille.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "jolly-roger",
+      "type": "avatar",
+      "nom": "Drapeau des Chapeaux de paille",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-2-grand-large/avatars/avatar_commun_jolly-roger.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "den-den-mushi",
+      "type": "avatar",
+      "nom": "Escargophone",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-2-grand-large/avatars/avatar_commun_den-den-mushi.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "log-pose",
+      "type": "avatar",
+      "nom": "Log Pose",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-2-grand-large/avatars/avatar_commun_log-pose.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "chopper",
+      "type": "avatar",
+      "nom": "Chopper",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-2-grand-large/avatars/avatar_rare_chopper.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "usopp",
+      "type": "avatar",
+      "nom": "Usopp",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-2-grand-large/avatars/avatar_rare_usopp.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "nami",
+      "type": "avatar",
+      "nom": "Nami",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-2-grand-large/avatars/avatar_rare_nami.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "robin",
+      "type": "avatar",
+      "nom": "Nico Robin",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-2-grand-large/avatars/avatar_rare_robin.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "zoro",
+      "type": "avatar",
+      "nom": "Zoro",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-2-grand-large/avatars/avatar_epique_zoro.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "luffy-gear-5",
+      "type": "avatar",
+      "nom": "Luffy Gear 5",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-2-grand-large/avatars/avatar_epique_luffy-gear-5.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "shanks",
+      "type": "avatar",
+      "nom": "Shanks le Roux",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-2-grand-large/avatars/avatar_epique_shanks.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "gol-d-roger",
+      "type": "avatar",
+      "nom": "Gol D. Roger",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-2-grand-large/avatars/avatar_legendaire_gol-d-roger.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "vogue-merry",
+      "type": "couverture",
+      "nom": "Vogue Merry",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "saison-2-grand-large/couvertures/couverture_commun_vogue-merry.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "grand-line-tempete",
+      "type": "couverture",
+      "nom": "Tempête sur Grand Line",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "saison-2-grand-large/couvertures/couverture_rare_grand-line-tempete.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "thousand-sunny",
+      "type": "couverture",
+      "nom": "Thousand Sunny au couchant",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "saison-2-grand-large/couvertures/couverture_epique_thousand-sunny.webp",
+      "saison": "saison-2-grand-large"
+    },
+    {
+      "id": "equipage-horizon",
+      "type": "couverture",
+      "nom": "L'équipage face à l'horizon",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "saison-2-grand-large/couvertures/couverture_legendaire_equipage-horizon.webp",
+      "saison": "saison-2-grand-large"
     }
   ]
 }

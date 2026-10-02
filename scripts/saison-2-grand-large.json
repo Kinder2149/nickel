@@ -126,7 +126,11 @@
           "nami clima tact fan art",
           "nami one piece art flat"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.4
+      ]
     },
     {
       "n": 8,
@@ -143,7 +147,11 @@
           "robin one piece fan art",
           "nico robin art flat"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.45
+      ]
     },
     {
       "n": 9,
@@ -243,7 +251,11 @@
           "pirate ship storm ocean art wallpaper",
           "tempête navire pirate fond d'écran"
         ]
-      }
+      },
+      "focus": [
+        0.5,
+        0.5
+      ]
     },
     {
       "n": 15,
@@ -263,9 +275,9 @@
     },
     {
       "n": 16,
-      "id": "laugh-tale",
+      "id": "equipage-horizon",
       "type": "couverture",
-      "nom": "Laugh Tale",
+      "nom": "L'équipage face à l'horizon",
       "rarete": "legendaire",
       "sujet": "L'île de Laugh Tale / le trésor de One Piece, ambiance épique et dorée, ou toute vue majestueuse du Grand Line. Format panoramique.",
       "recherche": {
