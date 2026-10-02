@@ -11,7 +11,7 @@
   "objets": [
     {
       "n": 1,
-      "id": "disque",
+      "id": "disque-ultimate",
       "type": "avatar",
       "nom": "Le disque",
       "rarete": "commun",
@@ -201,7 +201,7 @@
     },
     {
       "n": 12,
-      "id": "trophee",
+      "id": "trophee-champion",
       "type": "avatar",
       "nom": "Le trophée du champion",
       "rarete": "legendaire",

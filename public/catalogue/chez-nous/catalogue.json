@@ -308,12 +308,12 @@
       "saison": "saison-2-grand-large"
     },
     {
-      "id": "disque",
+      "id": "disque-ultimate",
       "type": "avatar",
       "nom": "Le disque",
       "rarete": "commun",
       "prix": 40,
-      "image": "saison-3-ultimate/avatars/avatar_commun_disque.webp",
+      "image": "saison-3-ultimate/avatars/avatar_commun_disque-ultimate.webp",
       "saison": "saison-3-ultimate"
     },
     {
@@ -407,12 +407,12 @@
       "saison": "saison-3-ultimate"
     },
     {
-      "id": "trophee",
+      "id": "trophee-champion",
       "type": "avatar",
       "nom": "Le trophée du champion",
       "rarete": "legendaire",
       "prix": 600,
-      "image": "saison-3-ultimate/avatars/avatar_legendaire_trophee.webp",
+      "image": "saison-3-ultimate/avatars/avatar_legendaire_trophee-champion.webp",
       "saison": "saison-3-ultimate"
     },
     {
@@ -452,12 +452,12 @@
       "saison": "saison-4-electro"
     },
     {
-      "id": "casque",
+      "id": "casque-dj",
       "type": "avatar",
       "nom": "Le casque",
       "rarete": "commun",
       "prix": 40,
-      "image": "saison-4-electro/avatars/avatar_commun_casque.webp",
+      "image": "saison-4-electro/avatars/avatar_commun_casque-dj.webp",
       "saison": "saison-4-electro"
     },
     {
@@ -479,12 +479,12 @@
       "saison": "saison-4-electro"
     },
     {
-      "id": "platine",
+      "id": "platine-dj",
       "type": "avatar",
       "nom": "La platine",
       "rarete": "rare",
       "prix": 100,
-      "image": "saison-4-electro/avatars/avatar_rare_platine.webp",
+      "image": "saison-4-electro/avatars/avatar_rare_platine-dj.webp",
       "saison": "saison-4-electro"
     },
     {

@@ -282,6 +282,14 @@ def commande_ranger(args):
             print(f"ATTENTION : {len(fichiers)} image(s) pour {len(objets)} fiche(s) — rangement dans l'ordre de téléchargement, jusqu'à épuisement.")
         paires = list(zip(fichiers, objets))
 
+    # Garde-fou : un id déjà embarqué dans l'app (kit, boutique de lancement) écraserait
+    # l'objet distant et le rendrait invisible. On refuse de ranger dans ce cas.
+    dart = (RACINE / "mobile" / "lib" / "catalogue.dart").read_text(encoding="utf-8")
+    embarques = set(re.findall(r"Objet\(id: '([^']+)'", dart))
+    collisions = sorted(o["id"] for o in objets if o["id"] in embarques)
+    if collisions:
+        sys.exit(f"COLLISION d'identifiants avec des objets embarqués dans l'app : {collisions}. Renomme-les dans le JSON de la saison.")
+
     catalogue_chemin = dest / "catalogue.json"
     catalogue = json.loads(catalogue_chemin.read_text(encoding="utf-8"))
     # La fiche de saison du JSON fait foi (nom, thème, date de sortie) : on met à jour.

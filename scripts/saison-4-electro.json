@@ -27,7 +27,7 @@
     },
     {
       "n": 2,
-      "id": "casque",
+      "id": "casque-dj",
       "type": "avatar",
       "nom": "Le casque",
       "rarete": "commun",
@@ -76,7 +76,7 @@
     },
     {
       "n": 5,
-      "id": "platine",
+      "id": "platine-dj",
       "type": "avatar",
       "nom": "La platine",
       "rarete": "rare",
