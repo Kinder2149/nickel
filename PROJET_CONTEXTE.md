@@ -1745,3 +1745,15 @@ Tableau de liens fourni par l'assistant, téléchargement accordé par Kinder su
 **Catalogue** : `mois` ajouté aux quatre saisons, publié (compatible avec l'ancienne version de l'app). Galerie : affiche la période de vente annuelle de chaque objet. Guide « Comment ça marche ? » : sections Bulles et saisons réécrites. Tests : 14 verts.
 
 **Hors périmètre / à décider plus tard** : nouveaux thèmes pour l'année 2 ; quêtes de la semaine ; saison qui franchit le 31 décembre (non gérée : les `mois` doivent rester contigus dans une même année).
+
+## 29. POINT SUR LA COUCHE JEU + SIMULATION 3 MOIS — 2026-10-02
+
+**Simulation** (`mobile/test/simulation_trois_mois_test.dart`, à relancer avec `flutter test test/simulation_trois_mois_test.dart`) : trois joueurs virtuels (régulier / moyen / irrégulier avec 13 jours de vacances), 92 jours (1er oct.–31 déc. 2026), vraies fonctions du jeu et vrai catalogue publié. Comportements inventés et déterministes : les chiffres décrivent un scénario plausible, pas des mesures réelles.
+
+**Résultats** : maison 359 tâches (3,9/jour, objectif du modèle 4,1 : le jeu ne dénature pas la boucle ménage) ; niveau de la maison 5. Régulier : niv. 7, 26/30 succès, 17 achats, 1er achat au jour 2. Moyen : niv. 4, 18/30, 5 achats. Irrégulier : niv. 3, 14/30, 5 achats. Origine des Bulles (régulier) : succès 45 %, connexion 26 %, niveaux 23 %, cadeau 6 %.
+
+**Constats** : (1) démarrage réussi (cadeau de 60 + premier succès → premier achat en 2 à 4 jours) ; (2) **trous d'attention** : jusqu'à 20 jours sans rien de marquant pour le joueur moyen (niveaux de plus en plus espacés : 31 jours entre le niv. 3 et 4) ; (3) **le gros joueur épuise le contenu** : 26/30 succès et tous les objets bon marché en 3 mois ; (4) le bonus de 7 jours de suite est quasi inatteignable hors usage quotidien (séries max 4 et 3 pour les deux autres) ; (5) aucun objet épique ou légendaire acheté en 3 mois (effet de la règle d'achat simulée, mais ils demandent d'épargner sans objectif visible) ; (6) les objets permanents provisoires (pictogrammes) sont achetés en premier et dénotent à côté des illustrations des saisons.
+
+**Accessibilité (mesuré dans le code)** : texte discret `encreFaible` à 2,2:1 de contraste (insuffisant), doré « légendaire » à 2,8:1 (insuffisant) ; textes de 9 à 11 px dans la fiche, l'équipe et les cartes d'objets ; aucun libellé pour lecteur d'écran (`Semantics`) sur avatars et pictogrammes ; boutons de 40 px de haut (48 recommandé).
+
+**Suites proposées** (une à la fois) : A accessibilité et lisibilité ; B boucle de la semaine (quêtes hebdomadaires payées en Bulles, bonus de connexion « 5 jours sur 7 », objet favori avec barre de progression) ; C succès de collection par saison ; D remplacement des objets permanents provisoires par des illustrations.
