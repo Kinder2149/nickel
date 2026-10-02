@@ -78,7 +78,7 @@ class _EcranEquipeState extends State<EcranEquipe> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('NIVEAU DE LA MAISON', style: TextStyle(fontSize: 10, letterSpacing: 1.5, color: Color(0xFFA29B85))),
+                const Text('NIVEAU DE LA MAISON', style: TextStyle(fontSize: 12, letterSpacing: 1.5, color: Color(0xFFA29B85))),
                 const SizedBox(height: 4),
                 Text('Niveau $niveauMaison · ${titreNiveau(niveauMaison)}',
                     style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Palette.papier)),
@@ -159,7 +159,7 @@ class _EcranEquipeState extends State<EcranEquipe> {
           children: [
             Text(valeur, style: const TextStyle(fontWeight: FontWeight.w900, color: Palette.encre)),
             const SizedBox(width: 4),
-            Flexible(child: Text(libelle, style: const TextStyle(fontSize: 11, color: Palette.encreDouce))),
+            Flexible(child: Text(libelle, style: const TextStyle(fontSize: 12, color: Palette.encreDouce))),
           ],
         ),
       );

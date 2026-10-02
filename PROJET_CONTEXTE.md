@@ -1785,3 +1785,11 @@ Règle habituelle : une mission à la fois, testée par Kinder (captures) avant 
 **Contenu** : un **pack « classiques »** d'illustrations (12 avatars, 4 couvertures) pris sur la même chaîne (`saison.py`, saison permanente sur 12 mois) ; les 17 objets provisoires sortent de la vente mais restent affichables pour qui les a déjà achetés (aucun achat perdu).
 **Validation** : le Marché permanent ne montre que des illustrations ; un joueur qui avait acheté un pictogramme le retrouve dans son profil.
 **Dépendances** : images à fournir (recherche par l'assistant de navigation, liens, accord de téléchargement).
+
+### Mission 1 faite — accessibilité et lisibilité — 2026-10-02 (en attente de test Kinder)
+
+- **Contrastes** : texte discret `encreFaible` 2,2 → 4,5+:1 (`#6D685B`), `encreDouce` assombri pour garder la hiérarchie (`#5C5849`), couleurs de texte de rareté dédiées (`couleurTexte` : doré assombri `#805D07`, bleu « rare » assombri `#2A64A5` ; les bordures et pictogrammes gardent les couleurs d'origine). Touche toute l'app (plus lisible partout).
+- **Tailles** : plus aucun texte sous 12 px dans le marché, la fiche, l'équipe, les fenêtres de fête et le guide.
+- **Cibles** : boutons du marché à 48 px de haut ; grille des cartes recalibrée.
+- **Lecteur d'écran** : avatars (« Avatar de Val : Balai »), aperçus d'objets (« Avatar Casque »), cartes (« Casque, Commun, 40 Bulles » + indication), emplacements de badges, barre d'XP (« 150 sur 200 points d'expérience »), icônes de succès décoratives masquées (le texte voisin les décrit).
+- **Garde-fous automatiques** (`test/accessibilite_test.dart`) : contrastes ≥ 4,5:1 sur les deux papiers (a attrapé le bleu « rare » à 4,2:1) ; cartes du marché sans débordement à police normale, x1,5 et x2 (7 états de bouton) ; boutons ≥ 48 px ; libellé de lecteur d'écran d'une carte. Tests : 21 verts (dont la simulation).

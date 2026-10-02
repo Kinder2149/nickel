@@ -6,8 +6,8 @@ class Palette {
   static const papier = Color(0xFFEFE7D6);
   static const papierClair = Color(0xFFF6EFDE);
   static const encre = Color(0xFF16150F);
-  static const encreDouce = Color(0xFF6B675A);
-  static const encreFaible = Color(0xFFA9A18D);
+  static const encreDouce = Color(0xFF5C5849);
+  static const encreFaible = Color(0xFF6D685B);
   static const trait = Color(0xFFD8CFB8);
   static const rouge = Color(0xFFB4321F);
   static const vert = Color(0xFF2E6B4E);

@@ -33,6 +33,15 @@ class ApercuObjet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nature = objet.type == TypeObjet.couverture ? 'Couverture' : 'Avatar';
+    return Semantics(
+      image: true,
+      label: '$nature ${objet.nom}',
+      child: ExcludeSemantics(child: _dessin()),
+    );
+  }
+
+  Widget _dessin() {
     if (objet.type == TypeObjet.couverture) {
       return Container(width: double.infinity, height: taille * 0.9, decoration: decorationCouverture(objet));
     }
@@ -68,7 +77,7 @@ class EtiquetteRarete extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
         rarete.libelle.toUpperCase(),
-        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1, color: rarete.couleur),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1, color: rarete.couleurTexte),
       );
 }
 
@@ -97,7 +106,7 @@ class BoutonObjet extends StatelessWidget {
   final String? nomSucces;
 
   Widget _etiquette(String texte, {Color couleur = Palette.encreDouce, IconData? icone}) => Container(
-        height: 40,
+        height: 48,
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 6),
         decoration: BoxDecoration(border: Border.all(color: Palette.trait, width: 1.5)),
@@ -106,7 +115,7 @@ class BoutonObjet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icone != null) ...[Icon(icone, size: 14, color: couleur), const SizedBox(width: 4)],
-            Flexible(child: Text(texte, maxLines: 2, textAlign: TextAlign.center, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: couleur))),
+            Flexible(child: Text(texte, maxLines: 2, textAlign: TextAlign.center, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: couleur))),
           ],
         ),
       );
@@ -118,21 +127,21 @@ class BoutonObjet extends StatelessWidget {
         return _etiquette('ÉQUIPÉ', couleur: Palette.vert, icone: Icons.check);
       case EtatObjet.possede:
         return SizedBox(
-          height: 40,
+          height: 48,
           width: double.infinity,
           child: OutlinedButton(
             onPressed: onEquiper,
-            style: boutonSecondaire().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(40))),
+            style: boutonSecondaire().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48))),
             child: const Text('ÉQUIPER', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, letterSpacing: 1)),
           ),
         );
       case EtatObjet.achetable:
         return SizedBox(
-          height: 40,
+          height: 48,
           width: double.infinity,
           child: ElevatedButton(
             onPressed: onAcheter,
-            style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(40))),
+            style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -174,7 +183,11 @@ class CarteObjet extends StatelessWidget {
       opacity: estompe ? 0.6 : 1,
       child: InkWell(
         onTap: onTap,
-        child: Container(
+        child: Semantics(
+          container: true,
+          label: '${objet.nom}, ${objet.rarete.libelle}${objet.prix > 0 ? ', ${objet.prix} Bulles' : ''}',
+          hint: 'Toucher pour voir la fiche',
+          child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: objet.rarete.couleur, width: 2)),
           child: Column(
@@ -187,6 +200,7 @@ class CarteObjet extends StatelessWidget {
               bouton,
             ],
           ),
+        ),
         ),
       ),
     );
@@ -207,7 +221,7 @@ class GrilleObjets extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      childAspectRatio: 0.7,
+      childAspectRatio: 0.62,
       children: enfants,
     );
   }

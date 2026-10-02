@@ -142,7 +142,7 @@ class _EcranRacineState extends State<EcranRacine> {
                         children: [
                           Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
                           Text(s.rarete.libelle.toUpperCase(),
-                              style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleur)),
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleurTexte)),
                           Text('${s.description} · +${bullesSucces(s.rarete)} Bulles', style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
                         ],
                       ),

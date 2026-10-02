@@ -78,7 +78,7 @@ class EcranGuide extends StatelessWidget {
                   children: [
                     Container(width: 10, height: 10, color: r.couleur),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(r.libelle, style: TextStyle(fontWeight: FontWeight.w700, color: r.couleur))),
+                    Expanded(child: Text(r.libelle, style: TextStyle(fontWeight: FontWeight.w700, color: r.couleurTexte))),
                     Text('${parRarete[r]} succès', style: const TextStyle(color: Palette.encreDouce)),
                   ],
                 ),
@@ -93,7 +93,7 @@ class EcranGuide extends StatelessWidget {
           _encart([
             Text('Montée de niveau : ${bullesNiveau(2)} Bulles au niveau 2, ${bullesNiveau(10)} au niveau 10', style: const TextStyle(color: Palette.encre)),
             for (final r in Rarete.values)
-              Text('Succès ${r.libelle.toLowerCase()} : ${bullesSucces(r)} Bulles', style: TextStyle(color: r.couleur, fontWeight: FontWeight.w600)),
+              Text('Succès ${r.libelle.toLowerCase()} : ${bullesSucces(r)} Bulles', style: TextStyle(color: r.couleurTexte, fontWeight: FontWeight.w600)),
             Text('Connexion : $bonusConnexionJour Bulles par jour, +$bonusConnexionHebdo le 7e jour de suite', style: const TextStyle(color: Palette.encre)),
             Text('Cadeau de saison : $dotationSaison Bulles à chaque nouvelle saison', style: const TextStyle(color: Palette.encre)),
           ]),

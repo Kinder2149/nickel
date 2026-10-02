@@ -32,7 +32,10 @@ class PastilleMembre extends StatelessWidget {
         final prenom = (membre?['prenom'] as String?) ?? '?';
         final initiale = Text(prenom.substring(0, 1).toUpperCase(),
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: taille * 0.4));
-        return Container(
+        return Semantics(
+          image: true,
+          label: 'Avatar de $prenom : ${avatar.nom}',
+          child: ExcludeSemantics(child: Container(
           width: taille,
           height: taille,
           alignment: Alignment.center,
@@ -51,6 +54,7 @@ class PastilleMembre extends StatelessWidget {
               : avatar.icone != null
                   ? Icon(avatar.icone, color: Colors.white, size: taille * 0.55)
                   : initiale,
+        )),
         );
       },
     );
@@ -72,6 +76,8 @@ class BarreXp extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         LinearProgressIndicator(
+          semanticsLabel: 'Progression vers le niveau suivant',
+          semanticsValue: '${p.dansNiveau} sur ${p.pourSuivant} points d\'expérience',
           value: p.pourSuivant == 0 ? 0 : p.dansNiveau / p.pourSuivant,
           minHeight: 10,
           color: couleur,
@@ -79,7 +85,7 @@ class BarreXp extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text('${p.dansNiveau} / ${p.pourSuivant} XP vers le niveau suivant',
-            style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
+            style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
       ],
     );
   }
@@ -245,6 +251,13 @@ class _EcranFicheState extends State<EcranFiche> {
   }
 
   Widget _emplacementBadge(Succes? s) {
+    return Semantics(
+      label: s == null ? 'Emplacement de badge vide' : 'Badge ${s.nom}, ${s.rarete.libelle}',
+      child: ExcludeSemantics(child: _caseBadge(s)),
+    );
+  }
+
+  Widget _caseBadge(Succes? s) {
     return Container(
       height: 84,
       decoration: BoxDecoration(
@@ -259,7 +272,7 @@ class _EcranFicheState extends State<EcranFiche> {
               children: [
                 Icon(s.icone, size: 30, color: s.rarete.couleur),
                 const SizedBox(height: 4),
-                Text(s.nom, textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Palette.encre)),
+                Text(s.nom, textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Palette.encre)),
               ],
             ),
     );
@@ -271,7 +284,7 @@ class _EcranFicheState extends State<EcranFiche> {
         children: [
           Text(valeur, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Palette.encre)),
           const SizedBox(height: 2),
-          Text(libelle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 10, color: Palette.encreDouce)),
+          Text(libelle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
         ],
       ),
     );
@@ -289,7 +302,7 @@ class _EcranFicheState extends State<EcranFiche> {
 
     Widget titre(String t) => Padding(
           padding: const EdgeInsets.only(top: 16, bottom: 6),
-          child: Text(t, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+          child: Text(t, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
         );
 
     return [
@@ -323,7 +336,7 @@ class _EcranFicheState extends State<EcranFiche> {
               color: Palette.papierClair,
               border: Border.all(color: debloque ? s.rarete.couleur : Palette.trait, width: debloque ? 2.5 : 1.5),
             ),
-            child: Icon(debloque ? s.icone : Icons.lock_outline, size: 24, color: debloque ? s.rarete.couleur : Palette.encreFaible),
+            child: ExcludeSemantics(child: Icon(debloque ? s.icone : Icons.lock_outline, size: 24, color: debloque ? s.rarete.couleur : Palette.encreFaible)),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -335,7 +348,7 @@ class _EcranFicheState extends State<EcranFiche> {
                     Flexible(child: Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre))),
                     const SizedBox(width: 8),
                     Text(s.rarete.libelle.toUpperCase(),
-                        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleur)),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleurTexte)),
                   ],
                 ),
                 Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
@@ -352,7 +365,7 @@ class _EcranFicheState extends State<EcranFiche> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Text('$valeur / ${s.objectif}', style: const TextStyle(fontSize: 11, color: Palette.encreDouce)),
+                      Text('$valeur / ${s.objectif}', style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
                     ],
                   ),
                 ],

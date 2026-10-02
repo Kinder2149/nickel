@@ -306,8 +306,8 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
           ),
           ElevatedButton(
             onPressed: () => _recupererCadeau(s),
-            style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size(90, 38))),
-            child: const Text('RÉCUPÉRER', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+            style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size(110, 48))),
+            child: const Text('RÉCUPÉRER', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
           ),
         ],
       ),
@@ -320,7 +320,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(etiquette, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+          Text(etiquette, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
           const SizedBox(height: 2),
           Text(titre, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Palette.encre)),
           Text(sousTitre, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),

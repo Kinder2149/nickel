@@ -190,11 +190,20 @@ extension LibelleRarete on Rarete {
         Rarete.legendaire => 'Légendaire',
       };
 
+  /// Bordures et pictogrammes.
   Color get couleur => switch (this) {
         Rarete.commun => const Color(0xFF6B675A),
         Rarete.rare => const Color(0xFF2F6FB5),
         Rarete.epique => const Color(0xFF8A3FC7),
         Rarete.legendaire => const Color(0xFFB8860B),
+      };
+
+  /// Texte : contraste ≥ 4,5:1 sur le papier (le doré est assombri).
+  Color get couleurTexte => switch (this) {
+        Rarete.commun => const Color(0xFF5C5849),
+        Rarete.rare => const Color(0xFF2A64A5),
+        Rarete.epique => const Color(0xFF8A3FC7),
+        Rarete.legendaire => const Color(0xFF805D07),
       };
 }
 
