@@ -69,6 +69,97 @@ class Objet {
   bool get estAchetable => prix > 0 && succesRequis == null;
 }
 
+DateTime _jour(String iso) {
+  final p = iso.split('-').map(int.parse).toList();
+  return DateTime(p[0], p[1], p[2]);
+}
+
+/// Une saison : une collection en vente pendant certains mois, CHAQUE ANNÉE.
+/// Les quatre saisons coupent l'année en trimestres (mois contigus, sans
+/// passer le 31 décembre).
+class Saison {
+  const Saison({required this.id, required this.nom, required this.theme, required this.debut, required this.mois});
+
+  factory Saison.depuisJson(Map<String, dynamic> j) => Saison(
+        id: j['id'] as String,
+        nom: j['nom'] as String,
+        theme: (j['theme'] as String?) ?? '',
+        debut: (j['debut'] as String?) ?? '0000-01-01',
+        mois: ((j['mois'] as List?) ?? List.generate(12, (i) => i + 1)).cast<int>(),
+      );
+
+  final String id;
+  final String nom;
+  final String theme;
+
+  /// Première sortie (« AAAA-MM-JJ ») : avant, la saison n'existe pas.
+  final String debut;
+
+  /// Mois de vente, chaque année (1 = janvier).
+  final List<int> mois;
+
+  /// En vente à cette date ? (déjà sortie ET dans ses mois)
+  bool enCours(DateTime maintenant) => !maintenant.isBefore(_jour(debut)) && mois.contains(maintenant.month);
+
+  /// Jamais encore sortie.
+  bool pasEncoreSortie(DateTime maintenant) => maintenant.isBefore(_jour(debut));
+
+  /// Dernier jour de la vente en cours.
+  DateTime fin(DateTime maintenant) => DateTime(maintenant.year, mois.last + 1, 0);
+
+  int joursRestants(DateTime maintenant) =>
+      fin(maintenant).difference(DateTime(maintenant.year, maintenant.month, maintenant.day)).inDays;
+
+  /// Premier jour de la prochaine vente (pour une saison hors vente).
+  DateTime prochainRetour(DateTime maintenant) {
+    final d = _jour(debut);
+    final ref = maintenant.isBefore(d) ? DateTime(d.year, d.month, d.day - 1) : DateTime(maintenant.year, maintenant.month, maintenant.day);
+    var jour = DateTime(ref.year, ref.month, ref.day + 1);
+    for (var i = 0; i < 800; i++) {
+      if (mois.contains(jour.month)) return jour;
+      jour = DateTime(jour.year, jour.month, jour.day + 1);
+    }
+    return jour;
+  }
+
+  /// Clé du cadeau de saison de l'année en cours (ex. « saison-1-hiver-2026 »).
+  String cleDotation(DateTime maintenant) => '$id-${maintenant.year}';
+}
+
+/// Saison d'un objet, ou null : objet PERMANENT (kit, boutique de lancement).
+Saison? saisonPour(String? id) {
+  for (final s in saisonsDistantes.value) {
+    if (s.id == id) return s;
+  }
+  return null;
+}
+
+/// À vendre en ce moment ? Un objet saisonnier ne l'est que pendant sa
+/// saison ; un objet permanent l'est toujours ; un exclusif ne l'est jamais
+/// (il se gagne).
+bool estEnVente(Objet o, DateTime maintenant) {
+  if (!o.estAchetable) return false;
+  final s = saisonPour(o.saison);
+  return s == null || s.enCours(maintenant);
+}
+
+/// Les états possibles d'un objet pour un joueur : décident du bouton.
+enum EtatObjet { equipe, possede, achetable, pasAssez, exclusif, horsSaison, bientot }
+
+EtatObjet etatObjet(
+  Objet o, {
+  required Set<String> possedes,
+  required String? equipeId,
+  required int solde,
+  required DateTime maintenant,
+}) {
+  if (possedes.contains(o.id)) return o.id == equipeId ? EtatObjet.equipe : EtatObjet.possede;
+  if (o.succesRequis != null) return EtatObjet.exclusif;
+  final s = saisonPour(o.saison);
+  if (s != null && !s.enCours(maintenant)) return s.pasEncoreSortie(maintenant) ? EtatObjet.bientot : EtatObjet.horsSaison;
+  return solde >= o.prix ? EtatObjet.achetable : EtatObjet.pasAssez;
+}
+
 /// Prix de la boutique selon la rareté (en Bulles).
 int prixParRarete(Rarete r) => switch (r) {
       Rarete.commun => 40,
@@ -131,10 +222,10 @@ int bullesDepensees(List<dynamic>? achats) {
   return tousLesObjets.where((o) => o.estAchetable && ids.contains(o.id)).fold(0, (a, o) => a + o.prix);
 }
 
-/// Solde = gagné − dépensé (jamais négatif : annuler une tâche peut faire
+/// Solde = gagné (niveaux, succès) + bonus (connexion, cadeaux de saison) − dépensé (jamais négatif : annuler une tâche peut faire
 /// redescendre le gagné sous le dépensé).
-int soldeBulles(int gagnees, List<dynamic>? achats) {
-  final solde = gagnees - bullesDepensees(achats);
+int soldeBulles(int gagnees, List<dynamic>? achats, {int bonus = 0}) {
+  final solde = gagnees + bonus - bullesDepensees(achats);
   return solde < 0 ? 0 : solde;
 }
 

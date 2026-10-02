@@ -3,7 +3,12 @@
     "id": "saison-3-ultimate",
     "nom": "Saison 3 — Ultimate",
     "theme": "Ultimate frisbee : le disque, le terrain, l'esprit du jeu",
-    "debut": "2027-04-01"
+    "debut": "2027-04-01",
+    "mois": [
+      4,
+      5,
+      6
+    ]
   },
   "style": "Flat graphic illustration in the style of a bold linocut / woodblock print. Thick dark ink outlines (#16150F), flat color fills, a limited palette of at most 5 colors per image built on cream paper tones with one or two vivid accents, subtle paper grain, slightly rough printed edges. Charming, characterful and a little fierce, like a collectible game emblem. No text, no letters, no watermark, no frame, no border.",
   "formatAvatar": "Format: square 1:1. A single character or emblem centered, filling about 70% of the frame with safe margins on every side, on a plain flat solid background of color {fond}. It will be cropped into a circle, so keep everything inside the central circle. One image only.",

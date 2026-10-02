@@ -23,6 +23,8 @@ const saisons = Object.fromEntries((catalogue.saisons ?? []).map((s) => [s.id, s
 const aujourdhui = new Date().toISOString().slice(0, 10);
 const RARETES = { commun: 'Commun', rare: 'Rare', epique: 'Épique', legendaire: 'Légendaire' };
 const COULEURS = { commun: '#6B675A', rare: '#2F6FB5', epique: '#8A3FC7', legendaire: '#B8860B' };
+const NOMS_MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const periode = (s) => (s?.mois?.length ? `en vente de ${NOMS_MOIS[s.mois[0] - 1]} à ${NOMS_MOIS[s.mois[s.mois.length - 1] - 1]}, chaque année` : '');
 const echapper = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 function commentObtenir(o) {
@@ -32,7 +34,7 @@ function commentObtenir(o) {
       ? `Se gagne (ne s'achète pas) : succès « ${s.nom} » — ${s.description}`
       : `Se gagne avec le succès « ${o.succesRequis} » (introuvable dans le jeu : à corriger)`;
   }
-  return o.prix > 0 ? `S'achète ${o.prix} Bulles à la boutique` : 'Gratuit';
+  return o.prix > 0 ? `S'achète ${o.prix} Bulles au marché, ${saisons[o.saison]?.mois ? 'seulement pendant sa saison' : 'toute l\'année'}` : 'Gratuit';
 }
 
 function apercu(o) {
@@ -56,7 +58,7 @@ const cartes = objets.map((o) => {
     <h3>${echapper(o.nom)}</h3>
     <p class="rarete" style="color:${COULEURS[o.rarete]}">${RARETES[o.rarete] ?? o.rarete} · ${o.type === 'avatar' ? 'Avatar' : 'Couverture'}</p>
     <p>${echapper(commentObtenir(o))}</p>
-    <p class="saison">${echapper(saison?.nom ?? o.saison ?? '—')}${pasSortie ? ` · <strong>pas encore sortie (le ${echapper(sortie)})</strong>` : ''}</p>
+    <p class="saison">${echapper(saison?.nom ?? o.saison ?? '—')}${saison?.mois ? ' · ' + echapper(periode(saison)) : ''}${pasSortie ? ` · <strong>pas encore sortie (le ${echapper(sortie)})</strong>` : ''}</p>
     <p class="id">${echapper(o.id)}</p>
   </article>`;
 }).join('\n');

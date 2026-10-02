@@ -143,7 +143,7 @@ class _EcranFicheState extends State<EcranFiche> {
     final debloques = succesDebloques(stats, contexte);
     final couverture = couverturePourId(membre['couverture'] as String?);
     final badges = badgesAffiches(membre['badges'] as List?, debloques);
-    final solde = soldeBulles(bullesGagnees(stats, debloques), membre['achats'] as List?);
+    final solde = soldeBulles(bullesGagnees(stats, debloques), membre['achats'] as List?, bonus: (membre['bullesBonus'] as int?) ?? 0);
 
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +159,7 @@ class _EcranFicheState extends State<EcranFiche> {
           ),
           if (_estMoi)
             IconButton(
-              tooltip: 'Boutique',
+              tooltip: 'Marché',
               icon: const Icon(Icons.storefront_outlined),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => EcranBoutique(maisonId: widget.maisonId, profil: widget.profil)),

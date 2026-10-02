@@ -10,6 +10,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'jeu.dart';
+
 final _db = FirebaseFirestore.instance;
 
 /// Profil local minimal : id = uid Firebase Auth, prénom choisi par
@@ -388,6 +390,50 @@ Future<void> acheterObjet(String maisonId, String membreId, String objetId) asyn
   await _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId).update({
     'achats': FieldValue.arrayUnion([objetId]),
   });
+}
+
+/// Bonus de connexion du jour : à appeler à l'ouverture de l'app. Une seule
+/// fois par jour (sinon renvoie 0). La série repart de 1 si un jour a été
+/// sauté. Transaction : deux appareils du même membre ne le comptent pas deux fois.
+Future<({int montant, int serie})> reclamerBonusConnexion(String maisonId, String membreId) {
+  final ref = _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId);
+  return _db.runTransaction((tx) async {
+    final data = (await tx.get(ref)).data() ?? {};
+    final aujourdhui = dateAujourdhui();
+    final derniere = data['derniereConnexion'] as String?;
+    final serieActuelle = (data['serieConnexion'] as int?) ?? 0;
+    if (derniere == aujourdhui) return (montant: 0, serie: serieActuelle);
+    final serie = derniere == ajouterJours(aujourdhui, -1) ? serieActuelle + 1 : 1;
+    final montant = bonusConnexion(serie);
+    tx.update(ref, {
+      'derniereConnexion': aujourdhui,
+      'serieConnexion': serie,
+      'bullesBonus': ((data['bullesBonus'] as int?) ?? 0) + montant,
+    });
+    return (montant: montant, serie: serie);
+  });
+}
+
+/// Cadeau de saison : une fois par clé (saison + année). Renvoie false s'il
+/// avait déjà été récupéré.
+Future<bool> reclamerDotationSaison(String maisonId, String membreId, String cle, int montant) {
+  final ref = _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId);
+  return _db.runTransaction((tx) async {
+    final data = (await tx.get(ref)).data() ?? {};
+    final deja = ((data['dotations'] as List?) ?? const []).whereType<String>().toList();
+    if (deja.contains(cle)) return false;
+    tx.update(ref, {
+      'dotations': [...deja, cle],
+      'bullesBonus': ((data['bullesBonus'] as int?) ?? 0) + montant,
+    });
+    return true;
+  });
+}
+
+/// Équipe un objet possédé : champ `avatar` ou `couverture` de sa fiche.
+Future<void> equiperObjet(String maisonId, String membreId, String champ, String objetId) async {
+  assert(champ == 'avatar' || champ == 'couverture');
+  await _db.collection('maisons').doc(maisonId).collection('membres').doc(membreId).update({champ: objetId});
 }
 
 /// Réinscrit ce profil dans sa maison sous l'identifiant actuel de

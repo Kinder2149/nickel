@@ -129,26 +129,73 @@ void main() {
     expect(boutique.every((o) => o.succesRequis == null || succes.any((x) => x.id == o.succesRequis)), true);
   });
 
-  test('catalogue distant : lecture, dates de sortie, objets mal formés', () {
+  test('catalogue distant : lecture, saisons, objets mal formés', () {
     const json = '''
-    {"saisons":[{"id":"a","debut":"2026-10-01"},{"id":"b","debut":"2026-12-21"}],
+    {"saisons":[{"id":"a","nom":"A","theme":"t","debut":"2026-10-01","mois":[10,11,12]},{"nom":"sans id"}],
      "objets":[
        {"id":"x","type":"avatar","nom":"X","rarete":"rare","prix":100,"image":"a/x.png","saison":"a"},
        {"id":"y","type":"couverture","nom":"Y","couleurs":["#112233","#445566"],"saison":"a"},
-       {"id":"futur","type":"avatar","nom":"F","saison":"b"},
        {"type":"avatar"}
      ]}''';
-    final objets = lireCatalogue(json, aujourdhui: '2026-10-15', base: 'https://h/');
-    expect(objets.map((o) => o.id), ['x', 'y']);
-    expect(objets.first.image, 'https://h/a/x.png');
-    expect(objets.last.couleurs!.length, 2);
-    expect(lireCatalogue(json, aujourdhui: '2026-12-21', base: '').map((o) => o.id), ['x', 'y', 'futur']);
+    final c = lireCatalogue(json, base: 'https://h/');
+    expect(c.saisons.map((s) => s.id), ['a']);
+    expect(c.objets.map((o) => o.id), ['x', 'y']);
+    expect(c.objets.first.image, 'https://h/a/x.png');
+    expect(c.objets.last.couleurs!.length, 2);
+  });
 
-    objetsDistants.value = objets;
-    expect(avatarPourId('x').rarete, Rarete.rare);
-    // un id local n'est jamais écrasé par le distant
-    objetsDistants.value = [const Objet(id: 'balai', type: TypeObjet.avatar, nom: 'Intrus', prix: 5)];
-    expect(avatarPourId('balai').nom, 'Balai');
-    objetsDistants.value = const [];
+  test('saison : trimestres qui reviennent chaque année', () {
+    const hiver = Saison(id: 'h', nom: 'H', theme: '', debut: '2026-10-01', mois: [10, 11, 12]);
+    const large = Saison(id: 'g', nom: 'G', theme: '', debut: '2027-01-01', mois: [1, 2, 3]);
+    expect(hiver.enCours(DateTime(2026, 10, 2)), true);
+    expect(hiver.enCours(DateTime(2026, 9, 30)), false);
+    expect(hiver.enCours(DateTime(2027, 1, 1)), false);
+    expect(hiver.enCours(DateTime(2027, 11, 15)), true, reason: 'revient la 2e année');
+    expect(large.enCours(DateTime(2026, 11, 1)), false, reason: 'pas encore sortie');
+    expect(large.pasEncoreSortie(DateTime(2026, 11, 1)), true);
+    expect(large.enCours(DateTime(2027, 2, 10)), true);
+    expect(large.enCours(DateTime(2027, 4, 1)), false);
+    expect(large.enCours(DateTime(2028, 1, 15)), true);
+
+    expect(hiver.fin(DateTime(2026, 10, 2)), DateTime(2026, 12, 31));
+    expect(hiver.joursRestants(DateTime(2026, 12, 30)), 1);
+    expect(large.prochainRetour(DateTime(2026, 10, 2)), DateTime(2027, 1, 1));
+    expect(large.prochainRetour(DateTime(2027, 4, 15)), DateTime(2028, 1, 1));
+    expect(hiver.prochainRetour(DateTime(2027, 1, 5)), DateTime(2027, 10, 1));
+    expect(hiver.cleDotation(DateTime(2026, 10, 2)), 'h-2026');
+  });
+
+  test('marché : en vente seulement pendant la saison, états des boutons', () {
+    saisonsDistantes.value = const [Saison(id: 'h', nom: 'H', theme: '', debut: '2026-10-01', mois: [10, 11, 12])];
+    const saisonnier = Objet(id: 's1', type: TypeObjet.avatar, nom: 'S', prix: 100, saison: 'h');
+    const permanent = Objet(id: 'p1', type: TypeObjet.avatar, nom: 'P', prix: 40, saison: 'lancement');
+    const exclusif = Objet(id: 'e1', type: TypeObjet.avatar, nom: 'E', succesRequis: 'cent');
+    final hiverDansLeTemps = DateTime(2026, 11, 3), horsSaison = DateTime(2027, 2, 3);
+
+    expect(estEnVente(saisonnier, hiverDansLeTemps), true);
+    expect(estEnVente(saisonnier, horsSaison), false);
+    expect(estEnVente(permanent, horsSaison), true, reason: 'permanent = toute l\'année');
+    expect(estEnVente(exclusif, hiverDansLeTemps), false);
+
+    EtatObjet etat(Objet o, DateTime d, {int solde = 500, Set<String> possedes = const {}, String? equipe}) =>
+        etatObjet(o, possedes: possedes, equipeId: equipe, solde: solde, maintenant: d);
+    expect(etat(saisonnier, hiverDansLeTemps), EtatObjet.achetable);
+    expect(etat(saisonnier, hiverDansLeTemps, solde: 30), EtatObjet.pasAssez);
+    expect(etat(saisonnier, horsSaison), EtatObjet.horsSaison);
+    expect(etat(saisonnier, DateTime(2026, 9, 1)), EtatObjet.bientot);
+    expect(etat(saisonnier, horsSaison, possedes: {'s1'}), EtatObjet.possede, reason: 'acheté = à soi pour toujours');
+    expect(etat(saisonnier, horsSaison, possedes: {'s1'}, equipe: 's1'), EtatObjet.equipe);
+    expect(etat(exclusif, hiverDansLeTemps), EtatObjet.exclusif);
+    saisonsDistantes.value = const [];
+  });
+
+  test('bonus de connexion et solde avec bonus', () {
+    expect(bonusConnexion(1), 2);
+    expect(bonusConnexion(6), 2);
+    expect(bonusConnexion(7), 12);
+    expect(bonusConnexion(8), 2);
+    expect(bonusConnexion(14), 12);
+    expect(soldeBulles(100, ['casque'], bonus: 30), 100 + 30 - 40);
+    expect(soldeBulles(0, null, bonus: 12), 12);
   });
 }

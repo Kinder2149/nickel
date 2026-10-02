@@ -1,10 +1,15 @@
-// NICKEL — catalogue distant (§ 27, étape 3).
+// NICKEL — catalogue distant (§ 27).
 //
-// Les nouveaux objets (saisons, exclusivités) vivent dans `catalogue.json`
-// sur l'hébergement Firebase, avec leurs images : ils arrivent sur les
-// téléphones sans réinstaller l'application. Le catalogue est gardé en cache
-// sur l'appareil ; hors connexion, on affiche le dernier catalogue connu,
-// et à défaut le kit gratuit et la boutique de lancement embarqués.
+// Les objets des saisons vivent dans `catalogue.json` sur l'hébergement
+// Firebase, avec leurs images : ils arrivent sur les téléphones sans
+// réinstaller l'application. Le catalogue est gardé en cache sur l'appareil ;
+// hors connexion, on affiche le dernier catalogue connu, et à défaut le kit
+// gratuit et la boutique de lancement embarqués.
+//
+// Le catalogue contient TOUS les objets, y compris ceux d'une saison hors
+// vente : un objet déjà possédé doit toujours pouvoir s'afficher et
+// s'équiper. C'est `estEnVente` (catalogue.dart) qui décide ce qu'on peut
+// acheter à une date donnée.
 
 import 'dart:convert';
 import 'dart:io';
@@ -13,7 +18,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'catalogue.dart';
-import 'donnees.dart';
 
 /// Dossier du pack « Chez nous » sur l'hébergement. Supprimer ce dossier
 /// (puis redéployer) retire tout le contenu distant.
@@ -21,29 +25,40 @@ const urlCatalogue = 'https://nickel-menage-57692.web.app/catalogue/chez-nous/';
 
 const _cleCache = 'nickel-catalogue-cache';
 
-/// Objets distants actuellement connus (déjà filtrés sur leur date de sortie).
+/// Objets distants connus (toutes saisons).
 final ValueNotifier<List<Objet>> objetsDistants = ValueNotifier(const []);
 
-/// Lit un catalogue JSON : ne garde que les objets dont la saison est déjà
-/// sortie à la date `aujourdhui` (« AAAA-MM-JJ »). Un objet illisible est
-/// ignoré, il ne casse pas les autres.
-List<Objet> lireCatalogue(String json, {required String aujourdhui, String base = ''}) {
+/// Saisons distantes connues.
+final ValueNotifier<List<Saison>> saisonsDistantes = ValueNotifier(const []);
+
+class CatalogueLu {
+  const CatalogueLu(this.saisons, this.objets);
+  final List<Saison> saisons;
+  final List<Objet> objets;
+}
+
+/// Lit un catalogue JSON. Un objet ou une saison mal formé est ignoré, il ne
+/// casse pas les autres.
+CatalogueLu lireCatalogue(String json, {String base = ''}) {
   final data = jsonDecode(json) as Map<String, dynamic>;
-  final debuts = {
-    for (final s in (data['saisons'] as List? ?? const []).whereType<Map<String, dynamic>>())
-      s['id'] as String: (s['debut'] as String?) ?? '0000-00-00',
-  };
+  final saisons = <Saison>[];
+  for (final j in (data['saisons'] as List? ?? const []).whereType<Map<String, dynamic>>()) {
+    try {
+      saisons.add(Saison.depuisJson(j));
+    } catch (_) {}
+  }
   final objets = <Objet>[];
   for (final j in (data['objets'] as List? ?? const []).whereType<Map<String, dynamic>>()) {
     try {
-      final o = Objet.depuisJson(j, base: base);
-      final debut = debuts[o.saison] ?? '0000-00-00';
-      if (debut.compareTo(aujourdhui) <= 0) objets.add(o);
-    } catch (_) {
-      // objet mal formé : ignoré
-    }
+      objets.add(Objet.depuisJson(j, base: base));
+    } catch (_) {}
   }
-  return objets;
+  return CatalogueLu(saisons, objets);
+}
+
+void _appliquer(CatalogueLu c) {
+  saisonsDistantes.value = c.saisons;
+  objetsDistants.value = c.objets;
 }
 
 /// Charge le cache local (instantané), puis tente de rafraîchir depuis
@@ -53,7 +68,7 @@ Future<void> chargerCatalogue() async {
   final cache = prefs.getString(_cleCache);
   if (cache != null) {
     try {
-      objetsDistants.value = lireCatalogue(cache, aujourdhui: dateAujourdhui(), base: urlCatalogue);
+      _appliquer(lireCatalogue(cache, base: urlCatalogue));
     } catch (_) {}
   }
 
@@ -64,9 +79,9 @@ Future<void> chargerCatalogue() async {
       final reponse = await requete.close().timeout(const Duration(seconds: 10));
       if (reponse.statusCode != 200) return;
       final corps = await reponse.transform(utf8.decoder).join();
-      final objets = lireCatalogue(corps, aujourdhui: dateAujourdhui(), base: urlCatalogue); // valide avant de garder
+      final lu = lireCatalogue(corps, base: urlCatalogue); // valide avant de garder
       await prefs.setString(_cleCache, corps);
-      objetsDistants.value = objets;
+      _appliquer(lu);
     } finally {
       client.close();
     }

@@ -6,25 +6,45 @@
       "id": "saison-1-hiver",
       "nom": "Saison 1 — Hiver",
       "theme": "Trônes et dragons",
-      "debut": "2026-10-01"
+      "debut": "2026-10-01",
+      "mois": [
+        10,
+        11,
+        12
+      ]
     },
     {
       "id": "saison-2-grand-large",
       "nom": "Saison 2 — Grand large",
       "theme": "One Piece : la mer, l'équipage, la piraterie",
-      "debut": "2027-01-01"
+      "debut": "2027-01-01",
+      "mois": [
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": "saison-3-ultimate",
       "nom": "Saison 3 — Ultimate",
       "theme": "Ultimate frisbee : le disque, le terrain, l'esprit du jeu",
-      "debut": "2027-04-01"
+      "debut": "2027-04-01",
+      "mois": [
+        4,
+        5,
+        6
+      ]
     },
     {
       "id": "saison-4-electro",
       "nom": "Saison 4 — Électro",
       "theme": "Musique : platines, techno, Chinese Man, Les Kassos",
-      "debut": "2027-07-01"
+      "debut": "2027-07-01",
+      "mois": [
+        7,
+        8,
+        9
+      ]
     }
   ],
   "objets": [

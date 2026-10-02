@@ -37,6 +37,7 @@ class _EcranRacineState extends State<EcranRacine> {
   final _recus = <String>{};
   final _abonnements = <StreamSubscription>[];
   bool _celebrationOuverte = false;
+  bool _bonusDemande = false;
 
   String get _cleVu => 'nickel-vu-${widget.maisonId}-${widget.profil.id}';
 
@@ -47,6 +48,7 @@ class _EcranRacineState extends State<EcranRacine> {
     _abonnements.add(ecouterMembres(widget.maisonId).listen((m) {
       _membres = m;
       _recus.add('membres');
+      _bonusConnexion();
       _verifierProgression();
     }));
     _abonnements.add(ecouterTaches(widget.maisonId).listen((t) {
@@ -67,6 +69,24 @@ class _EcranRacineState extends State<EcranRacine> {
       a.cancel();
     }
     super.dispose();
+  }
+
+  /// Bonus de connexion : une fois par jour, dès que la fiche du membre est
+  /// connue. Silencieux s'il est déjà pris aujourd'hui.
+  Future<void> _bonusConnexion() async {
+    if (_bonusDemande || !_membres.any((m) => m['id'] == widget.profil.id)) return;
+    _bonusDemande = true;
+    try {
+      final r = await reclamerBonusConnexion(widget.maisonId, widget.profil.id);
+      if (r.montant > 0 && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Bonus de connexion : +${r.montant} Bulles · ${r.serie} jour${r.serie > 1 ? 's' : ''} de suite'),
+        ));
+      }
+    } catch (_) {
+      // hors connexion : on réessaiera à la prochaine ouverture
+      _bonusDemande = false;
+    }
   }
 
   Future<void> _verifierProgression() async {
