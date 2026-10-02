@@ -1,0 +1,269 @@
+{
+  "saison": {
+    "id": "saison-4-electro",
+    "nom": "Saison 4 — Électro",
+    "theme": "Musique : platines, techno, Chinese Man, Les Kassos",
+    "debut": "2027-07-01"
+  },
+  "style": "Flat graphic illustration in the style of a bold linocut / woodblock print. Thick dark ink outlines (#16150F), flat color fills, a limited palette of at most 5 colors per image built on cream paper tones with one or two vivid accents, subtle paper grain, slightly rough printed edges. Charming, characterful and a little fierce, like a collectible game emblem. No text, no letters, no watermark, no frame, no border.",
+  "formatAvatar": "Format: square 1:1. A single character or emblem centered, filling about 70% of the frame with safe margins on every side, on a plain flat solid background of color {fond}. It will be cropped into a circle, so keep everything inside the central circle. One image only.",
+  "formatCouverture": "Format: wide banner 16:9. Keep the key subject inside the middle horizontal band (central 40% of the height) because the top and bottom will be cropped. Atmospheric wide scene, no close-up faces. One image only.",
+  "objets": [
+    {
+      "n": 1,
+      "id": "vinyle",
+      "type": "avatar",
+      "nom": "Le vinyle",
+      "rarete": "commun",
+      "sujet": "Un disque vinyle en illustration ou emblème (sillons, étiquette centrale), seul, bien centré.",
+      "recherche": {
+        "decrit": "Un disque vinyle en illustration ou emblème (sillons, étiquette centrale), seul, bien centré.",
+        "requetes": [
+          "vinyl record flat illustration",
+          "vinyl record sticker art",
+          "disque vinyle illustration"
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "id": "casque",
+      "type": "avatar",
+      "nom": "Le casque",
+      "rarete": "commun",
+      "sujet": "Un casque audio de DJ en illustration stylisée, façon sticker.",
+      "recherche": {
+        "decrit": "Un casque audio de DJ en illustration stylisée, façon sticker.",
+        "requetes": [
+          "dj headphones flat illustration sticker",
+          "headphones icon art colorful",
+          "casque dj illustration"
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "id": "cassette",
+      "type": "avatar",
+      "nom": "La cassette",
+      "rarete": "commun",
+      "sujet": "Une cassette audio rétro en illustration stylisée, façon sticker ou emblème.",
+      "recherche": {
+        "decrit": "Une cassette audio rétro en illustration stylisée, façon sticker ou emblème.",
+        "requetes": [
+          "cassette tape flat illustration retro",
+          "mixtape cassette sticker art",
+          "cassette audio illustration rétro"
+        ]
+      }
+    },
+    {
+      "n": 4,
+      "id": "enceinte",
+      "type": "avatar",
+      "nom": "L'enceinte",
+      "rarete": "commun",
+      "sujet": "Une grosse enceinte / un sound system en illustration stylisée, façon sticker.",
+      "recherche": {
+        "decrit": "Une grosse enceinte / un sound system en illustration stylisée, façon sticker.",
+        "requetes": [
+          "speaker sound system flat illustration sticker",
+          "loudspeaker retro illustration art",
+          "enceinte sono illustration"
+        ]
+      }
+    },
+    {
+      "n": 5,
+      "id": "platine",
+      "type": "avatar",
+      "nom": "La platine",
+      "rarete": "rare",
+      "sujet": "Une platine vinyle de DJ en illustration stylisée, vue du dessus ou de trois quarts.",
+      "recherche": {
+        "decrit": "Une platine vinyle de DJ en illustration stylisée, vue du dessus ou de trois quarts.",
+        "requetes": [
+          "dj turntable flat illustration",
+          "turntable vinyl illustration sticker",
+          "platine vinyle dj illustration"
+        ]
+      }
+    },
+    {
+      "n": 6,
+      "id": "boite-a-rythmes",
+      "type": "avatar",
+      "nom": "La boîte à rythmes",
+      "rarete": "rare",
+      "sujet": "Une boîte à rythmes de type TR-808 en illustration stylisée (pads et boutons colorés).",
+      "recherche": {
+        "decrit": "Une boîte à rythmes de type TR-808 en illustration stylisée (pads et boutons colorés).",
+        "requetes": [
+          "tr-808 drum machine illustration",
+          "drum machine flat illustration retro",
+          "boîte à rythmes 808 illustration"
+        ]
+      }
+    },
+    {
+      "n": 7,
+      "id": "synthe",
+      "type": "avatar",
+      "nom": "Le synthé",
+      "rarete": "rare",
+      "sujet": "Un synthétiseur analogique (clavier et boutons) en illustration stylisée.",
+      "recherche": {
+        "decrit": "Un synthétiseur analogique (clavier et boutons) en illustration stylisée.",
+        "requetes": [
+          "analog synthesizer flat illustration",
+          "synth keyboard retro illustration sticker",
+          "synthétiseur illustration"
+        ]
+      }
+    },
+    {
+      "n": 8,
+      "id": "micro",
+      "type": "avatar",
+      "nom": "Le micro",
+      "rarete": "rare",
+      "sujet": "Un micro de chanteur / MC rétro en illustration stylisée, façon sticker.",
+      "recherche": {
+        "decrit": "Un micro de chanteur / MC rétro en illustration stylisée, façon sticker.",
+        "requetes": [
+          "retro microphone flat illustration sticker",
+          "vintage mic illustration art",
+          "micro rétro illustration"
+        ]
+      }
+    },
+    {
+      "n": 9,
+      "id": "chinese-man",
+      "type": "avatar",
+      "nom": "Chinese Man",
+      "rarete": "epique",
+      "sujet": "Le visuel / logo / pochette du groupe Chinese Man (Chinese Man Records, trip-hop / hip-hop de Marseille), en illustration ou emblème net.",
+      "recherche": {
+        "decrit": "Le visuel / logo / pochette du groupe Chinese Man (Chinese Man Records, trip-hop / hip-hop de Marseille), en illustration ou emblème net.",
+        "requetes": [
+          "chinese man records logo",
+          "chinese man groupe marseille illustration",
+          "chinese man the groove sessions artwork"
+        ]
+      }
+    },
+    {
+      "n": 10,
+      "id": "les-kassos",
+      "type": "avatar",
+      "nom": "Les Kassos",
+      "rarete": "epique",
+      "sujet": "Le visuel / logo / illustration des Kassos (vidéos et musiques sur Canal+ et YouTube), en emblème ou illustration nette.",
+      "recherche": {
+        "decrit": "Le visuel / logo / illustration des Kassos (vidéos et musiques sur Canal+ et YouTube), en emblème ou illustration nette.",
+        "requetes": [
+          "les kassos logo",
+          "les kassos canal+ illustration",
+          "les kassos fan art"
+        ]
+      }
+    },
+    {
+      "n": 11,
+      "id": "dj",
+      "type": "avatar",
+      "nom": "Le DJ en action",
+      "rarete": "epique",
+      "sujet": "Un DJ derrière ses platines, mains levées ou casque sur l'oreille, illustration dynamique et stylisée (silhouette bienvenue).",
+      "recherche": {
+        "decrit": "Un DJ derrière ses platines, mains levées ou casque sur l'oreille, illustration dynamique et stylisée (silhouette bienvenue).",
+        "requetes": [
+          "dj illustration flat art platines",
+          "dj silhouette vector illustration",
+          "dj en action illustration"
+        ]
+      }
+    },
+    {
+      "n": 12,
+      "id": "disque-d-or",
+      "type": "avatar",
+      "nom": "Le disque d'or",
+      "rarete": "legendaire",
+      "sujet": "Un disque d'or encadré ou posé sur un mur, emblème de réussite musicale, brillant, bien centré.",
+      "recherche": {
+        "decrit": "Un disque d'or encadré ou posé sur un mur, emblème de réussite musicale, brillant, bien centré.",
+        "requetes": [
+          "gold record award illustration",
+          "golden vinyl award flat art",
+          "disque d'or illustration"
+        ]
+      }
+    },
+    {
+      "n": 13,
+      "id": "laser-et-fumee",
+      "type": "couverture",
+      "nom": "Lasers et fumée",
+      "rarete": "commun",
+      "sujet": "Un club ou une salle de concert, faisceaux de lasers colorés dans la fumée. Format panoramique.",
+      "recherche": {
+        "decrit": "Un club ou une salle de concert, faisceaux de lasers colorés dans la fumée. Format panoramique.",
+        "requetes": [
+          "laser lights club smoke wallpaper",
+          "rave lasers fog wallpaper",
+          "lasers fumée club fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 14,
+      "id": "festival-de-nuit",
+      "type": "couverture",
+      "nom": "Le festival de nuit",
+      "rarete": "rare",
+      "sujet": "Une grande scène de festival techno de nuit, projecteurs, silhouette de DJ. Format panoramique.",
+      "recherche": {
+        "decrit": "Une grande scène de festival techno de nuit, projecteurs, silhouette de DJ. Format panoramique.",
+        "requetes": [
+          "techno festival night stage wallpaper",
+          "edm festival stage lights wallpaper",
+          "festival techno scène nuit fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 15,
+      "id": "synthwave",
+      "type": "couverture",
+      "nom": "Néon synthwave",
+      "rarete": "epique",
+      "sujet": "Une ville ou une route au style synthwave / rétrofuturiste : soleil rayé, grille néon, violets et roses. Format panoramique.",
+      "recherche": {
+        "decrit": "Une ville ou une route au style synthwave / rétrofuturiste : soleil rayé, grille néon, violets et roses. Format panoramique.",
+        "requetes": [
+          "synthwave sunset grid wallpaper",
+          "retrowave neon city wallpaper",
+          "synthwave fond d'écran néon"
+        ]
+      }
+    },
+    {
+      "n": 16,
+      "id": "mer-de-bras",
+      "type": "couverture",
+      "nom": "La mer de bras levés",
+      "rarete": "legendaire",
+      "sujet": "Une foule de concert vue de dos, bras levés devant une scène éclatante de lumière. Format panoramique.",
+      "recherche": {
+        "decrit": "Une foule de concert vue de dos, bras levés devant une scène éclatante de lumière. Format panoramique.",
+        "requetes": [
+          "concert crowd hands up wallpaper stage lights",
+          "festival crowd silhouette wallpaper",
+          "foule concert bras levés fond d'écran"
+        ]
+      }
+    }
+  ]
+}
