@@ -31,10 +31,17 @@ final ValueNotifier<List<Objet>> objetsDistants = ValueNotifier(const []);
 /// Saisons distantes connues.
 final ValueNotifier<List<Saison>> saisonsDistantes = ValueNotifier(const []);
 
+/// Objets retirés de la vente par le catalogue (liste `retires`) : on ne peut
+/// plus les acheter, mais ceux qui les possèdent les gardent. Piloté depuis
+/// l'hébergement : retirer ou remettre un objet ne demande pas de nouvelle
+/// version de l'application.
+final ValueNotifier<Set<String>> idsRetires = ValueNotifier(const {});
+
 class CatalogueLu {
-  const CatalogueLu(this.saisons, this.objets);
+  const CatalogueLu(this.saisons, this.objets, [this.retires = const {}]);
   final List<Saison> saisons;
   final List<Objet> objets;
+  final Set<String> retires;
 }
 
 /// Lit un catalogue JSON. Un objet ou une saison mal formé est ignoré, il ne
@@ -53,11 +60,13 @@ CatalogueLu lireCatalogue(String json, {String base = ''}) {
       objets.add(Objet.depuisJson(j, base: base));
     } catch (_) {}
   }
-  return CatalogueLu(saisons, objets);
+  final retires = (data['retires'] as List? ?? const []).whereType<String>().toSet();
+  return CatalogueLu(saisons, objets, retires);
 }
 
 void _appliquer(CatalogueLu c) {
   saisonsDistantes.value = c.saisons;
+  idsRetires.value = c.retires;
   objetsDistants.value = c.objets;
 }
 

@@ -1,0 +1,295 @@
+{
+  "saison": {
+    "id": "classiques",
+    "nom": "Les classiques — Tech et IA",
+    "theme": "Marché permanent : technologie, IA et jeu vidéo",
+    "debut": "2026-10-01",
+    "mois": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "style": "Flat graphic illustration in the style of a bold linocut / woodblock print. Thick dark ink outlines (#16150F), flat color fills, a limited palette of at most 5 colors per image built on cream paper tones with one or two vivid accents, subtle paper grain, slightly rough printed edges. Charming, characterful and a little fierce, like a collectible game emblem. No text, no letters, no watermark, no frame, no border.",
+  "formatAvatar": "Format: square 1:1. A single character or emblem centered, filling about 70% of the frame with safe margins on every side, on a plain flat solid background of color {fond}. It will be cropped into a circle, so keep everything inside the central circle. One image only.",
+  "formatCouverture": "Format: wide banner 16:9. Keep the key subject inside the middle horizontal band (central 40% of the height) because the top and bottom will be cropped. Atmospheric wide scene, no close-up faces. One image only.",
+  "objets": [
+    {
+      "n": 1,
+      "id": "robot-retro",
+      "type": "avatar",
+      "nom": "Robot rétro",
+      "rarete": "commun",
+      "fond": "#9DB8C9",
+      "sujet": "Un petit robot rétro-futuriste mignon (tôle, antenne, yeux ronds), en illustration ou sticker, bien centré.",
+      "recherche": {
+        "decrit": "Un petit robot rétro-futuriste mignon (tôle, antenne, yeux ronds), en illustration ou sticker, bien centré.",
+        "requetes": [
+          "cute retro robot flat illustration sticker",
+          "vintage tin robot illustration",
+          "robot rétro mignon illustration"
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "id": "processeur",
+      "type": "avatar",
+      "nom": "Le processeur",
+      "rarete": "commun",
+      "fond": "#2E6B4E",
+      "sujet": "Une puce électronique / processeur (CPU) en illustration colorée, façon sticker ou emblème.",
+      "recherche": {
+        "decrit": "Une puce électronique / processeur (CPU) en illustration colorée, façon sticker ou emblème.",
+        "requetes": [
+          "cpu processor chip flat illustration sticker",
+          "microchip colorful illustration icon",
+          "processeur puce électronique illustration"
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "id": "clavier",
+      "type": "avatar",
+      "nom": "Le clavier",
+      "rarete": "commun",
+      "fond": "#C77DFF",
+      "sujet": "Un clavier mécanique aux touches colorées en illustration stylisée, sticker ou icône.",
+      "recherche": {
+        "decrit": "Un clavier mécanique aux touches colorées en illustration stylisée, sticker ou icône.",
+        "requetes": [
+          "mechanical keyboard flat illustration sticker",
+          "colorful keyboard illustration art",
+          "clavier mécanique illustration sticker"
+        ]
+      }
+    },
+    {
+      "n": 4,
+      "id": "manette",
+      "type": "avatar",
+      "nom": "La manette",
+      "rarete": "commun",
+      "fond": "#5AA9E6",
+      "sujet": "Une manette de jeu vidéo en illustration colorée, façon sticker ou icône.",
+      "recherche": {
+        "decrit": "Une manette de jeu vidéo en illustration colorée, façon sticker ou icône.",
+        "requetes": [
+          "game controller flat illustration sticker",
+          "gamepad colorful illustration art",
+          "manette de jeu illustration sticker"
+        ]
+      }
+    },
+    {
+      "n": 5,
+      "id": "cerveau-ia",
+      "type": "avatar",
+      "nom": "Le cerveau IA",
+      "rarete": "rare",
+      "fond": "#2B3340",
+      "sujet": "Un cerveau d'intelligence artificielle : cerveau stylisé avec circuits et neurones lumineux, en illustration.",
+      "recherche": {
+        "decrit": "Un cerveau d'intelligence artificielle : cerveau stylisé avec circuits et neurones lumineux, en illustration.",
+        "requetes": [
+          "ai brain circuit illustration flat",
+          "artificial intelligence brain neural network art",
+          "cerveau intelligence artificielle illustration"
+        ]
+      }
+    },
+    {
+      "n": 6,
+      "id": "drone",
+      "type": "avatar",
+      "nom": "Le drone",
+      "rarete": "rare",
+      "fond": "#7A8CA0",
+      "sujet": "Un drone quadricoptère en illustration stylisée, façon sticker ou emblème.",
+      "recherche": {
+        "decrit": "Un drone quadricoptère en illustration stylisée, façon sticker ou emblème.",
+        "requetes": [
+          "quadcopter drone flat illustration sticker",
+          "drone illustration colorful art",
+          "drone illustration sticker"
+        ]
+      }
+    },
+    {
+      "n": 7,
+      "id": "terminal",
+      "type": "avatar",
+      "nom": "Le terminal",
+      "rarete": "rare",
+      "fond": "#16150F",
+      "sujet": "Un écran de terminal avec du code vert sur fond noir, en illustration ou icône stylisée.",
+      "recherche": {
+        "decrit": "Un écran de terminal avec du code vert sur fond noir, en illustration ou icône stylisée.",
+        "requetes": [
+          "terminal code screen flat illustration icon",
+          "hacker terminal green code illustration",
+          "terminal écran code illustration"
+        ]
+      }
+    },
+    {
+      "n": 8,
+      "id": "casque-vr",
+      "type": "avatar",
+      "nom": "Le casque VR",
+      "rarete": "rare",
+      "fond": "#6A4A8A",
+      "sujet": "Un casque de réalité virtuelle en illustration futuriste stylisée, sticker ou emblème.",
+      "recherche": {
+        "decrit": "Un casque de réalité virtuelle en illustration futuriste stylisée, sticker ou emblème.",
+        "requetes": [
+          "vr headset flat illustration sticker",
+          "virtual reality headset colorful art",
+          "casque réalité virtuelle illustration"
+        ]
+      }
+    },
+    {
+      "n": 9,
+      "id": "robot-geant",
+      "type": "avatar",
+      "nom": "Le robot géant",
+      "rarete": "epique",
+      "fond": "#3B4A5A",
+      "sujet": "Un robot géant façon mecha, imposant, en illustration stylisée ou emblème, bien centré.",
+      "recherche": {
+        "decrit": "Un robot géant façon mecha, imposant, en illustration stylisée ou emblème, bien centré.",
+        "requetes": [
+          "giant mecha robot illustration flat",
+          "mecha robot emblem art stylized",
+          "robot géant mecha illustration"
+        ]
+      }
+    },
+    {
+      "n": 10,
+      "id": "vaisseau",
+      "type": "avatar",
+      "nom": "Le vaisseau",
+      "rarete": "epique",
+      "fond": "#1B2A49",
+      "sujet": "Un vaisseau spatial en illustration stylisée, sticker ou emblème centré, couleurs vives.",
+      "recherche": {
+        "decrit": "Un vaisseau spatial en illustration stylisée, sticker ou emblème centré, couleurs vives.",
+        "requetes": [
+          "spaceship flat illustration sticker",
+          "retro spaceship colorful illustration art",
+          "vaisseau spatial illustration sticker"
+        ]
+      }
+    },
+    {
+      "n": 11,
+      "id": "assistant-ia",
+      "type": "avatar",
+      "nom": "L'assistant IA",
+      "rarete": "epique",
+      "fond": "#4B2E5E",
+      "sujet": "Un assistant IA en hologramme : silhouette ou visage lumineux bleu fait de lumière et de lignes de code, en illustration.",
+      "recherche": {
+        "decrit": "Un assistant IA en hologramme : silhouette ou visage lumineux bleu fait de lumière et de lignes de code, en illustration.",
+        "requetes": [
+          "ai assistant hologram illustration",
+          "hologram artificial intelligence avatar art",
+          "assistant ia hologramme illustration"
+        ]
+      }
+    },
+    {
+      "n": 12,
+      "id": "dragon-mecanique",
+      "type": "avatar",
+      "nom": "Le dragon mécanique",
+      "rarete": "legendaire",
+      "fond": "#7A5A12",
+      "sujet": "Un dragon mécanique fait d'engrenages et de métal, mi-machine mi-créature légendaire, imposant, en illustration ou emblème.",
+      "recherche": {
+        "decrit": "Un dragon mécanique fait d'engrenages et de métal, mi-machine mi-créature légendaire, imposant, en illustration ou emblème.",
+        "requetes": [
+          "mechanical dragon illustration",
+          "steampunk cyber dragon emblem art",
+          "dragon mécanique illustration"
+        ]
+      }
+    },
+    {
+      "n": 13,
+      "id": "matrice-de-code",
+      "type": "couverture",
+      "nom": "La matrice de code",
+      "rarete": "commun",
+      "sujet": "Une cascade de code vert façon matrice sur fond noir, ambiance informatique. Format panoramique.",
+      "recherche": {
+        "decrit": "Une cascade de code vert façon matrice sur fond noir, ambiance informatique. Format panoramique.",
+        "requetes": [
+          "matrix green code rain wallpaper",
+          "digital code rain wallpaper green black",
+          "matrice code vert fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 14,
+      "id": "ville-cyberpunk",
+      "type": "couverture",
+      "nom": "La ville cyberpunk",
+      "rarete": "rare",
+      "sujet": "Une ville cyberpunk de nuit sous la pluie, néons bleus et roses, hauts immeubles. Format panoramique.",
+      "recherche": {
+        "decrit": "Une ville cyberpunk de nuit sous la pluie, néons bleus et roses, hauts immeubles. Format panoramique.",
+        "requetes": [
+          "cyberpunk city rain night wallpaper",
+          "cyberpunk street neon rain wallpaper illustration",
+          "ville cyberpunk nuit pluie fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 15,
+      "id": "station-orbitale",
+      "type": "couverture",
+      "nom": "La station orbitale",
+      "rarete": "epique",
+      "sujet": "Une station spatiale en orbite devant une planète et des étoiles. Format panoramique.",
+      "recherche": {
+        "decrit": "Une station spatiale en orbite devant une planète et des étoiles. Format panoramique.",
+        "requetes": [
+          "space station orbit planet wallpaper",
+          "orbital station sci-fi wallpaper illustration",
+          "station spatiale orbite fond d'écran"
+        ]
+      }
+    },
+    {
+      "n": 16,
+      "id": "coeur-quantique",
+      "type": "couverture",
+      "nom": "Le cœur quantique",
+      "rarete": "legendaire",
+      "sujet": "L'intérieur lumineux d'un ordinateur quantique ou d'un réseau de neurones géant : fils, lumières dorées et bleues, très riche. Format panoramique.",
+      "recherche": {
+        "decrit": "L'intérieur lumineux d'un ordinateur quantique ou d'un réseau de neurones géant : fils, lumières dorées et bleues, très riche. Format panoramique.",
+        "requetes": [
+          "quantum computer glowing wallpaper",
+          "neural network glowing digital wallpaper",
+          "ordinateur quantique fond d'écran lumineux"
+        ]
+      }
+    }
+  ]
+}

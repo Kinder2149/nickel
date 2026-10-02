@@ -303,4 +303,32 @@ void main() {
     saisonsDistantes.value = const [];
     objetsDistants.value = const [];
   });
+
+  test('marché permanent : saison de 12 mois et objets retirés de la vente', () {
+    final classiques = Saison(id: 'classiques', nom: 'C', theme: '', debut: '2026-10-01', mois: List.generate(12, (i) => i + 1));
+    const nouveau = Objet(id: 'n1', type: TypeObjet.avatar, nom: 'N', prix: 40, icone: Icons.star, saison: 'classiques');
+    saisonsDistantes.value = [classiques];
+    objetsDistants.value = const [nouveau];
+    final ete = DateTime(2027, 6, 1);
+
+    expect(classiques.permanente, true);
+    expect(estEnVente(nouveau, ete), true, reason: 'permanent, toute l annee');
+    expect(toutesLesCollections(['n1'], ete), isEmpty, reason: 'pas de collection pour le marché permanent');
+
+    final casque = boutique.firstWhere((o) => o.id == 'casque');
+    expect(estEnVente(casque, ete), true);
+    idsRetires.value = {'casque'};
+    expect(estEnVente(casque, ete), false, reason: 'retiré de la vente par le catalogue');
+    expect(casque.estAchetable, true);
+    expect(bullesDepensees(['casque']), casque.prix, reason: 'qui a achete ne perd rien, le solde est inchange');
+    expect(objetsPossedes(TypeObjet.avatar, ['casque'], {}).map((o) => o.id), contains('casque'), reason: 'et il le garde');
+
+    final lu = lireCatalogue('{"retires":["a","b"],"saisons":[],"objets":[]}');
+    expect(lu.retires, {'a', 'b'});
+    expect(lireCatalogue('{"saisons":[],"objets":[]}').retires, isEmpty, reason: 'ancien catalogue sans la clé');
+
+    idsRetires.value = const {};
+    saisonsDistantes.value = const [];
+    objetsDistants.value = const [];
+  });
 }

@@ -249,8 +249,10 @@ class BarreObjectif extends StatelessWidget {
     final enVente = estEnVente(objet, maintenant);
     final s = saisonPour(objet.saison);
     final String etat;
-    if (!enVente && s != null) {
+    if (!enVente && s != null && !s.permanente) {
       etat = 'Revient le ${dateLongue(s.prochainRetour(maintenant))}';
+    } else if (!enVente) {
+      etat = 'N\'est plus en vente';
     } else if (solde >= prix) {
       etat = 'Vous pouvez l\'acheter !';
     } else {

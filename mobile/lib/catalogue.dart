@@ -108,6 +108,10 @@ class Saison {
   /// En vente à cette date ? (déjà sortie ET dans ses mois)
   bool enCours(DateTime maintenant) => !maintenant.isBefore(_jour(debut)) && mois.contains(maintenant.month);
 
+  /// En vente toute l'année (douze mois) : le marché permanent, pas une
+  /// saison à durée limitée.
+  bool get permanente => mois.length >= 12;
+
   /// Jamais encore sortie.
   bool pasEncoreSortie(DateTime maintenant) => maintenant.isBefore(_jour(debut));
 
@@ -146,6 +150,7 @@ Saison? saisonPour(String? id) {
 /// (il se gagne).
 bool estEnVente(Objet o, DateTime maintenant) {
   if (!o.estAchetable) return false;
+  if (idsRetires.value.contains(o.id)) return false;
   final s = saisonPour(o.saison);
   return s == null || s.enCours(maintenant);
 }

@@ -91,7 +91,7 @@ List<EtatCollection> toutesLesCollections(List<dynamic>? achats, DateTime mainte
   final ids = (achats ?? const []).whereType<String>().toSet();
   return [
     for (final s in saisonsDistantes.value)
-      if (!s.pasEncoreSortie(maintenant)) etatCollection(s, ids),
+      if (!s.permanente && !s.pasEncoreSortie(maintenant)) etatCollection(s, ids),
   ];
 }
 

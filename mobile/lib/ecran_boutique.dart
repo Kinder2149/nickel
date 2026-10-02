@@ -162,7 +162,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([objetsDistants, saisonsDistantes]),
+      listenable: Listenable.merge([objetsDistants, saisonsDistantes, idsRetires]),
       builder: (context, enfant) => _page(),
     );
   }
@@ -189,10 +189,16 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
     final equipes = {(moi?['avatar'] as String?) ?? 'initiale', (moi?['couverture'] as String?) ?? 'encre'};
 
     final saisons = saisonsDistantes.value;
-    final enCours = saisons.where((s) => s.enCours(maintenant)).toList();
-    final horsVente = saisons.where((s) => !s.enCours(maintenant)).toList()
+    final enCours = saisons.where((s) => !s.permanente && s.enCours(maintenant)).toList();
+    final horsVente = saisons.where((s) => !s.permanente && !s.enCours(maintenant)).toList()
       ..sort((a, b) => a.prochainRetour(maintenant).compareTo(b.prochainRetour(maintenant)));
-    final permanents = tousLesObjets.where((o) => !o.estGratuit && saisonPour(o.saison) == null).toList();
+    // Marché permanent : objets sans saison ou d'une saison de 12 mois, sauf ceux retirés de la vente
+    // (retirés = invisibles ici ; leurs propriétaires les gardent et les équipent depuis leur profil).
+    final permanents = tousLesObjets.where((o) {
+      if (o.estGratuit || idsRetires.value.contains(o.id)) return false;
+      final s = saisonPour(o.saison);
+      return s == null || s.permanente;
+    }).toList();
 
     bool filtre(Objet o) => switch (_filtre) {
           _Filtre.tout => true,
