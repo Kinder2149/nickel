@@ -45,6 +45,26 @@
         8,
         9
       ]
+    },
+    {
+      "id": "classiques",
+      "nom": "Les classiques — Tech et IA",
+      "theme": "Marché permanent : technologie, IA et jeu vidéo",
+      "debut": "2026-10-01",
+      "mois": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
     }
   ],
   "objets": [
@@ -596,6 +616,150 @@
       "prix": 600,
       "image": "saison-4-electro/couvertures/couverture_legendaire_mer-de-bras.webp",
       "saison": "saison-4-electro"
+    },
+    {
+      "id": "robot-retro",
+      "type": "avatar",
+      "nom": "Robot rétro",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "classiques/avatars/avatar_commun_robot-retro.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "processeur",
+      "type": "avatar",
+      "nom": "Le processeur",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "classiques/avatars/avatar_commun_processeur.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "clavier",
+      "type": "avatar",
+      "nom": "Le clavier",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "classiques/avatars/avatar_commun_clavier.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "manette",
+      "type": "avatar",
+      "nom": "La manette",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "classiques/avatars/avatar_commun_manette.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "cerveau-ia",
+      "type": "avatar",
+      "nom": "Le cerveau IA",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "classiques/avatars/avatar_rare_cerveau-ia.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "drone",
+      "type": "avatar",
+      "nom": "Le drone",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "classiques/avatars/avatar_rare_drone.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "terminal",
+      "type": "avatar",
+      "nom": "Le terminal",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "classiques/avatars/avatar_rare_terminal.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "casque-vr",
+      "type": "avatar",
+      "nom": "Le casque VR",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "classiques/avatars/avatar_rare_casque-vr.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "robot-geant",
+      "type": "avatar",
+      "nom": "Le robot géant",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "classiques/avatars/avatar_epique_robot-geant.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "vaisseau",
+      "type": "avatar",
+      "nom": "Le vaisseau",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "classiques/avatars/avatar_epique_vaisseau.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "assistant-ia",
+      "type": "avatar",
+      "nom": "L'assistant IA",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "classiques/avatars/avatar_epique_assistant-ia.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "dragon-mecanique",
+      "type": "avatar",
+      "nom": "Le dragon mécanique",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "classiques/avatars/avatar_legendaire_dragon-mecanique.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "matrice-de-code",
+      "type": "couverture",
+      "nom": "La matrice de code",
+      "rarete": "commun",
+      "prix": 40,
+      "image": "classiques/couvertures/couverture_commun_matrice-de-code.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "ville-cyberpunk",
+      "type": "couverture",
+      "nom": "La ville cyberpunk",
+      "rarete": "rare",
+      "prix": 100,
+      "image": "classiques/couvertures/couverture_rare_ville-cyberpunk.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "station-orbitale",
+      "type": "couverture",
+      "nom": "La station orbitale",
+      "rarete": "epique",
+      "prix": 250,
+      "image": "classiques/couvertures/couverture_epique_station-orbitale.webp",
+      "saison": "classiques"
+    },
+    {
+      "id": "coeur-quantique",
+      "type": "couverture",
+      "nom": "Le cœur quantique",
+      "rarete": "legendaire",
+      "prix": 600,
+      "image": "classiques/couvertures/couverture_legendaire_coeur-quantique.webp",
+      "saison": "classiques"
     }
   ],
   "retires": []

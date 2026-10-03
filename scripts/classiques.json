@@ -162,6 +162,8 @@
     {
       "n": 9,
       "id": "robot-geant",
+      "ajuster": true,
+      "marge": 0.04,
       "type": "avatar",
       "nom": "Le robot géant",
       "rarete": "epique",
@@ -179,6 +181,8 @@
     {
       "n": 10,
       "id": "vaisseau",
+      "ajuster": true,
+      "marge": 0.08,
       "type": "avatar",
       "nom": "Le vaisseau",
       "rarete": "epique",

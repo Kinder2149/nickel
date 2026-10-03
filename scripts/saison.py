@@ -235,6 +235,20 @@ def avec_marge(img, marge):
     return toile
 
 
+def carre_avec_fond(img):
+    """Complète une image non carrée par des bandes de la couleur de son bord
+    (au lieu de la recadrer) : le sujet reste entier."""
+    from PIL import ImageStat
+    img = img.convert("RGB")
+    w, h = img.size
+    cote = max(w, h)
+    bandes = [img.crop((0, 0, w, 4)), img.crop((0, h - 4, w, h)), img.crop((0, 0, 4, h)), img.crop((w - 4, 0, w, h))]
+    couleur = tuple(int(sum(ImageStat.Stat(b).mean[i] for b in bandes) / 4) for i in range(3))
+    toile = Image.new("RGB", (cote, cote), couleur)
+    toile.paste(img, ((cote - w) // 2, (cote - h) // 2))
+    return toile
+
+
 def recadrer(img, ratio_l, ratio_h, taille, focus=(0.5, 0.5)):
     """Recadre au ratio voulu. `focus` = (x, y) entre 0 et 1 : où se trouve le
     sujet dans l'image (0.5, 0.5 = centre ; un visage en haut à droite = (0.7, 0.3))."""
@@ -309,6 +323,8 @@ def commande_ranger(args):
                 z = o["zone"]
                 img = img.crop((int(z[0] * w), int(z[1] * h), int(z[2] * w), int(z[3] * h)))
             if o["type"] == "avatar":
+                if o.get("ajuster"):  # sujet entier : bandes de fond plutôt que recadrage
+                    img = carre_avec_fond(img)
                 out = recadrer(img, 1, 1, (TAILLE_AVATAR, TAILLE_AVATAR), tuple(o.get("focus", (0.5, 0.5))))
                 if o.get("marge"):  # laisse respirer l'image : un avatar rond coupe les coins
                     out = avec_marge(out, o["marge"])
