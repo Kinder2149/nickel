@@ -762,5 +762,23 @@
       "saison": "classiques"
     }
   ],
-  "retires": []
+  "retires": [
+    "casque",
+    "disque",
+    "robot",
+    "voilier",
+    "boussole",
+    "ancre",
+    "circuit",
+    "platine",
+    "chateau",
+    "galaxie",
+    "trone",
+    "aurore",
+    "ocean",
+    "neon",
+    "braise-vive",
+    "nuit-etoilee",
+    "or"
+  ]
 }

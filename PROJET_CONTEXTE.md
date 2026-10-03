@@ -1821,3 +1821,7 @@ Règle habituelle : une mission à la fois, testée par Kinder (captures) avant 
 16 images téléchargées d'après le tableau de l'assistant de recherche (Pinterest, Wallhaven), rangées sous `public/catalogue/chez-nous/classiques/` (12 avatars, 4 couvertures), catalogue et galerie régénérés ; audit propre (77 objets distants). Réserves acceptées : terminal sans code vert, assistant IA en hologramme, dragon peu mécanique, cœur quantique 1456 px. Station orbitale : inscription « SPACEX » visible sur l'image. Robot géant et vaisseau (portraits) sont **complétés par un fond** au lieu d'être recadrés (`ajuster` dans `classiques.json`, option ajoutée à `saison.py`).
 
 **Reste à faire** : validation par capture dans l'app (galerie `galerie.html` ou marché permanent) ; **puis seulement** renseigner `retires` (17 objets provisoires) dans `catalogue.json` et publier. `retires` est volontairement encore vide.
+
+### Mission 4 — objets provisoires retirés de la vente — 2026-10-03
+
+Images du pack validées par Kinder. `retires` du catalogue renseigné avec les 17 objets provisoires (casque, disque, robot, voilier, boussole, ancre, circuit, platine, château, galaxie, trône ; couvertures aurore, océan, néon, braise-vive, nuit-étoilée, or). Propriétaires inchangés. Les 3 exclusifs de succès (trophée, diamant, foudre) et la couverture « sommet » restent. Pour remettre un objet en vente : le retirer de la liste.
