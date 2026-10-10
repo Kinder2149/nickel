@@ -102,7 +102,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
           ? '« ${o.nom} » est à vous pour toujours. Collection : +$gain Bulles !'
           : '« ${o.nom} » est à vous pour toujours. Touchez ÉQUIPER pour le porter.');
     } catch (e) {
-      _message('Achat impossible : $e', erreur: true);
+      _message('Achat non effectué, aucune Bulle dépensée. ${texteErreur(e)}', erreur: true);
     } finally {
       if (mounted) setState(() => _occupe = false);
     }
@@ -134,7 +134,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
       await equiperObjet(widget.maisonId, widget.profil.id, o.type == TypeObjet.avatar ? 'avatar' : 'couverture', o.id);
       _message('« ${o.nom} » équipé.');
     } catch (e) {
-      _message('Impossible d\'équiper : $e', erreur: true);
+      _message('« ${o.nom} » n\'a pas pu être équipé. ${texteErreur(e)}', erreur: true);
     }
   }
 
@@ -144,7 +144,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
       await definirFavori(widget.maisonId, widget.profil.id, estFavori ? null : o.id);
       _message(estFavori ? '« ${o.nom} » n\'est plus votre objectif.' : '« ${o.nom} » est maintenant votre objectif.');
     } catch (e) {
-      _message('Impossible de changer l\'objectif : $e', erreur: true);
+      _message('L\'objectif n\'a pas pu être changé. ${texteErreur(e)}', erreur: true);
     }
   }
 
@@ -153,7 +153,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
       final ok = await reclamerDotationSaison(widget.maisonId, widget.profil.id, s.cleDotation(DateTime.now()), dotationSaison);
       _message(ok ? '+$dotationSaison Bulles : cadeau de la saison « ${s.nom} » !' : 'Cadeau déjà récupéré.');
     } catch (e) {
-      _message('Impossible de récupérer le cadeau : $e', erreur: true);
+      _message('Le cadeau n\'a pas pu être récupéré, réessayez plus tard. ${texteErreur(e)}', erreur: true);
     }
   }
 

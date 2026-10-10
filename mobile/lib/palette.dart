@@ -105,6 +105,7 @@ String texteErreur(Object e) {
         return "Action refusée : vous ne faites peut-être plus partie de cette maison. Rouvrez l'app et réessayez.";
       case 'unavailable':
       case 'deadline-exceeded':
+      case 'network-request-failed':
         return 'Pas de connexion internet. Vérifiez le réseau et réessayez.';
       case 'not-found':
         return "Cet élément n'existe plus : il a peut-être été supprimé par un autre membre.";

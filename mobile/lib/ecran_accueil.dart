@@ -37,7 +37,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
   static const _delaiAnnulation = Duration(seconds: 5);
 
   Map<String, dynamic>? _maison;
-  String? _erreur;
+  Object? _erreur;
 
   List<Map<String, dynamic>>? _taches;
   List<Map<String, dynamic>> _pieces = [];
@@ -57,7 +57,15 @@ class _EcranAccueilState extends State<EcranAccueil> {
   @override
   void initState() {
     super.initState();
-    _charger();
+    _chargerOuSignaler();
+  }
+
+  /// `_charger` sans jamais laisser l'écran tourner sans fin : un échec de
+  /// lecture s'affiche avec un bouton « Réessayer ».
+  void _chargerOuSignaler() {
+    _charger().catchError((Object e) {
+      if (mounted) setState(() => _erreur = e);
+    });
   }
 
   Future<void> _charger() async {
@@ -76,7 +84,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
     setState(() => _maison = maison);
 
     void surErreur(Object e) {
-      if (mounted) setState(() => _erreur = e.toString());
+      if (mounted) setState(() => _erreur = e);
     }
 
     _abonnements.addAll([
@@ -132,7 +140,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
       _enAttente.remove(tacheId);
       if (mounted && !_enFermeture) setState(() {});
       enregistrerRealisation(widget.maisonId, tacheId, widget.profil.id, aujourdhui, prochaineEcheance, xp: xpPourTache(tache)).catchError((Object e) {
-        if (mounted && !_enFermeture) _signaler('« ${tache['nom']} » n\'a pas pu être enregistrée : $e');
+        if (mounted && !_enFermeture) _signaler('« ${tache['nom']} » n\'a pas pu être enregistrée comme faite. ${texteErreur(e)}');
       });
     }
 
@@ -226,6 +234,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
   @override
   Widget build(BuildContext context) {
     if (_maison == null) {
+      if (_erreur != null) return Scaffold(body: SafeArea(child: _contenu()));
       return const Scaffold(body: Center(child: CircularProgressIndicator(color: Palette.encre)));
     }
 
@@ -272,7 +281,27 @@ class _EcranAccueilState extends State<EcranAccueil> {
     if (_erreur != null) {
       return Padding(
         padding: const EdgeInsets.all(22),
-        child: Text('Erreur : $_erreur', style: const TextStyle(color: Palette.rouge)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Impossible d\'afficher les tâches', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Palette.encre)),
+            const SizedBox(height: 8),
+            Text(texteErreur(_erreur!), style: const TextStyle(color: Palette.rouge)),
+            const SizedBox(height: 16),
+            OutlinedButton(
+              onPressed: () {
+                for (final a in _abonnements) {
+                  a.cancel();
+                }
+                _abonnements.clear();
+                setState(() => _erreur = null);
+                _chargerOuSignaler();
+              },
+              style: boutonSecondaire(),
+              child: const Text('RÉESSAYER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+            ),
+          ],
+        ),
       );
     }
     final taches = _taches;
@@ -618,7 +647,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
                       try {
                         await supprimerRealisation(widget.maisonId, derniere['id'] as String, id);
                       } catch (e) {
-                        if (mounted) _signaler('Annulation impossible : $e');
+                        if (mounted) _signaler('La tâche n\'a pas pu être remise à faire. ${texteErreur(e)}');
                       }
                     },
                     child: const Text('Finalement pas faite — annuler', style: TextStyle(color: Palette.encreDouce)),

@@ -92,14 +92,32 @@ Future<({String id, String codeInvitation})> creerMaison(String nom, Profil prof
   return (id: maisonRef.id, codeInvitation: codeInvitation);
 }
 
+/// Vérifie que le serveur répond, avant une action qui n'a de sens qu'en
+/// ligne (créer, rejoindre ou supprimer une maison). Sans cette vérification,
+/// Firestore met l'écriture en attente hors connexion et l'écran tourne sans
+/// fin. Lève une `Exception` au message lisible si le réseau manque.
+Future<void> verifierConnexion() async {
+  try {
+    await _db
+        .collection('maisons')
+        .doc('_verification-connexion')
+        .get(const GetOptions(source: Source.server))
+        .timeout(const Duration(seconds: 8));
+  } catch (_) {
+    throw Exception('Pas de connexion internet : cette action en demande une. Vérifiez le réseau (wifi ou données) et réessayez.');
+  }
+}
+
 /// Cherche une maison par son code d'invitation et y ajoute le profil.
 /// Retourne null si le code n'existe pas.
 Future<Map<String, dynamic>?> rejoindreMaison(String code, Profil profil) async {
+  // Interroge le serveur, jamais le cache : hors connexion, le cache vide
+  // faisait croire que le code n'existait pas.
   final resultat = await _db
       .collection('maisons')
       .where('codeInvitation', isEqualTo: code.toUpperCase().trim())
       .limit(1)
-      .get();
+      .get(const GetOptions(source: Source.server));
 
   if (resultat.docs.isEmpty) return null;
 

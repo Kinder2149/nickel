@@ -110,7 +110,10 @@ class _EcranEquipeState extends State<EcranEquipe> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? '+${l.recompense} Bulles : quête accomplie !' : 'Récompense déjà récupérée.')));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Impossible de récupérer : $e'), backgroundColor: Palette.rouge));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('La récompense n\'a pas pu être récupérée, réessayez plus tard. ${texteErreur(e)}'),
+        backgroundColor: Palette.rouge,
+      ));
     }
   }
 

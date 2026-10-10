@@ -159,10 +159,7 @@ class _EcranHistoriqueState extends State<EcranHistorique> {
     try {
       await supprimerRealisation(widget.maisonId, r['id'] as String, r['tacheId'] as String);
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Suppression impossible : $e'), backgroundColor: Palette.rouge),
-      );
+      if (mounted) signalerErreur(context, e);
     }
   }
 }

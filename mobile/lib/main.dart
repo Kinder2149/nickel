@@ -52,7 +52,7 @@ class EcranDemarrage extends StatefulWidget {
 }
 
 class _EcranDemarrageState extends State<EcranDemarrage> {
-  String? _erreur;
+  Object? _erreur;
 
   @override
   void initState() {
@@ -61,6 +61,7 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
   }
 
   Future<void> _demarrer() async {
+    if (_erreur != null) setState(() => _erreur = null);
     try {
       final auth = FirebaseAuth.instance;
       final utilisateur = auth.currentUser ?? (await auth.signInAnonymously()).user;
@@ -106,7 +107,7 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
         MaterialPageRoute(builder: (_) => EcranRacine(profil: profilActuel, maisonId: maisonId)),
       );
     } catch (e) {
-      setState(() => _erreur = e.toString());
+      if (mounted) setState(() => _erreur = e);
     }
   }
 
@@ -117,7 +118,24 @@ class _EcranDemarrageState extends State<EcranDemarrage> {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text('Connexion impossible :\n$_erreur', textAlign: TextAlign.center, style: const TextStyle(color: Palette.rouge)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Nickel n\'a pas pu démarrer', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Palette.encre)),
+                const SizedBox(height: 12),
+                Text(
+                  texteErreur(_erreur!),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Palette.rouge),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: _demarrer,
+                  style: boutonPrincipal(),
+                  child: const Text('RÉESSAYER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+                ),
+              ],
+            ),
           ),
         ),
       );

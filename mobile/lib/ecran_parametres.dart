@@ -159,6 +159,7 @@ class _EcranParametresState extends State<EcranParametres> {
       builder: (_) => const Center(child: CircularProgressIndicator(color: Palette.papier)),
     );
     try {
+      await verifierConnexion();
       await supprimerMaison(widget.maisonId, widget.profil.id);
       final prefs = await SharedPreferences.getInstance();
       await retirerMaisonLocale(prefs, widget.maisonId);
@@ -168,7 +169,7 @@ class _EcranParametresState extends State<EcranParametres> {
       if (!mounted) return;
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Suppression interrompue : $e'), backgroundColor: Palette.rouge),
+        SnackBar(content: Text('La maison n\'a pas été supprimée. ${texteErreur(e)}'), backgroundColor: Palette.rouge, duration: const Duration(seconds: 6)),
       );
     }
   }
@@ -191,7 +192,12 @@ class _EcranParametresState extends State<EcranParametres> {
       ),
     );
     if (confirme != true) return;
-    await retirerMembre(widget.maisonId, membre['id'] as String);
+    try {
+      await ecrire(retirerMembre(widget.maisonId, membre['id'] as String));
+      if (mounted) signalerSucces(context, '${membre['prenom']} a été retiré(e) de la maison.');
+    } catch (e) {
+      if (mounted) signalerErreur(context, e);
+    }
   }
 
   Future<void> _quitter() async {
@@ -234,7 +240,18 @@ class _EcranParametresState extends State<EcranParametres> {
     );
     if (confirme != true) return;
 
-    await quitterMaison(widget.maisonId, widget.profil.id);
+    try {
+      await verifierConnexion();
+      await ecrire(quitterMaison(widget.maisonId, widget.profil.id));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Vous n\'avez pas quitté la maison. ${texteErreur(e)}'),
+        backgroundColor: Palette.rouge,
+        duration: const Duration(seconds: 6),
+      ));
+      return;
+    }
     final prefs = await SharedPreferences.getInstance();
     await retirerMaisonLocale(prefs, widget.maisonId);
 

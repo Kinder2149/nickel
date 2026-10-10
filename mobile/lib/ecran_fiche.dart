@@ -455,7 +455,7 @@ class _EditeurProfilState extends State<_EditeurProfil> {
   Future<void> _enregistrer() async {
     final nom = _nom.text.trim();
     if (nom.isEmpty) {
-      setState(() => _erreur = 'Le nom ne peut pas être vide.');
+      setState(() => _erreur = 'Écrivez un nom : c\'est lui que les autres membres verront.');
       return;
     }
     setState(() {
@@ -463,8 +463,12 @@ class _EditeurProfilState extends State<_EditeurProfil> {
       _erreur = null;
     });
     try {
-      await modifierProfil(widget.maisonId, widget.profil.id,
-          prenom: nom, avatar: _avatar, couverture: _couverture, badges: _badges);
+      try {
+        await ecrire(modifierProfil(widget.maisonId, widget.profil.id,
+            prenom: nom, avatar: _avatar, couverture: _couverture, badges: _badges));
+      } on TimeoutException {
+        // Hors connexion : gardé sur le téléphone, envoyé au retour du réseau.
+      }
       final prefs = await SharedPreferences.getInstance();
       await enregistrerProfilLocal(prefs, Profil(id: widget.profil.id, prenom: nom, couleur: widget.profil.couleur));
       if (mounted) Navigator.pop(context, true);
@@ -472,7 +476,7 @@ class _EditeurProfilState extends State<_EditeurProfil> {
       if (!mounted) return;
       setState(() {
         _enCours = false;
-        _erreur = 'Enregistrement impossible : $e';
+        _erreur = 'Profil non enregistré. ${texteErreur(e)}';
       });
     }
   }

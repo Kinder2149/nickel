@@ -20,6 +20,7 @@ class EcranProfil extends StatefulWidget {
 class _EcranProfilState extends State<EcranProfil> {
   final _controleurPrenom = TextEditingController();
   Color _couleurChoisie = couleursProfil.first;
+  String? _erreur;
 
   @override
   void dispose() {
@@ -29,7 +30,10 @@ class _EcranProfilState extends State<EcranProfil> {
 
   Future<void> _continuer() async {
     final prenom = _controleurPrenom.text.trim();
-    if (prenom.isEmpty) return;
+    if (prenom.isEmpty) {
+      setState(() => _erreur = 'Écrivez votre prénom : c\'est lui que les autres membres verront.');
+      return;
+    }
 
     final profil = Profil(id: widget.uid, prenom: prenom, couleur: _couleurChoisie);
     final prefs = await SharedPreferences.getInstance();
@@ -60,9 +64,16 @@ class _EcranProfilState extends State<EcranProfil> {
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900, height: 0.9, color: Palette.encre),
               ),
               const SizedBox(height: 32),
-              const Text('Votre prénom', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+              libelleChamp('Votre prénom', obligatoire: true),
               const SizedBox(height: 6),
-              TextField(controller: _controleurPrenom, decoration: decorationChamp('Camille')),
+              TextField(
+                controller: _controleurPrenom,
+                textCapitalization: TextCapitalization.words,
+                onChanged: (_) {
+                  if (_erreur != null) setState(() => _erreur = null);
+                },
+                decoration: decorationChamp('ex. : Camille', erreur: _erreur),
+              ),
               const SizedBox(height: 24),
               const Text('Votre couleur', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
               const SizedBox(height: 10),

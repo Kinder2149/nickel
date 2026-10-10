@@ -1847,3 +1847,17 @@ Images du pack validées par Kinder. `retires` du catalogue renseigné avec les 
 - Outils communs prêts pour la mission 2 (`palette.dart`) : `texteErreur` (erreur → phrase claire), `signalerErreur`, `signalerSucces`, `ecrire` (délai de 8 s), `libelleChamp`
 
 **Testé sur émulateur** : + sans nom de pièce, formulaire vide, fréquence 0, enregistrement valide, suppression d'une pièce non vide, ajout hors connexion. Maison de test supprimée, émulateur arrêté.
+
+### Mission 2 faite — messages clairs dans le reste de l'app — 2026-10-10 (en attente de test Kinder)
+
+Plus aucune erreur technique brute à l'écran : chaque échec dit ce qui s'est passé et quoi faire, en français (`texteErreur`).
+- **Démarrage** : écran « Nickel n'a pas pu démarrer » + raison + bouton RÉESSAYER (avant : texte technique, aucune issue)
+- **Premier lancement** : prénom marqué obligatoire, message sous le champ s'il est vide (avant : le bouton ne faisait rien)
+- **Créer / rejoindre une maison** : exemples « ex. : » ; message affiché **sous le bouton utilisé** (avant : en haut, invisible clavier ouvert) ; code inconnu → où trouver le bon code ; **hors connexion → message immédiat** (avant : chargement sans fin, ou faux « aucune maison ne correspond »)
+- **Accueil** : si les tâches ne se chargent pas → message + RÉESSAYER (avant : texte technique ou chargement sans fin) ; « Fait » ou « Finalement pas faite » qui échoue → message clair
+- **Historique** : suppression qui échoue → message clair
+- **Mon profil** : messages clairs ; hors connexion, l'enregistrement est gardé et partira au retour du réseau
+- **Boutique / Équipe** : achat, équiper, objectif, cadeau, quête → message clair (« aucune Bulle dépensée » sur un achat raté)
+- **Paramètres** : retirer un membre → confirmation ou message ; quitter / supprimer la maison → vérifie la connexion d'abord, message clair si échec (avant : rien, ou chargement sans fin hors connexion)
+
+**Testé sur émulateur** : nom de maison vide, code inconnu, rejoindre hors connexion. Émulateur arrêté.
