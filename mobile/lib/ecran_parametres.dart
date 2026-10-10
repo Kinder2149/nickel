@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'donnees.dart';
 import 'ecran_fiche.dart';
 import 'ecran_gestion.dart';
-import 'ecran_historique.dart';
 import 'ecran_maison.dart';
 import 'navigation.dart';
 import 'notifications.dart';
@@ -367,14 +366,6 @@ class _EcranParametresState extends State<EcranParametres> {
           const SizedBox(height: 28),
           const Text('Cette maison', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
           const SizedBox(height: 8),
-          OutlinedButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => EcranHistorique(maisonId: widget.maisonId)),
-            ),
-            style: boutonSecondaire(),
-            child: const Text('HISTORIQUE', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
-          ),
-          const SizedBox(height: 10),
           OutlinedButton(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => EcranGestion(maisonId: widget.maisonId)),

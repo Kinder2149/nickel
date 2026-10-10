@@ -386,6 +386,27 @@ Stream<List<Map<String, dynamic>>> ecouterToutesRealisations(String maisonId) {
       .map((snap) => snap.docs.map((d) => {'id': d.id, ...d.data()}).toList());
 }
 
+/// Toutes les Réalisations d'une seule tâche, la plus récente en premier
+/// (fiche de la tâche, § 31). Tri fait ici plutôt que par Firestore : un
+/// filtre + un tri côté serveur exigeraient un index composite à déployer.
+Stream<List<Map<String, dynamic>>> ecouterRealisationsTache(String maisonId, String tacheId) {
+  return _db
+      .collection('maisons')
+      .doc(maisonId)
+      .collection('realisations')
+      .where('tacheId', isEqualTo: tacheId)
+      .snapshots()
+      .map((snap) {
+    final liste = snap.docs.map((d) => {'id': d.id, ...d.data()}).toList();
+    liste.sort((a, b) {
+      final parDate = (b['dateRealisation'] as String).compareTo(a['dateRealisation'] as String);
+      if (parDate != 0) return parDate;
+      return ((b['enregistreLe'] as String?) ?? '').compareTo((a['enregistreLe'] as String?) ?? '');
+    });
+    return liste;
+  });
+}
+
 /// Met à jour sa propre fiche personnage dans une maison (§ 25).
 Future<void> modifierProfil(
   String maisonId,

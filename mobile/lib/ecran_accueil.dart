@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donnees.dart';
+import 'ecran_historique.dart';
 import 'jeu.dart';
 import 'ecran_parametres.dart';
 import 'navigation.dart';
@@ -653,6 +654,7 @@ class _EcranAccueilState extends State<EcranAccueil> {
                     child: const Text('Finalement pas faite — annuler', style: TextStyle(color: Palette.encreDouce)),
                   ),
               ],
+              HistoriqueTache(maisonId: widget.maisonId, tacheId: id, frequenceJours: frequence, membres: _membres),
             ],
           ),
         ),

@@ -1861,3 +1861,12 @@ Plus aucune erreur technique brute à l'écran : chaque échec dit ce qui s'est 
 - **Paramètres** : retirer un membre → confirmation ou message ; quitter / supprimer la maison → vérifie la connexion d'abord, message clair si échec (avant : rien, ou chargement sans fin hors connexion)
 
 **Testé sur émulateur** : nom de maison vide, code inconnu, rejoindre hors connexion. Émulateur arrêté.
+
+### Mission 3 faite — historique dans Équipe et dans la fiche de chaque tâche — 2026-10-10 (en attente de test Kinder)
+
+- **Paramètres** : bouton « Historique » retiré
+- **Onglet Équipe** : sous les cartes des membres, bloc « Dernières réalisations » (5 dernières : tâche, jour, qui) + bouton « TOUT L'HISTORIQUE » (l'écran complet, inchangé, avec la corbeille « fait par erreur »). L'écran complet affiche maintenant les dates lisiblement (jj/mm au lieu de 2026-10-05) et précise, quand la limite est atteinte, que seules les 100 dernières actions y figurent
+- **Fiche d'une tâche** (toucher une tâche sur l'accueil) : section « Historique de cette tâche » en bas — résumé « Faite N fois · en moyenne tous les X j (prévu : tous les Y j) », puis chaque passage (jour, qui, « N j après » le précédent, **en rouge si l'écart dépasse la fréquence prévue**) ; 10 visibles, « Afficher les N plus anciennes » pour le reste
+- La fiche lit **toutes** les réalisations de la tâche (pas seulement les 100 dernières de la maison), sans nouvel index Firestore (tri fait dans l'app) — `ecouterRealisationsTache` dans `donnees.dart`, widgets `LigneRealisation` et `HistoriqueTache` dans `ecran_historique.dart`
+
+**Testé sur émulateur** : maison créée depuis le modèle générique, une tâche cochée → visible dans Équipe (« Aujourd'hui · par TestEmu »), dans « Tout l'historique », et dans sa fiche (« Faite 1 fois ») ; Paramètres sans bouton Historique. Les écarts « N j après » n'ont pas pu être vus (impossible de cocher à une date passée sur l'émulateur) — à vérifier sur la vraie maison. Maison de test supprimée, émulateur arrêté.

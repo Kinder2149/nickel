@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'donnees.dart';
 import 'ecran_fiche.dart';
 import 'ecran_guide.dart';
+import 'ecran_historique.dart';
 import 'jeu.dart';
 import 'palette.dart';
 import 'quetes.dart';
@@ -96,8 +97,38 @@ class _EcranEquipeState extends State<EcranEquipe> {
           _quetes(),
           const SizedBox(height: 8),
           for (final membre in _membres) _carteMembre(membre, contexte),
+          const SizedBox(height: 12),
+          _dernieresRealisations(),
         ],
       ),
+    );
+  }
+
+  /// Les 5 dernières tâches faites dans la maison, et l'accès à l'historique
+  /// complet (déplacé ici depuis Paramètres, § 31).
+  Widget _dernieresRealisations() {
+    final dernieres = [..._realisations]..sort(comparerRealisations);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text('DERNIÈRES RÉALISATIONS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Palette.encreFaible)),
+        const SizedBox(height: 4),
+        if (dernieres.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text("Rien pour l'instant : chaque tâche cochée « Fait » apparaîtra ici.", style: TextStyle(color: Palette.encreDouce)),
+          )
+        else
+          for (final r in dernieres.take(5)) LigneRealisation(realisation: r, taches: _taches, membres: _membres, avecDate: true),
+        const SizedBox(height: 8),
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => EcranHistorique(maisonId: widget.maisonId)),
+          ),
+          style: boutonSecondaire(),
+          child: const Text("TOUT L'HISTORIQUE", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+        ),
+      ],
     );
   }
 
