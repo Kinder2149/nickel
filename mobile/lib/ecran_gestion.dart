@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'donnees.dart';
 import 'palette.dart';
@@ -25,6 +26,7 @@ class _EcranGestionState extends State<EcranGestion> {
   StreamSubscription? _subPieces;
   StreamSubscription? _subTaches;
   final _controleurNomPiece = TextEditingController();
+  String? _erreurPiece;
   // Pièces et tâches dont les boutons d'actions sont déroulés.
   final Set<String> _deroules = {};
 
@@ -81,26 +83,63 @@ class _EcranGestionState extends State<EcranGestion> {
 
   Future<void> _ajouterPiece() async {
     final nom = _controleurNomPiece.text.trim();
-    if (nom.isEmpty) return;
-    _controleurNomPiece.clear();
-    await creerPiece(widget.maisonId, nom);
+    if (nom.isEmpty) {
+      setState(() => _erreurPiece = "Écrivez le nom de la pièce avant d'appuyer sur + (ex. : Cuisine, Salle de bain).");
+      return;
+    }
+    setState(() => _erreurPiece = null);
+    try {
+      await ecrire(creerPiece(widget.maisonId, nom));
+      _controleurNomPiece.clear();
+      if (mounted) signalerSucces(context, 'Pièce « $nom » ajoutée. Ajoutez-y des tâches avec « + AJOUTER UNE TÂCHE ».');
+    } on TimeoutException catch (e) {
+      _controleurNomPiece.clear();
+      if (mounted) signalerErreur(context, e);
+    } catch (e) {
+      if (mounted) signalerErreur(context, e);
+    }
   }
 
   Future<void> _renommerPiece(Map<String, dynamic> piece) async {
     final controleur = TextEditingController(text: piece['nom'] as String);
+    String? erreur;
     final nouveauNom = await showDialog<String>(
       context: context,
-      builder: (contexte) => AlertDialog(
-        title: const Text('Renommer la pièce'),
-        content: TextField(controller: controleur, autofocus: true),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(contexte), child: const Text('Annuler')),
-          TextButton(onPressed: () => Navigator.pop(contexte, controleur.text.trim()), child: const Text('Enregistrer')),
-        ],
+      builder: (contexte) => StatefulBuilder(
+        builder: (contexte, setStateDialogue) => AlertDialog(
+          title: const Text('Renommer la pièce'),
+          content: TextField(
+            controller: controleur,
+            autofocus: true,
+            onChanged: (_) {
+              if (erreur != null) setStateDialogue(() => erreur = null);
+            },
+            decoration: decorationChamp('ex. : Cuisine', erreur: erreur),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(contexte), child: const Text('Annuler')),
+            TextButton(
+              onPressed: () {
+                final nom = controleur.text.trim();
+                if (nom.isEmpty) {
+                  setStateDialogue(() => erreur = 'Le nom ne peut pas être vide.');
+                  return;
+                }
+                Navigator.pop(contexte, nom);
+              },
+              child: const Text('Enregistrer'),
+            ),
+          ],
+        ),
       ),
     );
-    if (nouveauNom == null || nouveauNom.isEmpty) return;
-    await modifierPiece(widget.maisonId, piece['id'] as String, nouveauNom);
+    if (nouveauNom == null || nouveauNom == piece['nom']) return;
+    try {
+      await ecrire(modifierPiece(widget.maisonId, piece['id'] as String, nouveauNom));
+      if (mounted) signalerSucces(context, 'Pièce renommée en « $nouveauNom ».');
+    } catch (e) {
+      if (mounted) signalerErreur(context, e);
+    }
   }
 
   Future<void> _supprimerPiece(Map<String, dynamic> piece) async {
@@ -116,12 +155,10 @@ class _EcranGestionState extends State<EcranGestion> {
     );
     if (confirme != true) return;
     try {
-      await supprimerPiece(widget.maisonId, piece['id'] as String);
+      await ecrire(supprimerPiece(widget.maisonId, piece['id'] as String));
+      if (mounted) signalerSucces(context, 'Pièce « ${piece['nom']} » supprimée.');
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString().replaceFirst('Exception: ', '')), backgroundColor: Palette.rouge),
-      );
+      if (mounted) signalerErreur(context, e);
     }
   }
 
@@ -137,11 +174,18 @@ class _EcranGestionState extends State<EcranGestion> {
       ),
     );
     if (confirme != true) return;
-    await supprimerTache(widget.maisonId, tache['id'] as String);
+    try {
+      await ecrire(supprimerTache(widget.maisonId, tache['id'] as String));
+      if (mounted) signalerSucces(context, 'Tâche « ${tache['nom']} » supprimée. Son historique est conservé.');
+    } catch (e) {
+      if (mounted) signalerErreur(context, e);
+    }
   }
 
   Future<void> _ouvrirFormulaireTache(String pieceId, {Map<String, dynamic>? tacheExistante}) async {
-    final resultat = await showModalBottomSheet<bool>(
+    // La feuille renvoie le message à afficher une fois fermée (succès ou
+    // « hors connexion »), null si l'utilisateur l'a refermée sans enregistrer.
+    final resultat = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Palette.papier,
@@ -151,9 +195,7 @@ class _EcranGestionState extends State<EcranGestion> {
         tacheExistante: tacheExistante,
       ),
     );
-    if (resultat == true && mounted) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    }
+    if (resultat != null && mounted) signalerSucces(context, resultat);
   }
 
   @override
@@ -168,19 +210,37 @@ class _EcranGestionState extends State<EcranGestion> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(22, 12, 22, 32),
         children: [
+          libelleChamp('Nouvelle pièce', obligatoire: true),
+          const SizedBox(height: 4),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: TextField(controller: _controleurNomPiece, decoration: decorationChamp('Cuisine'))),
+              Expanded(
+                child: TextField(
+                  controller: _controleurNomPiece,
+                  textCapitalization: TextCapitalization.sentences,
+                  onChanged: (_) {
+                    if (_erreurPiece != null) setState(() => _erreurPiece = null);
+                  },
+                  onSubmitted: (_) => _ajouterPiece(),
+                  decoration: decorationChamp('ex. : Cuisine', aide: 'Écrivez le nom, puis appuyez sur +.', erreur: _erreurPiece),
+                ),
+              ),
               const SizedBox(width: 8),
               IconButton.filled(
                 onPressed: _ajouterPiece,
-                style: IconButton.styleFrom(backgroundColor: Palette.encre, shape: const RoundedRectangleBorder()),
+                tooltip: 'Ajouter la pièce',
+                style: IconButton.styleFrom(backgroundColor: Palette.encre, shape: const RoundedRectangleBorder(), minimumSize: const Size(52, 52)),
                 icon: const Icon(Icons.add, color: Palette.papier),
               ),
             ],
           ),
           const SizedBox(height: 20),
-          if (_pieces.isEmpty) const Text('Aucune pièce pour l\'instant.', style: TextStyle(color: Palette.encreDouce)),
+          if (_pieces.isEmpty)
+            const Text(
+              "Aucune pièce pour l'instant. Commencez par créer une pièce : les tâches se rangent ensuite dedans.",
+              style: TextStyle(color: Palette.encreDouce),
+            ),
           for (final piece in _pieces) _cartePiece(piece),
         ],
       ),
@@ -311,6 +371,11 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
   late final _ustensile = TextEditingController(text: widget.tacheExistante?['ustensile'] as String? ?? '');
   late final _aEviter = TextEditingController(text: widget.tacheExistante?['aEviter'] as String? ?? '');
   late String _emoji = widget.tacheExistante?['emoji'] as String? ?? emojiParDefaut;
+  String? _erreurNom;
+  String? _erreurFrequence;
+  // Message au-dessus du bouton : champs à corriger ou échec d'enregistrement.
+  String? _erreurGlobale;
+  bool _enCours = false;
 
   @override
   void dispose() {
@@ -325,9 +390,54 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
 
   Future<void> _enregistrer() async {
     final nom = _nom.text.trim();
-    final frequence = int.tryParse(_frequence.text.trim());
-    if (nom.isEmpty || frequence == null || frequence < 1) return;
+    final texteFrequence = _frequence.text.trim();
+    final frequence = int.tryParse(texteFrequence);
+    final erreurNom = nom.isEmpty ? "Donnez un nom à la tâche (ex. : Nettoyer l'évier)." : null;
+    final String? erreurFrequence;
+    if (texteFrequence.isEmpty) {
+      erreurFrequence = 'Indiquez tous les combien de jours revient la tâche (ex. : 7 pour chaque semaine).';
+    } else if (frequence == null) {
+      erreurFrequence = 'Entrez un nombre de jours, en chiffres uniquement (ex. : 7).';
+    } else if (frequence < 1) {
+      erreurFrequence = 'Au minimum 1 jour (1 = tous les jours).';
+    } else if (frequence > 365) {
+      erreurFrequence = 'Au maximum 365 jours (une fois par an).';
+    } else {
+      erreurFrequence = null;
+    }
+    if (erreurNom != null || erreurFrequence != null) {
+      final aVerifier = [if (erreurNom != null) 'le nom', if (erreurFrequence != null) 'la fréquence'];
+      setState(() {
+        _erreurNom = erreurNom;
+        _erreurFrequence = erreurFrequence;
+        _erreurGlobale = "Impossible d'enregistrer : vérifiez ${aVerifier.join(' et ')} (en rouge plus haut).";
+      });
+      return;
+    }
 
+    setState(() {
+      _enCours = true;
+      _erreurGlobale = null;
+    });
+    final creation = widget.tacheExistante == null;
+    try {
+      await ecrire(_ecrireTache(nom, frequence!));
+    } on TimeoutException {
+      if (mounted) Navigator.pop(context, messageHorsConnexion);
+      return;
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _enCours = false;
+          _erreurGlobale = 'Enregistrement impossible. ${texteErreur(e)}';
+        });
+      }
+      return;
+    }
+    if (mounted) Navigator.pop(context, creation ? 'Tâche « $nom » ajoutée.' : 'Tâche « $nom » modifiée.');
+  }
+
+  Future<void> _ecrireTache(String nom, int frequence) async {
     if (widget.tacheExistante == null) {
       await creerTache(
         widget.maisonId,
@@ -353,7 +463,6 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
         aEviter: _aEviter.text.trim(),
       );
     }
-    if (mounted) Navigator.pop(context, true);
   }
 
   @override
@@ -368,30 +477,54 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
               widget.tacheExistante == null ? 'Ajouter une tâche' : 'Modifier la tâche',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Palette.encre),
             ),
+            const SizedBox(height: 4),
+            const Text(
+              'Seuls le nom et la fréquence sont obligatoires. Le reste aide les autres membres à bien faire la tâche.',
+              style: TextStyle(fontSize: 12, color: Palette.encreFaible),
+            ),
             const SizedBox(height: 16),
-            const Text('Nom', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            libelleChamp('Nom', obligatoire: true),
             const SizedBox(height: 4),
-            TextField(controller: _nom, decoration: decorationChamp("Nettoyer l'évier")),
+            TextField(
+              controller: _nom,
+              textCapitalization: TextCapitalization.sentences,
+              onChanged: (_) {
+                if (_erreurNom != null) setState(() => _erreurNom = null);
+              },
+              decoration: decorationChamp("ex. : Nettoyer l'évier", erreur: _erreurNom),
+            ),
             const SizedBox(height: 12),
-            const Text('Fréquence (jours)', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            libelleChamp('Fréquence (en jours)', obligatoire: true),
             const SizedBox(height: 4),
-            TextField(controller: _frequence, keyboardType: TextInputType.number, decoration: decorationChamp('7')),
+            TextField(
+              controller: _frequence,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: (_) {
+                if (_erreurFrequence != null) setState(() => _erreurFrequence = null);
+              },
+              decoration: decorationChamp(
+                'ex. : 7',
+                aide: 'Tous les combien de jours ? 1 = chaque jour, 7 = chaque semaine, 30 = chaque mois.',
+                erreur: _erreurFrequence,
+              ),
+            ),
             const SizedBox(height: 12),
-            const Text('Produit', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            libelleChamp('Produit'),
             const SizedBox(height: 4),
-            TextField(controller: _produit, decoration: decorationChamp('Liquide vaisselle')),
+            TextField(controller: _produit, decoration: decorationChamp('ex. : Liquide vaisselle')),
             const SizedBox(height: 12),
-            const Text('Ustensile', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            libelleChamp('Ustensile'),
             const SizedBox(height: 4),
-            TextField(controller: _ustensile, decoration: decorationChamp('Microfibre')),
+            TextField(controller: _ustensile, decoration: decorationChamp('ex. : Microfibre')),
             const SizedBox(height: 12),
-            const Text('Astuce', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            libelleChamp('Astuce'),
             const SizedBox(height: 4),
-            TextField(controller: _astuce, minLines: 1, maxLines: 6, decoration: decorationChamp('Rincer et sécher')),
+            TextField(controller: _astuce, minLines: 1, maxLines: 6, decoration: decorationChamp('ex. : Rincer et sécher')),
             const SizedBox(height: 12),
-            const Text('À éviter', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
+            libelleChamp('À éviter'),
             const SizedBox(height: 4),
-            TextField(controller: _aEviter, minLines: 1, maxLines: 3, decoration: decorationChamp('Javel')),
+            TextField(controller: _aEviter, minLines: 1, maxLines: 3, decoration: decorationChamp('ex. : Javel')),
             const SizedBox(height: 12),
             const Text('Pictogramme', style: TextStyle(fontWeight: FontWeight.w600, color: Palette.encreDouce)),
             const SizedBox(height: 8),
@@ -416,10 +549,20 @@ class _FormulaireTacheState extends State<_FormulaireTache> {
               }).toList(),
             ),
             const SizedBox(height: 20),
+            if (_erreurGlobale != null) ...[
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(border: Border.all(color: Palette.rouge, width: 2)),
+                child: Text(_erreurGlobale!, style: const TextStyle(color: Palette.rouge, fontWeight: FontWeight.w600)),
+              ),
+              const SizedBox(height: 10),
+            ],
             ElevatedButton(
-              onPressed: _enregistrer,
+              onPressed: _enCours ? null : _enregistrer,
               style: boutonPrincipal(),
-              child: const Text('ENREGISTRER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+              child: _enCours
+                  ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5, color: Palette.papier))
+                  : const Text('ENREGISTRER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
             ),
           ],
         ),

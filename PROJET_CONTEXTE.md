@@ -1825,3 +1825,25 @@ Règle habituelle : une mission à la fois, testée par Kinder (captures) avant 
 ### Mission 4 — objets provisoires retirés de la vente — 2026-10-03
 
 Images du pack validées par Kinder. `retires` du catalogue renseigné avec les 17 objets provisoires (casque, disque, robot, voilier, boussole, ancre, circuit, platine, château, galaxie, trône ; couvertures aurore, océan, néon, braise-vive, nuit-étoilée, or). Propriétaires inchangés. Les 3 exclusifs de succès (trophée, diamant, foudre) et la couverture « sommet » restent. Pour remettre un objet en vente : le retirer de la liste.
+
+## 31. RETOUR D'USAGE #5 — ERREURS ET HISTORIQUE — cadrage validé par Kinder le 2026-10-10
+
+**Retour** : à la création d'une tâche, un problème d'enregistrement ne dit pas pourquoi ni ce qui est attendu dans chaque champ ; même défaut dans toute l'app ; l'historique d'une tâche doit apparaître dans sa fiche ; l'historique n'a rien à faire dans Paramètres, il va dans l'onglet Équipe.
+
+**Constat** : le formulaire refusait sans rien dire (nom vide, fréquence vide, à 0 ou en lettres) ; les exemples dans les champs ressemblaient à des valeurs déjà saisies (cause probable de la confusion) ; plusieurs actions n'affichaient rien en cas d'échec, d'autres affichaient l'erreur technique brute.
+
+**Plan en 3 missions (une à la fois)**
+1. Formulaire de tâche et pièces guidés
+2. Passe sur le reste de l'app : chaque action qui peut échouer dit quoi faire, en français compréhensible (modèle : écran « Votre maison »)
+3. Historique : retiré de Paramètres ; onglet Équipe = bloc « Dernières réalisations » (5 dernières) + « Tout voir » ; fiche de chaque tâche = son historique complet (toute sa vie, pas seulement les 100 dernières actions de la maison)
+
+### Mission 1 faite — formulaire de tâche et pièces guidés — 2026-10-10 (en attente de test Kinder)
+
+- Chaque champ indique « obligatoire » ou « facultatif » ; exemples pâles, en italique, précédés de « ex. : » ; aide sous la fréquence (1 = chaque jour, 7 = chaque semaine, 30 = chaque mois) ; seuls des chiffres peuvent être tapés dans la fréquence
+- Enregistrer avec un champ manquant : champ en rouge + phrase qui dit quoi faire, et rappel au-dessus du bouton. Fréquence : de 1 à 365 jours
+- Pendant l'enregistrement : bouton bloqué avec indicateur ; en cas d'échec, la fenêtre reste ouverte avec la raison
+- Confirmation après chaque action (tâche ajoutée/modifiée/supprimée, pièce ajoutée/renommée/supprimée) ; pièce sans nom ou renommée à vide : message sous le champ
+- Hors connexion : la modification est gardée sur le téléphone, message neutre « sera partagé dès le retour du réseau » (avant : la fenêtre restait bloquée)
+- Outils communs prêts pour la mission 2 (`palette.dart`) : `texteErreur` (erreur → phrase claire), `signalerErreur`, `signalerSucces`, `ecrire` (délai de 8 s), `libelleChamp`
+
+**Testé sur émulateur** : + sans nom de pièce, formulaire vide, fréquence 0, enregistrement valide, suppression d'une pièce non vide, ajout hors connexion. Maison de test supprimée, émulateur arrêté.
