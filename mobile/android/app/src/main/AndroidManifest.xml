@@ -1,7 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Rappel quotidien des tâches (§ 20) : demandé à l'utilisateur au
          moment où il active le rappel, pas au premier lancement. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Ajoutées par WorkManager (bibliothèque du rappel quotidien) mais
+         jamais utilisées : le rappel tourne en tâche de fond ordinaire, sans
+         service au premier plan. Les laisser obligerait à une déclaration
+         Google Play (avec vidéo) pour une fonction que l'app n'a pas. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" tools:node="remove"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SHORT_SERVICE" tools:node="remove"/>
     <application
         android:label="Nickel"
         android:name="${applicationName}"

@@ -1870,3 +1870,12 @@ Plus aucune erreur technique brute à l'écran : chaque échec dit ce qui s'est 
 - La fiche lit **toutes** les réalisations de la tâche (pas seulement les 100 dernières de la maison), sans nouvel index Firestore (tri fait dans l'app) — `ecouterRealisationsTache` dans `donnees.dart`, widgets `LigneRealisation` et `HistoriqueTache` dans `ecran_historique.dart`
 
 **Testé sur émulateur** : maison créée depuis le modèle générique, une tâche cochée → visible dans Équipe (« Aujourd'hui · par TestEmu »), dans « Tout l'historique », et dans sa fiche (« Faite 1 fois ») ; Paramètres sans bouton Historique. Les écarts « N j après » n'ont pas pu être vus (impossible de cocher à une date passée sur l'émulateur) — à vérifier sur la vraie maison. Maison de test supprimée, émulateur arrêté.
+
+## 32. PUBLICATION GOOGLE PLAY — TEST FERMÉ — étape 1 préparée le 2026-10-10
+
+Décision Kinder : publier **tel quel** en test fermé ; le modèle générique sera revu avant la production. Étape 1 (Claude Code) : tout préparer ; étape 2 : saisie dans la Play Console avec Claude in Chrome.
+
+Tout est dans `publication/PUBLICATION_PLAYSTORE.md` (valeurs de chaque champ, réponses aux questionnaires, prompt pour Chrome, points d'attention) + images (`publication/`) + `public/confidentialite.html` (politique de confidentialité, à mettre en ligne). Version 1.1.0+5000 ; 3 permissions « service au premier plan » inutilisées retirées du manifeste (rappel quotidien re-testé : OK). Clé de signature sauvegardée dans `V:\DEV\keys\`.
+
+**Décision recommandée** : à la création de la version, choisir « utiliser ma propre clé » (PEPK) pour que la version Play s'installe par-dessus les APK déjà installés sans perte de profil ni d'historique.
+**À traiter avant la production** : objets de la Saison 1 inspirés de Game of Thrones (risque propriété intellectuelle) ; règle Google des 12 testeurs / 14 jours pour les comptes personnels récents.
