@@ -79,7 +79,7 @@ Gratuit, sans publicité, sans achat intégré.
 
 **Catégorie** : Appli · **Maison et habitat** (à défaut : Productivité). Tags : laisser vide si proposé.
 
-**Coordonnées** : e-mail **à fournir par Kinder** (le même que dans la politique de confidentialité). Site web : vide. Téléphone : vide.
+**Coordonnées** : e-mail `atelierconnecte.contact@gmail.com` (le même que dans la politique de confidentialité). Site web : vide. Téléphone : vide.
 
 ---
 
@@ -90,7 +90,7 @@ Gratuit, sans publicité, sans achat intégré.
 | Règles de confidentialité | `https://nickel-menage-57692.web.app/confidentialite.html` (après mise en ligne, § 5) |
 | Accès à l'application | Toutes les fonctionnalités sont disponibles sans accès particulier (pas de connexion : on crée une maison librement) |
 | Annonces | Non, l'application ne contient pas d'annonces |
-| Classification du contenu | e-mail de contact ; catégorie **« Toutes les autres catégories d'applications »** (utilitaire/productivité) ; violence, sexualité, langage, drogues, jeux d'argent : **Non** partout ; « Les utilisateurs peuvent-ils interagir ou échanger du contenu ? » : **Oui** (les membres d'une maison voient les prénoms et les tâches saisies par les autres) ; partage de position : Non ; achats numériques : Non ; contenu généré par l'utilisateur modéré : non applicable |
+| Classification du contenu | e-mail de contact `atelierconnecte.contact@gmail.com` ; catégorie **« Toutes les autres catégories d'applications »** (utilitaire/productivité) ; violence, sexualité, langage, drogues, jeux d'argent : **Non** partout ; « Les utilisateurs peuvent-ils interagir ou échanger du contenu ? » : **Oui** (les membres d'une maison voient les prénoms et les tâches saisies par les autres) ; partage de position : Non ; achats numériques : Non ; contenu généré par l'utilisateur modéré : non applicable |
 | Public cible | **18 ans et plus** uniquement ; l'application n'attire pas particulièrement les enfants : Non |
 | Applications d'actualités | Non |
 | Applications gouvernementales | Non |
@@ -118,9 +118,9 @@ Rien d'autre : pas de position, contacts, photos, e-mail, téléphone, données 
 
 ## 5. Avant l'étape 2 — à faire / à décider
 
-1. **E-mail de contact** (fiche Play + politique de confidentialité) : Kinder le donne → Claude Code remplace `EMAIL_CONTACT_A_RENSEIGNER` dans `public/confidentialite.html`.
+1. **E-mail de contact** : `atelierconnecte.contact@gmail.com` — fait, inscrit dans `public/confidentialite.html`.
 2. **Mise en ligne de la politique** : `firebase deploy --only hosting` (Claude Code, avec l'accord de Kinder). Vérifier ensuite que l'adresse s'ouvre. Ce déploiement republie aussi le reste du dossier `public/` tel qu'il est dans le dépôt.
-3. **E-mails des testeurs** (les habitants + toute personne qui testera) : il faut leur adresse Google (celle du Play Store de leur téléphone).
+3. **Testeurs** : liste déjà enregistrée dans la Play Console (Kinder) — la sélectionner, ne pas en créer une nouvelle.
 
 ---
 
@@ -137,7 +137,7 @@ Règles :
 Étapes :
 1. Créer l'application (section 2 du document).
 2. Tableau de bord → « Configurer votre application » : remplir chaque rubrique de la section 4 (confidentialité, accès, annonces, classification, public cible, actualités, sécurité des données, gouvernement, finances, santé), puis la fiche Play Store (section 3) et la catégorie.
-3. Tests → Test fermé → piste « Closed testing » (Alpha) : créer une liste de testeurs avec les e-mails que je te donnerai, choisir les pays (France, Belgique, Suisse, Canada).
+3. Tests → Test fermé → piste « Closed testing » (Alpha) : sélectionner la liste de testeurs DÉJÀ enregistrée dans mon compte (ne pas en créer une nouvelle ; si plusieurs listes existent, demande-moi laquelle), choisir les pays (France, Belgique, Suisse, Canada).
 4. Créer une version dans ce test fermé. ARRÊTE-TOI à l'écran de la clé de signature de l'application : je dois choisir « utiliser ma propre clé » (exporter et importer depuis un keystore Java). Télécharge l'outil PEPK et la clé de chiffrement proposés, dis-moi où ils sont enregistrés, et attends : Claude Code va produire le fichier chiffré à téléverser.
 5. Ensuite : téléverser app-release.aab, nom de version « 1.1.0 (5000) », notes de version :
    <fr-FR>Première version de test : tâches à fréquence, fiche et historique de chaque tâche, équipe et progression, astuces, rappel quotidien.</fr-FR>
