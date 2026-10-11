@@ -1879,3 +1879,5 @@ Tout est dans `publication/PUBLICATION_PLAYSTORE.md` (valeurs de chaque champ, r
 
 **Décision recommandée** : à la création de la version, choisir « utiliser ma propre clé » (PEPK) pour que la version Play s'installe par-dessus les APK déjà installés sans perte de profil ni d'historique.
 **À traiter avant la production** : objets de la Saison 1 inspirés de Game of Thrones (risque propriété intellectuelle) ; règle Google des 12 testeurs / 14 jours pour les comptes personnels récents.
+
+Politique de confidentialité mise en ligne le 2026-10-11 (accord de Kinder) : https://nickel-menage-57692.web.app/confidentialite.html — contact atelierconnecte.contact@gmail.com. Testeurs : liste déjà enregistrée dans la Play Console. Prochaine étape : étape 2 dans Chrome (prompt § 6 de publication/PUBLICATION_PLAYSTORE.md).

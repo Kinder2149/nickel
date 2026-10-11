@@ -119,7 +119,7 @@ Rien d'autre : pas de position, contacts, photos, e-mail, téléphone, données 
 ## 5. Avant l'étape 2 — à faire / à décider
 
 1. **E-mail de contact** : `atelierconnecte.contact@gmail.com` — fait, inscrit dans `public/confidentialite.html`.
-2. **Mise en ligne de la politique** : `firebase deploy --only hosting` (Claude Code, avec l'accord de Kinder). Vérifier ensuite que l'adresse s'ouvre. Ce déploiement republie aussi le reste du dossier `public/` tel qu'il est dans le dépôt.
+2. **Politique de confidentialité en ligne** : fait le 2026-10-11 (`firebase deploy --only hosting`), adresse vérifiée : https://nickel-menage-57692.web.app/confidentialite.html
 3. **Testeurs** : liste déjà enregistrée dans la Play Console (Kinder) — la sélectionner, ne pas en créer une nouvelle.
 
 ---
