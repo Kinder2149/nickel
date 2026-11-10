@@ -1,5 +1,8 @@
 # CHANGELOG — Nickel
 
+## 2026-11-10 — Jeu 1-3 : police au maximum, étape 2 (fiche)
+- [FIX] Fiche (Mon profil) : blocs extraits dans widgets_fiche.dart et test à police x1.0 / x1.5 / x2.0 (échoue avant, vert après) ; à grande police : actions regroupées en un menu et titre qui se réduit, 4 statistiques en 2 × 2, badges l'un sous l'autre, cases de hauteur minimale (84 et 46), ligne de succès qui se replie. Rendu à police normale inchangé.
+
 ## 2026-11-10 — Jeu 1-3 : police au maximum, étape 1 (Marché)
 - [FIX] Détecteur de coupure (test/detecteur_coupure.dart) et test à police x1.0 / x1.5 / x2.0 sur le Marché (étiquettes, boutons, filtre, objectif, cadeau, collection) ; corrigé : hauteurs minimales au lieu de fixes, plus de limite de lignes qui coupe, grille en 1 colonne à police agrandie, filtre et cadeau qui se replient. Rendu à police normale inchangé.
 
