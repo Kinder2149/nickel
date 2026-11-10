@@ -5,6 +5,30 @@
 > Créé le 2026-09-07 — Habitat pilote : appartement Val / Sam / Yo
 > La **section 4** contient les décisions figées inviolables.
 
+## STATUT — fait foi pour les statuts (lu par DevBoard)
+
+```
+STATUT DU PROJET : En développement
+MISSION : Publication Play Store, test fermé — En implémentation (seule mission active, R29)
+PHASE : 6 Implémentation
+  Étape : 1 Préparation (valeurs, images, confidentialité) — Close — critère : tout est prêt dans publication/PUBLICATION_PLAYSTORE.md
+  Étape : 2 Saisie dans la Play Console avec Chrome — Planifiée — critère : l'application « Nickel » est créée dans la Play Console, la fiche et les questionnaires sont remplis, une version 1.1.0 (5000) est prête à envoyer en test fermé (piste Alpha, liste de testeurs existante) ; rien n'est envoyé sans l'accord de Kinder (d'après publication/PUBLICATION_PLAYSTORE.md §6, à valider au cadrage)
+MISSION : Jeu, missions 1 à 3 (accessibilité, boucle de la semaine, collections) — En attente (1) — OUVERTE : police au maximum échouée le 2026-11-10 (voir « Réparation à planifier »)
+MISSION : Retour d'usage n°5 (formulaires guidés, messages d'erreur, historique) — Close — validée sur émulateur le 2026-11-10 (réserve : essai téléphone de Kinder à sa convenance) ; réf. Methode_pilotage_v2CONSTAT_T2.md §6
+MISSION : Jeu, mission 4 (objets permanents remplacés) — Close
+MISSION : Vérifications terrain (Mission A) — En attente (2) — statut d'origine « Plan validé » (hors liste)
+IDÉES PARQUÉES :
+  - Lier une tâche à sa fiche d'astuce (Mission B)
+  - Enrichir produits et astuces du modèle (Mission C)
+  - Refonte du modèle de tâches (Mission D)
+  - Objets de la Saison 1 inspirés de Game of Thrones, à traiter avant la production
+```
+*(Bloc ajouté le 2026-10-30, validé par Kinder.)*
+
+### Réparation à planifier — mission à part après la Revue (constatée le 2026-11-10)
+
+Jeu, missions 1 à 3 : essai sur émulateur avec la police Android au maximum. Au Marché, les boutons des objets rares sont coupés (on lit « 100 · il » au lieu du texte complet) et le filtre « Couvertures » se casse en deux lignes. Sur la fiche (Mon profil), le titre est coupé (« Mon … ») et les libellés « Cette semaine » et « Meilleure série » sont coupés au milieu d'un mot. L'écran Équipe est lisible. Le reste des critères est réussi (quêtes, RÉCUPÉRER, collection). Réf. : Methode_pilotage_v2CONSTAT_T2.md §6.2, captures J1-06 à J1-11. Décision de Kinder (2026-11-10) : la mission reste ouverte ; sa réparation est une mission à part, à cadrer après la Revue. Ce n'est pas une mission active : la mission active du projet reste « Publication Play Store, test fermé » (R29).
+
 ---
 
 ## 1. OBJECTIF DU PILOTE
