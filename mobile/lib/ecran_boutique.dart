@@ -12,7 +12,6 @@ import 'quetes.dart';
 import 'widgets_collections.dart';
 import 'widgets_objet.dart';
 
-enum _Filtre { tout, avatars, couvertures }
 
 /// Le marché. Trois parties :
 ///  - la SAISON EN COURS (objets en vente seulement pendant ses mois, chaque
@@ -36,7 +35,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
   List<Map<String, dynamic>> _realisations = [];
   final _abonnements = <StreamSubscription>[];
   bool _occupe = false;
-  _Filtre _filtre = _Filtre.tout;
+  FiltreObjets _filtre = FiltreObjets.tout;
   bool _rattrapageFait = false;
 
   @override
@@ -201,9 +200,9 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
     }).toList();
 
     bool filtre(Objet o) => switch (_filtre) {
-          _Filtre.tout => true,
-          _Filtre.avatars => o.type == TypeObjet.avatar,
-          _Filtre.couvertures => o.type == TypeObjet.couverture,
+          FiltreObjets.tout => true,
+          FiltreObjets.avatars => o.type == TypeObjet.avatar,
+          FiltreObjets.couvertures => o.type == TypeObjet.couverture,
         };
 
     List<Objet> trier(Iterable<Objet> os) => os.where(filtre).toList()
@@ -243,16 +242,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
           _entete(moi, solde, maintenant),
           if (enCours.isNotEmpty) _cadeau(enCours.first, moi, maintenant),
           const SizedBox(height: 12),
-          SegmentedButton<_Filtre>(
-            showSelectedIcon: false,
-            segments: const [
-              ButtonSegment(value: _Filtre.tout, label: Text('Tout')),
-              ButtonSegment(value: _Filtre.avatars, label: Text('Avatars')),
-              ButtonSegment(value: _Filtre.couvertures, label: Text('Couvertures')),
-            ],
-            selected: {_filtre},
-            onSelectionChanged: (s) => setState(() => _filtre = s.first),
-          ),
+          SelecteurFiltre(filtre: _filtre, onChanged: (f) => setState(() => _filtre = f)),
           for (final s in enCours) ...[
             _titreSection('SAISON EN COURS', '${s.nom} · ${s.theme}',
                 'En vente jusqu\'au ${dateLongue(s.fin(maintenant))} (${s.joursRestants(maintenant) + 1} j restants)'),
@@ -371,26 +361,7 @@ class _EcranBoutiqueState extends State<EcranBoutique> {
   Widget _cadeau(Saison s, Map<String, dynamic>? moi, DateTime maintenant) {
     final recupere = ((moi?['dotations'] as List?) ?? const []).contains(s.cleDotation(maintenant));
     if (recupere || moi == null) return const SizedBox.shrink();
-    return Container(
-      margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.vert, width: 2)),
-      child: Row(
-        children: [
-          const Icon(Icons.card_giftcard, color: Palette.vert),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text('Cadeau de la saison « ${s.nom} » : $dotationSaison Bulles',
-                style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre)),
-          ),
-          ElevatedButton(
-            onPressed: () => _recupererCadeau(s),
-            style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size(110, 48))),
-            child: const Text('RÉCUPÉRER', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-          ),
-        ],
-      ),
-    );
+    return CadeauSaison(nomSaison: s.nom, dotation: dotationSaison, onRecuperer: () => _recupererCadeau(s));
   }
 
   Widget _titreSection(String etiquette, String titre, String sousTitre) {
