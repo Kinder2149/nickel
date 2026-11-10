@@ -1,5 +1,11 @@
 # CHANGELOG — Nickel
 
+## 2026-11-10 — Police au maximum, étape 4 (fenêtre d'objet du Marché)
+- [FIX] FicheObjet (widgets_objet.dart) rendue défilable : à grande police la fenêtre ne déborde plus, prix et « En faire mon objectif » restent atteignables ; test à x1.0 / x1.5 / x2.0 (échoue avant, vert après). Rendu inchangé quand le contenu tient.
+
+## 2026-11-10 — Vérification finale : police au maximum (lot 5)
+- [CHECK] Vérification à l'écran sur émulateur, maison jetable : fiche, Équipe, Quêtes, Collection réussis ; Marché partiel (la fenêtre de détail d'un objet est coupée à police max : bouton de prix coupé, « En faire mon objectif » hors écran). Détail et captures : Methode_pilotage_v2\CONSTAT_T2.md.
+
 ## 2026-11-10 — Jeu 1-3 : police au maximum, étape 3 (Équipe, Quêtes, menu du bas)
 - [FIX] Carte membre et menu du bas extraits dans widgets_equipe.dart, test à police x1.0 / x1.5 / x2.0 (carte membre échoue avant, vert après) ; à grande police : les 3 chiffres s'empilent et les badges passent sous le nom ; bouton « RÉCUPÉRER » de la quête en hauteur minimale. Rendu à police normale inchangé.
 

@@ -328,8 +328,10 @@ class FicheObjet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Contenu défilable : à grande police la fenêtre (hauteur limitée par la
+    // feuille modale) défile au lieu de déborder, boutons atteignables.
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(22, 22, 22, 22),
         child: Column(
           mainAxisSize: MainAxisSize.min,
