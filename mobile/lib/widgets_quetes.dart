@@ -67,11 +67,10 @@ class LigneQuete extends StatelessWidget {
               else if (d.terminee)
                 SizedBox(
                   width: double.infinity,
-                  height: 48,
                   child: ElevatedButton(
                     onPressed: onRecuperer,
                     style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48))),
-                    child: Text('RÉCUPÉRER +${d.recompense} BULLES', style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                    child: Text('RÉCUPÉRER +${d.recompense} BULLES', textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0.5)),
                   ),
                 )
               else

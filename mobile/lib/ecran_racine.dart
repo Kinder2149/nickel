@@ -11,6 +11,7 @@ import 'ecran_equipe.dart';
 import 'jeu.dart';
 import 'quetes.dart';
 import 'palette.dart';
+import 'widgets_equipe.dart';
 
 /// Les trois portes de l'app (§ 21, § 25) : je fais ce qui est à faire chez
 /// moi, je vois où en est l'équipe, ou je cherche une astuce. L'accueil reste la vitrine — les
@@ -194,29 +195,7 @@ class _EcranRacineState extends State<EcranRacine> {
           const EcranAstuces(),
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Palette.papierClair,
-        indicatorColor: Palette.encre,
-        selectedIndex: _onglet,
-        onDestinationSelected: (i) => setState(() => _onglet = i),
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined, color: Palette.encreDouce),
-            selectedIcon: Icon(Icons.home, color: Palette.papier),
-            label: 'Maison',
-          ),
-          NavigationDestination(
-            icon: Badge(isLabelVisible: _questesPretes > 0, label: Text('$_questesPretes'), child: const Icon(Icons.emoji_events_outlined, color: Palette.encreDouce)),
-            selectedIcon: Badge(isLabelVisible: _questesPretes > 0, label: Text('$_questesPretes'), child: const Icon(Icons.emoji_events, color: Palette.papier)),
-            label: 'Équipe',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.lightbulb_outline, color: Palette.encreDouce),
-            selectedIcon: Icon(Icons.lightbulb, color: Palette.papier),
-            label: 'Astuces',
-          ),
-        ],
-      ),
+      bottomNavigationBar: MenuBas(onglet: _onglet, onChoix: (i) => setState(() => _onglet = i), questesPretes: _questesPretes),
     );
   }
 }
