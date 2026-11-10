@@ -5,6 +5,38 @@
 > Créé le 2026-09-07 — Habitat pilote : appartement Val / Sam / Yo
 > La **section 4** contient les décisions figées inviolables.
 
+## STATUT — fait foi pour les statuts (lu par DevBoard)
+
+```
+STATUT DU PROJET : En développement
+MISSION : Jeu, missions 1 à 3 (accessibilité, boucle de la semaine, collections) — En implémentation (seule mission active, R29) — Lot 5 de la Revue de la méthode : réparation de la police au maximum (échouée le 2026-11-10, voir « Réparation à planifier »)
+PHASE : 5 Plan à valider (cadré le 2026-11-10 ; mission de test de la Revue, choisie par Kinder)
+  Base git : branche de travail `nickel-police-maximum` créée depuis `main` (main contient déjà Jeu 1-3 et le retour n°5 ; `publication-test-ferme` = main + 4 commits de publication, dossier lib identique, donc rien à reprendre). Ne pas partir de `publication-test-ferme` (mélangerait la publication en attente). Avant de changer de branche : `git status` propre sinon montrer à Kinder. Aucune fusion ni envoi en ligne sans son accord.
+  Constat clé : le test existant (test/accessibilite_test.dart, cartes à x2.0) passe alors que le texte est coupé, car il ne cherche que les erreurs de mise en page ; les coupures viennent de hauteurs fixes (étiquette du Marché 48, case de badge 84, sélecteur 46, bouton 48), de maxLines sans place, et de colonnes trop étroites (4 statistiques de la fiche, filtre à 3 segments, barre de titre avec 3 boutons). Le test à écrire doit donc détecter la coupure (texte qui dépasse son nombre de lignes, mot plus large que sa boîte), pas seulement l'exception.
+  Aucune étape « opus » : ce sont des corrections de mise en page répétitives (Sonnet).
+  Étape : 1 Détecteur de coupure + Marché — Planifiée — critère (test de code) : un widget test à police x2.0 (et x1.5, x1.0) sur les cartes du Marché (étiquette « il manque », bouton prix), le filtre Tout/Avatars/Couvertures, l'objectif, le cadeau et la carte de collection ne signale aucune coupure (aucun texte au-delà de son nombre de lignes, aucun mot cassé en deux, aucune erreur de débordement) ; le test échoue avant la correction (preuve) ; `flutter test` complet vert. À corriger : widgets_objet.dart (étiquette à hauteur fixe 48 → hauteur minimale, sans limite de lignes), ecran_boutique.dart (filtre SegmentedButton), widgets_collections.dart
+  Étape : 2 Fiche (Mon profil) — Planifiée — critère (test de code) : le même détecteur à x2.0 ne signale rien sur le titre de la barre (le titre et les 3 actions tiennent, ex. actions regroupées ou titre sur 2 lignes), la rangée des 4 statistiques (2 × 2 à grande police), les cases de badge (hauteur 84 → minimale), la ligne de succès, le sélecteur de la fenêtre MODIFIER (cases de hauteur 46), la barre d'objectif ; pour cela extraire les blocs de ecran_fiche.dart en petits widgets testables sans Firebase ; `flutter test` complet vert. À corriger : ecran_fiche.dart
+  Étape : 3 Équipe, Quêtes, menu du bas — Planifiée — critère (test de code) : le même détecteur à x2.0 ne signale rien sur la carte membre (ligne des 3 chiffres « cette semaine / au total / de série » et pastille + badges + flèche), la carte de quête (titre, bouton « RÉCUPÉRER +N BULLES », récompense) et les libellés du menu du bas (Maison, Équipe, …) ; `flutter test` et `flutter analyze` verts. À corriger : ecran_equipe.dart, widgets_quetes.dart, ecran_racine.dart
+  Critère de fin de mission (vérification à l'écran, R9, par une autre IA, sur émulateur, maison jetable seulement, jamais la maison réelle Val / Sam / Yo) : police système au maximum, captures du Marché (filtre, cartes rares, objectif), de la fiche (titre, 4 statistiques, badges, fenêtre MODIFIER), de l'Équipe, des Quêtes et de la Collection : aucun bouton, titre ni libellé coupé (ni mot cassé en deux, ni « … »), tout lisible en faisant défiler ; mêmes écrans à la police normale inchangés. Hors périmètre (non audités) : écrans de départ, guide, astuces, gestion, paramètres.
+MISSION : Publication Play Store, test fermé — En attente (1) — mise en attente le 2026-11-10 le temps de la réparation Jeu 1-3 (R29) ; reprise : test fermé, rien n'est envoyé sans l'accord de Kinder
+PHASE : 6 Implémentation
+  Étape : 1 Préparation (valeurs, images, confidentialité) — Close — critère : tout est prêt dans publication/PUBLICATION_PLAYSTORE.md
+  Étape : 2 Saisie dans la Play Console avec Chrome — Planifiée — critère : l'application « Nickel » est créée dans la Play Console, la fiche et les questionnaires sont remplis, une version 1.1.0 (5000) est prête à envoyer en test fermé (piste Alpha, liste de testeurs existante) ; rien n'est envoyé sans l'accord de Kinder (d'après publication/PUBLICATION_PLAYSTORE.md §6, à valider au cadrage)
+MISSION : Retour d'usage n°5 (formulaires guidés, messages d'erreur, historique) — Close — validée sur émulateur le 2026-11-10 (réserve : essai téléphone de Kinder à sa convenance) ; réf. Methode_pilotage_v2CONSTAT_T2.md §6
+MISSION : Jeu, mission 4 (objets permanents remplacés) — Close
+MISSION : Vérifications terrain (Mission A) — En attente (2) — statut d'origine « Plan validé » (hors liste)
+IDÉES PARQUÉES :
+  - Lier une tâche à sa fiche d'astuce (Mission B)
+  - Enrichir produits et astuces du modèle (Mission C)
+  - Refonte du modèle de tâches (Mission D)
+  - Objets de la Saison 1 inspirés de Game of Thrones, à traiter avant la production
+```
+*(Bloc ajouté le 2026-10-30, validé par Kinder.)*
+
+### Réparation à planifier — mission à part après la Revue (constatée le 2026-11-10)
+
+Jeu, missions 1 à 3 : essai sur émulateur avec la police Android au maximum. Au Marché, les boutons des objets rares sont coupés (on lit « 100 · il » au lieu du texte complet) et le filtre « Couvertures » se casse en deux lignes. Sur la fiche (Mon profil), le titre est coupé (« Mon … ») et les libellés « Cette semaine » et « Meilleure série » sont coupés au milieu d'un mot. L'écran Équipe est lisible. Le reste des critères est réussi (quêtes, RÉCUPÉRER, collection). Réf. : Methode_pilotage_v2CONSTAT_T2.md §6.2, captures J1-06 à J1-11. Décision de Kinder (2026-11-10) : la mission reste ouverte ; sa réparation est une mission à part, à cadrer après la Revue. Ce n'est pas une mission active : la mission active du projet reste « Publication Play Store, test fermé » (R29).
+
 ---
 
 ## 1. OBJECTIF DU PILOTE
@@ -1870,3 +1902,14 @@ Plus aucune erreur technique brute à l'écran : chaque échec dit ce qui s'est 
 - La fiche lit **toutes** les réalisations de la tâche (pas seulement les 100 dernières de la maison), sans nouvel index Firestore (tri fait dans l'app) — `ecouterRealisationsTache` dans `donnees.dart`, widgets `LigneRealisation` et `HistoriqueTache` dans `ecran_historique.dart`
 
 **Testé sur émulateur** : maison créée depuis le modèle générique, une tâche cochée → visible dans Équipe (« Aujourd'hui · par TestEmu »), dans « Tout l'historique », et dans sa fiche (« Faite 1 fois ») ; Paramètres sans bouton Historique. Les écarts « N j après » n'ont pas pu être vus (impossible de cocher à une date passée sur l'émulateur) — à vérifier sur la vraie maison. Maison de test supprimée, émulateur arrêté.
+
+## 32. PUBLICATION GOOGLE PLAY — TEST FERMÉ — étape 1 préparée le 2026-10-10
+
+Décision Kinder : publier **tel quel** en test fermé ; le modèle générique sera revu avant la production. Étape 1 (Claude Code) : tout préparer ; étape 2 : saisie dans la Play Console avec Claude in Chrome.
+
+Tout est dans `publication/PUBLICATION_PLAYSTORE.md` (valeurs de chaque champ, réponses aux questionnaires, prompt pour Chrome, points d'attention) + images (`publication/`) + `public/confidentialite.html` (politique de confidentialité, à mettre en ligne). Version 1.1.0+5000 ; 3 permissions « service au premier plan » inutilisées retirées du manifeste (rappel quotidien re-testé : OK). Clé de signature sauvegardée dans `V:\DEV\keys\`.
+
+**Décision recommandée** : à la création de la version, choisir « utiliser ma propre clé » (PEPK) pour que la version Play s'installe par-dessus les APK déjà installés sans perte de profil ni d'historique.
+**À traiter avant la production** : objets de la Saison 1 inspirés de Game of Thrones (risque propriété intellectuelle) ; règle Google des 12 testeurs / 14 jours pour les comptes personnels récents.
+
+Politique de confidentialité mise en ligne le 2026-10-11 (accord de Kinder) : https://nickel-menage-57692.web.app/confidentialite.html — contact atelierconnecte.contact@gmail.com. Testeurs : liste déjà enregistrée dans la Play Console. Prochaine étape : étape 2 dans Chrome (prompt § 6 de publication/PUBLICATION_PLAYSTORE.md).
