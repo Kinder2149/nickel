@@ -9,8 +9,8 @@
 
 ```
 STATUT DU PROJET : En développement
-MISSION : Jeu, missions 1 à 3 (accessibilité, boucle de la semaine, collections) — En implémentation (seule mission active, R29) — Lot 5 de la Revue de la méthode : réparation de la police au maximum (échouée le 2026-11-10, voir « Réparation à planifier »)
-PHASE : 6 Implémentation — retour depuis la vérification finale (R10), étape 4 (plan validé par Kinder le 2026-11-10 ; mission de test de la Revue)
+MISSION : Jeu, missions 1 à 3 (accessibilité, boucle de la semaine, collections) — En attente de ma capture (seule mission active, R29) — Lot 5 de la Revue de la méthode : réparation de la police au maximum (échouée le 2026-11-10, voir « Réparation à planifier »)
+PHASE : Clôture — vérification finale réussie (nouvelle vérification du 2026-11-10 après correction de l'étape 4, R10) ; branche `nickel-police-maximum` envoyée en ligne ; reste : test final de Kinder par capture, puis sa validation finale (accord de fusion)
   Base git : branche de travail `nickel-police-maximum` créée depuis `main` (main contient déjà Jeu 1-3 et le retour n°5 ; `publication-test-ferme` = main + 4 commits de publication, dossier lib identique, donc rien à reprendre). Ne pas partir de `publication-test-ferme` (mélangerait la publication en attente). Avant de changer de branche : `git status` propre sinon montrer à Kinder. Aucune fusion ni envoi en ligne sans son accord.
   Constat clé : le test existant (test/accessibilite_test.dart, cartes à x2.0) passe alors que le texte est coupé, car il ne cherche que les erreurs de mise en page ; les coupures viennent de hauteurs fixes (étiquette du Marché 48, case de badge 84, sélecteur 46, bouton 48), de maxLines sans place, et de colonnes trop étroites (4 statistiques de la fiche, filtre à 3 segments, barre de titre avec 3 boutons). Le test à écrire doit donc détecter la coupure (texte qui dépasse son nombre de lignes, mot plus large que sa boîte), pas seulement l'exception.
   Aucune étape « opus » : ce sont des corrections de mise en page répétitives (Sonnet).

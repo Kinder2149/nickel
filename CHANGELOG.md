@@ -1,5 +1,8 @@
 # CHANGELOG — Nickel
 
+## 2026-11-10 — Nouvelle vérification : Marché à police maximum (lot 5, R10)
+- [CHECK] Autre IA, émulateur, maison jetable (supprimée) : Marché à police max réussi, la fenêtre d'objet défile et un objectif a été posé depuis elle ; fiche, Équipe, Quêtes, Collection sans coupure ; Marché à police normale sain. Détail et captures : Methode_pilotage_v2\CONSTAT_T2.md.
+
 ## 2026-11-10 — Police au maximum, étape 4 (fenêtre d'objet du Marché)
 - [FIX] FicheObjet (widgets_objet.dart) rendue défilable : à grande police la fenêtre ne déborde plus, prix et « En faire mon objectif » restent atteignables ; test à x1.0 / x1.5 / x2.0 (échoue avant, vert après). Rendu inchangé quand le contenu tient.
 
@@ -24,3 +27,5 @@
 ## 2026-11-10 — Validation sur émulateur (t2)
 - [DOC] Retour d'usage n°5 : mission Close, validée sur émulateur le 2026-11-10 (réserve : essai téléphone de Kinder à sa convenance). Réf. Methode_pilotage_v2CONSTAT_T2.md §6.2.
 - [DOC] Jeu, missions 1 à 3 : reste ouverte (police au maximum échouée : boutons coupés au Marché, titre et libellés coupés sur la fiche) ; réparation notée dans PROJET_CONTEXTE.md (« Réparation à planifier »), mission à part après la Revue. Aucune branche touchée ni fusionnée.
+
+- 2026-11-11 — Clôture lot 5 : vérification finale réussie après l'étape 4 ; branche `nickel-police-maximum` envoyée en ligne (non fusionnée) ; mission « En attente de ma capture ».
