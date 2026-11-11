@@ -87,3 +87,65 @@ class LigneCollection extends StatelessWidget {
     );
   }
 }
+
+/// Filtre du marché.
+enum FiltreObjets { tout, avatars, couvertures }
+
+/// Le choix Tout / Avatars / Couvertures en haut du marché.
+class SelecteurFiltre extends StatelessWidget {
+  const SelecteurFiltre({super.key, required this.filtre, required this.onChanged});
+
+  final FiltreObjets filtre;
+  final ValueChanged<FiltreObjets> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    const noms = {FiltreObjets.tout: 'Tout', FiltreObjets.avatars: 'Avatars', FiltreObjets.couvertures: 'Couvertures'};
+    if (grandePolice(context)) {
+      // police agrandie : trois choix l'un sous l'autre plutôt qu'un bandeau trop étroit
+      return Wrap(
+        spacing: 8,
+        children: [
+          for (final e in noms.entries)
+            ChoiceChip(label: Text(e.value), selected: filtre == e.key, onSelected: (_) => onChanged(e.key)),
+        ],
+      );
+    }
+    return SegmentedButton<FiltreObjets>(
+      showSelectedIcon: false,
+      segments: [for (final e in noms.entries) ButtonSegment(value: e.key, label: Text(e.value))],
+      selected: {filtre},
+      onSelectionChanged: (s) => onChanged(s.first),
+    );
+  }
+}
+
+/// Le cadeau de la saison, avec son bouton « RÉCUPÉRER ».
+class CadeauSaison extends StatelessWidget {
+  const CadeauSaison({super.key, required this.nomSaison, required this.dotation, required this.onRecuperer});
+
+  final String nomSaison;
+  final int dotation;
+  final VoidCallback onRecuperer;
+
+  @override
+  Widget build(BuildContext context) {
+    final texte = Text('Cadeau de la saison « $nomSaison » : $dotation Bulles', style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre));
+    final bouton = ElevatedButton(
+      onPressed: onRecuperer,
+      style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size(110, 48))),
+      child: const Text('RÉCUPÉRER', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+    );
+    return Container(
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.vert, width: 2)),
+      child: grandePolice(context)
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [texte, const SizedBox(height: 8), bouton],
+            )
+          : Row(children: [const Icon(Icons.card_giftcard, color: Palette.vert), const SizedBox(width: 10), Expanded(child: texte), bouton]),
+    );
+  }
+}

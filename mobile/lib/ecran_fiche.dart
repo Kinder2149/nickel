@@ -12,6 +12,7 @@ import 'ecran_guide.dart';
 import 'collections.dart';
 import 'jeu.dart';
 import 'widgets_collections.dart';
+import 'widgets_fiche.dart';
 import 'widgets_objet.dart';
 import 'palette.dart';
 import 'stockage_local.dart';
@@ -157,31 +158,15 @@ class _EcranFicheState extends State<EcranFiche> {
     final objectif = objectifId == null ? null : tousLesObjets.where((o) => o.id == objectifId).firstOrNull;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Palette.papier,
-        foregroundColor: Palette.encre,
-        elevation: 0,
-        title: Text(_estMoi ? 'Mon profil' : membre['prenom'] as String, style: const TextStyle(fontWeight: FontWeight.w900)),
-        actions: [
-          IconButton(
-            tooltip: 'Comment ça marche ?',
-            icon: const Icon(Icons.help_outline),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EcranGuide())),
-          ),
-          if (_estMoi)
-            IconButton(
-              tooltip: 'Marché',
-              icon: const Icon(Icons.storefront_outlined),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => EcranBoutique(maisonId: widget.maisonId, profil: widget.profil)),
-              ),
-            ),
-          if (_estMoi)
-            TextButton(
-              onPressed: () => _modifier(membre, stats, debloques),
-              child: const Text('MODIFIER', style: TextStyle(fontWeight: FontWeight.bold, color: Palette.encre)),
-            ),
-        ],
+      appBar: barreFiche(
+        context,
+        titre: _estMoi ? 'Mon profil' : membre['prenom'] as String,
+        estMoi: _estMoi,
+        onAide: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EcranGuide())),
+        onMarche: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => EcranBoutique(maisonId: widget.maisonId, profil: widget.profil)),
+        ),
+        onModifier: () => _modifier(membre, stats, debloques),
       ),
       body: ListView(
         padding: EdgeInsets.zero,
@@ -231,23 +216,9 @@ class _EcranFicheState extends State<EcranFiche> {
                   ],
                 ],
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    for (var i = 0; i < 3; i++) ...[
-                      if (i > 0) const SizedBox(width: 10),
-                      Expanded(child: _emplacementBadge(i < badges.length ? succes.firstWhere((s) => s.id == badges[i]) : null)),
-                    ],
-                  ],
-                ),
+                RangeeBadges(badges: [for (var i = 0; i < 3; i++) i < badges.length ? succes.firstWhere((s) => s.id == badges[i]) : null]),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    _stat('${stats.taches}', 'Tâches faites'),
-                    _stat('${stats.semaine}', 'Cette semaine'),
-                    _stat('${stats.serie} j', 'Série en cours'),
-                    _stat('${stats.meilleureSerie} j', 'Meilleure série'),
-                  ],
-                ),
+                StatsFiche(taches: stats.taches, semaine: stats.semaine, serie: stats.serie, meilleureSerie: stats.meilleureSerie),
                 const SizedBox(height: 24),
                 ..._sectionCollections(membre),
                 ..._sectionSucces(stats, contexte, debloques),
@@ -255,46 +226,6 @@ class _EcranFicheState extends State<EcranFiche> {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _emplacementBadge(Succes? s) {
-    return Semantics(
-      label: s == null ? 'Emplacement de badge vide' : 'Badge ${s.nom}, ${s.rarete.libelle}',
-      child: ExcludeSemantics(child: _caseBadge(s)),
-    );
-  }
-
-  Widget _caseBadge(Succes? s) {
-    return Container(
-      height: 84,
-      decoration: BoxDecoration(
-        color: Palette.papierClair,
-        border: Border.all(color: s != null ? s.rarete.couleur : Palette.trait, width: s != null ? 2.5 : 1.5),
-      ),
-      alignment: Alignment.center,
-      child: s == null
-          ? const Text('—', style: TextStyle(fontSize: 22, color: Palette.encreFaible))
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(s.icone, size: 30, color: s.rarete.couleur),
-                const SizedBox(height: 4),
-                Text(s.nom, textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Palette.encre)),
-              ],
-            ),
-    );
-  }
-
-  Widget _stat(String valeur, String libelle) {
-    return Expanded(
-      child: Column(
-        children: [
-          Text(valeur, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Palette.encre)),
-          const SizedBox(height: 2),
-          Text(libelle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
         ],
       ),
     );
@@ -346,67 +277,15 @@ class _EcranFicheState extends State<EcranFiche> {
     ];
   }
 
-  Widget _ligneSucces(Succes s, StatsMembre stats, ContexteMaison contexte, bool debloque) {
-    final valeur = s.valeur(stats, contexte).clamp(0, s.objectif);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Palette.papierClair,
-              border: Border.all(color: debloque ? s.rarete.couleur : Palette.trait, width: debloque ? 2.5 : 1.5),
-            ),
-            child: ExcludeSemantics(child: Icon(debloque ? s.icone : Icons.lock_outline, size: 24, color: debloque ? s.rarete.couleur : Palette.encreFaible)),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Flexible(child: Text(s.nom, style: const TextStyle(fontWeight: FontWeight.w700, color: Palette.encre))),
-                    const SizedBox(width: 8),
-                    Text(s.rarete.libelle.toUpperCase(),
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1, color: s.rarete.couleurTexte)),
-                  ],
-                ),
-                Text(s.description, style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
-                if (!debloque && s.objectif > 1) ...[
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LinearProgressIndicator(
-                          value: valeur / s.objectif,
-                          minHeight: 6,
-                          color: s.rarete.couleur,
-                          backgroundColor: Palette.trait,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text('$valeur / ${s.objectif}', style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget _ligneSucces(Succes s, StatsMembre stats, ContexteMaison contexte, bool debloque) =>
+      LigneSucces(succes: s, valeur: s.valeur(stats, contexte).clamp(0, s.objectif), debloque: debloque);
 
   Future<void> _modifier(Map<String, dynamic> membre, StatsMembre stats, Set<String> debloques) async {
     final enregistre = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Palette.papier,
-      builder: (_) => _EditeurProfil(
+      builder: (_) => EditeurProfil(
         maisonId: widget.maisonId,
         profil: widget.profil,
         membre: membre,
@@ -421,8 +300,10 @@ class _EcranFicheState extends State<EcranFiche> {
   }
 }
 
-class _EditeurProfil extends StatefulWidget {
-  const _EditeurProfil({
+/// Fenêtre « Mon profil » (nom, avatar, couverture, badges).
+class EditeurProfil extends StatefulWidget {
+  const EditeurProfil({
+    super.key,
     required this.maisonId,
     required this.profil,
     required this.membre,
@@ -435,10 +316,10 @@ class _EditeurProfil extends StatefulWidget {
   final Set<String> debloques;
 
   @override
-  State<_EditeurProfil> createState() => _EditeurProfilState();
+  State<EditeurProfil> createState() => EditeurProfilState();
 }
 
-class _EditeurProfilState extends State<_EditeurProfil> {
+class EditeurProfilState extends State<EditeurProfil> {
   late final _nom = TextEditingController(text: widget.membre['prenom'] as String);
   late String _avatar = avatarPourId(widget.membre['avatar'] as String?).id;
   late String _couverture = couverturePourId(widget.membre['couverture'] as String?).id;
@@ -577,13 +458,17 @@ class _EditeurProfilState extends State<_EditeurProfil> {
       onTap: onTap,
       child: Container(
         width: largeur,
-        height: 46,
+        constraints: const BoxConstraints(minHeight: 46),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Palette.papierClair,
           border: Border.all(color: choisi ? Palette.encre : Palette.trait, width: choisi ? 2.5 : 1.5),
         ),
-        child: SizedBox.expand(child: Center(child: enfant)),
+        // Taille minimale 46 : la case grandit si son contenu grandit.
+        child: Stack(
+          alignment: Alignment.center,
+          children: [const SizedBox.shrink(), Positioned.fill(child: Center(child: enfant))],
+        ),
       ),
     );
   }

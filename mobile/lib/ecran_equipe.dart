@@ -9,6 +9,7 @@ import 'ecran_historique.dart';
 import 'jeu.dart';
 import 'palette.dart';
 import 'quetes.dart';
+import 'widgets_equipe.dart';
 import 'widgets_quetes.dart';
 
 /// Onglet « Équipe » : où en est la maison, et où en est chacun. Esprit
@@ -182,65 +183,16 @@ class _EcranEquipeState extends State<EcranEquipe> {
     final badges = badgesAffiches(membre['badges'] as List?, debloques);
     final estMoi = id == widget.profil.id;
 
-    return InkWell(
+    return CarteMembre(
+      membre: membre,
+      estMoi: estMoi,
+      stats: stats,
+      badges: badges,
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => EcranFiche(maisonId: widget.maisonId, profil: widget.profil, membreId: id)),
       ),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(color: Palette.papierClair, border: Border.all(color: Palette.trait, width: 1.5)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                PastilleMembre(membre: membre, taille: 48),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(estMoi ? '${membre['prenom']} (vous)' : membre['prenom'] as String,
-                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Palette.encre)),
-                      Text('Niveau ${stats.niveau} · ${titreNiveau(stats.niveau)}',
-                          style: const TextStyle(fontSize: 12, color: Palette.encreDouce)),
-                    ],
-                  ),
-                ),
-                for (final b in badges)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: Icon(succes.firstWhere((s) => s.id == b).icone, size: 22, color: succes.firstWhere((s) => s.id == b).rarete.couleur),
-                  ),
-                const Icon(Icons.chevron_right, color: Palette.encreFaible),
-              ],
-            ),
-            const SizedBox(height: 10),
-            BarreXp(xp: stats.xp),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                _chiffre('${stats.semaine}', 'cette semaine'),
-                _chiffre('${stats.taches}', 'au total'),
-                _chiffre('${stats.serie} j', 'de série'),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
-
-  Widget _chiffre(String valeur, String libelle) => Expanded(
-        child: Row(
-          children: [
-            Text(valeur, style: const TextStyle(fontWeight: FontWeight.w900, color: Palette.encre)),
-            const SizedBox(width: 4),
-            Flexible(child: Text(libelle, style: const TextStyle(fontSize: 12, color: Palette.encreDouce))),
-          ],
-        ),
-      );
 }
 
 extension _FirstOrNull<T> on Iterable<T> {

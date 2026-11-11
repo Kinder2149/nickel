@@ -20,6 +20,10 @@ String dateLongue(DateTime d) => '${d.day == 1 ? '1er' : d.day} ${_mois[d.month 
 String plageMois(List<int> mois) =>
     mois.length <= 1 ? _mois[mois.first - 1] : '${_mois[mois.first - 1]} à ${_mois[mois.last - 1]}';
 
+/// Police agrandie (réglage d'accessibilité du téléphone) : les blocs passent
+/// alors en une seule colonne pour que rien ne soit coupé.
+bool grandePolice(BuildContext context) => MediaQuery.textScalerOf(context).scale(14) > 14 * 1.15;
+
 /// Aperçu d'un objet : un rond pour un avatar (sur la couleur du joueur), une
 /// bande pour une couverture.
 class ApercuObjet extends StatelessWidget {
@@ -106,16 +110,16 @@ class BoutonObjet extends StatelessWidget {
   final String? nomSucces;
 
   Widget _etiquette(String texte, {Color couleur = Palette.encreDouce, IconData? icone}) => Container(
-        height: 48,
+        constraints: const BoxConstraints(minHeight: 48),
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
         decoration: BoxDecoration(border: Border.all(color: Palette.trait, width: 1.5)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icone != null) ...[Icon(icone, size: 14, color: couleur), const SizedBox(width: 4)],
-            Flexible(child: Text(texte, maxLines: 2, textAlign: TextAlign.center, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: couleur))),
+            Flexible(child: Text(texte, textAlign: TextAlign.center, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: couleur))),
           ],
         ),
       );
@@ -126,9 +130,8 @@ class BoutonObjet extends StatelessWidget {
       case EtatObjet.equipe:
         return _etiquette('ÉQUIPÉ', couleur: Palette.vert, icone: Icons.check);
       case EtatObjet.possede:
-        return SizedBox(
-          height: 48,
-          width: double.infinity,
+        return ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48, minWidth: double.infinity),
           child: OutlinedButton(
             onPressed: onEquiper,
             style: boutonSecondaire().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48))),
@@ -136,9 +139,8 @@ class BoutonObjet extends StatelessWidget {
           ),
         );
       case EtatObjet.achetable:
-        return SizedBox(
-          height: 48,
-          width: double.infinity,
+        return ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48, minWidth: double.infinity),
           child: ElevatedButton(
             onPressed: onAcheter,
             style: boutonPrincipal().copyWith(minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48))),
@@ -198,7 +200,7 @@ class CarteObjet extends StatelessWidget {
             children: [
               Expanded(child: Center(child: ApercuObjet(objet: objet, couleur: couleur))),
               const SizedBox(height: 6),
-              Text(objet.nom, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
+              Text(objet.nom, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.w800, color: Palette.encre)),
               EtiquetteRarete(objet.rarete),
               const SizedBox(height: 8),
               bouton,
@@ -219,15 +221,36 @@ class GrilleObjets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      childAspectRatio: 0.62,
-      children: enfants,
-    );
+    // 2 colonnes à la police normale, 1 seule à police agrandie. Chaque rangée
+    // prend la hauteur de sa carte la plus haute (jamais de texte coupé), avec
+    // au moins la hauteur d'avant pour que le rendu normal ne change pas.
+    final colonnes = grandePolice(context) ? 1 : 2;
+    return LayoutBuilder(builder: (context, c) {
+      final largeurCarte = (c.maxWidth - 12 * (colonnes - 1)) / colonnes;
+      final hauteurMin = colonnes == 2 ? largeurCarte / 0.62 : 0.0;
+      return Column(
+        children: [
+          for (var i = 0; i < enfants.length; i += colonnes)
+            Padding(
+              padding: EdgeInsets.only(bottom: i + colonnes < enfants.length ? 12 : 0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: hauteurMin),
+                child: IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var j = 0; j < colonnes; j++) ...[
+                        if (j > 0) const SizedBox(width: 12),
+                        Expanded(child: i + j < enfants.length ? enfants[i + j] : const SizedBox.shrink()),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      );
+    });
   }
 }
 
@@ -271,7 +294,7 @@ class BarreObjectif extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Mon objectif : ${objet.nom}', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.w800, color: texte)),
+                  Text('Mon objectif : ${objet.nom}', style: TextStyle(fontWeight: FontWeight.w800, color: texte)),
                   const SizedBox(height: 4),
                   LinearProgressIndicator(
                     value: prix == 0 ? 1 : (solde / prix).clamp(0.0, 1.0),
@@ -305,8 +328,10 @@ class FicheObjet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Contenu défilable : à grande police la fenêtre (hauteur limitée par la
+    // feuille modale) défile au lieu de déborder, boutons atteignables.
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(22, 22, 22, 22),
         child: Column(
           mainAxisSize: MainAxisSize.min,
